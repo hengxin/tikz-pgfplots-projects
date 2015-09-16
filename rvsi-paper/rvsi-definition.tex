@@ -33,7 +33,7 @@
    
   % transaction T_i reading x and y
   \begin{scope}
-    \node (ti) [trans-node, red, below right = 4.0cm and 0.5cm of y2] {$T_i: \hskip 4em r_i(x_2) 
+    \node (ti) [trans-node, red, below right = 4.0cm and 2.5cm of y2] {$T_i: \hskip 4em r_i(x_2) 
     \hskip 10em r_i(y_5) \hskip 6em$};
   \end{scope}
 
@@ -44,6 +44,17 @@
   % T_i reads y5
   \coordinate (c-ry5) at ($(ti.north) !0.5! (ti.north east)$);
   \draw[read-from] (y5.south) to (c-ry5);
+
+  % k1
+  \begin{scope}
+    \draw let \p{p-x2} = (x2.east), \p{p-ti} = (ti.south west) in
+      node (c-x2) [blue] at ($(\x{p-x2}, \y{p-ti})-(0.0cm, 2.0cm)$) {$c_{x_2}$};
+
+      \draw[dashed] (x2.south east) to (c-x2.north);
+    % \draw[dashed] let \p{p-x2} = (x2.east), \p{p-ti} = (ti.south west) in
+    %   (x2.south east) to ($(\x{p-x2}, \y{p-ti})-(0.0cm, 1.0cm)$);
+    % \draw[dashed] (ti.south west) to ($(ti.south west)-(0.0cm, 1.0cm)$);
+  \end{scope}
 \end{tikzpicture}
 
 \end{document}
