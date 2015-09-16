@@ -1,0 +1,49 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+
+\usetikzlibrary{positioning, chains, calc}
+
+
+\begin{document}
+
+\tikzset{trans-node/.style = {draw, inner sep = 2pt}}
+\tikzset{read-from/.style = {->, dashed, purple, line width = 2pt}}
+
+% #1: numbering
+\newcommand{\xtrans}[1]{\node (x#1) [trans-node, on chain = x, blue] {$T_{x_#1}: w_{x_#1}(x_#1)$}}
+\newcommand{\ytrans}[1]{\node (y#1) [trans-node, on chain = y, brown] {$T_{y_#1}: w_{y_#1}(y_#1)$}}
+
+\begin{tikzpicture}[start chain = x going right,
+  		start chain = y going right,
+	      	node distance = 1.0cm,
+	        font = \huge]
+  % transactions updating x
+  \begin{scope}
+    \foreach \i in {1, ..., 6}
+      \xtrans{\i};
+  \end{scope}
+
+  % transactions updating y
+  \begin{scope}
+    \node (y1) [trans-node, on chain = y, brown, below left = 4.0cm and -2.0cm of x3] {$T_{y_1}: w_{y_1}(y_1)$};
+    \foreach \i in {2, ..., 6}
+      \ytrans{\i};
+  \end{scope}
+   
+  % transaction T_i reading x and y
+  \begin{scope}
+    \node (ti) [trans-node, red, below right = 4.0cm and 0.5cm of y2] {$T_i: \hskip 4em r_i(x_2) 
+    \hskip 10em r_i(y_5) \hskip 6em$};
+  \end{scope}
+
+  % T_i reads x2
+  \coordinate (c-rx2) at ($(ti.north) !0.5! (ti.north west)$);
+  \draw[read-from] (x2.south) to [out = -60, in = 120] (c-rx2);
+  
+  % T_i reads y5
+  \coordinate (c-ry5) at ($(ti.north) !0.5! (ti.north east)$);
+  \draw[read-from] (y5.south) to (c-ry5);
+\end{tikzpicture}
+
+\end{document}

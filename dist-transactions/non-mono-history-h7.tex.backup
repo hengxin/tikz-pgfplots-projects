@@ -1,0 +1,16 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+
+\begin{document}
+
+%%%%% op: #1: position; #2: ref name; #3: op text; 
+\newcommand{\op}[3]{\node[#1] (#2) {$#3$}}
+
+\begin{tikzpicture}
+  \op{}{ta1}{r_a(x_0)}	% ra(x0)
+  \op{right = of ta1}{t11}{r_1(x_0) \cdot w_1(x_1) \cdot c_1} % r1(x0) w1(x1) c1
+  \op{right = of t11}{tb2}{r_b()}
+\end{tikzpicture}
+
+\end{document}
