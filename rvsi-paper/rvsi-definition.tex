@@ -39,7 +39,7 @@
 
   % T_i reads x2
   \coordinate (c-rx2) at ($(ti.north) !0.5! (ti.north west)$);
-  \draw[read-from] (x2.south) to [out = -60, in = 120] (c-rx2);
+  \draw[read-from] (x2.south) to [out = -70, in = 120] (c-rx2);
   
   % T_i reads y5
   \coordinate (c-ry5) at ($(ti.north) !0.5! (ti.north east)$);
@@ -47,13 +47,59 @@
 
   % k1
   \begin{scope}
-    \draw let \p{p-x2} = (x2.east), \p{p-ti} = (ti.south west) in
-      node (c-x2) [blue] at ($(\x{p-x2}, \y{p-ti})-(0.0cm, 2.0cm)$) {$c_{x_2}$};
+      % c-x2-top: commit time of T_x2
+      \draw let \p{p-x2} = (x2.east), \p{p-ti} = (ti.north west) in
+          node (c-x2-top) [blue, outer sep = 5pt] at ($(\x{p-x2}, \y{p-ti}) + (0.0cm, 12.0cm)$) {$c_{x_2}$};
+      \draw[dashed] (x2.north east) to (c-x2-top.south);
 
-      \draw[dashed] (x2.south east) to (c-x2.north);
-    % \draw[dashed] let \p{p-x2} = (x2.east), \p{p-ti} = (ti.south west) in
-    %   (x2.south east) to ($(\x{p-x2}, \y{p-ti})-(0.0cm, 1.0cm)$);
-    % \draw[dashed] (ti.south west) to ($(ti.south west)-(0.0cm, 1.0cm)$);
+      % s-ti-top: start time of T_i (drawn at the top)
+      \node (s-ti-top) [red, outer sep = 5pt] at ($(ti.north west) + (0.0cm, 12.0cm)$) {$s_i$};
+      \draw[dashed] let \p{p-ti} = (ti.west), \p{p-x4} = (x4.west) in
+      (s-ti-top.south) to (\x{p-ti}, \y{p-x4});
+
+      % k1 at center of c-x2-top and s-ti-top
+      \node (k1) [draw, blue, outer sep = 5pt] at ($(c-x2-top) !0.5! (s-ti-top)$) {$k_1$};
+      \draw [->] (k1) to (c-x2-top);
+      \draw [->] (k1) to (s-ti-top);
+  \end{scope}
+
+  % k2
+  \begin{scope}
+      % s-ti-bot: start time of T_i (drawn at the bottom)
+      \node (s-ti-bot) [red, outer sep = 5pt] at ($(ti.south west) - (0.0cm, 2.0cm)$) {$s_i$};
+      \draw[dashed] let \p{p-ti} = (ti.west), \p{p-x4} = (x4.west) in
+      (s-ti-bot.north) to (\x{p-ti}, \y{p-x4});
+
+      % c-y5-bot: commit time of T_y5
+      \draw let \p{p-y5} = (y5.east), \p{p-ti} = (ti.south west) in
+      node (c-y5-bot) [brown, outer sep = 5pt] at ($(\x{p-y5}, \y{p-ti}) - (0.0cm, 2.0cm)$) {$c_{y_5}$};
+      \draw [dashed] (y5.south east) to (c-y5-bot.north);
+
+      % k2 at center of s-ti-bot and c-y5-bot
+      \node (k2) [draw, brown, outer sep = 5pt] at ($(s-ti-bot) !0.5! (c-y5-bot)$) {$k_2$};
+      \draw [->] (k2) to (s-ti-bot);
+      \draw [->] (k2) to (c-y5-bot);
+  \end{scope}
+
+  % k3
+  \begin{scope}
+      % (invisible; as positioning anchor) s-ti-mid: start time of T_i (drawn in the middle)
+      \node (s-ti-mid) [red, outer sep = 5pt] at ($(s-ti-top) !0.35! (s-ti-bot)$) {};
+
+      % c-x2-bot: commit time of T_x2 (drawn at the bottom)
+      \draw let \p{p-x2} = (x2.east), \p{p-s-ti-mid} = (s-ti-mid) in
+        node (c-x2-bot) [blue, outer sep = 5pt] at (\x{p-x2}, \y{p-s-ti-mid}) {$c_{x_2}$};
+      \draw[dashed] (x2.south east) to (c-x2-bot.north);
+
+      % c-y5-top: commit time of T_y5 (drawn at the top)
+      \draw let \p{p-y5} = (y5.east), \p{p-s-ti-mid} = (s-ti-mid) in
+        node (c-y5-top) [brown, outer sep = 5pt] at (\x{p-y5}, \y{p-s-ti-mid}) {$c_{y_5}$};
+      \draw[dashed] (y5.north east) to (c-y5-top.south);
+
+      % k3 at center of c-x2-bot and c-y5-top
+      \node (k3) [draw, cyan, outer sep = 5pt] at ($(c-x2-bot) !0.5! (c-y5-top)$) {$k_3$};
+      \draw [->] (k3) to (c-x2-bot);
+      \draw [->] (k3) to (c-y5-top);
   \end{scope}
 \end{tikzpicture}
 
