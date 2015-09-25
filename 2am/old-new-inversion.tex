@@ -1,0 +1,100 @@
+\documentclass{standalone}
+
+\usepackage[]{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{positioning, calc}
+
+\begin{document}
+
+% http://tex.stackexchange.com/questions/54794/using-a-pgfplots-style-legend-in-a-plain-old-tikzpicture#54834
+
+% argument #1: any options
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+%%--------------------------------
+
+% definition to insert numbers
+\pgfkeys{/pgfplots/number in legend/.style={%
+        /pgfplots/legend image code/.code={%
+            \node at (0.295,-0.0225){#1};
+        },%
+    },
+}
+
+
+\begin{tikzpicture}[]
+
+% new command: interval
+\newcommand{\itv}[4] % #1: start point; #2: end point; #3: operation name; #4: style
+{
+  \coordinate (start #3) at #1;	% start point
+  \coordinate (end #3) at #2;	% end point
+
+  \draw[#4, |-|] (start #3) -- (end #3) % draw the interval
+    node[pos = 0.5, above = 1mm,font = \Large, text=black] (#3) {$#3$}; % attach the operation name
+}
+
+\begin{scope}[]
+  \itv{(-2,0)}{(-0.5,0)}{w''}{ultra thick, blue}
+  \itv{(0,0)}{(2,0)}{w'}{ultra thick, blue}
+  \itv{(3,0)}{(5,0)}{w}{ultra thick, blue}
+  \itv{(5.5,0)}{(7,0)}{'w}{ultra thick, blue}
+
+  \itv{(4.2,-1.5)}{(6.5,-1.5)}{r}{very thick, brown}
+
+  \draw [dashed, line width = 3pt, gray, ->] (w') to [out = -60, in = 160] (r);
+
+  % concurrency interval
+  \draw [dashed, very thick, purple] ($(start r) + (0,-1.1)$) to ($(start r) + (0,2)$);
+  \draw [dashed, very thick, purple] ($(start w) + (0,-2.5)$) to ($(start w) + (0,0.5)$);
+
+ % reads finish in the concurrency interval
+  \itv{(0.7,-3)}{(3.8,-3)}{r'}{very thick, brown}
+  \itv{(1,-2.0)}{(3.5,-2.0)}{r'}{very thick, brown}
+
+
+  % starting time and finish time for r, w, and w'
+  \node [font = \large] at ($(start r) + (0.2,0.3)$) {$r_{st}$};
+  \node [font = \large] at ($(end r) + (-0.2,0.3)$) {$r_{ft}$};
+
+  \node [font = \large] at ($(start w) + (0.2,0.3)$) {$w_{st}$};
+  \node [font = \large] at ($(end w) + (-0.2,0.3)$) {$w_{ft}$};
+
+  \node [font = \large] at ($(start r') + (0.2,0.3)$) {$r'_{st}$};
+  \node [font = \large] at ($(end r') + (-0.2,0.3)$) {$r'_{ft}$};
+
+% reads returning the latest value
+\draw [dashed, line width = 3pt, gray, ->] (w) to [out = -90, in = 30] (r'.east);
+\end{scope}
+
+\begin{customlegend}[legend cell align = center, legend columns=-1, 
+legend entries={ %
+{\large \textsl{write}} $\;\;$,
+{\large \textsl{read}} $\;\;$,
+{\large read-from relation}, 
+},
+legend style={at={(6.5,2.0)}}] % <= to define position and font legend
+% the following are the "images" and numbers in the legend
+    \addlegendimage{|-|, ultra thick, blue}
+    \addlegendimage{|-|, very thick, brown}
+    \addlegendimage{->, dashed, gray, line width = 1.5pt}
+\end{customlegend}
+
+\end{tikzpicture}
+
+\end{document}
+

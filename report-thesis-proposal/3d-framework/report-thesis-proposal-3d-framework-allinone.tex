@@ -1,0 +1,91 @@
+% allinone: vpc + 2am + rvsi
+\begin{tikzpicture}[x = 0.5cm, y = 0.5cm, z = 0.3cm, >=stealth, font = \Large]
+
+\node[fill = brown, circle] at (0,0,0) {};
+% The axes
+\draw[->, thick] (xyz cs:x=0) -- (xyz cs:x = 18) node[above, font = \Large] {$\textrm{Consistency Models}$};
+\draw[->, thick] (xyz cs:y=0) -- (xyz cs:y = 12) node[above, font = \Large] {$\textrm{Assurance Methods}$};
+\draw[->, thick] (xyz cs:z=0) -- (xyz cs:z = -18) node[right, font = \Large] {$\textrm{Data Types}$};
+
+% The ticks
+
+% ticks for consistency models
+\draw[very thick] (6,-3pt) -- (6,3pt) node[below = 6pt, align = center] {\texttt{Weak}};
+\draw[very thick] (12,-3pt) -- (12,3pt) node[below = 6pt, align = center] {\texttt{Strong}};
+
+% ticks for assurance methods
+\draw[very thick] (-3pt,5) -- (3pt,5) node[below = 3pt] {\texttt{Maintain}};
+\draw[very thick] (-3pt,10) -- (3pt,10) node[below = 3pt] {\texttt{Quantify}};
+
+% ticks for data types
+\draw[very thick] (xyz cs:y=-0.3pt,z=-6) -- (xyz cs:y=0.3pt,z=-6) node[align = center] { \texttt{Register}}; 
+\draw[very thick] (xyz cs:y=-0.3pt,z=-12) -- (xyz cs:y=0.3pt,z=-12) node[align = center] 
+{\texttt{Transaction}}; 
+
+
+	\begin{scope}[line width = 1, teal]
+	\draw[dashed] 
+	  (xyz cs:z = -6) coordinate (z) -- 
+	  (xyz cs:y = 6, z = -6) coordinate (yz) --
+	  (xyz cs:y = 6) coordinate (y) -- 
+	  (xyz cs:x = 12, y = 6) coordinate (xy) --
+	  (xyz cs:x = 12, y = 6, z = -6) coordinate (xyz) --
+	  (xyz cs:x = 12, z = -6) coordinate (xz) -- cycle;
+	\draw[dashed, line width = 1] (yz) -- (xyz);
+	\draw[dashed, line width = 1] (xy) -- (12,0) -- (xz);
+	
+    \node (case-maintain) [fill = blue, circle, inner sep = 3pt, label = {[blue, font = \Large] -90: 
+    $\qquad \qquad$ (\textbf{2.1} \texttt{r/w register + atomicity + maintain})}] at (xyz) {};
+	
+	\draw[dashed] 
+	  (xyz cs:z = -6) coordinate (z) -- 
+	  (xyz cs:y = 12, z = -6) coordinate (yz) --
+	  (xyz cs:y = 12) coordinate (y) -- 
+	  (xyz cs:x = 12, y = 12) coordinate (xy-am) --
+	  (xyz cs:x = 12, y = 12, z = -6) coordinate (xyz) --
+	  (xyz cs:x = 12, y = 6, z = -6) 
+	  ;% -- %(xyz cs:x = 5, z = -15) coordinate (xz); % -- cycle;
+	\draw[dashed, line width = 1] (yz) --  (xyz);
+	\draw[dashed, line width = 1] (xy-am) -- (12,0) -- (xz);
+
+    \node (case-quantify) [fill = blue, circle, inner sep = 3pt, label = {[blue, font = \Large] -90: 
+    $\qquad \qquad$ (\textbf{2.2} \texttt{r/w register + atomicity + quantify})}] at (xyz) {};
+
+
+% register + weak (pram) + quantify (verify)
+	\draw[dashed] 
+	  (xyz cs:z = -6) coordinate (z) -- 
+	  (xyz cs:y = 12, z = -6) coordinate (yz) --
+	  (xyz cs:x = 0, y = 12, z = 0) coordinate (y) -- 
+	  (xyz cs:x = 6, y = 12) coordinate (xy) --
+	  (xyz cs:x = 6, y = 12, z = -6) coordinate (xyz) --
+	  (xyz cs:x = 6, z = -6) coordinate (xz) -- cycle;
+	\draw[dashed, line width = 1] (yz) -- (xyz);
+	\draw[dashed, line width = 1] (xy) -- (6,0) -- (xz);
+	
+    % Dots and labels for P, Q
+    \node[fill = brown, circle, inner sep = 3pt, label = {[brown, font = \Large] 90: (\textbf{1.} 
+  \texttt{r/w register + pram + verify})}] at (xyz) {};
+
+  % rvsi
+      \draw[dashed]
+      (xyz cs:z=-12) coordinate (z) --
+      (xyz cs:y=6, z=-12) coordinate (yz) --
+      (xyz cs:y=6) coordinate (y) --
+      (xyz cs:x=12, y=6) coordinate (xy) --
+      (xyz cs:x=12, y=6, z=-12) coordinate (xyz) --
+      (xyz cs:x=12, z=-12) coordinate (xz) -- cycle;
+
+      \path[draw, dashed] (xy) to (xyz cs:x=12) coordinate (x) to (xz);
+      \draw[dashed] (yz) to (xyz);
+
+      \node (rvsi-maintain) [fill = purple, circle, inner sep = 3pt, label = {[above right, purple, font 
+      = \Large] -90: (\textbf{3.} \texttt{transaction + SI + maintain})}] at (xyz) {};
+	\end{scope}
+
+% backgroud for case 2.1 and case 2.2
+    \begin{pgfonlayer}{background}
+      \node (case-2am) [fit = (case-maintain) (case-quantify), inner sep = 5pt, ellipse, fill = 
+      blue!20] {};
+    \end{pgfonlayer}
+\end{tikzpicture}
