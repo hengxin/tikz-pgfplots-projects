@@ -1,8 +1,9 @@
 % allinone: vpc + 2am + rvsi
-% without overlays
+% with overlays
 
 \begin{tikzpicture}[x = 0.5cm, y = 0.5cm, z = 0.3cm, >=stealth, font = \Large]
 
+\uncover<1->{
 \node[fill = brown, circle] at (0,0,0) {};
 % The axes
 \draw[->, thick] (xyz cs:x=0) -- (xyz cs:x = 18) node[above, font = \Large] {$\textrm{Consistency Models}$};
@@ -23,8 +24,10 @@
 \draw[very thick] (xyz cs:y=-0.3pt,z=-6) -- (xyz cs:y=0.3pt,z=-6) node[align = center] { \texttt{Register}}; 
 \draw[very thick] (xyz cs:y=-0.3pt,z=-12) -- (xyz cs:y=0.3pt,z=-12) node[align = center] 
 {\texttt{Transaction}}; 
-
+}
 %%%%%%%%%% for VPC: register + weak (pram) + quantify (verify)
+\uncover<2->{
+
   \begin{scope}
 	\draw[dashed] 
 	  (xyz cs:z = -6) coordinate (z) -- 
@@ -40,8 +43,9 @@
     \node[fill = brown, circle, inner sep = 3pt, label = {[brown, font = \Large] 90: (\textbf{1.} 
   \texttt{r/w register + pram + verify})}] at (xyz) {};
   \end{scope}
-
+}
 %%%%%%%%%% for 2AM
+\uncover<3->{
 
 	\begin{scope}[line width = 1, teal]
 	\draw[dashed] 
@@ -70,16 +74,20 @@
 
     \node (case-quantify) [fill = blue, circle, inner sep = 3pt, label = {[blue, font = \Large] -90: 
     $\qquad \qquad$ (\textbf{2.2} \texttt{r/w register + atomicity + quantify})}] at (xyz) {};
-
+  \end{scope}
+  }
     % backgroud for case 2.1 and case 2.2
     \begin{pgfonlayer}{background}
+      \uncover<3->{
       \node (case-2am) [fit = (case-maintain) (case-quantify), inner sep = 5pt, ellipse, fill = 
       blue!20] {};
+    }
     \end{pgfonlayer}
-  \end{scope}
 
 
 %%%%%%%%%% for RVSI
+\uncover<4->{
+
   \begin{scope}
       \draw[dashed]
       (xyz cs:z=-12) coordinate (z) --
@@ -95,5 +103,5 @@
       \node (rvsi-maintain) [fill = purple, circle, inner sep = 3pt, label = {[above right, purple, font 
       = \Large] -90: (\textbf{3.} \texttt{transaction + SI + maintain})}] at (xyz) {};
 	\end{scope}
-
+  }
 \end{tikzpicture}
