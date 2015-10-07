@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.7.21)  16 SEP 2015 17:45
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.7.21)  17 SEP 2015 11:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -356,10 +356,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ] (./rvsi-definition.aux) ) 
 Here is how much of TeX's memory you used:
- 9630 strings out of 493918
- 186314 string characters out of 6150563
- 225956 words of memory out of 5000000
- 12790 multiletter control sequences out of 15000+600000
+ 9711 strings out of 493918
+ 187661 string characters out of 6150563
+ 240845 words of memory out of 5000000
+ 12871 multiletter control sequences out of 15000+600000
  6380 words of font info for 23 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  56i,6n,61p,405b,686s stack positions out of 5000i,500n,10000p,200000b,80000s
