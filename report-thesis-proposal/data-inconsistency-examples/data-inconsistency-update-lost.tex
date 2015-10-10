@@ -26,8 +26,10 @@
 
     % write from pc 
     \begin{scope}[->, blue, line width = 6pt, font = \huge]
-      \draw [] (pc.west) to node [midway, sloped, above] {\textbf{1.} update file $f$} (tablet.east);
-      \draw [red, loosely dashed] (pc.north) to [out = 90, in = -20] (phone.east);
+      \draw [] (pc.west) to node [midway, sloped, above] {\textbf{1.} update file $f$} 
+      (tablet.east);
+      \draw [red, loosely dashed] (pc.north) to [out = 90, in = -20] node [midway, sloped, font = 
+      \Huge, scale = 2] {$\times$} (phone.east);
       \draw (pc) to [loop, out = 60, in = -10, looseness = 3] node [midway, above, sloped] 
       {\textbf{1.} update file $f$} (pc);
     \end{scope}
