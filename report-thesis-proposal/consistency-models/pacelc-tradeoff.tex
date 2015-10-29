@@ -1,0 +1,28 @@
+%        File: pacelc-tradeoff.tex
+%     Created: Thu Oct 29 11:00 AM 2015 C
+% Last Change: Thu Oct 29 11:00 AM 2015 C
+%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{positioning, shapes, calc, backgrounds, fit}
+
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{edge from parent/.append style = {->, >=latex}}
+  \tikzset{level 1/.style={level distance = 35pt, sibling distance = 15pt}}
+  \tikzset{level 2/.style={level distance = 35pt, sibling distance = 15pt}}
+  \Tree 
+  [.\node[draw, fill = blue!60]{}; 
+    [.\node[draw]{\textcolor{blue}{P}artition}; 
+      [.\node[draw]{\textcolor{blue}{A}vailability};] [.\node[draw]{\textcolor{blue}{C}onsistency};] 
+    ]
+    [.\node[draw]{\textcolor{blue}{E}lse}; 
+      [.\node[draw]{\textcolor{blue}{L}atency};] [.\node[draw]{\textcolor{blue}{C}onsistency};]
+    ]
+  ]
+\end{tikzpicture}
+\end{document}
+
+
