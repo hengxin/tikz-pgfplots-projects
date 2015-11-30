@@ -10,7 +10,7 @@
 \begin{document}
 \begin{tikzpicture}[wop/.style = {rectangle, rounded corners, fill = blue!40, draw, font = \huge, 
   inner sep = 8pt}, rop/.style = {rectangle, rounded corners, fill = brown!40, draw, font = \huge, 
-  inner sep = 8pt}, process/.style = {font = \LARGE}, po/.style = {->, very thick, violet}, 
+  inner sep = 8pt}, process/.style = {font = \huge}, po/.style = {->, very thick, violet}, 
 rw/.style = {->, very thick, teal}]
 
   \node (p1) [process] {$p_1:$}; 
@@ -36,10 +36,10 @@ rw/.style = {->, very thick, teal}]
   \draw [rw] (wy2) to (ry2);
 
 
-  \node (p1-serial) [font = \LARGE, below right = 2.0cm and 3.0cm of p3] {$p_1:$ \texttt{W(x)0, W(x)1, W(y)2, W(y)3}}; 
-  \node (p2-serial) [font = \LARGE, below = 0.5cm of p1-serial] {$p_2:$ \texttt{W(x)0, 
+  \node (p1-serial) [font = \huge, below right = 2.0cm and 3.0cm of p3] {$p_1:$ \texttt{W(x)0, W(x)1, W(y)2, W(y)3}}; 
+  \node (p2-serial) [font = \huge, below = 0.5cm of p1-serial] {$p_2:$ \texttt{W(x)0, 
   W(x)1, R(x)1, W(y)2, W(y)3}};
-  \node (p3-serial) [font = \LARGE, below = 0.5cm of p2-serial] {$p_3:$ \texttt{W(x)0, 
+  \node (p3-serial) [font = \huge, below = 0.5cm of p2-serial] {$p_3:$ \texttt{W(x)0, 
   W(x)1, W(y)3, W(y)2, R(y)2, R(x)1}};
 
 \end{tikzpicture}
