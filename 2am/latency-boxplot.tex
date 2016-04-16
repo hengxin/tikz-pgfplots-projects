@@ -1,0 +1,27 @@
+% Using ``lualatex latency-boxplot.tex'' to avoid the possible ``TeX capacity exceeded'' error.
+
+\documentclass{standalone}
+
+\usepackage{pgfplots, pgfplotstable}
+\pgfplotsset{width=7cm, compat=1.12}
+\usepgfplotslibrary{statistics}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \begin{axis}[y=1cm]
+    % \addplot+[boxplot]
+    %   table[row sep=\\,y index=0] {
+    %   data\\
+    %   1\\ 2\\ 
+    %   11\\ 12\\ 13\\ 14\\ 15\\ 
+    %   16\\ 17\\ 18\\ 19\\ 20\\ 
+    %   30\\ 35\\
+    % };
+    \addplot+[boxplot]
+      % table [y index = 0, row sep = newline] {boxplot-test-dataset.dat};
+      table [y index = 0, row sep = newline] {SWMR-2atomicity-latency-processed/rate5replica2delay.txt};
+  \end{axis}
+\end{tikzpicture}
+
+\end{document}
