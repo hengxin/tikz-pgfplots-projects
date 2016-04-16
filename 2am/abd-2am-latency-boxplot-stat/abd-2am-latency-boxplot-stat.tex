@@ -18,13 +18,14 @@
       upper quartile=#4,
       upper whisker=#5,
       average=#6,
-      box extend=0.20,
+      box extend=1.0,
       every whisker/.style={blue},
       every median/.style={densely dashed,cyan,thick},
       every average/.style={red,mark=10-pointed star},
     },
   ]
-  table[y index=0] {#7};
+  coordinates {};
+  %table[y index=0] {#7};
 }
 
 \newcommand{\boxplottablewithlabels}[7]{
@@ -72,46 +73,54 @@
 	  horizontal sep=1.0cm,
 	},
 	boxplot/draw direction=y,
-	ymax=300,
-	skip coords between index={0}{5},
-	xlabel={Replica factor},
-	ylabel={\textsl{Read} latency (ms)},
-	height=8cm,
-	xtick={0,1,2,3,4,5},
-	x tick label as interval,
-	xticklabels={%
-	  {$2$ \\ {\tiny 2AM/ABD}},%
-	  {$3$ \\ {\tiny 2AM/ABD}},%
-	  {$4$ \\ {\tiny 2AM/ABD}},%
-	  {$5$ \\ {\tiny 2AM/ABD}},%
+	% xtick={0.5,1.0,1.5, 2.5,3.0,3.5, 4.5,5.0,5.5, 6.5,7.0,7.5},
+	xtick={1,2,3, 5,6,7, 9,10,11, 13,14,15},
+	xticklabels={
+	  {}, 
+	  {2\\{\tiny (2AM/ABD)}},
+	  {},
+	  {},
+	  {3\\{\tiny (2AM/ABD)}},
+	  {},
+	  {},
+	  {4\\{\tiny (2AM/ABD)}},
+	  {},
+	  {},
+	  {5\\{\tiny (2AM/ABD)}},
 	  },
 	x tick label style={
 	    align=center,
 	},
+	ymax=300,
+	skip coords between index={0}{5},
+	xlabel={Replica factor ({\scriptsize 2AM/ABD})},
+	ylabel={\textsl{Read} latency (ms)},
+	height=6cm,
+	width=10cm,
       ]
 
-    \nextgroupplot[title={rate = $5$}]
-    \boxplottable{60}{101}{120}{139}{631}{137}{boxplot-rate5-replica2-2am.txt}{0.3333} % check it
-    \boxplottable{80}{120}{141}{169}{321}{154}{boxplot-rate5-replica2-abd.txt}{0.6666} % check it
+      \nextgroupplot[title={rate = $5$}]
+      \boxplottable{60}{101}{120}{139}{631}{137}{boxplot-rate5-replica2-2am.txt}{1.0} % check it
+      \boxplottable{80}{120}{141}{169}{321}{154}{boxplot-rate5-replica2-abd.txt}{3.0} % check it
 
-    % \boxplottable{59}{79}{98}{119}{180}{99}{boxplot-rate5-replica3-2am.txt}{1.3333}
-    % \boxplottable{81}{110}{130}{150}{210}{133}{boxplot-rate5-replica3-abd.txt}{1.6666}
+      \boxplottable{59}{79}{98}{119}{180}{99}{boxplot-rate5-replica3-2am.txt}{5.0}
+      \boxplottable{81}{110}{130}{150}{210}{133}{boxplot-rate5-replica3-abd.txt}{7.0}
 
-    %   \boxplottable{69}{90}{107}{127}{180}{108}{boxplot-rate5-replica4-2am.txt}
-    %   \boxplottable{110}{141}{161}{188}{280}{167}{boxplot-rate5-replica4-abd.txt}
+      \boxplottable{69}{90}{107}{127}{180}{108}{boxplot-rate5-replica4-2am.txt}{9.0}
+      \boxplottable{110}{141}{161}{188}{280}{167}{boxplot-rate5-replica4-abd.txt}{11.0}
 
-    %   \boxplottable{70}{90}{101}{120}{188}{108}{boxplot-rate5-replica5-2am.txt}
-    %   \boxplottable{70}{90}{101}{120}{188}{108}{boxplot-rate5-replica5-2am.txt} % using real data
-    % \nextgroupplot[title={rate = $50$}]
-    %   \boxplottable{60}{100}{120}{139}{289}{123}{boxplot-rate50-replica2-2am.txt}
-    %   \boxplottable{80}{118}{137}{159}{700}{154}{boxplot-rate50-replica2-abd.txt} % check it
+      \boxplottable{70}{90}{101}{120}{188}{108}{boxplot-rate5-replica5-2am.txt}{13.0}
+      \boxplottable{70}{90}{101}{120}{188}{108}{boxplot-rate5-replica5-2am.txt}{15.0} % using real data
+    \nextgroupplot[title={rate = $50$}]
+    \boxplottable{60}{100}{120}{139}{289}{123}{boxplot-rate50-replica2-2am.txt}{1.0}
+    \boxplottable{80}{118}{137}{159}{700}{154}{boxplot-rate50-replica2-abd.txt}{3.0} % check it
 
-    %   \boxplottable{59}{71}{90}{109}{229}{95}{boxplot-rate50-replica3-2am.txt}
-    %   \boxplottable{80}{109}{120}{139}{300}{131}{boxplot-rate50-replica3-abd.txt}
+    \boxplottable{59}{71}{90}{109}{229}{95}{boxplot-rate50-replica3-2am.txt}{5.0}
+    \boxplottable{80}{109}{120}{139}{300}{131}{boxplot-rate50-replica3-abd.txt}{7.0}
 
-    %   \boxplottable{69}{89}{100}{119}{259}{108}{boxplot-rate50-replica4-2am.txt}
-    %   \boxplottable{109}{139}{150}{171}{370}{168}{boxplot-rate50-replica4-abd.txt}
+    \boxplottable{69}{89}{100}{119}{259}{108}{boxplot-rate50-replica4-2am.txt}{9.0}
+    \boxplottable{109}{139}{150}{171}{370}{168}{boxplot-rate50-replica4-abd.txt}{11.0}
       % replica=5
-  \end{groupplot}
+    \end{groupplot}
 \end{tikzpicture}
 \end{document}
