@@ -1,0 +1,21 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes}
+
+\begin{document}
+\begin{tikzpicture}[dnode/.style = {fill = black, draw = red, very thick}]
+  \draw[very thick] (0,0) to (16,0);  % the bottom line
+  \draw[] (1,1) to (15,1);  % decade line
+
+  % \y: y coordinate; \d: decade; \n: name
+  \foreach \y/\d/\n in {2/$\sim 1970s$/70s, 5/$1980s$/80s, 8/$1990s$/90s, 11/$2000s$/00s, 14/$2010s \sim$/10s}{
+    \node[] (\n) at (\y, 0.5) {\d};
+	% \node[inner sep = 0pt, above = of \n] () {\includegraphics[width = 0.20\textwidth]{}};
+	\node[dnode, above = of \n, label = below : uniprocessor] () {};
+  }
+
+  \draw[very thick] (0,10) to (16,10);  % the top line
+\end{tikzpicture}
+
+\end{document}
