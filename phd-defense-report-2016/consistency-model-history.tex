@@ -1,20 +1,84 @@
 \documentclass{standalone}
 
 \usepackage{tikz}
-\usetikzlibrary{positioning, shapes}
+\usetikzlibrary{positioning, shapes, shapes.symbols, backgrounds, fit, arrows.meta, calc}
+\usepackage{varwidth}
 
 \begin{document}
-\begin{tikzpicture}[dnode/.style = {fill = black, draw = red, very thick}]
+\begin{tikzpicture}[dnode/.style = {rectangle, minimum size = 0.50cm, fill = teal, draw = red, very thick},
+	sepline/.style = {dashed, very thick, opacity = 0.80, red},
+	comment/.style = {starburst, fill = yellow, draw = red, line width = 2pt, align = center}]
+
+  %%%%%%%%%% begin %%%%%%%%%%  
   \draw[very thick] (0,0) to (16,0);  % the bottom line
+
+  %%%%%%%%%% Begin: decades and systems %%%%%%%%%% 
   \draw[] (1,1) to (15,1);  % decade line
 
-  % \y: y coordinate; \d: decade; \n: name
-  \foreach \y/\d/\n in {2/$\sim 1970s$/70s, 5/$1980s$/80s, 8/$1990s$/90s, 11/$2000s$/00s, 14/$2010s \sim$/10s}{
+  % \y: y coordinate; \d: decade; \n: name; \slbl: system label; \sn: system name; \sln: system label name
+  \foreach \y/\d/\n/\slbl/\sn/\sln [count = \yi] in {
+  	2/$\sim 1970s$/70s/uniprocessor/uni/luni, 
+	5/$1980s$/80s/tightly coupled \\ multiprocessor systems/tmul/ltmul, 
+	8/$1990s$/90s/loosely coupled \\ multiprocessor systems/lmul/llmul, 
+    11.5/$2000s$/00s/mobile computing/mobile/lmobile, 
+    14/$2010s \sim$/10s/cloud computing/cloud/lcloud} {
     \node[] (\n) at (\y, 0.5) {\d};
-	% \node[inner sep = 0pt, above = of \n] () {\includegraphics[width = 0.20\textwidth]{}};
-	\node[dnode, above = of \n, label = below : uniprocessor] () {};
-  }
 
+	% \node[inner sep = 0pt, above = of \n] () {\includegraphics[width = 0.20\textwidth]{}};
+	\node[dnode, above = (\yi-1) * 1.6 + 1 of \n, label = {[name = \sln, align = center] below : \slbl}] (\sn) {};  % try non-linear!!!
+  }
+  %%%%%%%%%% End: decades and systems %%%%%%%%%% 
+
+  %%%%%%%%%% Begin: Multiprocessor systems %%%%%%%%%% 
+  % multiprocessor system
+  \begin{pgfonlayer}{background}
+	\node[draw = blue!20, fill = blue!20, rectangle, rounded corners, inner sep = 0pt, fit = (tmul) (lmul) (ltmul) (llmul), label = {[blue] below : Multiprocessor systems}] (mul) {};
+  \end{pgfonlayer}
+
+  % loosely coupled multiprocessor system
+  \node[above = 1.0cm of tmul] () {\includegraphics[scale = 0.40]{figs/tight-multiprocessor.png}};
+  \node[above = 2.0cm of lmul] () {\includegraphics[scale = 0.40]{figs/loose-multiprocessor.png}};
+
+  % from uniprocessor system to multiprocessor system
+  \draw[sepline] (3.0, 1.0) to (3.0, 9.0);
+  \draw[-latex, line width = 3pt, red, opacity = 0.5] (uni.north) to [bend left] (mul.west);
+  %%%%%%%%%% End: Multiprocessor systems %%%%%%%%%% 
+
+  %%%%%%%%%% Begin: Consistency models %%%%%%%%%% 
+  % lots of consistency models
+
+  % \def\minx{3.0}
+  % \def\maxx{10.0}
+  % \def\miny{6.0}
+  % \def\maxy{9.50}
+  
+  % \pgfmathsetseed{1}
+  % \foreach \cm in {Sequential, PRAM, Causal, Processor, Coherence, Local} {
+  %   \pgfmathrandominteger{\angle}{0}{60}
+  %   \node[rotate = \angle] () {\cm};
+  % }
+
+  % comment on consistency models in the context of multiprocessor systems
+  \node[above = of mul, comment] (multi-comment) {???-oriented: \\
+	\begin{varwidth}{0.40\linewidth}\begin{itemize}
+	  \item language, compiler
+		\vspace{-8pt}
+	  \item operating system
+		\vspace{-8pt}
+	  \item hardware
+	\end{itemize}\end{varwidth}};
+
+  % separation line: from multiprocessor to WAN apps
+  \draw[sepline] (10.0, 1.0) to (10.0, 9.0);
+  %%%%%%%%%% End: Consistency models %%%%%%%%%% 
+
+  % multiprocessor system
+  \begin{pgfonlayer}{background}
+	\node[draw = red!20, fill = red!20, rectangle, rounded corners, inner sep = 0pt, fit = (mobile) (lmobile) (cloud) (lcloud), label = {[red] below : Distributed systems}] (dissys) {};
+  \end{pgfonlayer}
+
+  % comment on consistency models in the context of ???
+  \node[below = of dissys, comment] (comment-multi) {Application-oriented};
   \draw[very thick] (0,10) to (16,10);  % the top line
 \end{tikzpicture}
 
