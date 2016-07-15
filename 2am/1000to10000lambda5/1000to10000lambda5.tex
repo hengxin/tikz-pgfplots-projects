@@ -1,0 +1,49 @@
+%%%%% Fig: Probability of atomicity violations with thousands of clients ($\lambda = \mu = 5$). %%%%%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{positioning}
+\pgfplotsset{compat=1.12}
+
+\pgfplotsset{major grid style = {dashed, thick}}
+
+\pgfplotsset{
+	every node near coord/.append style = {yshift = -0.5cm, xshift = -0.50cm},
+    node near coord/.style={ % Style for activating the label for a single coordinate
+	    font = \footnotesize,
+        nodes near coords*={
+            \ifnum\coordindex=#1\pgfmathprintnumber{\pgfplotspointmeta}\fi
+        }
+    },
+    nodes near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        node near coord/.list={#1}, % Run "node near coord" once for every element in the list
+		point meta = rawy,
+    }
+}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{semilogyaxis} [
+	  xlabel = {$N$: number of clients ($\times 10^{3}$)},
+	  ylabel = {Probability (logarithmic)},
+	  xtick = {1,3,...,9},
+	  minor xtick = {2,4,...,10},
+	  xmajorgrids,
+	  legend style = {
+		at = {(0.95,0.70)},
+		anchor = east,
+		legend columns = -1,
+	  }
+	]
+
+	\addplot[blue, mark = pentagon*, nodes near some coords = {1, 5, 9}] table {replica3.out};
+	\addplot[brown, mark = square*, nodes near some coords = {1, 5, 9}] table {replica5.out};
+	\addplot[red, mark = *, nodes near some coords = {0, 6, 12, 18}] table {replica7.out};
+
+	\legend{$n = 3$, $n = 5$, $n = 7$}
+  \end{semilogyaxis}
+\end{tikzpicture}
+\end{document}
