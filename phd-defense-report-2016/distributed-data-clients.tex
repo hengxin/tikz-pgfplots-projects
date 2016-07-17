@@ -1,0 +1,34 @@
+%        File: distributed-data-clients.tex
+%     Created: July 17, 2016
+%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, shapes.symbols, backgrounds, fit, arrows.meta, calc, chains}
+
+\begin{document}
+\begin{tikzpicture}[access/.style = {> = stealth, <->, line width = 3pt, blue!50},
+  replicated/.style = {dashed, line width = 3pt, red!50}]
+
+  % data
+  \node[] (folder) {\includegraphics[scale = 0.03]{figs/folder-circle-icon.png}};   
+
+  % data is distributed (replicated, partitioned)
+  \begin{scope}[start chain = circle placed {at = (\tikzchaincount * 90 : 4.0)}]
+	\foreach \f in {0, 1, 2, 3} {
+	  \node[on chain] (f\f) {\includegraphics[scale = 0.04]{figs/folder-circle-icon.png}};
+	  \draw[replicated] (f\f) to (folder);
+	}
+  \end{scope}
+  
+  % clients
+  \begin{scope}[start chain = circle placed {at = (\tikzchaincount * 45 : 9.0)}]
+	\foreach \c [evaluate = {\i = int(\c/2);}] in {0, 1, ..., 7} {
+	  \node[on chain] (c\c) {\includegraphics[scale = 0.40]{figs/client-pc-logo.png}};
+	  \draw[access] (c\c) to (f\i);
+	}
+	\draw[access] (c2) to (f0);
+	\draw[access] (c6) to (f2);
+  \end{scope}
+\end{tikzpicture}
+\end{document}
