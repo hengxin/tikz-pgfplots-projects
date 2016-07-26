@@ -1,0 +1,17 @@
+%        File: consistency-centric-tradeoff.tex
+%     Created: July 24, 2016
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, shapes.symbols, backgrounds, fit, arrows.meta, calc}
+
+\begin{document}
+\begin{tikzpicture}[]
+  \node[] (tradeoff) {\includegraphics[scale = 0.50]{figs/tradeoff.jpg}};
+
+  \node[above = 0.50cm of tradeoff.40, font = \large, red] (consistency) {\bf Consistency};
+  \node[above = 0.10cm of tradeoff.140, align = center] (props) {$H^{3}L$\\Partition-tolerance\\Convergence\\Churn\\$\cdots$};
+\end{tikzpicture}
+\end{document}
+
+

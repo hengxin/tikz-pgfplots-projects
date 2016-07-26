@@ -1,3 +1,7 @@
+%%%%% Description: consistency model history in terms of multiprocessor systems and distributed systems %%%%%
+%%%%% Date: July 16, 2016 %%%%%
+%%%%% Author: Hengfeng Wei (hengxin) %%%%%
+
 \documentclass{standalone}
 
 \usepackage{tikz}
@@ -20,7 +24,7 @@
   	2/$\sim 1970s$/70s/uniprocessor/uni/luni, 
 	5/$1980s$/80s/tightly coupled \\ multiprocessor systems/tmul/ltmul, 
 	8/$1990s$/90s/loosely coupled \\ multiprocessor systems/lmul/llmul, 
-    11.5/$2000s$/00s/mobile computing/mobile/lmobile, 
+    12/$2000s$/00s/cluster computing/cluster/lcluster, 
     14/$2010s \sim$/10s/cloud computing/cloud/lcloud} {
     \node[] (\n) at (\y, 0.5) {\d};
 
@@ -32,12 +36,13 @@
   %%%%%%%%%% Begin: Multiprocessor systems %%%%%%%%%% 
   % multiprocessor system
   \begin{pgfonlayer}{background}
-	\node[draw = blue!20, fill = blue!20, rectangle, rounded corners, inner sep = 0pt, fit = (tmul) (lmul) (ltmul) (llmul), label = {[blue] below : Multiprocessor systems}] (mul) {};
+	\node[draw = blue!20, fill = blue!20, rectangle, rounded corners, inner sep = 0pt, fit = (tmul) (lmul) (ltmul) (llmul), 
+	  label = {[blue] below : {\bf Multiprocessor systems}}] (mul) {};
   \end{pgfonlayer}
 
   % loosely coupled multiprocessor system
-  \node[above = 1.0cm of tmul] () {\includegraphics[scale = 0.40]{figs/tight-multiprocessor.png}};
-  \node[above = 2.0cm of lmul] () {\includegraphics[scale = 0.40]{figs/loose-multiprocessor.png}};
+  % \node[above = 1.0cm of tmul] () {\includegraphics[scale = 0.40]{figs/tight-multiprocessor.png}};
+  % \node[above = 2.0cm of lmul] () {\includegraphics[scale = 0.40]{figs/loose-multiprocessor.png}};
 
   % from uniprocessor system to multiprocessor system
   \draw[sepline] (3.0, 1.0) to (3.0, 9.0);
@@ -45,28 +50,10 @@
   %%%%%%%%%% End: Multiprocessor systems %%%%%%%%%% 
 
   %%%%%%%%%% Begin: Consistency models %%%%%%%%%% 
-  % lots of consistency models
-
-  % \def\minx{3.0}
-  % \def\maxx{10.0}
-  % \def\miny{6.0}
-  % \def\maxy{9.50}
-  
-  % \pgfmathsetseed{1}
-  % \foreach \cm in {Sequential, PRAM, Causal, Processor, Coherence, Local} {
-  %   \pgfmathrandominteger{\angle}{0}{60}
-  %   \node[rotate = \angle] () {\cm};
-  % }
+  % lots of consistency models (TODO: another frame page and another tikz file)
 
   % comment on consistency models in the context of multiprocessor systems
-  \node[above = of mul, comment] (multi-comment) {???-oriented: \\
-	\begin{varwidth}{0.40\linewidth}\begin{itemize}
-	  \item language, compiler
-		\vspace{-8pt}
-	  \item operating system
-		\vspace{-8pt}
-	  \item hardware
-	\end{itemize}\end{varwidth}};
+  \node[above = of mul, comment] (multi-comment) {{\bf Theory?-oriented:}\\ rich theory \\ vs. \\ restricted systems};
 
   % separation line: from multiprocessor to WAN apps
   \draw[sepline] (10.0, 1.0) to (10.0, 9.0);
@@ -74,11 +61,12 @@
 
   % multiprocessor system
   \begin{pgfonlayer}{background}
-	\node[draw = red!20, fill = red!20, rectangle, rounded corners, inner sep = 0pt, fit = (mobile) (lmobile) (cloud) (lcloud), label = {[red] below : Distributed systems}] (dissys) {};
+	\node[draw = red!20, fill = red!20, rectangle, rounded corners, inner sep = 0pt, fit = (cluster) (lcluster) (cloud) (lcloud), 
+	  label = {[red] below : {\bf Distributed systems}}] (dissys) {};
   \end{pgfonlayer}
 
   % comment on consistency models in the context of ???
-  \node[below = of dissys, comment] (comment-multi) {Application-oriented};
+  \node[below = of dissys, comment] (comment-multi) {{\bf Application-oriented:}\\ abundant systems \\ vs. \\ less theory};
   \draw[very thick] (0,10) to (16,10);  % the top line
 \end{tikzpicture}
 

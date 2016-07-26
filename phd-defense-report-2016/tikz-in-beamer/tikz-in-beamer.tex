@@ -1,0 +1,27 @@
+\documentclass{beamer}
+
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usepackage{lmodern}  % for arbitrary font size
+\usetikzlibrary{positioning, shapes, shapes.symbols, shapes.geometric, backgrounds, fit, arrows.meta, calc}
+
+\begin{document}
+
+\begin{frame}{Consistency model in distributed systems}
+  \begin{figure}[h!]
+    \centering
+    \begin{adjustbox}{max totalsize = {1.00\textwidth}{1.00\textheight}, center}
+	  \input{consistency-model-distributed-system-history-beamer}
+    \end{adjustbox}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Distributed data}
+  \begin{figure}[h!]
+    \centering
+    \begin{adjustbox}{max totalsize = {0.60\textwidth}{1.00\textheight}, center}
+	  \input{distributed-data-beamer}
+    \end{adjustbox}
+  \end{figure}
+\end{frame}
+\end{document}

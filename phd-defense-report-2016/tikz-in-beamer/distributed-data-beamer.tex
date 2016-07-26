@@ -1,0 +1,77 @@
+%        File: beamer overlay for distributed-data.tex
+%     Created: July 23, 2016
+
+\begin{tikzpicture}[rc/.style = {circle, minimum size = 4cm, fill = red},
+  br/.style = {rectangle, rounded corners, minimum size = 4cm, fill = blue},
+  gs/.style = {shape = star, scale = 8, star points = 5, star point ratio = 1.65, fill = green},
+  dash pattern = {on 20pt off 10pt},
+  partition/.style = {draw, lightgray, line width = 8pt},
+  replication/.style = {draw, dash phase = 0pt, line width = 10pt, #1},
+  access/.style = {draw, > = stealth, <->, dash phase = 0pt, line width = 6pt, brown}]
+
+  \uncover<1->{
+  \begin{pgfonlayer}{background}
+	\node[opacity = 0.80] (map) {\includegraphics[scale = 0.50]{figs/world-map-logo.jpg}};
+  \end{pgfonlayer}
+
+  % shared data
+  \begin{scope}[yshift = -18cm]
+	\node[rc] (circ) {};
+	\node[br, left = 2cm of circ] (rect) {};
+	\node[gs, right = 2cm of circ] (st) {};
+
+	\begin{pgfonlayer}{background}
+	  \node[rectangle, rounded corners, fill = black!30, fit = (circ) (rect) (st), inner sep = 5pt, 
+		label = {[font = \fontsize{65}{70}\sffamily\bfseries] below : Application Data}] (data) {};
+	\end{pgfonlayer}
+  \end{scope}
+  }
+
+  \uncover<2->{
+  % partition
+  \node[rc] (circ1) at (20, 10) {};
+  \node[br] (rect1) at (-25, 10) {};
+  \node[gs] (st1) at (28, -12) {};
+
+  \draw[partition] (circ) to (circ1);
+  \draw[partition] (rect) to (rect1);
+  \draw[partition] (st) to (st1);
+  }
+
+  \uncover<3->{
+  % replication
+  \node[rc] (circ2) at (-15, -10) {};
+  \node[rc] (circ3) at (-10, 18) {};
+
+  \node[br] (rect2) at (10, 12) {};
+
+  \node[gs] (st2) at (0,0) {};
+  \node[gs] (st3) at (20, 5) {};
+
+  \path[replication = {red}] (circ1) to (circ2) 
+  	(circ2) to (circ3)
+	(circ3) to (circ1);
+
+  \path[replication = {blue}] (rect1) to (rect2);
+
+  \path[replication = {green}] (st1) to (st2) 
+  	(st2) to (st3)
+	(st3) to (st1);
+  }
+
+  \uncover<4->{
+  % sina-weibo clients
+  \def\SCALE{0.15}
+  \node[] (sina1) at (-25, 0) {\includegraphics[scale = \SCALE]{figs/sina-weibo.png}};
+  \node[] (sina2) at (10, 5) {\includegraphics[scale = \SCALE]{figs/sina-weibo.png}};
+  \node[] (sina3) at (5, -10) {\includegraphics[scale = \SCALE]{figs/sina-weibo.png}};
+
+  % access
+  \path[every edge/.append style = {access}] (sina1) edge (rect1)
+  				(sina1) edge (circ2)
+				(sina2) edge (rect2)
+				(sina2) edge (st2)
+				(sina3) edge (circ1)
+				(sina3) edge (st2);
+  }
+\end{tikzpicture}

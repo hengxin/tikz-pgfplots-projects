@@ -1,0 +1,28 @@
+%%%%% Description: CAP theorem. %%%%%
+%%%%% Date: July 24, 2016 %%%%%
+%%%%% Author: Hengfeng Wei %%%%
+
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, shapes.symbols, backgrounds, fit, arrows.meta, calc}
+
+\begin{document}
+\begin{tikzpicture}
+  
+  \begin{scope}[blend mode = screen, 
+		capnode/.style = {circle, opacity = 0.60, text opacity = 1, minimum size = 2.5cm, inner sep = 2pt, align = center}]
+	\node[capnode, fill = red] at (90:0.8) {};
+	\node[align = center] at (90:1.1) {\bf (Strong)\\ \bf Consistency};
+
+	\node[capnode, fill = green] at (210:1.1) {};
+	\node[align = center] at (210:1.4) {\bf Partition\\ \bf tolerance};
+
+	\node[capnode, fill = blue] at (330:1.1) {};
+	\node[align = center] at (330:1.4) {\bf Availability};
+  \end{scope}
+
+  \node[] at (0, -0.1) {\includegraphics[scale = 0.08]{figs/banned-logo.png}};
+\end{tikzpicture}
+\end{document}
