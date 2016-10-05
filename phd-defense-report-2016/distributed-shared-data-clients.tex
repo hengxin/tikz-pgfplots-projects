@@ -1,0 +1,32 @@
+%        File: distributed-shared-data-clients.tex
+%     Created: July 17, 2016
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, shapes.symbols, backgrounds, fit, arrows.meta, calc, chains, decorations.text}
+\usepackage{courier} % courier font
+
+\begin{document}
+\begin{tikzpicture}[access/.style = {> = stealth, <->, line width = 3pt, blue!50},
+  replicated/.style = {dashed, line width = 3pt, red!50}]
+
+  \node[draw = blue, circle, thick, double, double distance = 1.5cm, opacity = 0.80,
+	  postaction={
+		  decorate,
+		  decoration = {
+				raise = -1.5ex,
+				text along path, 
+				reverse path,
+				text align = {fit to path stretching spaces},
+				text = {|\ttfamily\Huge\bf\color{blue!80}|\space\space Distributed Shared Data Service\space\space \space\space Distributed Shared Data Service\space\space}
+		  }
+	 }] (dsds) {\includegraphics[scale = 0.12]{figs/folder-circle-icon.png}};
+
+  \begin{scope}[start chain = circle placed {at = (\tikzchaincount * 45 : 9.0)}]
+	\foreach \c [evaluate = {\p = (\c + 1) * 45;}] in {0, 1, ..., 7} {
+	  \node[on chain] (c\c) {\includegraphics[scale = 0.40]{figs/client-pc-logo.png}};
+	  \draw[access] (c\c) to (dsds.\p);
+	}
+  \end{scope}
+\end{tikzpicture}
+\end{document}
