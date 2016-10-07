@@ -44,22 +44,22 @@
   % distributed transaction
   \draw [dist-tx] (tx-api) to (master-surrounding.160);
   \draw [dist-tx] (tx-api) to (master-surrounding.20);
-  \node (dist-tx-text) [font = \LARGE, blue, above = 1.00cm of master-surrounding.north] {distributed transaction};
+  \node (dist-tx-text) [font = \LARGE, blue, above = 0.50cm of master-surrounding.north, align = center] {distributed transaction\\\textcolor{red}{\texttt{RVSI-MP} protocol}};
 \end{scope}
 
 % replication
 \begin{scope}[slave/.style = {rectangle, rounded corners, font = \LARGE, fill = blue!40, inner sep = 
   8pt}, rep/.style = {->, draw, ultra thick, blue}]
   % slaves of master-left
-  \node (slave-left-above) [slave, below left = 0.5cm and 1.0cm of master-left] {Slave-1-1};
-  \node (slave-left-below) [slave, below = 1.5cm of slave-left-above] {Slave-1-2};
+  \node (slave-left-above) [slave, below left = 1.0cm and 1.5cm of master-left] {Slave-1-1};
+  \node (slave-left-below) [slave, below = 2.5cm of slave-left-above] {Slave-1-2};
   \draw [rep] (master-left) to (slave-left-above);
-  \draw [rep] (master-left) to node[sloped, font = \LARGE, below] {replication} (slave-left-below);
+  \draw [rep] (master-left) to node[sloped, font = \LARGE, above] {replication} node[sloped, font = \LARGE, below, red] {\texttt{RVSI-MS protocol}} (slave-left-below);
   % slaves of master-right
-  \node (slave-right-above) [slave, below right = 0.5cm and 1.0cm of master-right] {Slave-2-1};
-  \node (slave-right-below) [slave, below = 1.5cm of slave-right-above] {Slave-2-2};
+  \node (slave-right-above) [slave, below right = 1.0cm and 1.5cm of master-right] {Slave-2-1};
+  \node (slave-right-below) [slave, below = 2.5cm of slave-right-above] {Slave-2-2};
   \draw [rep] (master-right) to (slave-right-above);
-  \draw [rep] (master-right) to node[sloped, font = \LARGE, below] {replication} (slave-right-below);
+  \draw [rep] (master-right) to node[sloped, font = \LARGE, above] {replication} node[sloped, font = \LARGE, below, red] {\texttt{RVSI-MS} protocol} (slave-right-below);
 \end{scope}
 
 
