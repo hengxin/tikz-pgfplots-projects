@@ -1,0 +1,71 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \begin{axis}[
+	  title = ,
+	  xlabel = {MPL},
+	  ylabel = {Transaction abort rates},
+	  xtick = data,
+	  ymin = 0,
+	  ytick = {0, 0.1, 0.2, 0.3},
+	  grid = major,
+	  minor y tick num = 1,
+	legend entries = {
+	    vc$(1,0,0)$ \\
+		vc$(2,0,0)$ \\
+		vc$(1,1,0)$ \\
+		vc$(1,0,1)$ \\
+		vc$(2,2,1)$ \\
+		vc$(3,3,1)$ \\
+		vc$(4,4,1)$ \\
+	    wcf$(1,0,0)$ \\
+		wcf$(2,0,0)$ \\
+		wcf$(1,1,0)$ \\
+		wcf$(1,0,1)$ \\
+		wcf$(2,2,1)$ \\
+		wcf$(3,3,1)$ \\
+		wcf$(4,4,1)$ \\
+	  },
+	  legend pos = outer north east,
+	legend style = {
+	  legend columns = 7,
+	  cells = {anchor = west},
+	  font = \footnotesize,
+	  transpose legend,
+	},
+  ]
+
+  \addplot[red, mark = otimes] table[x = mpl, y = vc100] {rw05-aborts.dat};
+	\addplot[red, mark = square] table[x = mpl, y = vc200] {rw05-aborts.dat};
+	\addplot[red, mark = triangle] table[x = mpl, y = vc110] {rw05-aborts.dat};
+	\addplot[red, mark = pentagon] table[x = mpl, y = vc101] {rw05-aborts.dat};
+	\addplot[red, mark = diamond] table[x = mpl, y = vc221] {rw05-aborts.dat};
+	\addplot[red, mark = x] table[x = mpl, y = vc331] {rw05-aborts.dat};
+	\addplot[red, mark = o] table[x = mpl, y = vc441] {rw05-aborts.dat};
+
+	\addplot[densely dashed, blue, mark = otimes] table[x = mpl, y = wcf100] {rw05-aborts.dat};
+	\addplot[densely dashed, blue, mark = square*] table[x = mpl, y = wcf200] {rw05-aborts.dat};
+	\addplot[densely dashed, blue, mark = triangle*] table[x = mpl, y = wcf110] {rw05-aborts.dat};
+	\addplot[densely dashed, blue, mark = pentagon*] table[x = mpl, y = wcf101] {rw05-aborts.dat};
+	\addplot[densely dashed, blue, mark = diamond*] table[x = mpl, y = wcf221] {rw05-aborts.dat};
+	\addplot[densely dashed, blue, mark = x] table[x = mpl, y = wcf331] {rw05-aborts.dat};
+	\addplot[densely dashed, blue, mark = o] table[x = mpl, y = wcf441] {rw05-aborts.dat};
+
+	\node[draw, thick, violet] at (90, 130) {vc($\ast,\ast,\ast$)};
+	\node[draw, thick, violet] at (90, 270) {wcf($\ast,\ast,\ast$)};
+  \end{axis}
+\end{tikzpicture}
+\end{document}
+
+	% cycle list = {%
+	%   {blue, mark = *},
+	%   {red, mark = square*},
+	%   {brown, mark = triangle*},
+	%   {teal, mark = pentagon*},
+	%   {orange, mark = diamond*},
+	%   {olive, mark = x},
+	%   {violet, mark = o}
+	% },
