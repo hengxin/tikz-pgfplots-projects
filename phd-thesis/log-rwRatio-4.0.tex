@@ -3,7 +3,7 @@
 
 \begin{document}
 
-\pgfplotstableread{log-rwRatio-0.5.dat}{\rww}  % #r/#w = 1 : 2
+\pgfplotstableread{log-rwRatio-4.0.dat}{\rww}  % #r/#w = 4 : 1
 
 \begin{tikzpicture}[vc/.style = {red, mark = #1},
 	wcf/.style = {densely dashed, blue, mark options = {solid}, mark = #1}]
@@ -52,10 +52,6 @@
 	\addplot[wcf = {square}] table[x = mpl, y = wcf200] {\rww};
 	\addplot[wcf = {o}] table[x = mpl, y = wcf212] {\rww};
 	\addplot[wcf = {diamond}] table[x = mpl, y = wcf221] {\rww};
-
-	% TODO: using relative position
-	\node[draw, thick, violet] at (220, 130) {vc($\ast,\ast,\ast$)};
-	\node[draw, thick, violet] at (220, 270) {wcf($\ast,\ast,\ast$)};
   \end{axis}
 \end{tikzpicture}
 \end{document}

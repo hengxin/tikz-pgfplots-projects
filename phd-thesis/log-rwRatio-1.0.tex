@@ -21,14 +21,14 @@
 	    vc$(1,0,2)$ \\
 		vc$(1,1,0)$ \\
 		vc$(2,0,0)$ \\
+		vc$(2,1,2)$ \\
 		vc$(2,2,1)$ \\
-		vc$(2,2,2)$ \\
 	    wcf$(1,0,0)$ \\
 	    wcf$(1,0,2)$ \\
 		wcf$(1,1,0)$ \\
 		wcf$(2,0,0)$ \\
+		wcf$(2,1,2)$ \\
 		wcf$(2,2,1)$ \\
-		wcf$(2,2,2)$ \\
 	  },
 	  legend pos = outer north east,
 	legend style = {
@@ -43,15 +43,15 @@
 	\addplot[vc = {x}] table[x = mpl, y = vc102] {\rww};
 	\addplot[vc = {triangle}] table[x = mpl, y = vc110] {\rww};
 	\addplot[vc = {square}] table[x = mpl, y = vc200] {\rww};
+	\addplot[vc = {o}] table[x = mpl, y = vc212] {\rww};
 	\addplot[vc = {diamond}] table[x = mpl, y = vc221] {\rww};
-	\addplot[vc = {o}] table[x = mpl, y = vc222] {\rww};
 
 	\addplot[wcf = {otimes}] table[x = mpl, y = wcf100] {\rww};
 	\addplot[wcf = {x}] table[x = mpl, y = wcf102] {\rww};
 	\addplot[wcf = {triangle}] table[x = mpl, y = wcf110] {\rww};
 	\addplot[wcf = {square}] table[x = mpl, y = wcf200] {\rww};
+	\addplot[wcf = {o}] table[x = mpl, y = wcf212] {\rww};
 	\addplot[wcf = {diamond}] table[x = mpl, y = wcf221] {\rww};
-	\addplot[wcf = {o}] table[x = mpl, y = wcf222] {\rww};
 
 	% TODO: using relative position
 	\node[draw, thick, violet] at (220, 130) {vc($\ast,\ast,\ast$)};
