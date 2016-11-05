@@ -1,0 +1,22 @@
+\documentclass{standalone}
+
+\usepackage{xeCJK}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes}
+
+\begin{document}
+\begin{tikzpicture}
+  \node (dist) [blue] {分布};
+  \node (data) [red, right = of dist] {数据};
+  \node (cons) [brown, right = 0.80cm of data] {一致性};
+
+  \node (dist-txt) [fill = blue!40, below = of dist] {研究背景};
+  \draw [blue, Diamond-Circle] (dist-txt) to (dist);
+
+  \node (data-txt) [circle, fill = red!40, below = 1.5cm of data, align = center] {数据\\类型};
+  \draw [red, Diamond-Circle] (data-txt) to (data);
+
+  \node (cons-txt) [fill = brown!40, below = of cons] {关键问题};
+  \draw [brown, Diamond-Circle] (cons-txt) to (cons);
+\end{tikzpicture}
+\end{document}
