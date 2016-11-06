@@ -16,8 +16,8 @@
 \coordinate (z) at (0,0,1);
 
 \draw[thick, >=Stealth, ->] (O) to node[sloped, below, near end, align = center] {Mechanism\\{\tiny (机制: 怎么做)}} (x);
-\draw[thick, >=Stealth, ->] (O) to node[anchor = north, sloped, below, near end, align = center] {Measurement\\{\tiny (度量: 怎么样)}} (y);
-\draw[thick, >=Stealth, ->] (O) to (z) node[anchor = south, align = center] {Semantics\\{\tiny (模型: 是什么)}};
+\draw[thick, >=Stealth, ->] (O) to node[anchor = north, sloped, below, near end, align = center] {Measurement\\{\tiny (度量: \textcolor{red}{Quantifying})}} (y);
+\draw[thick, >=Stealth, ->] (O) to (z) node[anchor = south, align = center] {Semantics\\{\tiny (模型: \textcolor{red}{(2-)Atomicity})}};
 
 \coordinate (xz) at (1,0,1);
 \coordinate (yz) at (0,1,1);
@@ -26,8 +26,8 @@
 \node[canvas is xz plane at y = 0, align = center] at (0.5,0,0.5) {\reflectbox{多样化,} \\\reflectbox{可调节}};
 
 \draw[canvas is yz plane at x = 0, transform shape, draw = brown, fill = brown!50, opacity = 0.5] (yz) rectangle (O);
-\node[canvas is yz plane at x = 0, align = center] at (0,0.5,0.5) {精细化,\\可度量};
+\node[canvas is yz plane at x = 0, align = center] at (0,0.5,0.5) {精细化,\\可度量\\(\textcolor{red}{PA2AM})};
 
-\node[font = \normalsize, rotate = -90, teal] at (0,1.4,1.4) {\textsc{Datatype}};
+\node[font = \normalsize, rotate = -90, teal] at (0,1.4,1.) {\textsc{R/W Register}};
 \end{tikzpicture}
 \end{document}
