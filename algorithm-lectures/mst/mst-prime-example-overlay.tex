@@ -1,0 +1,35 @@
+% Underlying graph for minimum spanning tree (mst) example
+% Redrawn from Figure 5.3 of the textbook ``Algorithms'' by Dasgupta
+
+\begin{tikzpicture}[node distance = {1.0cm and 1.5cm}, 
+  v/.style = {draw, circle},	% vertex
+  v'/.style = {v, fill = teal},	% chosen by prim's algorithm
+  pe/.style = {brown, line width = 4pt},	% prime edge
+]
+  \node (a) [v] {A};
+  \node (c) [v, right = of a] {C};
+  \node (e) [v, right = of c] {E};
+
+  \draw (a) to node[above] {1} (c);
+  \draw (c) to node[above] {3} (e);
+
+  \node (b) [v, below = of a] {B};
+  \node (d) [v, right = of b] {D};
+  \node (f) [v, right = of d] {F};
+
+  \draw (b) to node[below] {1} (d);
+  \draw (d) to node[below] {4} (f);
+
+  \draw (a) to node[left] {2} (b);
+  \draw (c) to node[below] {2} (b);
+  \draw (c) to node[right] {2} (d);
+  \draw (e) to node[below] {3} (d);
+  \draw (e) to node[right] {1} (f);
+
+  \only<2->{\node [v'] at (a) {A}};
+  \only<3->{\draw[pe] (a) to (c); \node [v'] at (c) {C};}
+  \only<4->{\draw[pe] (a) to (b); \node [v'] at (b) {B};}
+  \only<5->{\draw[pe] (b) to (d); \node [v'] at (d) {D};}
+  \only<6->{\draw[pe] (c) to (e); \node [v'] at (e) {E};}
+  \only<7->{\draw[pe] (e) to (f); \node [v'] at (f) {F};}
+\end{tikzpicture}
