@@ -11,7 +11,7 @@
 \begin{frame}{Example of Kruskal's Algorithm}
 \begin{tikzpicture}[node distance = {1.0cm and 1.5cm}, 
   v/.style = {draw, circle},	% vertex
-  v'/.style = {v, fill = teal},	% chosen by kruskal's algorithm
+  kv/.style = {v, fill = teal},	% chosen by kruskal's algorithm
   ke/.style = {circle connection bar, brown, fill},	% kruskal edge
   nke/.style = {gray, dash pattern = on 5pt off 3pt, ultra thick},	% non-kruskal edge which would cause cycle
 ]
@@ -35,10 +35,10 @@
   \draw (e) to node[below] {3} (d);
   \draw (e) to node[right] {1} (f);
 
-  \only<2->{\draw[ke] (a) to (c); \node [v'] at (a) {A}; \node [v'] at (c) {C};}
-  \only<3->{\draw[ke] (b) to (d); \node [v'] at (b) {B}; \node [v'] at (d) {D};}
-  \only<4->{\draw[ke] (e) to (f); \node [v'] at (e) {E}; \node [v'] at (f) {F};}
-  \only<5->{\draw[ke] (a) to (b); \node [v'] at (b) {B};}
+  \only<2->{\draw[ke] (a) to (c); \node [kv] at (a) {A}; \node [kv] at (c) {C};}
+  \only<3->{\draw[ke] (b) to (d); \node [kv] at (b) {B}; \node [kv] at (d) {D};}
+  \only<4->{\draw[ke] (e) to (f); \node [kv] at (e) {E}; \node [kv] at (f) {F};}
+  \only<5->{\draw[ke] (a) to (b); \node [kv] at (b) {B};}
 
   \only<6->{\draw[nke] (b) to (c);}
   \only<7->{\draw[nke] (c) to (d);}

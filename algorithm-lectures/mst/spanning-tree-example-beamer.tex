@@ -1,16 +1,18 @@
 % Underlying graph for minimum spanning tree (mst) example
 % Redrawn from Figure 5.3 of the textbook ``Algorithms'' by Dasgupta
 
-\documentclass{standalone}
+\documentclass[beamer]{standalone}
 
 \usepackage{tikz}
 \usetikzlibrary{mindmap, positioning}
 
 \begin{document}
+\begin{frame}{Spanning Tree Example}
 \begin{tikzpicture}[node distance = {1.0cm and 1.5cm}, 
-  	v/.style = {draw, circle},
-  mstv/.style = {v, fill = teal},	% chosen by kruskal's algorithm
-  mste/.style = {circle connection bar, brown, fill},]
+  v/.style = {draw, circle},
+  stv/.style = {v, fill = teal},	% vertices in spanning tree
+  ste/.style = {circle connection bar, brown, fill}, % edges in spanning tree
+]
   \node (a) [v] {A};
   \node (c) [v, right = of a] {C};
   \node (e) [v, right = of c] {E};
@@ -31,11 +33,14 @@
   \draw (e) to node[below] {3} (d);
   \draw (e) to node[right] {1} (f);
 
+  \only<2-> {
+	\foreach \v in {a, b, c, d, e, f} {
+	  \node[stv] at (\v) {\MakeUppercase{\v}};
+	}
+  }
 
-  \draw[mste] (a) to (c); \node [mstv] at (a) {A}; \node [mstv] at (c) {C};
-  \draw[mste] (b) to (d); \node [mstv] at (b) {B}; \node [mstv] at (d) {D};
-  \draw[mste] (e) to (f); \node [mstv] at (e) {E}; \node [mstv] at (f) {F};
-  \draw[mste] (a) to (b); \node [mstv] at (b) {B};
-  \draw[mste] (c) to (e);
+  \only<2> { \draw[ste] (a) to (b) to (c) to (d) to (e) to (f); }
+  \only<3> { \draw[ste] (a) to (c) to (e) to (f) to (d) to (b); }
 \end{tikzpicture}
+\end{frame}
 \end{document}
