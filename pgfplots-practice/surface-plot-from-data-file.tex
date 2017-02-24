@@ -1,0 +1,11 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}
+	\addplot3[surf,mesh/ordering=y varies]
+	  table {concat_VV_together.dat};
+  \end{axis}
+\end{tikzpicture}
+\end{document}

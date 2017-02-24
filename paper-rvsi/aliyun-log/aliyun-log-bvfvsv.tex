@@ -1,0 +1,91 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\pgfplotstableread{chameleon-aliyun-batch-bvfvsv-0.5.dat}{\rwwf}  % #r/#w = 1 : 2	write-frequent
+\pgfplotstableread{chameleon-aliyun-batch-bvfvsv-1.0.dat}{\rwrwb}  % #r/#w = 1 : 1	read-write-balanced
+\pgfplotstableread{chameleon-aliyun-batch-bvfvsv-4.0.dat}{\rwrf}  % #r/#w = 4 : 1	read-frequent
+
+\begin{tikzpicture}[bv/.style = {red, mark options = {solid, scale = 1.0}, mark = #1},
+	fv/.style = {densely dashed, blue, mark options = {solid, scale = 1.0}, mark = #1},
+	sv/.style = {densely dotted, violet, mark options = {solid, scale = 1.0}, mark = #1},
+  ]
+  \begin{axis}[
+	  title = ,
+	  xlabel = {MPL},
+	  ylabel = {Transaction abort rates},
+	  xtick = data,
+	  ymin = 0,
+	  ytick = {0, 0.05, 0.10, ..., 0.30},
+	  yticklabel style = {
+			  /pgf/number format/fixed,
+			  /pgf/number format/precision = 2},
+	  scaled y ticks = false,
+	  grid = major,
+	  minor y tick num = 1,
+	legend entries = {
+	    bv$(1,0,0)$ \\
+		bv$(1,1,0)$ \\
+	    bv$(1,1,1)$ \\
+		bv$(2,0,0)$ \\
+		bv$(2,0,1)$ \\
+		bv$(2,1,1)$ \\
+		% bv$(2,1,2)$ \\
+		% bv$(2,2,1)$ \\
+	    fv$(1,0,0)$ \\
+		fv$(1,1,0)$ \\
+	    fv$(1,1,1)$ \\
+		fv$(2,0,0)$ \\
+		fv$(2,0,1)$ \\
+		fv$(2,1,1)$ \\
+		% fv$(2,1,2)$ \\
+		% fv$(2,2,1)$ \\
+	    sv$(1,0,0)$ \\
+		sv$(1,1,0)$ \\
+	    sv$(1,1,1)$ \\
+		sv$(2,0,0)$ \\
+		sv$(2,0,1)$ \\
+		sv$(2,1,1)$ \\
+		% sv$(2,1,2)$ \\
+		% sv$(2,2,1)$ \\
+	  },
+	  % legend pos = outer north east,
+	legend style = {
+	  at = {(0.5, 1.05)}, anchor = south,
+	  legend columns = 6,
+	  cells = {anchor = west},
+	  font = \footnotesize,
+	  transpose legend,
+	},
+  ]
+
+	\addplot[bv = {otimes}] table[x = mpl, y = bv100] {\rwrf};
+	\addplot[bv = {triangle}] table[x = mpl, y = bv110] {\rwrf};
+	\addplot[bv = {x}] table[x = mpl, y = bv111] {\rwrf};
+	\addplot[bv = {square}] table[x = mpl, y = bv200] {\rwrf};
+	\addplot[bv = {+}] table[x = mpl, y = bv201] {\rwrf};
+	\addplot[bv = {pentagon}] table[x = mpl, y = bv211] {\rwrf};
+	% \addplot[bv = {o}] table[x = mpl, y = bv212] {\rwrf};
+	% \addplot[bv = {diamond}] table[x = mpl, y = bv221] {\rwrf};
+
+	\addplot[fv = {otimes}] table[x = mpl, y = fv100] {\rwrf};
+	\addplot[fv = {triangle}] table[x = mpl, y = fv110] {\rwrf};
+	\addplot[fv = {x}] table[x = mpl, y = fv111] {\rwrf};
+	\addplot[fv = {square}] table[x = mpl, y = fv200] {\rwrf};
+	\addplot[fv = {+}] table[x = mpl, y = fv201] {\rwrf};
+	\addplot[fv = {pentagon}] table[x = mpl, y = fv211] {\rwrf};
+	% \addplot[fv = {o}] table[x = mpl, y = fv212] {\rwrf};
+	% \addplot[fv = {diamond}] table[x = mpl, y = fv221] {\rwrf};
+
+	\addplot[sv = {otimes}] table[x = mpl, y = sv100] {\rwrf};
+	\addplot[sv = {triangle}] table[x = mpl, y = sv110] {\rwrf};
+	\addplot[sv = {x}] table[x = mpl, y = sv111] {\rwrf};
+	\addplot[sv = {square}] table[x = mpl, y = sv200] {\rwrf};
+	\addplot[sv = {+}] table[x = mpl, y = sv201] {\rwrf};
+	\addplot[sv = {pentagon}] table[x = mpl, y = sv211] {\rwrf};
+	% \addplot[sv = {o}] table[x = mpl, y = sv212] {\rwrf};
+	% \addplot[sv = {diamond}] table[x = mpl, y = sv221] {\rwrf};
+  \end{axis}
+\end{tikzpicture}
+\end{document}
