@@ -5,44 +5,27 @@
 \documentclass{standalone}
 
 \usepackage{tikz}
-\usetikzlibrary{positioning, shapes, calc, backgrounds, fit}
+\usetikzlibrary{arrows.meta, positioning, shapes, calc, backgrounds, fit}
 
 \begin{document}
-\begin{tikzpicture}[rep/.style = {->, dashed, line width = 4pt, cyan}, 
-            access/.style = {<->, blue, line width = 2pt}]
-  % master
-  \node (master) [outer sep = 0pt] {\includegraphics[scale = 0.40]{figs/db-logo.png}};
+\begin{tikzpicture}[rep/.style = {>=Stealth, ->, dashed, line width = 4pt, brown}, 
+            access/.style = {>=Stealth, <->, orange, line width = 2pt}]
+  % the master
+  \node (master) [outer sep = 0pt] {\includegraphics[scale = 0.30]{figs/db-logo.png}};
 
-  % slave-left
-  \node (slave-left) [outer sep = 0pt, below left = 5.0cm and 0.5cm of master]  {\includegraphics[scale = 0.30]{figs/db-logo.png}}; 
+  % two slaves
+  \node (slave-left) [outer sep = 0pt, below left = 3.5cm and 1.5cm of master]  {\includegraphics[scale = 0.20]{figs/db-logo.png}}; 
+  \node (slave-right) [outer sep = 0pt, below right = 3.5cm and 1.5cm of master]  {\includegraphics[scale = 0.20]{figs/db-logo.png}}; 
 
-  % slave-right
-  \node (slave-right) [outer sep = 0pt, below right = 5.0cm and 0.5cm of master]  {\includegraphics[scale = 0.30]{figs/db-logo.png}}; 
-
-  % master to slave-left
+  % master to slaves
   \draw [rep] (master) to (slave-left);
-  % master to slave-right
   \draw [rep] (master) to (slave-right);
-  % replication text
-  \node (replication-text) [below = 2.0cm of master, cyan, font = \huge, align = center] {\textbf{Master-Slave} \\ \textbf{Replication}};
-
-  % client-left
-  \node (client-left) [outer sep = -5pt, above left = 2.00cm and -1.00cm of slave-left] {\includegraphics[scale = 0.50]{figs/client-pc-logo.png}};
-  % client-left to master, slave-left, and slave-right
-  \draw [access] (client-left) to (master);
-  \draw [access] (client-left) to (slave-left);
-  %\draw [access] (client-left) to (slave-right);
-
-  % client-right
-  \node (client-right) [outer sep = -5pt, above right = 2.00cm and -1.50cm of slave-right] {\includegraphics[scale = 0.50]{figs/client-pc-logo.png}};
-  % client-right to master
-  %\draw [access] (client-right) to (master);
-  % client-right to slave-right
-  \draw [access] (client-right) to (slave-right);
 
   % background
   \begin{pgfonlayer}{background}
-    \node (box) [draw, fill = white, very thick, inner sep = 3pt, rectangle, fit = (master) (slave-left) (slave-right) (client-left) (client-right)] {};
+	\node (box) [draw, thick, inner sep = 3pt, rectangle, 
+		fit = (master) (slave-left) (slave-right),
+	  font = \Huge, align = center] {$\;$\\[5pt]Master-slave\\[3pt]Replication};
   \end{pgfonlayer}
 \end{tikzpicture}
 \end{document}

@@ -13,7 +13,7 @@
 \begin{document}
 
 \tikzset{trans-node/.style = {draw, line width = 3pt, inner sep = 12pt}}
-\tikzset{read-from/.style = {->, >={Stealth[length = 12pt]}, dash pattern = on 20pt off 10pt, line width = 2pt}}
+\tikzset{read-from/.style = {>={Stealth[length = 12pt]}, ->, dash pattern = on 20pt off 10pt, thick}}
 \tikzset{knode/.style = {inner sep = 8pt, outer sep = 5pt, font=\fontsize{40}{40}\selectfont}}
 \tikzset{toarrow/.style = {>={Stealth[length = 12pt]}, ->, ultra thick}}
 \tikzset{dashline/.style = {ultra thick, dash pattern = on 20pt off 10pt}}
@@ -49,7 +49,7 @@
   % T_i reads x2
   \begin{pgfonlayer}{background}
 	\coordinate (c-rx2) at ($(ti.north) !0.5! (ti.north west)$);
-	\draw[read-from] (x2.south) to (c-rx2); % [out = -70, in = 120] (c-rx2);
+	\draw[read-from]  (x2.south) to (c-rx2); % [out = -70, in = 120] (c-rx2);
   \end{pgfonlayer}
   
   % T_i reads y5
