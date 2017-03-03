@@ -35,14 +35,14 @@
 
   % transactions updating y
   \begin{scope}
-    \node (y1) [trans-node, on chain = y, below left = 5.0cm and -2.0cm of x3, font=\fontsize{30}{30}\selectfont] {$T_{y_1}: w_{y_1}(y_1)$};
+    \node (y1) [trans-node, on chain = y, below left = 3.0cm and -2.0cm of x3, font=\fontsize{30}{30}\selectfont] {$T_{y_1}: w_{y_1}(y_1)$};
     \foreach \i in {2, ..., 6}
       \ytrans{\i};
   \end{scope}
    
   % transaction T_i reading x and y
   \begin{scope}
-    \node (ti) [trans-node, below right = 4.5cm and 2.5cm of y2, font=\fontsize{35}{35}\selectfont] 
+    \node (ti) [trans-node, below right = 2.0cm and 2.5cm of y2, font=\fontsize{35}{35}\selectfont] 
 	  {$T_i: \hskip 3em r_i(x_2) \hskip 8em r_i(y_5) \hskip 4em$};
   \end{scope}
 
@@ -57,7 +57,7 @@
   \draw[read-from] (y5.south) to (c-ry5);
 
   % k1
-  \def\konespace{16cm}
+  \def\konespace{11cm}
   \begin{scope}[on background layer]
       % c-x2-top: commit time of T_x2
       \draw let \p{p-x2} = (x2.east), \p{p-ti} = (ti.north west) in
@@ -76,7 +76,7 @@
   \end{scope}
 
   % k2
-  \def\ktwospace{2cm}
+  \def\ktwospace{1.5cm}
   \begin{scope}[on background layer]
       % s-ti-bot: start time of T_i (drawn at the bottom)
       \node (s-ti-bot) [cs] at ($(ti.south west) - (0.0cm, \ktwospace)$) {$s_i$};
