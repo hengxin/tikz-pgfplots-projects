@@ -1,0 +1,92 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{decorations}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\pgfplotstableread{chameleon-benchmarking-batch-main-test-rwRatio4-1000-issueDelays.dat}{\rf}  % #r/#w = 4 : 1	read-frequent
+
+\begin{tikzpicture}[
+	bv/.style = {dash pattern = on 5pt off 3pt, mark options = {solid, scale = 1.2}, mark = #1},
+	fv/.style = {mark options = {solid, scale = 1.2}, mark = #1},
+	sv/.style = {dash pattern = on 2pt off 2pt, mark options = {solid, scale = 1.2}, mark = #1},
+  ]
+  \begin{axis}[
+	  title = ,
+	  xlabel = {issueDelay},
+	  ylabel = {Transaction abort rates},
+	  xtick = data,
+	  ymin = 0,
+	  ytick = {0, 0.05, 0.10, ..., 0.30},
+	  yticklabel style = {
+			  /pgf/number format/fixed,
+			  /pgf/number format/precision = 2},
+	  scaled y ticks = false,
+	  grid = major,
+	  minor y tick num = 1,
+	legend entries = {
+		bv$(1,0,0)$ \\
+		% bv$(1,1,0)$ \\
+		bv$(1,1,1)$ \\
+		bv$(2,0,0)$ \\
+		bv$(2,0,1)$ \\
+		% bv$(2,1,1)$ \\
+		% bv$(2,1,2)$ \\
+		% bv$(2,2,1)$ \\
+		fv$(1,0,0)$ \\
+		% fv$(1,1,0)$ \\
+		fv$(1,1,1)$ \\
+		fv$(2,0,0)$ \\
+		fv$(2,0,1)$ \\
+		% fv$(2,1,1)$ \\
+		% fv$(2,1,2)$ \\
+		% fv$(2,2,1)$ \\
+		sv$(1,0,0)$ \\
+		% sv$(1,1,0)$ \\
+		sv$(1,1,1)$ \\
+		sv$(2,0,0)$ \\
+		sv$(2,0,1)$ \\
+		% sv$(2,1,1)$ \\
+		% sv$(2,1,2)$ \\
+		% sv$(2,2,1)$ \\
+	  },
+	  % legend pos = outer north east,
+	legend style = {
+	  at = {(0.5, 1.05)}, anchor = south,
+	  legend columns = 4,
+	  cells = {anchor = west},
+	  font = \footnotesize,
+	  transpose legend,
+	},
+  ]
+
+	\addplot[bv = {otimes}] table[x = issueDelay, y = bv100] {\rf};
+	% \addplot[bv = {triangle}] table[x = issueDelay, y = bv110] {\rf};
+	\addplot[bv = {o}] table[x = issueDelay, y = bv111] {\rf};
+	\addplot[bv = {square}] table[x = issueDelay, y = bv200] {\rf};
+	\addplot[bv = {diamond}] table[x = issueDelay, y = bv201] {\rf};
+	% \addplot[bv = {pentagon}] table[x = issueDelay, y = bv211] {\rf};
+	% \addplot[bv = {x}] table[x = issueDelay, y = bv212] {\rf};
+	% \addplot[bv = {+}] table[x = issueDelay, y = bv221] {\rf};
+
+	\addplot[fv = {otimes}] table[x = issueDelay, y = fv100] {\rf};
+	% \addplot[fv = {triangle}] table[x = issueDelay, y = fv110] {\rf};
+	\addplot[fv = {o}] table[x = issueDelay, y = fv111] {\rf};
+	\addplot[fv = {square}] table[x = issueDelay, y = fv200] {\rf};
+	\addplot[fv = {diamond}] table[x = issueDelay, y = fv201] {\rf};
+	% \addplot[fv = {pentagon}] table[x = issueDelay, y = fv211] {\rf};
+	% \addplot[fv = {x}] table[x = issueDelay, y = fv212] {\rf};
+	% \addplot[fv = {+}] table[x = issueDelay, y = fv221] {\rf};
+
+	\addplot[sv = {otimes}] table[x = issueDelay, y = sv100] {\rf};
+	% \addplot[sv = {triangle}] table[x = issueDelay, y = sv110] {\rf};
+	\addplot[sv = {o}] table[x = issueDelay, y = sv111] {\rf};
+	\addplot[sv = {square}] table[x = issueDelay, y = sv200] {\rf};
+	\addplot[sv = {diamond}] table[x = issueDelay, y = sv201] {\rf};
+	% \addplot[sv = {pentagon}] table[x = issueDelay, y = sv211] {\rf};
+	% \addplot[sv = {x}] table[x = issueDelay, y = sv212] {\rf};
+	% \addplot[sv = {+}] table[x = issueDelay, y = sv221] {\rf};
+  \end{axis}
+\end{tikzpicture}
+\end{document}
