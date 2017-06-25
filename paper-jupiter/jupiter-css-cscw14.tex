@@ -16,7 +16,8 @@
 }
 
 \begin{document}
-\begin{tikzpicture}[node distance = \vdist and \hdist]
+\begin{tikzpicture}[node distance = \vdist and \hdist,
+  path/.style = {draw, rounded corners, very thick, #1}]
   \state{0}{}
   \state{1}{below left = of 0}
   \state{2}{below right = of 0}
@@ -26,7 +27,7 @@
   \state{14}{right = 2*\hdist of 23}
   
   \state{123}{below = 2*\vdist of 2}
-  \state{124}{right = 2*\vdist of 123}
+  \state{124}{right = 2*\vdist - 0.40 of 123}
 
   \state{1234}{below = 2*\vdist of 23}
 
@@ -45,5 +46,16 @@
 
   \transition{123}{1234}{4}
   \transition{124}{1234}{3}
+
+  \path [path = {red}] ($(0.center) + (135:5pt) + (45:20pt)$) node[above] {$C_1$} -- ($(1.center) + (135:5pt) + (225:5pt)$) 
+	-- ($(1234.center) + (225:5pt)$);
+
+  \path [path = {blue}] ($(0.center) + (45:5pt) + (135:20pt)$) node[above] {$C_2$} -- ($(23.center) + (45:5pt) + (-45:5pt)$) 
+    -- ($(123.center) + (-135:12pt) + (-45:5pt)$)
+	-- ($(1234.center) + (-135:12pt)$);
+
+  \path [path = {teal}] ($(0.center) + (-45:5pt) + (45:20pt)$) node[above right] {$C_3$} -- ($(1.center) + (-45:5pt)$) 
+    -- ($(14.center) + (-45:8pt)$)
+	-- ($(1234.center) + (-45:8pt)$);
 \end{tikzpicture}
 \end{document}
