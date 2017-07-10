@@ -14,7 +14,7 @@
 	  vertical sep = 60pt},
 	  	]
 	  \nextgroupplot[title = {rwRatio = $1:2$ (write-frequent)}, 
-		xlabel = {MPL}, 
+		xlabel = {Number of clients}, 
 		ylabel = {Transaction abort rates}, 
 		xtick = data, ymin = 0, ytick = {0, 0.1, 0.2, 0.3}, 
 		grid = major, minor y tick num = 1,
@@ -37,7 +37,7 @@
 	  % \addplot[wcf = {+}] table[x = mpl, y = wcf221] {\rwwf};
 
 	  \nextgroupplot[title = {rwRatio = $1:1$ (read-write-balanced)}, 
-	    xlabel = {MPL},
+	    xlabel = {Number of clients},
 	    xtick = data, ymin = 0, ytick = {0, 0.1, 0.2, 0.3}, 
 	    grid = major, minor y tick num = 1,
 	  ]
@@ -59,7 +59,7 @@
 	  % \addplot[wcf = {+}] table[x = mpl, y = wcf221] {\rwrwb};
 
 	  \nextgroupplot[title = {rwRatio = $4:1$ (read-frequent)},
-		xlabel = {MPL},
+		xlabel = {Number of clients},
 		xtick = data, ytick = {0, 0.1, 0.2, 0.3}, 
 		ymin = 0, ymax = 0.4,
 		grid = major, minor y tick num = 1,
