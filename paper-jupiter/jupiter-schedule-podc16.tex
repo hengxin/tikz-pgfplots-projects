@@ -23,12 +23,16 @@
   % \send{\s}{#1}{#2}{#3}{#4}
 }
 
+\newcommand{\ins}[2]{$\textsc{Ins}(#1,#2)$}
+\newcommand{\del}[2]{$\textsc{Del}(#1,#2)$}
+
 \begin{document}
-\begin{tikzpicture}[timeline/.style = {very thick}, >=Stealth]
-  \node[] (\s) {$S$};
-  \node[right = of s] (c1) {$C_1$};
-  \node[right = of c1] (c2) {$C_2$};
-  \node[right = of c2] (c3) {$C_3$};
+\begin{tikzpicture}[timeline/.style = {very thick}, >=Stealth, 
+  	op/.style = {font = \small, above left = -0.20cm and -0.20cm of #1}]
+  \node[] (\s) {$S: \epsilon$};
+  \node[right = of s] (c1) {$C_1: \epsilon$};
+  \node[right = of c1] (c2) {$C_2: \epsilon$};
+  \node[right = of c2] (c3) {$C_3: \epsilon$};
 
   \foreach \r/\rbot in {s/sbot, c1/c1bot, c2/c2bot, c3/c3bot} {
 	\node[below = 5.0cm of \r] (\rbot) {};
@@ -36,23 +40,23 @@
   }
 
   % send messages (ordered by positions at server)
-  \csend{c1}{0.10}{0.15}{1}
-  \node (o1) [above left = -0.15cm and -0.40cm of 1] {ins$(x,0)$};
-  \ssend{c2}{0.15}{0.25}{1}
-  \ssend{c3}{0.15}{0.20}{1}
+  \csend{c1}{0.15}{0.20}{1}
+  \node (o1) [op = {1}] {\ins{x}{0}};
+  \ssend{c2}{0.20}{0.30}{1}
+  \ssend{c3}{0.20}{0.25}{1}
 
-  \csend{c1}{0.30}{0.35}{2}
-  \node (o2) [above left = -0.15cm and -0.40cm of 2] {del$(0)$};
-  \ssend{c2}{0.35}{0.65}{2}
-  \ssend{c3}{0.35}{0.70}{2}
+  \csend{c1}{0.35}{0.40}{2}
+  \node (o2) [op = {2}] {\del{x}{0}};
+  \ssend{c2}{0.40}{0.65}{2}
+  \ssend{c3}{0.40}{0.70}{2}
 
-  \csend{c2}{0.40}{0.55}{3}
-  \node (o3) [above left = -0.15cm and -0.40cm of 3] {ins$(a,0)$};
+  \csend{c2}{0.45}{0.55}{3}
+  \node (o3) [op = {3}] {\ins{a}{0}};
   \ssend{c1}{0.55}{0.60}{3}
   \ssend{c3}{0.55}{0.90}{3}
 
   \csend{c3}{0.50}{0.75}{4}
-  \node (o4) [above left = -0.15cm and -0.40cm of 4] {ins$(b,1)$};
+  \node (o4) [op = {4}] {\ins{b}{1}};
   \ssend{c1}{0.75}{0.90}{4}
   \ssend{c2}{0.75}{0.90}{4}
 \end{tikzpicture}

@@ -29,8 +29,8 @@
   \draw[>=Stealth, ->] (#2) to node [rectangle, draw, above = 2pt, sloped, #1, font = \small] {#4} (#3);
 }
 
-\newcommand{\ins}[2]{\textsc{Ins}(#1,#2)}
-\newcommand{\del}[2]{\textsc{Del}(#1,#2)}
+\newcommand{\ins}[2]{$\textsc{Ins}(#1,#2)$}
+\newcommand{\del}[2]{$\textsc{Del}(#1,#2)$}
 
 \tikzset{node distance = \vdist and \hdist}
 \tikzset{path/.style = {draw, rounded corners, very thick, #1}}
@@ -39,25 +39,29 @@
 \begin{tikzpicture}
   \statesplit{0}{\epsilon}{}
   \statesplit{1}{x}{below = of 0}
-  \transition{0}{1}{1: \ins{0}{x}}
+  \transition{0}{1}{1: \ins{x}{0}}
 
   \statesplit{12}{\epsilon}{below left = of 1}
   \statesplit{13}{ax}{below right = of 1}
-  \statesplit{123}{a}{below = 2*\vdist of 1}
-  \transition{1}{12}{2: \del{0}{x}}
-  \transition{1}{13}{3: \ins{0}{a}}
-  \transition{12}{123}{3: \ins{0}{a}}
-  \transition{13}{123}{2: \del{1}{x}}
+  \statesplit{123}{a}{below = 2.1*\vdist of 1}
+  \transition{1}{12}{2: \del{x}{0}}
+  \transition{1}{13}{3: \ins{a}{0}}
+  \transition{12}{123}{3: \ins{a}{0}}
+  \transition{13}{123}{2: \del{x}{1}}
 
   \statesplit{14}{xb}{right = 1.5*\vdist of 13}
-  \transition{1}{14}{4: \ins{1}{b}}
+  \transition{1}{14}{4: \ins{b}{1}}
 
-  \statesplit{124}{b}{right = 2*\hdist of 123}
-  \transition{14}{124}{2: \del{0}{x}}
-  \transition[near end]{12}{124}{4: \ins{0}{b}}
+  \statesplit{124}{b}{right = 2.1*\hdist of 123}
+  \transition{14}{124}{2: \del{x}{0}}
+  \transition[near end]{12}{124}{4: \ins{b}{0}}
   
   \statesplit{1234}{ba}{below = 2*\vdist of 13}
-  \transition{124}{1234}{3: \ins{1}{a}}
-  \transition{123}{1234}{4: \ins{0}{b}}
+  \transition{124}{1234}{3: \ins{a}{1}}
+  \transition{123}{1234}{4: \ins{b}{0}}
+
+  \path[path = {red}] ($(0.north) + (135:20pt)$) node[above left] (sc1) {$S, C_1$} -- ++(-90:2.5*\vdist) -- ++(-135:2.5*\vdist) -- ++(-42:2.5*\vdist) -- ++(-42:2.8*\vdist);
+  \path[path = {blue}] ($(0.north) + (100:25pt)$) node[above] (c2) {$C_2$} -- ++(-90:2.7*\vdist) -- ++(-45:2.5*\vdist) -- ++(-135:2.3*\vdist) -- ++(-42:2.9*\vdist);
+  \path[path = {teal}] ($(0.north) + (40:20pt)$) node[above right] (c3) {$C_3$} -- ++(-90:2.5*\vdist) -- ++(-22:4.5*\vdist) -- ++(-128:4.6*\vdist);
 \end{tikzpicture}
 \end{document}
