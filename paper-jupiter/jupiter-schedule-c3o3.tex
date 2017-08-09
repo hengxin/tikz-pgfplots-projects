@@ -1,4 +1,4 @@
-% File: jupiter-scheduling-c3o3.tex
+% File: jupiter-schedule-c3o3.tex
 
 \documentclass{standalone}
 \usepackage{tikz}
@@ -10,18 +10,18 @@
 
 % send: the sender sends operation to the receiver
 \newcommand{\send}[5]{% #1: sender; #2: receiver; #3: sender pos; #4: receiver pos; #5: seq. number;
-  \draw[->]  ($(#1)!#3!(#1\b)$) node[seq = 0.40] {#5} to ($(#2)!#4!(#2\b)$) node[seq = 0.50] {$#5$};
+  \draw[->]  ($(#1)!#3!(#1\b)$) node[seq = 0.60] {#5} to ($(#2)!#4!(#2\b)$) node[seq = 0.60] {$#5$};
 }
 
 % csend: client sends operation to the server
 \newcommand{\csend}[4]{% #1: client; #2: client pos; #3: server pos; #4: seq. number
-  \draw[->]  ($(#1)!#2!(#1\b)$) node[seq = 0.40] {#4} to ($(\s)!#3!(\s\b)$) node[seq = 0.50] {$#4$};
+  \draw[->]  ($(#1)!#2!(#1\b)$) node[seq = 0.60, fill = purple!40] {#4} to ($(\s)!#3!(\s\b)$) node[seq = 0.50] {$#4$};
   % \send{#1}{\s}{#2}{#3}{#4}
 }
 
 % ssend: the server sends operation to client 
 \newcommand{\ssend}[4]{% #1: client; #2: server pos; #3: client pos; #4: seq. number
-  \draw[->, dashed]  ($(\s)!#2!(\s\b)$) to ($(#1)!#3!(#1\b)$) node[solid, seq = 0.40] {$#4$};
+  \draw[->, dashed]  ($(\s)!#2!(\s\b)$) to ($(#1)!#3!(#1\b)$) node[solid, seq = 0.50] {$#4$};
   % \send{\s}{#1}{#2}{#3}{#4}
 }
 

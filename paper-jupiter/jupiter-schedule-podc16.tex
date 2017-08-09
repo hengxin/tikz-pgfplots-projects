@@ -13,7 +13,7 @@
 
 % csend: client sends operation to the server
 \newcommand{\csend}[4]{% #1: client; #2: client pos; #3: server pos; #4: seq. number
-  \draw[->]  ($(#1)!#2!(#1\b)$) node[seq = 0.40] (#4) {#4} to ($(\s)!#3!(\s\b)$) node[seq = 0.60] {$#4$};
+  \draw[->]  ($(#1)!#2!(#1\b)$) node[seq = 0.60, fill = purple!40] (#4) {#4} to ($(\s)!#3!(\s\b)$) node[seq = 0.50] {$#4$};
   % \send{#1}{\s}{#2}{#3}{#4}
 }
 
@@ -27,13 +27,14 @@
 \newcommand{\del}[2]{$\textsc{Del}(#1,#2)$}
 
 \begin{document}
-\begin{tikzpicture}[timeline/.style = {very thick}, >=Stealth, 
+\begin{tikzpicture}[
+	timeline/.style = {very thick}, >=Stealth, 
   	op/.style = {font = \small, above left = -0.20cm and -0.20cm of #1},
     replica/.style = {align = center}]
-  \node[replica] (\s) {$S$ \\ $(\epsilon)$};
-  \node[replica, right = of s] (c1) {$C_1$ \\ $(\epsilon)$};
-  \node[replica, right = of c1] (c2) {$C_2$ \\ $(\epsilon)$};
-  \node[replica, right = of c2] (c3) {$C_3$ \\ $(\epsilon)$};
+  \node[replica] (\s) {$S$ \\ \fbox{$\epsilon$}};
+  \node[replica, right = of s] (c1) {$C_1$ \\ \fbox{$\epsilon$}};
+  \node[replica, right = of c1] (c2) {$C_2$ \\ \fbox{$\epsilon$}};
+  \node[replica, right = of c2] (c3) {$C_3$ \\ \fbox{$\epsilon$}};
 
   \foreach \r/\rbot in {s/sbot, c1/c1bot, c2/c2bot, c3/c3bot} {
 	\node[below = 5.0cm of \r] (\rbot) {};
