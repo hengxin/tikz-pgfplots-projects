@@ -30,20 +30,27 @@
 
   \state{sx}{at = ($(sa.center)!0.333!(sb.center)$)}{}
   \state{sy}{at = ($(sa.center)!0.666!(sb.center)$)}{}
-  \draw[edge, dashed] (sa) edge (sx) (sx) edge (sy) (sy) edge (sb);
+  \draw[edge] (sa) edge (sx) (sx) edge (sy) (sy) edge (sb);
 
   \state{sx'}{at = ($(sa'.center)!0.333!(sb'.center)$)}{}
   \state{sy'}{at = ($(sa'.center)!0.666!(sb'.center)$)}{}
-  \draw[edge, dashed] (sa') edge (sx') (sx') edge (sy') (sy') edge (sb');
+  \draw[edge] (sa') edge (sx') (sx') edge (sy') (sy') edge (sb');
 
-  \draw[edge, dashed] (sx) edge node[op, left = 2pt] {$o$} (sx') (sy) edge node[op, right = 2pt] {$o$} (sy');
+  \draw[edge] (sx) edge node[op, left = 2pt] {$o$} (sx') (sy) edge node[op, right = 2pt] {$o$} (sy');
 
-  \draw (s0) edge[path] (sa) (sa) edge[edge] node[op, left = 2pt] {$o$} (sa') (sa') edge[path] (s1);
-  \draw (s0) edge[path] (sb) (sb) edge[edge] node[op, right = 2pt] {$o$} (sb') (sb') edge[path] (s2);
+  \draw (s0) edge[path, red, very thick] (sa) (sa) edge[edge, red, very thick] node[op, left = 2pt, black] {$o$} (sa') (sa') edge[path, red, very thick] (s1);
+  \draw (s0) edge[path, blue, very thick] (sb) (sb) edge[edge, blue, very thick] node[op, right = 2pt, black] {$o$} (sb') (sb') edge[path, blue, very thick] (s2);
 
   \begin{pgfonlayer}{background}
-	\node[fit = (sa) (sa') (sb) (sb'), rectangle, fill = teal!40, rounded corners, 
-	  label = {[font = \large, align = center] below:{``extension ladder'' \\ structure}}] {};
+	\node[fit = (sa) (sa') (sb) (sb'), rectangle, draw = teal!80, rounded corners, dash pattern = on 5pt off 2pt,
+	  label = {[font = \large, align = center, teal] below:{``extension ladder'' \\ structure}}] {};
   \end{pgfonlayer}
+
+  \state{}{at = (sa'), fill = teal!50}{$\sigma'_{\alpha}$}
+
+  % sa' = LCA(s1, s2)
+  \begin{scope}[conn/.style = {#1, very thick, dash pattern = on 6pt off 3pt}] 
+	\draw[conn = {blue!80}] (sa') edge (sx') (sx') edge (sy') (sy') edge (sb');
+  \end{scope}
 \end{tikzpicture}
 \end{document}

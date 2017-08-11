@@ -95,5 +95,14 @@
 	\draw[conn = {red!80}] (siggamma) edge (s5) 
 		(s5) edge (s6);
   \end{scope}
+
+  % step ladder structure
+  \begin{scope}[bg/.style = {rectangle, rounded corners, dash pattern = on 5pt off 2pt, thick, draw = teal!80}]
+	\begin{pgfonlayer}{background}
+	  \node (left) [bg, rotate fit = 45, fit = (s1) (s1') (s4) (s4'), 
+		label = {[rotate = 45, font = \Large, teal, above = 5pt] 45:``step ladder'' structure}] {};
+	  \node (right) [bg, rotate fit = 45, fit = (s1) (s1') (s7) (s7')] {};
+	\end{pgfonlayer}
+  \end{scope}
 \end{tikzpicture}
 \end{document}
