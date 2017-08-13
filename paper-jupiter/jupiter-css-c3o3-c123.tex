@@ -1,4 +1,4 @@
-% File: jupiter-css-c3o3-c312.tex
+% File: jupiter-css-c3o3-c123.tex
 % CSS lattice for jupiter-scheduling-c3o3.tex
 
 \documentclass{standalone}
@@ -6,7 +6,7 @@
 \input{jupiter-preamble}
 
 \newcommand{\trans}[4]{% #1: start state; #2: end state; #3: transition label; #4: transition label style
-  \draw[>=Stealth, ->, ultra thick, brown] (#1) to node [rectangle, draw, above = 2pt, sloped, #4] {#3} (#2);
+  \draw[>=Stealth, ->, ultra thick, violet] (#1) to node [rectangle, draw, above = 2pt, sloped, #4] {#3} (#2);
 }
 
 \begin{document}
@@ -15,43 +15,39 @@
 	\state{0}{}
 
 	\begin{pgfonlayer}{background}
-	  \node (ss) [right = of 0.center, css] {CSS$_{c_3}^{0}$};
+	  \node (ss) [css, left = of 0.center] {CSS$_{c_1}^{0}$};
 	  \node () [fit = (0) (ss), rectangle, draw] {};
 	\end{pgfonlayer}
   \end{scope}
 
   \begin{scope}[yshift = -1.6cm]
 	\state{0}{}
-    \state{2}{below right = of 0, white} % invisible
-    \state{3}{right = 1.5*\vdist of 2}
-	\trans{0}{3}{3}{}
-    % \transition{0}{3}{3}
+	\state{1}{below left = of 0}
+	\trans{0}{1}{1}{}
+    % \transition{0}{1}{1}
 
 	\begin{pgfonlayer}{background}
-	  \node (ss) [above = of 3, css] {CSS$_{c_3}^{1}$};
-	  \node () [fit = (0) (3) (ss), rectangle, draw] {};
+	  \node (ss) [css, above = of 1] {CSS$_{c_1}^{1}$};
+	  \node () [fit = (0) (1) (ss), rectangle, draw] {};
 	\end{pgfonlayer}
   \end{scope}
 
   \begin{scope}[yshift = -5.4cm]
     \state{0}{}
-    \state{2}{below right = of 0, white} % invisible
-    \state{3}{right = 1.5*\vdist of 2}
-	\trans{0}{3}{3}{}
-    % \transition{0}{3}{3}
-
     \state{1}{below left = of 0}
-    \state{12}{below = 2*\vdist of 0, white} % invisible
-    \state{13}{right = 2*\hdist of 12}
-
-    \transition{0}{1}{1}
-    \transition{1}{13}{3}
-	\trans{3}{13}{1}{}
-    % \transition{3}{13}{1}
+    \state{1}{below left = of 0}
+    \state{2}{below right = of 0}
+    \state{12}{below = 2*\vdist of 0}
+	\trans{0}{1}{1}{}
+    % \transition{0}{1}{1}
+    \transition{0}{2}{2}
+	\trans{1}{12}{2}{}
+    % \transition{1}{12}{2}
+    \transition{2}{12}{1}
 
 	\begin{pgfonlayer}{background}
-	  \node (ss) [above = of 3, css] {CSS$_{c_3}^{2}$};
-	  \node () [fit = (0) (1) (3) (13) (ss), rectangle, draw] {};
+	  \node (ss) [css, above = of 2] {CSS$_{c_1}^{2}$};
+	  \node () [fit = (0) (1) (2) (12) (ss), rectangle, draw] {};
 	\end{pgfonlayer}
   \end{scope}
 
@@ -61,25 +57,25 @@
     \state{1}{below left = of 0}
     \state{2}{below right = of 0}
     \state{12}{below = 2*\vdist of 0}
-    \transition{0}{1}{1}
+	\trans{0}{1}{1}{}
+    % \transition{0}{1}{1}
     \transition{0}{2}{2}
-    \transition{1}{12}{2}
+	\trans{1}{12}{2}{}
+    % \transition{1}{12}{2}
     \transition{2}{12}{1}
     \state{3}{right = 1.5*\vdist of 2}
-	\trans{0}{3}{3}{}
-    % \transition{0}{3}{3}
+    \transition{0}{3}{3}
     \state{13}{right = 2*\hdist of 12}
     \transition[near end]{1}{13}{3}
-	\trans{3}{13}{1}{}
-    % \transition{3}{13}{1}
+    \transition{3}{13}{1}
 
     \state{123}{below = 2*\vdist of 2}
-    \transition{12}{123}{3}
-	\trans{13}{123}{2}{}
-    % \transition{13}{123}{2}
+	\trans{12}{123}{3}{}
+    % \transition{12}{123}{3}
+    \transition{13}{123}{2}
 
 	\begin{pgfonlayer}{background}
-	  \node (ss) [above = of 3, css] {CSS$_{c_3}^{3}$};
+	  \node (ss) [css, above = of 3] {CSS$_{c_1}^{3}$};
 	  \node () [fit = (0) (1) (3) (123) (ss), rectangle, draw] {};
 	\end{pgfonlayer}
   \end{scope}
