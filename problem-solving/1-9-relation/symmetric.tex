@@ -1,0 +1,17 @@
+% file: symmetric.tex
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 10pt},
+  relation/.style = {>=Stealth, ->, thick}]
+  \node (x) [] {$x$};
+  \node (y) [right = 1.5cm of x] {$y$};
+
+  \draw [relation, bend left] (x) to (y);
+  \draw [relation, bend left] (y) to (x);
+\end{tikzpicture}
+\end{document}

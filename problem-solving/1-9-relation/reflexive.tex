@@ -1,0 +1,15 @@
+% file: reflexive.tex
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 10pt},
+  relation/.style = {>=Stealth, ->, thick}]
+  \node (x) [] {$x$};
+
+  \draw [relation, loop] (x) to (x);
+\end{tikzpicture}
+\end{document}
