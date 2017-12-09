@@ -24,7 +24,7 @@
   \draw[->, >=Stealth, cyan] (in.west) to node[sloped, above] {\texttt{read(X)}} (x);
   \draw[->, >=Stealth, cyan] (x) to node[sloped, above] {\texttt{print(X)}} (out.east);
 
-  \draw[->, >=Stealth, bend left = 45, purple] (x) to node[right, near end] {\texttt{push(X, Q)}} (queue.east);
-  \draw[->, >=Stealth, bend left = 45, purple] (queue.west) to node[left, near start] {\texttt{pop(X, Q)}} (x);
+  \draw[->, >=Stealth, bend left = 45, purple] (x) to node[right, near end] {\texttt{add(X, Q)}} (queue.east);
+  \draw[->, >=Stealth, bend left = 45, purple] (queue.west) to node[left, near start] {\texttt{remove(X, Q)}} (x);
 \end{tikzpicture}
 \end{document}

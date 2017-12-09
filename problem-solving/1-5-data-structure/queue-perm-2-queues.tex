@@ -30,10 +30,10 @@
 
   \draw[->, >=Stealth, dashed, blue] (in) to (out);
 
-  \draw[->, >=Stealth, purple] (in.west) to node[sloped, below] {\texttt{push(X, Q)}} (queue.east);
-  \draw[->, >=Stealth, purple] (queue.west) to node[sloped, below] {\texttt{pop(X, Q)}} (out.east);
+  \draw[->, >=Stealth, purple] (in.west) to node[sloped, below] {\texttt{add(X, Q)}} (queue.east);
+  \draw[->, >=Stealth, purple] (queue.west) to node[sloped, below] {\texttt{remove(X, Q)}} (out.east);
 
-  \draw[->, >=Stealth, blue] (in.west) to node[sloped, above] {\texttt{push(X, Q)}} (queue'.east);
-  \draw[->, >=Stealth, blue] (queue'.west) to node[sloped, above] {\texttt{pop(X, Q)}} (out.east);
+  \draw[->, >=Stealth, blue] (in.west) to node[sloped, above] {\texttt{add(X, Q)}} (queue'.east);
+  \draw[->, >=Stealth, blue] (queue'.west) to node[sloped, above] {\texttt{remove(X, Q)}} (out.east);
 \end{tikzpicture}
 \end{document}

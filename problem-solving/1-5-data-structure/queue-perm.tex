@@ -21,7 +21,7 @@
   \node[seq, above right = 1.0cm and 1.5cm of queue] (in) {\texttt{in}};
   \node[seq, above left = 1.0cm and 1.5cm of queue] (out) {\texttt{out}};
 
-  \draw[->, >=Stealth, purple] (in.west) to node[sloped, below] {\texttt{push(X, Q)}} (queue.east);
-  \draw[->, >=Stealth, purple] (queue.west) to node[sloped, below] {\texttt{pop(X, Q)}} (out.east);
+  \draw[->, >=Stealth, purple] (in.west) to node[sloped, below] {\texttt{add(X, Q)}} (queue.east);
+  \draw[->, >=Stealth, purple] (queue.west) to node[sloped, below] {\texttt{remove(X, Q)}} (out.east);
 \end{tikzpicture}
 \end{document}
