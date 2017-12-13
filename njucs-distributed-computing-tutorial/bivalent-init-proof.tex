@@ -11,7 +11,7 @@
   amove/.style = {move, blue},
   bmove/.style = {move, red, densely dashed}]
   % init state
-  \node (r) [state, font = \large] {$(0,1,\ast)$};
+  \node (r) [state, font = \Large] {$(0,1,\ast)$};
 
   % a runs solo
   \foreach \p/\c/\v in {r/a1/, a1/a2/, a2/a3/0} {
@@ -28,7 +28,7 @@
     (r.west) -- (a3.west) node [midway, sloped, above = 16pt, font = \Large] {$A$ runs \emph{solo}};
 
   \draw [decorate, red, very thick, decoration = {brace, amplitude = 10pt, raise = 5pt}] 
-    (a3.east) -- (b2.east) node [midway, sloped, above = 16pt, font = \Large] {$A$ runs \emph{solo}};
+    (a3.east) -- (b2.east) node [midway, sloped, above = 16pt, font = \Large] {$B$ runs \emph{solo}};
 
   % b runs solo
   \foreach \p/\c/\v in {r/b1/, b1/b2/, b2/b3/1} {

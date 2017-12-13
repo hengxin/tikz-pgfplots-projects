@@ -51,5 +51,12 @@
     ]
   ]
 ]
+
+\begin{pgfonlayer}{background}
+  \node (ss) [draw, very thick, rectangle, rounded corners, brown, dashed, rotate fit = 42,
+    inner sep = 6pt, fit = (rr) (rlr)] {};
+
+    \node () [above = 0.20cm of ss, rotate = 42, font = \Large, brown] {indistinguishable to $B$};
+\end{pgfonlayer}
 \end{tikzpicture}
 \end{document}

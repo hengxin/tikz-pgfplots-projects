@@ -1,4 +1,4 @@
-% critical-state.tex
+% critical-state-proof.tex
 
 \documentclass{standalone}
 
@@ -15,7 +15,7 @@
   state/.style = {draw, dashed, thick, rectangle, rounded corners, cyan, inner sep = 3pt},
   valent/.style = {draw, dashed, very thick, rectangle, rounded corners, green, inner sep = 3pt},
   every tree node/.style = {draw, circle, minimum size = 16pt, univalent},
-  level distance = 35pt, sibling distance = 6pt,
+  level distance = 35pt, sibling distance = 5pt,
   edge from parent/.style = {blue, draw, very thick, >=Stealth, ->}, 
   bmove/.style = {red, densely dashed},
   cmove/.style = {green, densely dotted},
@@ -30,6 +30,8 @@
 		\edge[bmove, chosen] node[auto = right] {}; 
 		[.\node (rlr) [bivalent] {};
 		    [.\node (rlrl) [] {}; ]
+		    \edge[chosen, cmove] node[auto = right] {}; 
+		    [.\node (rlrm) [bivalent] {}; ]
 		    \edge[bmove] node[auto = right] {}; 
 		    [.\node (rlrr) [] {}; ]
 	        ]
