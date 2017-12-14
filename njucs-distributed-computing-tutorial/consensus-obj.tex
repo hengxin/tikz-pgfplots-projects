@@ -23,7 +23,7 @@
   \node (tl) [thread, left = of tm] {Thread};
   \node (tr) [thread, right = of tm] {Thread};
 
-  \draw [call] (tm) to node [] {\textsf{\textsc{Call} decide($v$)}} (decide);
+  \draw [call] (tm) to node [] {\textsf{\textsc{Call} decide($v$)} \textcolor{red}{\it once}} (decide);
   \draw [call] (tl) to (decide);
   \draw [call] (tr) to (decide);
 
