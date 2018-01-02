@@ -1,0 +1,30 @@
+% File: ex-strong-list-spec-yes.tex
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[state/.style = {draw, thick, rectangle, minimum height = 15pt},
+  elem/.style = {draw, thick, circle},
+  order/.style = {>=Stealth, ->}]
+  % states
+  % \begin{scope}
+  %   \node (ax) [state] {$w_2 = ax$};
+  %   \node (xb) [state, right = 0.50cm of ax] {$w_3 = xb$};
+  %   \node (ba) [state, right = 0.50cm of xb] {$w_1 = ba$};
+  % \end{scope}
+
+  % digraph
+  \begin{scope}
+    \node (a) [elem] {$a$};
+    \node (x) [elem, above right = of a] {$x$};
+    \node (b) [elem, below right = of x] {$b$};
+
+    \draw [order] (a) to node [sloped, above] {$w_2 = ax$} (x);
+    \draw [order] (x) to node [sloped, above] {$w_3 = xb$} (b);
+    \draw [order] (b) to node [sloped, below] {$w_1 = ba$} (a);
+  \end{scope}
+\end{tikzpicture}
+\end{document}
