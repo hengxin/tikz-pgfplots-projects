@@ -5,7 +5,7 @@
 \usetikzlibrary{shapes, positioning, arrows.meta, calc, backgrounds, fit}
 
 \newcommand{\ins}[2]{\textsc{Ins}(#1,#2)}
-\newcommand{\del}[2]{\textsc{Del}(#1,#2)}
+\newcommand{\del}[2]{\textsc{Del}(#2)}  % del(a, p): ignoring the deleted element ``a''
 
 \begin{document}
 \begin{tikzpicture}[
@@ -24,10 +24,11 @@
   \end{scope}
 
   \draw[send] ($(r1)!0.25!(r1bot)$) node[op] (ins) {$o_1 = \ins{f}{1}$} to ($(r2)!0.75!(r2bot)$) node[op] () {$o_1' = \ins{f}{1}$};
-  \draw[send, red, thick] ($(r2)!0.25!(r2bot)$) node[op, red] (del) {$o_2 = \del{e}{5}$} to ($(r1)!0.75!(r1bot)$) node[op, red] () {$o_2' = \del{e}{6}$};
+  \draw[send, red, thick] ($(r2)!0.25!(r2bot)$) node[op, red] (del) {$o_2 = \del{e}{5}$} to ($(r1)!0.75!(r1bot)$) 
+  	node[op, red, ellipse, draw, inner sep = 1pt] () {$o_2' = \del{e}{6}$};
 
   \node (r11) [list] at ($(r1)!0.50!(r1bot)$) {effecte};
-  \node (r12) [list, fill = red!50] at ($(r1)!0.90!(r1bot)$) {effect};
+  \node (r12) [list] at ($(r1)!0.90!(r1bot)$) {effect};
 
   \node (r21) [list] at ($(r2)!0.50!(r2bot)$) {efect};
   \node (r22) [list] at ($(r2)!0.90!(r2bot)$) {effect};

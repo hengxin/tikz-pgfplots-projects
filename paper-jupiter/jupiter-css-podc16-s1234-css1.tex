@@ -1,5 +1,4 @@
-% File: jupiter-css-podc16-c1423-css4.tex
-% CSS state space of client c3 for the schedule of jupiter-schedule-podc16.tex
+% File: jupiter-css-podc16-s1234-css1.tex
 
 \documentclass{standalone}
 
@@ -33,7 +32,7 @@
 \newcommand{\del}[2]{$\textsc{Del}(#1,#2)$}
 
 \tikzset{node distance = \vdist and \hdist}
-\tikzset{path/.style = {draw, rounded corners, ultra thick, #1}}
+\tikzset{path/.style = {draw, rounded corners, very thick, #1}}
 
 \begin{document}
 \begin{tikzpicture}[css/.style = {font = \LARGE, rectangle, draw, very thick},
@@ -41,29 +40,10 @@
   \statesplit{0}{\epsilon}{}
   \statesplit{1}{x}{below = of 0}
   \transition{0}{1}{1: \ins{x}{0}}
-  \statesplit{12}{\epsilon}{below left = of 1}
-  \statesplit{13}{ax}{below right = of 1}
-  \statesplit{123}{a}{below = 2.1*\vdist of 1}
-  \transition{1}{12}{2: \del{x}{0}}
-  \transition{1}{13}{3: \ins{a}{0}}
-  \transition{12}{123}{3: \ins{a}{0}}
-  \transition{13}{123}{2: \del{x}{1}}
-  \statesplit{14}{xb}{right = 1.5*\vdist of 13}
-  \transition{1}{14}{4: \ins{b}{1}}
-
-  \statesplit{124}{b}{right = 2.1*\hdist of 123}
-  \transition{14}{124}{2: \del{x}{0}}
-  \transition[near end]{12}{124}{4: \ins{b}{0}}
-  
-  \statesplit{1234}{ba}{below = 2*\vdist of 13}
-  \transition{124}{1234}{3: \ins{a}{1}}
-  \transition{123}{1234}{4: \ins{b}{0}}
 
   \begin{pgfonlayer}{background}
-    \node (ss) [css, right = 3.5cm of 0.center] {CSS$_{c_3}^{4}$};
-    \node () [fit = (0) (1) (12) (13) (123) (14) (124) (1234) (ss), bg] {};
+    \node (ss) [css, above = of 0.center] {CSS$_{s}^{1}$};
+    \node () [fit = (0) (1) (ss), bg] {};
   \end{pgfonlayer}
-
-  \path[path = {teal}] ($(0.center) + (40:10pt)$) node[above, font = \large] (c3) {$C_3$} -- ++(-90:2.0*\vdist) -- ++(-22:4.5*\vdist) -- ++(-128:4.2*\vdist);
 \end{tikzpicture}
 \end{document}

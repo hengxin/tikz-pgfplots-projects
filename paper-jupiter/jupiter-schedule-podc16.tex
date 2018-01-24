@@ -24,18 +24,18 @@
   % \send{\s}{#1}{#2}{#3}{#4}
 }
 
-\newcommand{\ins}[2]{$\textsc{Ins}(#1,#2)$}
-\newcommand{\del}[2]{$\textsc{Del}(#1,#2)$}
+\newcommand{\ins}[2]{$\textcolor{blue}{\textsc{Ins}(#1,#2)}$}
+\newcommand{\del}[2]{$\textcolor{blue}{\textsc{Del}(#2)}$}  % del(a,p): ignoring the element 'a'
 
 \begin{document}
 \begin{tikzpicture}[
     timeline/.style = {very thick}, >=Stealth, 
     op/.style = {font = \small, above left = -0.20cm and -0.40cm of #1, sloped},
     replica/.style = {align = center}]
-  \node[replica] (\s) {\textcolor{black}{$S$} \\ \fbox{$\epsilon$}};
-  \node[replica, right = of s] (c1) {$C_1$ \\ \fbox{$\epsilon$}};
-  \node[replica, right = of c1] (c2) {$C_2$ \\ \fbox{$\epsilon$}};
-  \node[replica, right = of c2] (c3) {$C_3$ \\ \fbox{$\epsilon$}};
+  \node[replica] (\s) {\textcolor{brown}{$S$} \\ \fbox{$\epsilon$}};
+  \node[replica, right = of s] (c1) {$\textcolor{brown}{C_1}$ \\ \fbox{$\epsilon$}};
+  \node[replica, right = of c1] (c2) {$\textcolor{brown}{C_2}$ \\ \fbox{$\epsilon$}};
+  \node[replica, right = of c2] (c3) {$\textcolor{brown}{C_3}$ \\ \fbox{$\epsilon$}};
 
   \foreach \r/\rbot in {s/sbot, c1/c1bot, c2/c2bot, c3/c3bot} {
 	\node[below = 5.0cm of \r] (\rbot) {};
@@ -44,23 +44,23 @@
 
   % send messages (ordered by positions at server)
   \csend{c1}{0.15}{0.20}{1}{x}{x}
-  \node (o1) [op = {1}] {\ins{x}{0}};
+  \node (o1) [op = {1}, rotate = 7] {\ins{x}{0}};
   \ssend{c2}{0.20}{0.30}{1}{x}
   \ssend{c3}{0.20}{0.25}{1}{x}
 
   \csend{c1}{0.35}{0.40}{2}{\epsilon}{\epsilon}
-  \node (o2) [op = {2}] {\del{x}{0}};
+  \node (o2) [op = {2}, rotate = 7] {\del{x}{0}};
   \ssend{c2}{0.40}{0.65}{2}{a}
   \ssend{c3}{0.40}{0.70}{2}{b}
 
   \csend{c2}{0.45}{0.55}{3}{ax}{a}
-  \node (o3) [op = {3}] {\ins{a}{0}};
+  \node (o3) [op = {3}, rotate = 8] {\ins{a}{0}};
   \ssend{c1}{0.55}{0.60}{3}{a}
-  \ssend{c3}{0.55}{0.90}{3}{ba}
+  \ssend{c3}{0.55}{0.90}{3}{\textcolor{teal}{ba}}
 
-  \csend{c3}{0.50}{0.75}{4}{xb}{ba}
-  \node (o4) [op = {4}] {\ins{b}{1}};
-  \ssend{c1}{0.75}{0.90}{4}{ba}
-  \ssend{c2}{0.75}{0.90}{4}{ba}
+  \csend{c3}{0.50}{0.75}{4}{xb}{\textcolor{teal}{ba}}
+  \node (o4) [op = {4}, rotate = 15] {\ins{b}{1}};
+  \ssend{c1}{0.75}{0.90}{4}{\textcolor{teal}{ba}}
+  \ssend{c2}{0.75}{0.90}{4}{\textcolor{teal}{ba}}
 \end{tikzpicture}
 \end{document}
