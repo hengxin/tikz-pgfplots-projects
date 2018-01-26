@@ -15,13 +15,13 @@
 \begin{document}
 \begin{tikzpicture}[p1/.style = {red, very thick},
 	p2/.style = {blue, very thick}]
-  \state{s}{}{$\sigma$}
-  \state{s'}{above right = 0.8cm and 1.5cm of s}{$\sigma'$}
-  \state{s1}{below left = 2.5cm and 0.2cm of s}{$\sigma_1$}
+  \state{s}{}{$v$}
+  \state{s'}{above right = 0.8cm and 1.5cm of s}{$v'$}
+  \state{s1}{below left = 2.5cm and 0.2cm of s}{$v_1$}
 
-  \state{sl'}{below right = 1.0cm and 0.5cm of s'}{$\sigma'_{L}$}
+  \state{sl'}{below right = 1.0cm and 0.5cm of s'}{$v'_{L}$}
   \state{sx}{below left = 0.5cm and 0.2cm of sl'}{}
-  \state{sy}{below left = 0.5cm and 0.2cm of sx}{$\sigma_{L}$}
+  \state{sy}{below left = 0.5cm and 0.2cm of sx}{$v_{L}$}
   \state{sz}{below left = 0.5cm and 0.2cm of sy}{}
   \state{sf}{below left = 0.5cm and 0.2cm of sz}{}
   \draw[edge] (sl') to (sx);
@@ -32,7 +32,7 @@
   \state{sl''}{below right = 0.5cm and 1.0cm of sl'}{}
   \state{sx'}{below right = 0.5cm and 1.0cm of sx}{}
   \state{sy'}{below right = 0.5cm and 1.0cm of sy}{}
-  \state{sz'}{below right = 0.5cm and 1.0cm of sz}{$\sigma_2$}
+  \state{sz'}{below right = 0.5cm and 1.0cm of sz}{$v_2$}
   \state{sf'}{below right = 0.5cm and 1.0cm of sf}{}
   \draw[edge, p2] (sl'') to (sx');
   \draw[edge, p2] (sx') to (sy');
