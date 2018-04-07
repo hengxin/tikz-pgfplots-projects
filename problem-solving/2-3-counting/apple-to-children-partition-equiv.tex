@@ -1,0 +1,25 @@
+% file: apple-to-children-partition-equiv.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{shapes, positioning, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[pass/.style = {draw, ->, >=Stealth, line width = 3pt, blue, outer sep = 0}]
+  % apples
+  \foreach \id in {1, ..., 7} {
+    \node (apple\id) [inner sep = 0] at (\id * 3.5, 0) {\includegraphics[scale = 0.20]{figs/apple-logo}};
+  }
+
+  % children
+  \foreach \id in {1, 2, 3, 4, 5} {
+    \node (child\id) [draw, below right = 3.0cm and (\id - 4) * 3 of apple4] {\includegraphics[scale = 0.20]{figs/child-cartoon}};
+  }
+
+  % an equivalent way to pass out the apples to children
+  \foreach \aid/\cid in {1/3, 2/3, 3/1, 4/3, 5/4, 6/1, 7/5} {
+    \draw[pass] (apple\aid.south) to (child\cid.north);
+  }
+\end{tikzpicture}
+\end{document}
