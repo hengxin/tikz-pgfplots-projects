@@ -1,0 +1,15 @@
+% file: fun/thx-duck.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{ducks}
+
+\begin{document}
+\begin{tikzpicture}
+  \duck[scale = 2.8, signpost = \scalebox{1.0}{
+    \parbox{2cm}{\color{black}
+    \centering {\huge Thanks}}},
+      signcolour = brown!70!gray,
+      signback = blue!40!brown]
+\end{tikzpicture}
+\end{document}
