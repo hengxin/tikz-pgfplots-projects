@@ -1,0 +1,43 @@
+% file: before-compact.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{decorations.pathreplacing, positioning, arrows.meta, shapes.multipart, calc}
+
+\begin{document}
+\begin{tikzpicture}[Array/.style = {rectangle split, rectangle split parts = #1, rectangle split horizontal,
+    inner sep = 8pt, anchor = center}]
+  % list
+    \node[Array = {9}, draw, rectangle split part fill = {blue!20, red!20, blue!20, blue!20, red!20, blue!20, red!20, red!20, blue!20}] (L) 
+    {0\nodepart{two}1\nodepart{three}0\nodepart{four}0\nodepart{five}1\nodepart{six}0\nodepart{seven}1\nodepart{eight}1\nodepart{nine}0};
+  % list index
+  \node[Array = {9}, above = 2.0cm of L] (L-index) 
+    {1\nodepart{two}2\nodepart{three}3\nodepart{four}4\nodepart{five}5\nodepart{six}6\nodepart{seven}7\nodepart{eight}8\nodepart{nine}9};
+
+  % L: item list
+    \coordinate (lhead-left) at ($(L.four split north)!0.3!(L.five split north)$);
+    \coordinate (lhead-right) at ($(L.four split north)!0.7!(L.five split north)$);
+
+    \node (L-head) [draw, red, above left = 0.70cm and 0.50cm of L.north west] {$L$};
+    \draw[red] (L-head) [->] -| (lhead-right)
+      (lhead-left) -- ($(lhead-left) + (0, 0.5cm)$) 
+      ($(lhead-left) + (0, 0.5cm)$) [->] -| (L.two north)
+      (L.two south) -- ($(L.two south) + (0, -0.5cm)$)
+      ($(L.two south) + (0, -0.5cm)$) [->] -| (L.eight south)
+      (L.eight north) -- ($(L.eight north) + (0, 0.5cm)$)
+      ($(L.eight north) + (0, 0.5cm)$) [->] -| (L.seven north);
+  % F: free list
+    \coordinate (fhead-left) at ($(L.three split north)!0.3!(L.four split north)$);
+    \coordinate (fhead-right) at ($(L.three split north)!0.7!(L.four split north)$);
+
+    \node (F-head) [draw, blue, above left = 1.40cm and 0.50cm of L.north west] {$F$};
+    \draw[blue] (F-head) [->] -| (fhead-left)
+      (fhead-right) -- ($(fhead-right) + (0, 1.5cm)$) 
+      ($(fhead-right) + (0, 1.5cm)$) [->] -| (L.nine north)
+      (L.nine south) -- ($(L.nine south) + (0, -1.2cm)$)
+      ($(L.nine south) + (0, -1.2cm)$) [->] -| (L.one south)
+      (L.one north) -- ($(L.one north) + (0, 1.2cm)$)
+      ($(L.one north) + (0, 1.2cm)$) [->] -| (L.three north)
+      (L.three south) -- ($(L.three south) + (0, -0.8cm)$)
+      ($(L.three south) + (0, -0.8cm)$) [->] -| (L.six south);
+\end{tikzpicture}
+\end{document}
