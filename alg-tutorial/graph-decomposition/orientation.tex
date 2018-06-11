@@ -1,0 +1,20 @@
+% file: graph-decomposition/orientation.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[node distance = 0.50cm and 0.08cm, 
+  	every node/.style = {draw, circle, fill = blue!20, minimum size = 6pt},
+	every edge/.style = {draw, ->}]
+  \node (1) [fill = red!20] {};
+  \node (2) [below left = of 1] {};
+  \node (3) [below left = of 2] {};
+  \node (4) [below left = of 3] {};
+
+  \path[draw] (1) edge (2)
+	      (2) edge (3)
+	      (3) edge (4)
+	      (4) edge[bend right = 45] (2);
+\end{tikzpicture}
+\end{document}

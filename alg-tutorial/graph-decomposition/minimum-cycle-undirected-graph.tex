@@ -1,0 +1,20 @@
+% file: graph-decomposition/minimum-cycle-undirected-graph.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[node distance = 1.00cm and 0.10cm, 
+  	every node/.style = {draw, circle, fill = blue!20},
+	every edge/.style = {draw, ->}]
+  \node (1) {$1$};
+
+  \foreach \x [remember = \x as \lastx (initially 1)] in {2, ..., 7} {
+    \node (\x) [below left = \x-1] {$\x$};
+    \draw[->] (\lastx) to (\x);
+  }
+
+  \path[draw] (6) edge[bend right = 60, red, thick] (3)
+	      (7) edge[bend right = 60, blue, thick] (2);
+\end{tikzpicture}
+\end{document}
