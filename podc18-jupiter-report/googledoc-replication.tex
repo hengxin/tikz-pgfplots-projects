@@ -1,0 +1,30 @@
+% file: googledoc-replication.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\def\dist{-1.0}
+\newcommand{\teal}[1]{\textcolor{teal}{#1}}
+\newcommand{\inputgdoc}{\includegraphics[scale = 0.40]{figs/googledocs}}
+\newcommand{\inputperson}{\includegraphics[scale = 0.25]{figs/person-icon}}
+
+\begin{document}
+\begin{tikzpicture}[node distance = 1.0cm and -0.6cm,
+    every edge/.style = {draw, <->, line width = 4pt, dashed, brown}]
+  \node (gdoc-center) {\inputgdoc};
+  \node (gdoc-left) [below left = of gdoc-center] {\inputgdoc};
+  \node (gdoc-right) [below right = of gdoc-center] {\inputgdoc};
+
+  \node (person-center) [above = \dist cm of gdoc-center] {\inputperson};
+  \node (person-left) [above = \dist cm of gdoc-left] {\inputperson};
+  \node (person-right) [above = \dist cm of gdoc-right] {\inputperson};
+
+  % \foreach \doc/\person in {gdoc-center/person-center, gdoc-left/person-left, gdoc-right/person-right} {
+  %   \draw [<->, ultra thick, brown] (\doc) to (\person);
+  % }
+
+  \path (gdoc-center) edge (gdoc-left)
+	(gdoc-left) edge node[above = 40pt] {\Huge \teal{Updates}} (gdoc-right)
+	(gdoc-right) edge (gdoc-center);
+\end{tikzpicture}
+\end{document}
