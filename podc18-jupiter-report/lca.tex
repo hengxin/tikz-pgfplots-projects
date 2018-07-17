@@ -1,0 +1,23 @@
+% file: lca.tex
+
+\documentclass[tikz]{standalone}
+
+\usepackage{amssymb}
+\usetikzlibrary{shapes, positioning, arrows.meta, calc, backgrounds, fit, decorations.pathmorphing}
+
+\newcommand{\state}[3]{% #1: state name; #2: position; #3: state label
+  \node (#1) [circle, inner sep = 0pt, minimum size = 8mm, text width = 8mm, align = center, draw, #2, font = \Large] {#3};
+}
+
+\tikzset{every edge/.style = {draw, >=Stealth, ->, decorate, decoration = {snake, post length = 1mm}}}
+
+\begin{document}
+\begin{tikzpicture}[node distance = 2.5cm and 0.8cm]
+  \state{0}{fill = red!40}{$v_0$};
+  \state{1}{fill = blue!20, below left = of 0}{$v_1$};
+  \state{2}{fill = blue!20, below right = of 0}{$v_2$};
+
+  \path (0) edge (1)
+            edge (2);
+\end{tikzpicture}
+\end{document}
