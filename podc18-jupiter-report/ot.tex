@@ -22,11 +22,11 @@
   \state{0}{fill = blue!20, scale = 1.5}{$\sigma$}
   \state{l}{below left = of 0.center}{}
   \state{r}{below right = of 0.center}{}
-  \state{lr}{below = 2*\vdist of 0.center}{}
+  \state{lr}{below left = of r.center}{}
 
   \trans{0.south west}{l.north east}{$o_1$}{scale = 1.5}{}
-  \trans{0.south east}{r.north west}{$o_2$}{scale = 1.5}{}
+  \trans{0.south east}{r.north west}{$o_2$}{scale = 1.5, fill = red!20}{}
   \trans{l.south east}{lr.north west}{$o'_2 = OT(o_2, o_1)$}{below = 5pt, fill = red!20}{}
-  \trans{r.south west}{lr.north east}{$o'_1 = OT(o_1, o_2)$}{below = 5pt, fill = red!20}{}
+  \trans{r.south west}{lr.north east}{$o'_1 = OT(o_1, o_2)$}{below = 5pt}{}
 \end{tikzpicture}
 \end{document}
