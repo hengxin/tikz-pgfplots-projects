@@ -21,7 +21,7 @@
   \node (rjupiter) [right = of cjupiter] {\red{R}Jupiter@CSCW'96};
 
   \path (cjupiter) edge (xjupiter)
-	(xjupiter) edge node (refine) [sloped, above = 1.8cm, txt] {\hl{\blue{Refinement?}}} (ajupiter)
+	(xjupiter) edge node (refine) [sloped, above = 1.8cm, txt, font = \large] {\hl{\blue{Refinement?}}} (ajupiter)
   	(ajupiter) edge (njupiter)
 	(cjupiter) edge[red] node[above, txt] {\hl{\red{CS $\to$ P2P}}} (rjupiter);
 
