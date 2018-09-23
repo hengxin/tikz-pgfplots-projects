@@ -1,0 +1,13 @@
+% file: 3-1-dp/currency-i-less-j.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{arrows.meta, positioning}
+
+\begin{document}
+\begin{tikzpicture}
+  \node (i) [draw, circle] {$i$};
+  \node (j) [draw, circle, right = 1.5cm of i] {$j$};
+  \draw [>= Stealth, ->] (i) to node [above] {$r_{ij}$} node [below] {$\textcolor{red}{i < j}$} (j);
+\end{tikzpicture}
+\end{document}
+
