@@ -1,7 +1,6 @@
-% file: 3-1-dp/currency-no-positive-cycle.tex
+% file: 3-1-dp/currency-1-i-n-alternative.tex
 
 \documentclass[tikz]{standalone}
-\usepackage{amssymb}
 \usetikzlibrary{arrows.meta, positioning, decorations.pathmorphing}
 
 \tikzset{
@@ -15,9 +14,11 @@
 
 \begin{document}
 \begin{tikzpicture}[every edge/.style = {draw, ->, zz}]
-  \node (i) [draw, circle] {$i$};
-  \node (j) [draw, circle, right = 1.5cm of i] {$j$};
-  \path (i) edge[bend left] node [below = 5.5pt, midway, scale = 0.80] {\textcolor{red}{$r_{i \leadsto j \leadsto i} \le 1$}} (j) 
-	(j) edge[bend left] (i);
+  \node (1) [draw, circle] {$1$};
+  \node (i) [draw, circle, right = of 1, red] {$i$};
+  \node (n) [draw, circle, right = of i] {$n$};
+  \path (1) edge (i) 
+	(1) edge[teal, bend right = 45] (i)
+	(i) edge (n);
 \end{tikzpicture}
 \end{document}
