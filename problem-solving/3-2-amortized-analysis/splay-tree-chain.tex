@@ -1,0 +1,26 @@
+% file: 3-2-amortized-analysis/splay-tree-chain.tex
+
+\documentclass[tikz]{standalone}
+
+\usepackage{tikz-qtree}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[level distance = 35pt, sibling distance = 20pt,
+  edge from parent/.style = {
+    draw, edge from parent path = {(\tikzparentnode) -- (\tikzchildnode)}},
+  ]
+
+  \tikzset{every node/.style = {draw, circle, font = \Large, minimum size = 18pt, inner sep = 2pt}}
+
+  \Tree [.$n$ 
+	  \edge[dashed];
+	  [.$x$
+	    \edge[dashed];
+	    [.$1$ ]
+	    \edge[draw = none]; [.\node[draw = none]{}; ]
+	  ] 
+	  \edge[draw = none]; [.\node[draw = none]{}; ]
+	]
+\end{tikzpicture}
+\end{document}

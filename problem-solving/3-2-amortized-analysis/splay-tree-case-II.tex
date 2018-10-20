@@ -1,0 +1,40 @@
+% file: 3-2-amortized-analysis/splay-tree-case-II.tex
+
+\documentclass[tikz]{standalone}
+
+\usepackage{tikz-qtree}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[level distance = 35pt, sibling distance = 20pt,
+  edge from parent/.style = {
+    draw, edge from parent path = {(\tikzparentnode) -- (\tikzchildnode.north)}},
+  ie/.style = {red, very thick, edge from parent path = {(\tikzparentnode) -- (\tikzchildnode.#1)}} % ie: internal edges
+  ]
+
+  \tikzset{every internal node/.style = {draw, circle, red, font = \Large}}
+  \tikzset{every leaf node/.style = {draw, blue, regular polygon, regular polygon sides = 3, inner sep = 1pt}}
+
+  \Tree [.$y$ 
+	  \edge [ie = 45]; 
+	  [.$x$
+	    $A$
+	    $B$
+	  ] 
+	  \node (c) {$C$};
+	]
+
+  \begin{scope}[xshift = 4.5cm]
+    \Tree [.$x$ 
+      \node (a) {$A$};
+	    \edge [ie = 120]; 
+	    [.$y$
+	      $B$
+	      $C$
+	    ] 
+	  ]
+  \end{scope}
+
+  \draw [->, shorten >= 5pt, shorten <= 5pt] (c) to (a);
+\end{tikzpicture}
+\end{document}
