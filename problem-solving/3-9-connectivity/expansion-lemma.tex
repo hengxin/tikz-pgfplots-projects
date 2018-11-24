@@ -1,0 +1,22 @@
+% file: 3-9-connectivity/expansion-lemma.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, fit, shapes}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 8pt},
+    node distance = 0.6cm and 1.0cm,
+    comp/.style = {draw, thick, dashed, teal, ellipse}]
+  \node (x) {};
+  \node (y) [above left = of x] {};
+  \node (z) [below left = of x] {};
+
+  \node (w) [right = 1.0cm of x] {$w$};
+
+  \node (s) [fit = (x) (y) (z), comp, xshift = -1.0cm, minimum width = 120pt, font = \LARGE] {$G$};
+
+  \path (w) edge (x)
+	    edge (y)
+	    edge (z);
+\end{tikzpicture}
+\end{document}
