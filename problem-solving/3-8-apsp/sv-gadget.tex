@@ -1,0 +1,27 @@
+% file: 3-8-apsp/sv-gadget.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[vertex/.style = {draw, circle, minimum size = 22pt, font = \large},
+    node distance = 1.0 and 1.0cm,
+    every edge/.style = {draw, -}]
+
+  \node (s) [fill = blue!20, vertex] {$s$};
+  \node (v) [vertex, right = 1.5cm of s] {$v$};
+  \draw (s) to node [above] {$d$} (v);
+
+  \node (s) [fill = blue!20, vertex, right = 5.0cm of s] {$s$}; % s is overwritten
+  \node (x) [vertex, right = 1.5cm of s] {$x$};
+  \node (x') [vertex, right = 1.5cm of x] {$x'$};
+
+  \node (v') [vertex, above right = of x'] {$v'$};
+  \node (v'') [vertex, below right = of x'] {$v''$};
+
+  \path (s) edge node[above] {$d$} (x)
+	(x) edge node[above] {$0$} (x')
+	(x') edge node[above] {$0$} (v')
+	     edge node[below] {$0$} (v'');
+\end{tikzpicture}
+\end{document}
