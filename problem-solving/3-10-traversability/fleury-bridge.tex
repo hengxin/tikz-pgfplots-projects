@@ -1,0 +1,20 @@
+% file: 3-10-traversability/fleury-bridge.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, fit, shapes}
+
+\begin{document}
+\begin{tikzpicture}[v/.style = {draw, circle, minimum size = 12pt},
+    e/.style = {thick},
+    node distance = 1.0cm and 1.0cm,
+    comp/.style = {thick, #1}]
+
+    \node (vi) [v] {$v_i$};
+    \node (vil) [v, draw = none, left = 0.50cm of vi] {};
+    \draw [e] (vil) to (vi);
+
+    \node (via) [v, above right = of vi] {};
+    \node (vir) [v, right = of vi] {};
+    \node (vib) [v, below right = of vi] {};
+\end{tikzpicture}
+\end{document}
