@@ -1,0 +1,14 @@
+% file: 3-11-matchings-factors/isolated-vertex.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 10pt}]
+  \node (1) {};
+  \node (2) [below left = of 1] {};
+  \node (3) [below right = of 1] {};
+
+  \draw [thick] (2) to (3);
+\end{tikzpicture}
+\end{document}

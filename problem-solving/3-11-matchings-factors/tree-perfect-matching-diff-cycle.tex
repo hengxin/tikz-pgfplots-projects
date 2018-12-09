@@ -1,0 +1,15 @@
+% file: 3-11-matchings-factors/tree-perfect-matching-diff-cycle.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[v/.style = {draw, circle, minimum size = 15pt}]
+  \node (v) [v, fill = lightgray] {$v$};
+  \node (u) [v, left = of v] {$u$};
+  \node (w) [v, right = of v] {$w$};
+
+  \path (v) edge [very thick, blue] node [above] {$\notin M$} node [below] {$\in M'$} (u)
+	    edge [very thick, red] node [above] {$\in M$} node [below] {$\notin M'$} (w);
+\end{tikzpicture}
+\end{document}
