@@ -1,0 +1,12 @@
+% z6.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}
+\foreach \i [count=\j from 0] in {90,30,...,-210} {
+    \node at (\i:1.5) {\j};
+}
+\end{tikzpicture}
+\end{document}

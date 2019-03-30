@@ -1,0 +1,14 @@
+% d6.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, graphs}
+
+\begin{document}
+\begin{tikzpicture}
+\tikz
+\graph [nodes = {draw, circle}, clockwise, radius = .75cm, empty nodes, n = 6] {
+subgraph C_n [name = inner] -- [shorten <= 1pt, shorten >= 1pt]
+subgraph C_n [name = outer]
+};
+\end{tikzpicture}
+\end{document}
