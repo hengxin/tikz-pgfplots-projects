@@ -5,7 +5,7 @@
 
 \begin{document}
 \begin{tikzpicture}[ele/.style = {circle, minimum size = 8pt, fill = lightgray},
-  op/.style = {->, red, thick}]
+  op/.style = {->, blue, very thick}]
   % (0, )
   \node (00) [ele] {$(0, 0)$};
   \node (01) [ele, right = of 00] {$(0, 1)$};
@@ -26,7 +26,7 @@
 
   % (0, ) -- (1, )
   \foreach \y in {0, 1, 2} {
-	\draw[-, blue, thick] (0\y) to (1\y);
+	\draw[-, red, very thick] (0\y) to (1\y);
   }
 \end{tikzpicture}
 \end{document}

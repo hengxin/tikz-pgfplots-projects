@@ -1,14 +1,17 @@
-% z2.tex
+% z3-of-z6.tex
 
 \documentclass[tikz]{standalone}
 \usetikzlibrary{positioning}
 
 \begin{document}
 \begin{tikzpicture}[ele/.style = {circle, minimum size = 8pt, fill = lightgray},
-  op/.style = {red, very thick}]
+  op/.style = {->, blue, very thick}]
   \node (0) [ele] {$0$};
-  \node (1) [ele, below = of 0] {$1$};
+  \node (2) [ele, right = of 0] {$2$};
+  \node (4) [ele, right = of 2] {$4$};
 
-  \draw[op] (0) to (1);
+  \path (0) edge[op] (2)
+		(2) edge[op] (4)
+		(4) edge[op, bend right] (0);
 \end{tikzpicture}
 \end{document}

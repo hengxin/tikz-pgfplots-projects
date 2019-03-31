@@ -1,4 +1,4 @@
-% d6.tex
+% file: d6-internal-direct-product.tex
 
 \documentclass[tikz]{standalone}
 
@@ -6,7 +6,9 @@
 \begin{tikzpicture}[ele/.style = {circle, minimum size = 25pt, fill = lightgray, font = \large},
   s/.style = {-, red, very thick},
   r/.style = {->, blue, very thick},
-  rr/.style = {<-, blue, very thick}]
+  rr/.style = {<-, blue, very thick},
+  rb/.style = {r, bend left = 20, dashed, ultra thick},
+  rrb/.style = {rr, bend left = 15, dashed, ultra thick}]
   % inner
   \foreach \angle/\label [count = \name from 0] in {90/s, 30/r^5s, -30/r^4s, -90/r^3s, -150/r^2s, -210/rs} {
 	\node (in-\name) [ele] at (\angle:1.5) {$\label$};
@@ -27,5 +29,24 @@
   \draw[r] (out-5) to (out-0);
   \draw[rr] (in-5) to (in-0);
   \draw[s] (in-5) to (out-5);
+
+
+  % d3 in d6
+  \foreach \i in {0, 2} {
+	\def\next{\the\numexpr\i+2}
+	\draw[rb, cyan] (out-\i) to (out-\next);
+	\draw[rrb, cyan] (in-\i) to (in-\next);
+  }
+  \draw[rb, cyan] (out-4) to (out-0);
+  \draw[rrb, cyan] (in-4) to (in-0);
+
+  % the other coset of d3 in d6
+  \foreach \i in {1, 3} {
+	\def\next{\the\numexpr\i+2}
+	\draw[rb, violet] (out-\i) to (out-\next);
+	\draw[rrb, violet] (in-\i) to (in-\next);
+  }
+  \draw[rb, violet] (out-5) to (out-1);
+  \draw[rrb, violet] (in-5) to (in-1);
 \end{tikzpicture}
 \end{document}
