@@ -24,11 +24,11 @@
   % jupiter family
   \node (ajabsj) at ($(aj)!0.5!(absj)$) {};
   \node (jflbl) [below = 18pt of ajabsj] {A Family of \textsl{Jupiter} Protocols {\footnotesize (Section~\ref{section:jupiter-protocols})}};
-  \node (jf) [draw, purple, thick, fit = (aj) (absj), xshift = -3pt, inner sep = 5pt] {};
+  \node (jf) [draw, purple, thick, fit = (aj) (absj), xshift = -3pt, inner sep = 4pt] {};
 
   % ot
   \node (xcj) at ($(xj)!0.5!(cj)$) {};
-  \node (sol) [ot, below = 2.2cm of xcj] {Generic \textsc{Sol}(ution)};
+  \node (sol) [ot, below = 2.0cm of xcj] {Generic \textsc{Sol}(ution)};
   \node (issue) [ot, left = 0.80cm of sol]  {Key OT \textsc{Issue}};
 
   \draw[-Stealth, thick] (issue) to (sol);
@@ -39,7 +39,8 @@
   %   		  edge[st] (cj)
   %   		  edge[st] (absj);
   \node (st) [draw, thick, above = 0.00cm of sol] {\textsc{Te}(chniques)};
-  \node (ot) [draw, thick, red, fit = (issue) (sol) (st), inner sep = 3pt, label = below : OT {\footnotesize (Section~\ref{section:jupiter-family})}] {};
+  \node (ot) [draw, thick, red, fit = (issue) (sol) (st), inner sep = 2pt, 
+	label = {[anchor = center, rotate = -90, align = center, yshift = -15pt] left : OT \\ {\footnotesize (Section~\ref{section:jupiter-family})}}] {};
   \draw[{Diamond[open]}-, thick] (st) to (jf.south -| st.north);
   % \draw [>=Stealth] (st) -- (sf);
 
@@ -51,16 +52,16 @@
 		(xj) edge[refine] node (xjrefinecj) {} (cj)
 		(cj) edge[refine] node (cjrefineabsj) {} (absj);
   \node (refinement) [above = 4pt of jf, inner sep = 2pt, label = {left: $:$}] 
-	{\textbf{\emph{Refines}} {\footnotesize (Section~\ref{section:refinement} and Section~\ref{ss:tlc-refinement}})};
+	{\textbf{\emph{Refine}} {\footnotesize (Section~\ref{section:refinement} and Section~\ref{ss:tlc-refinement}})};
   \draw[refine, shorten >= 8pt] ($(refinement.west)+(-1.2cm, 0)$) to (refinement);
 
   % specs
-  \node (wlspec) [spec, right = 1.50cm of absj] {\textsl{WLSpec}~\cite{Attiya:PODC16}};
-  \node (sec) [spec, below = 0.50cm of wlspec] {\textsl{SEC}~\cite{Shapiro:SSS11}};
-  \node (cp) [spec, below = 0.50cm of sec] {\textsl{CP}~\cite{Ellis:SIGMOD89}};
-  \node (spec) [fit = (wlspec) (sec) (cp), draw, green, thick, inner sep = 5pt, label = below : Properties] {};
+  \node (wlspec) [spec, right = 1.30cm of absj, align = center] {{\small \textsl{WLSpec}}~\cite{Attiya:PODC16} \\ {\footnotesize (Section~\ref{ss:wlspec})}};
+  \node (sec) [spec, below = 0.30cm of wlspec] {{\small \textsl{SEC}}~\cite{Shapiro:SSS11}};
+  \node (cp) [spec, below = 0.30cm of sec] {{\small \textsl{CP}}~\cite{Ellis:SIGMOD89}};
+  \node (spec) [fit = (wlspec) (sec) (cp), draw, green, thick, inner sep = 3pt, label = above : Properties] {};
 
-  \draw [sat] (absj) to node [above = 2pt] {\textbf{\emph{Satisfies}}} node[below = 2pt] {\footnotesize (Section~\ref{ss:tlc-correctness})} (wlspec);
+  \draw [sat] (absj) to node [above = 2pt] {\textbf{\emph{Satisfy}}} node[below = 2pt] {\footnotesize (Section~\ref{ss:tlc-correctness})} (wlspec);
   \path (wlspec) edge[sat] (sec)
 		(sec) edge[sat] (cp);
   
