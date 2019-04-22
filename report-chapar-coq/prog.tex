@@ -1,0 +1,12 @@
+% prog.tex
+
+\documentclass[tikz]{standalone}
+\usepackage{amsmath, amsfonts}
+
+\begin{document}
+\begin{tikzpicture}[rect/.style = {draw, very thick, rectangle, inner sep = 6pt}, % rectangle
+  rrect/.style = {rect, rounded corners}, % rounded rectangle
+]
+  \node (prog) [rrect] {$\mathbb{P}$: Client Program};
+\end{tikzpicture}
+\end{document}
