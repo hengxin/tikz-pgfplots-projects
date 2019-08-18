@@ -36,7 +36,10 @@
 
 \begin{document}
 \begin{tikzpicture}
-  \statesplit{0}{\epsilon}{}
+  % \statesplit{0}{\epsilon}{}
+  \node (0) [circle split, draw, minimum size = 6mm, text width = 10mm, align = center, font = \Large]
+  { $\emptyset$ \nodepart{lower} $\epsilon$ };
+
   \statesplit{1}{x}{below = of 0}
   \transition{0}{1}{1: \ins{x}{0}}
 
