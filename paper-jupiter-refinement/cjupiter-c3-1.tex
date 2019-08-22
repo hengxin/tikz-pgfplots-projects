@@ -1,0 +1,14 @@
+% cjupiter-c3-1.tex
+
+\documentclass{standalone}
+\input{jupiter-illustration-preamble}
+
+\begin{document}
+\begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}]
+  \statesplit{\emptyset}{\epsilon}{}{0}
+  \statesplit{1}{x}{below = of 0}{1}
+  \transition{0}{1}{1: \ins{x}{0}}
+
+  \node () [fit = (0) (1), bg] {};
+\end{tikzpicture}
+\end{document}

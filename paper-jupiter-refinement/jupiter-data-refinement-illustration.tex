@@ -1,0 +1,34 @@
+% jupiter-data-refinement-illustration.tex
+
+\documentclass[tikz]{standalone}
+\input{jupiter-illustration-preamble}
+
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{chains}
+
+\begin{document}
+\begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}, node distance = 0.0cm,
+    start chain = going right,
+    refine/.style = {>=Stealth, ->, very thick, #1}]
+  % absjupiter-c3-4
+  \node (absj) [on chain] {\includegraphics[scale = 1.50]{absjupiter-c3-set}};
+  % cjupiter-c3-4
+  \node (cj) [on chain] {\includegraphics[scale = 1.00]{cjupiter-c3-nary-digraph}};
+  % xjupiter-c3-4
+  \node (xj) [on chain] {\includegraphics[scale = 1.00]{xjupiter-c3-2d-digraph}};
+  % ajupiter-c3-4
+  \node (aj) [on chain] {\includegraphics[scale = 1.50]{ajupiter-c3-buffer}};
+
+  \draw [refine = {bend right = 20}] (absj.south) to node [font = \Huge, align = center] 
+    {organized into $n$-ary digraph; \\ grouping $Cop$s with the same context}
+    (cj.south);
+
+  \draw [refine = {bend left = 10}] (cj.north) to node [below, font = \Huge, align = center] 
+    {optimization at the client side; \\ eliminating redundant $OT$s \\ already performed at the server}
+    (xj.north);
+
+  \draw [refine = {bend right = 20}] (xj.south) to node [font = \Huge, align = center] 
+    {keep local dimension at clients; \\ keep remote dimension at the sever}
+    (aj.south);
+\end{tikzpicture}
+\end{document}
