@@ -1,5 +1,4 @@
-\documentclass{standalone}
-\usepackage{tikz}
+\documentclass[tikz]{standalone}
 \usetikzlibrary{calc, positioning, arrows.meta}
 
 \def\s{s}  % server
@@ -45,7 +44,7 @@
 
   % send messages (ordered by positions at server)
   \csend{c1}{0.15}{0.20}{1}{x}{x}
-  \node (o1) [op = {1}, rotate = 7] {\ins{x}{0}};
+  \node (o1) [op = {1}, rotate = 7] {\ins{x}{1}};
   \node (do) [right = 0.20cm of 1, red] {$Do$};
   \node (srev) [anchor = north, right = 0pt of server1, yshift = -7pt, red] {$SRev$};
   \ssend{c2}{0.20}{0.30}{1}{x}
@@ -53,17 +52,17 @@
   \node (rev) [anchor = north, above = 0pt of cl1, yshift = -3pt, red] {$Rev$};
 
   \csend{c1}{0.35}{0.40}{2}{\epsilon}{\epsilon}
-  \node (o2) [op = {2}, rotate = 7] {\del{x}{0}};
+  \node (o2) [op = {2}, rotate = 7] {\del{x}{1}};
   \ssend{c2}{0.40}{0.65}{2}{a}
   \ssend{c3}{0.40}{0.70}{2}{b}
 
   \csend{c2}{0.45}{0.55}{3}{ax}{a}
-  \node (o3) [op = {3}, rotate = 8] {\ins{a}{0}};
+  \node (o3) [op = {3}, rotate = 8] {\ins{a}{1}};
   \ssend{c1}{0.55}{0.60}{3}{a}
   \ssend{c3}{0.55}{0.90}{3}{\textcolor{cyan}{ba}}
 
   \csend{c3}{0.50}{0.75}{4}{xb}{\textcolor{cyan}{ba}}
-  \node (o4) [op = {4}, rotate = 15] {\ins{b}{1}};
+  \node (o4) [op = {4}, rotate = 15] {\ins{b}{2}};
   \ssend{c1}{0.75}{0.90}{4}{\textcolor{cyan}{ba}}
   \ssend{c2}{0.75}{0.90}{4}{\textcolor{cyan}{ba}}
 \end{tikzpicture}

@@ -1,11 +1,12 @@
-% xform-digraph.tex
+% xform-digraph-small.tex
 
 \documentclass[tikz]{standalone}
+\usepackage{amssymb}
 \usetikzlibrary{shapes, positioning, arrows.meta, calc, intersections, backgrounds, fit}
 
 % default horizontal/vertical distance
-\def\hdist{1.3}
-\def\vdist{1.3}
+\def\hdist{1.2}
+\def\vdist{1.2}
 \tikzset{node distance = \vdist and \hdist}
 
 \newcommand{\state}[3]{% #1: name; #2: position; #3: label
@@ -25,6 +26,8 @@
 
   \trans{uh}{eu}{below}{$ecop$}{red}
   \trans{uh}{eu}{above}{$e$}{red}
+  \node (nedge) [below right = 0.10cm and 0.30cm of uheu, inner sep = 2pt] {\tiny{\textcolor{red}{NextEdge()}}};
+  draw[->, red] (nedge.west) to (uheu);
   \trans{uh}{vh}{above}{$coph$}{blue}
   \trans{eu}{ev}{below}{$coph2ecop$}{}
   \trans{vh}{ev}{above}{$ecop2coph$}{}
@@ -44,3 +47,5 @@
   \node (lg) [thick, dashed, teal, font = \scriptsize, draw, inner sep = 1pt, fit = (12) (2), rectangle, label = {above: \textcolor{teal}{\scriptsize $lg$}}] {};
 \end{tikzpicture}
 \end{document}
+
+

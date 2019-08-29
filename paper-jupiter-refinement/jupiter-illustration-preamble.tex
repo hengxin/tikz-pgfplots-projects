@@ -8,7 +8,7 @@
 \tikzset{node distance = \vdist and \hdist}
 
 \tikzset{every lower node part/.style = {red}}
-\newcommand{\statesplit}[4]{% #1: state upper label; #2: state lower label; #3: position; #4
+\newcommand{\statesplit}[4]{% #1: state upper label; #2: state lower label; #3: position; #4: name
   \node (#4) [circle split, draw, minimum size = 6mm, text width = 10mm, align = center, #3, font = \Large]
   {
 	$#1$
@@ -23,4 +23,5 @@
 
 \newcommand{\set}[1]{\{#1\}}
 \newcommand{\ins}[2]{\textsc{Ins}(#1,#2)}
-\newcommand{\del}[2]{\textsc{Del}(#1,#2)}
+\newcommand{\del}[2]{\textsc{Del}(#2)}
+% \newcommand{\del}[2]{\textsc{Del}(#1,#2)}

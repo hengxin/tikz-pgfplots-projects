@@ -5,12 +5,12 @@
 
 \begin{document}
 \begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}]
-  \node (0) [align = center] {$\Big\{o_1\set{}: \ins{x}{0},$ \\
+  \node (0) [align = center] {$\Big\{o_1\set{}: \ins{x}{1},$ \\
   % ugly colors
-  \textcolor{red}{\fbox{\textcolor{black}{$o_2\set{o_1}: \del{x}{0},\; o_3\set{o_1}: \ins{a}{0},\; o_4\set{o_1}: \ins{b}{1}$}}} \\
-  \textcolor{blue}{\fbox{\textcolor{black}{$o_3\set{o_1, o_2}: \ins{a}{0},\; o_4\set{o_1, o_2}: \ins{b}{0}$}}} \\
-	  $o_2\set{o_1, o_3}: \del{x}{1},\; o_2\set{o_1, o_4}: \del{x}{0}$ \\
-	  $o_3\set{o_1, o_2, o_4}: \ins{a}{1},\; o_4\set{o_1, o_2, o_3}: \ins{b}{0} \Big\}$};
+  \textcolor{red}{\fbox{\textcolor{black}{$o_2\set{o_1}: \del{x}{1},\; o_3\set{o_1}: \ins{a}{1},\; o_4\set{o_1}: \ins{b}{2}$}}} \\
+  \textcolor{blue}{\fbox{\textcolor{black}{$o_3\set{o_1, o_2}: \ins{a}{1},\; o_4\set{o_1, o_2}: \ins{b}{1}$}}} \\
+	  $o_2\set{o_1, o_3}: \del{x}{2},\; o_2\set{o_1, o_4}: \del{x}{1}$ \\
+	  $o_3\set{o_1, o_2, o_4}: \ins{a}{2},\; o_4\set{o_1, o_2, o_3}: \ins{b}{1} \Big\}$};
   \node () [fit = (0), bg, inner sep = 0pt] {};
 \end{tikzpicture}
 \end{document}
