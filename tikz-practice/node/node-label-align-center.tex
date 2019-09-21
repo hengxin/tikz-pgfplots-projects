@@ -1,0 +1,11 @@
+\documentclass[tikz]{standalone}
+
+\begin{document}
+\begin{tikzpicture}
+  % see https://tex.stackexchange.com/a/104021/23098
+  \node (1) [draw, label = {[align = center] below : unit \\ cell}] {1};
+
+  % syntax wrong
+  % \node (2) [draw, label = {[align = center] below : {unit \\ cell}}] {2};
+\end{tikzpicture}
+\end{document}
