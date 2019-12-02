@@ -8,13 +8,13 @@
 \begin{document}
 \begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 10pt},
   relation/.style = {>=Stealth, ->, thick}]
-  \node (x) [] {$x$};
-  \node (y) [right = 1.0cm of x] {$y$};
-  \node (z) [right = 1.0cm of y] {$z$};
+  \node (a) [] {$a$};
+  \node (b) [right = 1.0cm of a] {$b$};
+  \node (c) [right = 1.0cm of b] {$c$};
 
-  \draw [relation, bend left] (x) to (y.north);
-  \draw [relation, bend left] (y.north) to (z);
-  \draw [relation, bend right] (x) to (z);
+  \draw [relation, bend left] (a) to (b.north);
+  \draw [relation, bend left] (b.north) to (c);
+  \draw [relation, bend right] (a) to (c);
 \end{tikzpicture}
 \end{document}
 

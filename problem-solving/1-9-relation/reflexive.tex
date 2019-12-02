@@ -1,4 +1,4 @@
-% file: reflexive.tex
+% reflexive.tex
 
 \documentclass{standalone}
 
@@ -8,8 +8,8 @@
 \begin{document}
 \begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 10pt},
   relation/.style = {>=Stealth, ->, thick}]
-  \node (x) [] {$x$};
+  \node (a) [] {$a$};
 
-  \draw [relation, loop] (x) to (x);
+  \draw [relation, loop] (a) to (a);
 \end{tikzpicture}
 \end{document}
