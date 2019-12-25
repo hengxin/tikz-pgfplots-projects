@@ -1,0 +1,51 @@
+% lvo.tex
+
+\newcommand{\client}{\textsl{Client}}
+\newcommand{\server}{\textsl{Server}}
+
+\newcommand{\request}{\texttt{req}}
+\newcommand{\reply}{\texttt{rep\;}}
+\newcommand{\repl}{\texttt{repl\;}}
+
+\newcommand{\so}{\texttt{so}}
+\newcommand{\lvo}{\texttt{lvo}}
+\newcommand{\rvo}{\texttt{rvo}}
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{calc, positioning, arrows.meta}
+
+\def\b{bot} % literal string
+
+% send
+\newcommand{\send}[9]{
+% #1: sender; #2: sender pos; #3: sender event label; #4: sender name
+% #5: receiver; #6: receiver pos; #7: receiver event label; #8: receiver name
+% #9: label position
+  \draw[->]  
+  	($(#1)!#2!(#1\b)$) 
+		node[#9] (#4) {$#3$}
+     to ($(#5)!#6!(#5\b)$) 
+     		node[#9] (#8) {$#7$};
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Stealth, 
+    timeline/.style = {very thick}, 
+    replica/.style = {align = center},
+    node distance = 0.50cm]
+  \node[replica] (ci) {$\client(i)$};
+  \node[replica, right = of ci] (s) {$\server$};
+  \node[replica, right = of s] (cj) {$\client(j)$};
+
+  \foreach \r/\rbot in {ci/cibot, s/sbot, cj/cjbot} {
+    \node[below = 4.0cm of \r] (\rbot) {};
+    \draw[timeline] (\r) to (\rbot);
+  }
+
+  \send{ci}{0.15}{e}{e}{s}{0.50}{e^{\texttt{req}}}{ereq}{left}
+  \send{cj}{0.25}{f}{f}{s}{0.70}{f^{\texttt{req}}}{freq}{right}
+
+  \draw[red, dashed, ->] (e) to node[sloped, above] {\lvo} (f);
+\end{tikzpicture}
+\end{document}
