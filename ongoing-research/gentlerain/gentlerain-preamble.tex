@@ -18,3 +18,15 @@
 \newcommand{\vs}{\texttt{vs}}
 \newcommand{\lvs}{\texttt{lvs}}
 \newcommand{\rvs}{\texttt{rvs}}
+
+% send
+\newcommand{\send}[9]{
+% #1: sender; #2: sender pos; #3: sender event label; #4: sender name
+% #5: receiver; #6: receiver pos; #7: receiver event label; #8: receiver name
+% #9: label position
+  \draw[->]  
+  	($(#1)!#2!(#1\b)$) 
+		node[#9] (#4) {$#3$}
+     to ($(#5)!#6!(#5\b)$) 
+     		node[#9] (#8) {$#7$};
+}

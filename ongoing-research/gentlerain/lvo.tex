@@ -1,32 +1,7 @@
 % lvo.tex
 
-\newcommand{\client}{\textsl{Client}}
-\newcommand{\server}{\textsl{Server}}
-
-\newcommand{\request}{\texttt{req}}
-\newcommand{\reply}{\texttt{rep\;}}
-\newcommand{\repl}{\texttt{repl\;}}
-
-\newcommand{\so}{\texttt{so}}
-\newcommand{\lvo}{\texttt{lvo}}
-\newcommand{\rvo}{\texttt{rvo}}
-
 \documentclass[tikz]{standalone}
-\usetikzlibrary{calc, positioning, arrows.meta}
-
-\def\b{bot} % literal string
-
-% send
-\newcommand{\send}[9]{
-% #1: sender; #2: sender pos; #3: sender event label; #4: sender name
-% #5: receiver; #6: receiver pos; #7: receiver event label; #8: receiver name
-% #9: label position
-  \draw[->]  
-  	($(#1)!#2!(#1\b)$) 
-		node[#9] (#4) {$#3$}
-     to ($(#5)!#6!(#5\b)$) 
-     		node[#9] (#8) {$#7$};
-}
+\input{gentlerain-preamble}
 
 \begin{document}
 \begin{tikzpicture}[
