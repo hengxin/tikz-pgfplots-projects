@@ -1,0 +1,20 @@
+% poset-abcd-hasse-2.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[every edge/.style = {draw, thick}]
+  \node (a) [] {$a$};
+  \node (c) [above = of a] {$c$};
+  \node (b) [above left = of c] {$b$};
+  \node (d) [above right = of c] {$d$};
+
+  \path (b) edge[red, dashed] (c)
+	(b) edge[red, dashed] (d)
+	(a) edge[blue] (c)
+	(a) edge[blue] (b)
+	(a) edge[blue] (d);
+\end{tikzpicture}
+\end{document}
