@@ -1,0 +1,26 @@
+% events.tex
+
+\documentclass[tikz]{standalone}
+\input{gentlerain-preamble}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Stealth, 
+    timeline/.style = {very thick}, 
+    replica/.style = {align = center},
+    node distance = 0.50cm]
+  \node[replica] (ci) {$\client(c)$};
+  \node[replica, right = of ci] (s) {$\server(s)$};
+  \node[replica, right = of s] (s') {$\server(s')$};
+
+  \foreach \r/\rbot in {ci/cibot, s/sbot, s'/s'bot} {
+    \node[below = 4.0cm of \r] (\rbot) {};
+    \draw[timeline] (\r) to (\rbot);
+  }
+  \draw[timeline, dashed] ($(s)!0.5!(s')$) to ($(sbot)!0.5!(s'bot)$);
+
+  \send{ci}{0.15}{e}{e}{s}{0.30}{e^{\texttt{req}}}{ereq}{left}
+  \send{s}{0.30}{}{}{ci}{0.50}{e^{\texttt{rep}\; c}}{erep}{left}
+  \send{s}{0.35}{}{}{s'}{0.60}{e^{\texttt{repl}\; s'}}{erepl}{right}
+\end{tikzpicture}
+\end{document}

@@ -1,4 +1,4 @@
-% file: symmetric.tex
+% symmetric.tex
 
 \documentclass{standalone}
 
@@ -8,10 +8,10 @@
 \begin{document}
 \begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 10pt},
   relation/.style = {>=Stealth, ->, thick}]
-  \node (x) [] {$x$};
-  \node (y) [right = 1.5cm of x] {$y$};
+  \node (a) [] {$a$};
+  \node (b) [right = 1.5cm of a] {$b$};
 
-  \draw [relation, bend left] (x) to (y);
-  \draw [relation, bend left] (y) to (x);
+  \draw [relation, bend left] (a) to (b);
+  \draw [relation, bend left] (b) to (a);
 \end{tikzpicture}
 \end{document}
