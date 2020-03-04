@@ -1,0 +1,24 @@
+% rotate-cyclic-n5-l3.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{shapes.multipart, positioning}
+
+\begin{document}
+\begin{tikzpicture}[array/.style = {
+    rectangle split, rectangle split parts = #1, 
+    rectangle split horizontal, 
+    rectangle split part fill = {red!50, red!50, red!50, blue!50, blue!50},
+    draw, anchor = center, minimum width = 0.60cm}]
+  \node (a) [array = 5] {0\nodepart{two}1\nodepart{three}2\nodepart{four}3\nodepart{five}4};
+
+  \node [array = 5, below = of a.center,
+    rectangle split part fill = {blue!50, blue!50, red!50}] 
+    {3\nodepart{two}4\nodepart{three}0\nodepart{four}1\nodepart{five}2};
+
+  % \path (a.four) edge[bend right, ->] (a.text)
+  %       (a.text) edge[bend right, ->] (a.three)
+  %       (a.three) edge[bend right, ->] (a.five)
+  %       (a.five) edge[bend right, ->] (a.two)
+  %       (a.two) edge[bend right, ->] (a.four);
+\end{tikzpicture}
+\end{document}
