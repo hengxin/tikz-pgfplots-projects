@@ -1,0 +1,32 @@
+% research-sepc.tex
+
+\documentclass[tikz]{standalone}
+\usepackage{xeCJK}
+\usetikzlibrary{positioning, arrows.meta, fit}
+
+\def\y{3.5}
+\def\yweak{1.2}
+\def\ystrong{2.5}
+
+\def\x{5.5}
+\def\xprinciple{1.5}
+\def\xvariant{3.5}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth, node distance = 0.70cm and 0.00cm,
+  point/.style = {circle, scale = 0.50, fill = #1}]
+  % axis
+  \draw [<->,thick] (0, \y) node (yaxis) [above] {}
+	  |- (\x, 0) node (xaxis) [right] {};
+
+  % y axis
+  \node (weak) [point = blue] at (0, \yweak) {};
+  \node (weaklabel) [align = center, left = 5pt of weak] {{\it 弱一致性} \\ ({\it\footnotesize 最终一致性})};
+  \node (strong) [point = blue] at (0, \ystrong) {};
+  \node (weaklabel) [align = center, left = 5pt of strong] {{\it 强一致性} \\ ({\it\footnotesize 分布式共识})};
+
+  % spec
+  \node (framework) [draw, thick, rectangle, dashed, blue, fit = (weak) (strong), inner sep = 5pt,
+    label = {[yshift = -3pt, blue] below : {规约框架}}] {};
+\end{tikzpicture}
+\end{document}
