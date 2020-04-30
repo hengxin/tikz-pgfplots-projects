@@ -1,34 +1,44 @@
 \documentclass[tikz]{standalone}
 \usetikzlibrary{positioning}
 
+\newcommand{\po}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}} (#2);}
+%\newcommand{\povis}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}$,$ \Large{vis}} (#2);}
+\newcommand{\povis}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}} node[below] {\Large{vis}} (#2);}
+\newcommand{\vis}[2]{\draw [->, thick, dashed] (#1) to node[above, sloped] {\Large{vis}} (#2);}
+\newcommand{\ar}[2]{\draw [->, thick, dotted] (#1) to node[above, sloped] {\Large{ar}} (#2);}
+\newcommand{\vvis}[2]{\draw [->, thick, dashed, allow upside down] (#1) to node[above, sloped] {\Large{vis}} (#2);}
+
 \begin{document}
 \begin{tikzpicture}
 \tikzset{
   wop/.style = {rectangle, rounded corners, fill = blue!30, draw, font = \Large, inner sep = 5pt},
-  rop/.style = {rectangle, rounded corners, fill = yellow!30, draw, font = \Large, inner sep = 5pt}, process/.style = {font = \huge}, po/.style = {->, very thick},
+  rop/.style = {rectangle, rounded corners, fill = yellow!30, draw, font = \Large, inner sep = 5pt}, process/.style = {font = \huge}, 
+  %po/.style = {->, very thick},
   rw/.style = {->, shorten >= 3pt, very thick, dashed},
-  vis/.style = {->, shorten >= 3pt, very thick, dashed}
+  %vis/.style = {->, shorten >= 3pt, very thick, dashed}
 }
 
   \node (p1) [process] {$p_1:$};
   \node (wx1) [wop, right = 0.6cm of p1] {\texttt{W(x)1}};
-  \node (wz2) [wop, right = 1cm of wx1] {\texttt{W(z)2}};
-  \node (wq1) [wop, right = 1cm of wz2] {\texttt{W(q)1}};
+  \node (wy1) [wop, right = 1cm of wx1] {\texttt{W(y)1}};
+  \node (wz1) [wop, right = 1cm of wy1] {\texttt{W(z)1}};
 
   \node (p2) [process, below = 1.2cm of p1] {$p_2:$};
-  \node (wz3) [wop, right = 4cm of p2] {\texttt{W(z)3}};
-  \node (rx0) [rop, right = 1.2cm of wz3] {\texttt{R(x)0}};
-  \node (rq1) [rop, right = 0.6cm of rx0] {\texttt{R(q)1}};
-  \node (rz3) [rop, right = 0.6cm of rq1] {\texttt{R(z)3}};
+  \node (wy2) [wop, right = 4cm of p2] {\texttt{W(y)2}};
+  \node (rx0) [rop, right = 1.2cm of wy2] {\texttt{R(x)0}};
+  \node (rz1) [rop, right = 0.6cm of rx0] {\texttt{R(z)1}};
+  \node (ry2) [rop, right = 0.6cm of rz1] {\texttt{R(y)2}};
 
-  \draw [po] (wx1) to (wz2);
-  \draw [po] (wz2) to (wq1);
+  \povis{wx1}{wy1};
+  \povis{wy1}{wz1};
 
-  \draw [po] (wz3) to (rx0);
-  \draw [po] (rx0) to (rq1);
-  \draw [po] (rq1) to (rz3);
+  \povis{wy2}{rx0};
+  \povis{rx0}{rz1};
+  \povis{rz1}{ry2};
 
-  \draw [vis] (wq1) to (rq1);
+  \vis{wz1}{rz1};
 
+  \ar{wz1}{wy2};
+  
 \end{tikzpicture}
 \end{document}
