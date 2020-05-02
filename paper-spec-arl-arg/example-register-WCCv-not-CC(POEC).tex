@@ -12,7 +12,7 @@
 \begin{tikzpicture}
 \tikzset{
   wop/.style = {rectangle, rounded corners, fill = blue!30, draw, font = \Large, inner sep = 5pt},
-  rop/.style = {rectangle, rounded corners, fill = yellow!30, draw, font = \Large, inner sep = 5pt}, process/.style = {font = \huge}, 
+  rop/.style = {rectangle, rounded corners, fill = yellow!30, draw, font = \Large, inner sep = 5pt}, process/.style = {font = \huge},
   %po/.style = {->, very thick},
   rw/.style = {->, shorten >= 3pt, very thick, dashed},
   %vis/.style = {->, shorten >= 3pt, very thick, dashed}
@@ -26,8 +26,8 @@
   \node (p2) [process, below = 1.2cm of p1] {$p_2:$};
   \node (wy2) [wop, right = 4cm of p2] {\texttt{W(y)2}};
   \node (rx0) [rop, right = 1.2cm of wy2] {\texttt{R(x)0}};
-  \node (rz1) [rop, right = 0.6cm of rx0] {\texttt{R(z)1}};
-  \node (ry2) [rop, right = 0.6cm of rz1] {\texttt{R(y)2}};
+  \node (rz1) [rop, right = 1.2cm of rx0] {\texttt{R(z)1}};
+  \node (ry2) [rop, right = 1.2cm of rz1] {\texttt{R(y)2}};
 
   \povis{wx1}{wy1};
   \povis{wy1}{wz1};
@@ -39,6 +39,6 @@
   \vis{wz1}{rz1};
 
   \ar{wz1}{wy2};
-  
+
 \end{tikzpicture}
 \end{document}
