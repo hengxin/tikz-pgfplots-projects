@@ -1,0 +1,27 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+\input{newcommands}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzset{
+ put/.style = {rectangle, font =\Large, text width=9em, text centered},
+ get/.style = {rectangle, font =\Large, text width=8em, text centered}, 
+ d/.style = {circle, radius = 0.01cm},
+ dot/.style = {circle, radius = 0.01cm, fill = blue!80!yellow},
+}
+  \node (start) [d] {};
+  \node (c1) [dot, right = 2cm of start] {};
+  \node (c2) [dot, right = 4.5cm of c1] {};
+  \node (c3) [dot, right = 4.5cm of c2] {};
+  \node (c4) [dot, right = 4.5cm of c3] {};
+  \node (end) [d, right = 2cm of c4] {};
+  \scc{start}{end};
+  
+  \node (p) [put, above = 0.2cm of c1] {$p=\pput(k,v)$ \\ (client $i$)};
+  \node (p') [put, above = 0.2cm of c2] {$p=\pput(k,v')$ \\ (client $j$)};
+  \node (e) [get, above = 0.2cm of c3] {$e = \get(k')$ \\ (client $c$)};
+  \node (g) [get, above = 0.2cm of c4] {$g = \get(k)$ \\ (client $c$)};
+
+\end{tikzpicture}
+\end{document}

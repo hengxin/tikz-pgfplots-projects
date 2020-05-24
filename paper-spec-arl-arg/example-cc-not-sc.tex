@@ -1,5 +1,6 @@
 \documentclass[tikz]{standalone}
 \usetikzlibrary{positioning}
+\input{newcommands}
 
 \begin{document}
 \begin{tikzpicture}
@@ -12,17 +13,17 @@
 }
 
   \node (p1) [process] {$p_1:$};
-  \node (p1-enq1) [enq-op, right = 0.5cm of p1] {\texttt{Enq(1)}};
-  \node (p1-deq2) [deq-op, right = 1.6cm of p1-enq1] {\texttt{Deq/2}};
+  \node (p1-enq1) [enq-op, right = 0.5cm of p1] {$\enq(1)$};
+  \node (p1-deq2) [deq-op, right = 1.6cm of p1-enq1] {$\deq\triangleright2$};
 
   \node (p2) [process, below = 1.4cm of p1] {$p_2:$};
-  \node (p2-enq2) [enq-op, right = 0.5cm of p2] {\texttt{Enq(2)}};
-  \node (p2-deq2) [deq-op, right = 1.6 of p2-enq2] {\texttt{Deq/2}};
+  \node (p2-enq2) [enq-op, right = 0.5cm of p2] {$\enq(2)$};
+  \node (p2-deq2) [deq-op, right = 1.6 of p2-enq2] {$\deq\triangleright2$};
 
-  \draw [po] (p1-enq1) to (p1-deq2);
-  \draw [po] (p2-enq2) to (p2-deq2);
+  \pva{p1-enq1}{p1-deq2};
+  \pva{p2-enq2}{p2-deq2};
 
-  \draw [vis] (p2-enq2) to (p1-deq2);
+  \mvis{p2-enq2}{p1-deq2};
 
 \end{tikzpicture}
 \end{document}

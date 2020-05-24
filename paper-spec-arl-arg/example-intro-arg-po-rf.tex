@@ -1,10 +1,10 @@
 \documentclass[tikz]{standalone}
 \usetikzlibrary{positioning}
 
-\newcommand{\po}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}} (#2);}
-\newcommand{\povis}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}$,$ \Large{vis}} (#2);}
+\newcommand{\povis}[2]{\draw [->, thick] (#1) to node[above] {\Large{po}} (#2);}
+%\newcommand{\povis}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}$,$ \Large{vis}} (#2);}
 %p\newcommand{\povis}[2]{\draw [->, thick] (#1) to node[above] {\Large{so}} node[below] {\Large{vis}} (#2);}
-\newcommand{\vis}[2]{\draw [->, thick, dashed] (#1) to node[above, sloped, near end] {\Large{vis}} (#2);}
+\newcommand{\vis}[2]{\draw [->, thick, dashed] (#1) to node[above, sloped, near end] {\Large{rf}} (#2);}
 \newcommand{\ar}[2]{\draw [->, thick, dotted] (#1) to node[above, sloped] {\Large{ar}} (#2);}
 \newcommand{\vvis}[2]{\draw [->, thick, dashed, allow upside down] (#1) to node[above, sloped] {\Large{vis}} (#2);}
 \renewcommand{\wr}{\texttt{wr}}
