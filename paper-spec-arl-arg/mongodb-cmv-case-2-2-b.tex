@@ -2,32 +2,36 @@
 \usetikzlibrary{positioning}
 \input{newcommands}
 
+\renewcommand{\va}[2]{\draw [->, thick] (#1) to (#2);}
+
 \begin{document}
 \begin{tikzpicture}
 \tikzset{
- pu/.style = {rectangle, font =\Large, text width=9em, text centered},
- put/.style = {rectangle, font =\Large, text width=8.5em, text centered},
- get/.style = {rectangle, font =\Large, text width=7em, text centered}, 
- d/.style = {circle, radius = 0.3cm},
- dot/.style = {circle, radius = 2ex, fill = blue!80!yellow},
- dots/.style = {rectangle, dashed, line width = 0.5ex, font=\Large, draw = red!80!white, text width=7em, inner sep = 0.2cm, text centered},
+ process/.style = {rectangle, font = \Large, text width=4em, align = right},
+ put/.style = {rectangle, font =\Large, draw, text width=9.5em, text centered},
+ get/.style = {rectangle, font =\Large, draw, text width=9.5em, text centered},
+ vis/.style = {rectangle, font = \Large}
 }
-  \node (start) [d] {};
-  \node (c1) [dot, right = 1.5cm of start] {};
-  \node (c2) [dot, right = 3.2cm of c1] {};
-  \node (c3) [d, right = 3.2cm of c2] {};
-  \node (c4) [dot, right = 3.2cm of c3] {};
-  \node (c5) [dot, right = 3cm of c4] {};    
-  \node (c6) [dot, right = 2.7cm of c5] {};   
-  \node (end) [d, right = 1.5cm of c6] {};
-  \scc{start}{end};
+  \node (p-c) [process] {$c$};
+  \node (e) [get, right = 0.1cm of p-c] {$e=\get(k')$};
+  \node (g) [get, right = 1.6cm of e] {$g = \get(k)$};
 
-  \node (p) [put, above = 0.2cm of c1] {$p=\pput(k,v)$ \\ (client $i$)};
-  \node (p') [put, above = 0.2cm of c2] {$p=\pput(k,v')$ \\ (client $j$)};
-  \node (dot) [dots, above = 0.05cm of c3] {$\bf{\cdot\cdot\cdot\cdot\cdot\cdot}$ \\ \pput{} events};
-  \node (p'') [pu, above = 0.2cm of c4] {$p''=\pput(k',\ast)$ \\ (client $q$)};
-  \node (e) [get, above = 0.2cm of c5] {$e = \get(k')$ \\ (client $c$)};
-  \node (g) [get, above = 0.2cm of c6] {$g = \get(k)$ \\ (client $c$)};
+  \node (p-q) [process, below = 0.8cm of p-c] {$q \neq c:$};
+  \node (p'') [put, right = 0.1cm of p-q] {$p''=\pput(k',\_)$};
+    
+  \node (p-j) [process, below = 0.8cm of p-q] {$j\neq c:$};
+  \node (p') [put, right = 0.1cm of p-j] {$p'=\pput(k,\_)$};
 
+  \node (p-i) [process, below = 0.8cm of p-j] {$i:$};
+  \node (p) [put, right = 0.1cm of p-i] {$p=\pput(k,\_)$};
+
+  \pbva{e}{g};
+  
+  \ar{p}{p'};
+  \ar{p'}{p''};
+  
+  \rvb{p}{g};
+  \va{p''}{e};
+  \node [vis, below right = 0.1cm and 2.3cm of p-c] {$\Large{\rf},\Large{\vs},\Large{\arb}$};
 \end{tikzpicture}
 \end{document}

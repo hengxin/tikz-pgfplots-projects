@@ -2,6 +2,8 @@
 \usetikzlibrary{positioning}
 \input{newcommands}
 
+\renewcommand{\rvb}[2]{\draw [->, thick, allow upside down] (#1) to node[below, sloped, pos=0.6] {$\Large{\rf},\Large{\vs},\Large{\arb}$} (#2);}
+
 \begin{document}
 \begin{tikzpicture}
 \tikzset{
@@ -9,20 +11,16 @@
  put/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
  get/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
 }
-  \node (p-c) [process] {$c:$};
-  \node (e) [get, right = 0.1cm of p-c] {$e=\get(k')$};
-  \node (g) [get, right = 1.6cm of e] {$g = \get(k)$};
+  \node (p-c) [process] {$c=j:$};
+  \node (p') [put, right = 0.1cm of p-c] {$p'=\pput(k,\_)$};
+  \node (g) [get, right = 1.6cm of p'] {$g = \get(k)$};
 
-  \node (p-j) [process, below = 1.2cm of p-c] {$j\neq c:$};
-  \node (p') [put, right = 0.1cm of p-j] {$p'=\pput(k,\_)$};
-
-  \node (p-i) [process, below = 1.2cm of p-j] {$i:$};
+  \node (p-i) [process, below = 1.2cm of p-c] {$i:$};
   \node (p) [put, right = 0.1cm of p-i] {$p=\pput(k,\_)$};
 
-  \pbva{e}{g};
+  \pbva{p'}{g};
   \ar{p}{p'};
-  \ar{p'}{e};
   \rvb{p}{g};
-  
+
 \end{tikzpicture}
 \end{document}

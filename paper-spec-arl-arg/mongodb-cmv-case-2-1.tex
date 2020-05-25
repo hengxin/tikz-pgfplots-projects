@@ -5,23 +5,24 @@
 \begin{document}
 \begin{tikzpicture}
 \tikzset{
- put/.style = {rectangle, font =\Large, text width=9em, text centered},
- get/.style = {rectangle, font =\Large, text width=8em, text centered}, 
- d/.style = {circle, radius = 0.01cm},
- dot/.style = {circle, radius = 0.01cm, fill = blue!80!yellow},
+ process/.style = {rectangle, font = \Large, text width=4em, align = right},
+ put/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
+ get/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
 }
-  \node (start) [d] {};
-  \node (c1) [dot, right = 2cm of start] {};
-  \node (c2) [dot, right = 4.5cm of c1] {};
-  \node (c3) [dot, right = 4.5cm of c2] {};
-  \node (c4) [dot, right = 4.5cm of c3] {};
-  \node (end) [d, right = 2cm of c4] {};
-  \scc{start}{end};
-  
-  \node (p) [put, above = 0.2cm of c1] {$p=\pput(k,v)$ \\ (client $i$)};
-  \node (p') [put, above = 0.2cm of c2] {$p=\pput(k,v')$ \\ (client $j$)};
-  \node (e) [put, above = 0.2cm of c3] {$e = \pput(k',\ast)$ \\ (client $c$)};
-  \node (g) [get, above = 0.2cm of c4] {$g = \get(k)$ \\ (client $c$)};
+  \node (p-c) [process] {$c:$};
+  \node (e) [put, right = 0.1cm of p-c] {$e=\pput(k',\_)$};
+  \node (g) [get, right = 1.6cm of e] {$g = \get(k)$};
+
+  \node (p-j) [process, below = 0.8cm of p-c] {$j\neq c:$};
+  \node (p') [put, right = 0.1cm of p-j] {$p'=\pput(k,\_)$};
+
+  \node (p-i) [process, below = 0.8cm of p-j] {$i:$};
+  \node (p) [put, right = 0.1cm of p-i] {$p=\pput(k,\_)$};
+
+  \pbva{e}{g};
+  \ar{p}{p'};
+  \ar{p'}{e};
+  \rvb{p}{g};
 
 \end{tikzpicture}
 \end{document}
