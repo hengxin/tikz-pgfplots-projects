@@ -7,11 +7,11 @@
 \begin{document}
 \begin{tikzpicture}
 \tikzset{
- process/.style = {rectangle, font = \Large, text width=4em, align = right},
- put/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
- get/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
+ process/.style = {rectangle, font = \huge, text width=6em, align = right},
+ put/.style = {rectangle, rounded corners, font =\Large, fill = blue!30, draw, text width=9em, text centered},
+ get/.style = {rectangle, rounded corners, font =\Large, fill = yellow!30, draw, text width=9em, text centered},
 }
-  \node (p-c) [process] {$c=j:$};
+  \node (p-c) [process] {$j=c:$};
   \node (p') [put, right = 0.1cm of p-c] {$p'=\pput(k,\_)$};
   \node (g) [get, right = 1.6cm of p'] {$g = \get(k)$};
 

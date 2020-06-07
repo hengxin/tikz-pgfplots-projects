@@ -1,10 +1,13 @@
 \documentclass[tikz]{standalone}
 \usetikzlibrary{positioning}
 \usepackage{mathtools}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\blue}[1]{\textcolor{blue}{#1}}
 \newcommand{\teal}[1]{\textcolor{teal}{#1}}
+\newcommand{\brown}[1]{\textcolor{brown}{#1}}
 \newcommand{\hb}{\texttt{hb}}
 \newcommand{\vis}{\texttt{vis}}
 \newcommand{\so}{\texttt{so}}
@@ -19,6 +22,7 @@
 \newcommand{\ccv}{\textsl{CCv}}
 \newcommand{\scc}{\textsl{SCC}}
 \newcommand{\sccv}{\textsl{SCCv}}
+\newcommand{\retval}{\textsc{RVal}}
 
 \begin{document}
 \begin{tikzpicture}
@@ -33,38 +37,44 @@
   \node (wcc) [ssconsistency] {%\Large WCC\\
                              \red{$\hb\subseteq \vis$}\\
                              \teal{$\vis \subseteq \ar$}\\
-                             \blue{$V[e] = \emptyset$}};
+                             \blue{$V[e] = \emptyset$}\\
+                             \brown{\retval}};
   \node (nwcc) [cn, below = 0.1cm of wcc] {\wcc};
 
   \node (cc) [sconsistency, above right=0.1cm and 0.5cm of wcc] {%\large CC\\
                              \red{$\hb \subseteq \vis$}\\
                              \teal{$\vis \subseteq \ar$}\\
-                             \blue{$V[e] = \so^{-1}(e)$}};
+                             \blue{$V[e] = \so^{-1}(e)$}\\
+                             \brown{\retval}};
   \node (ncc) [cn, below = 0.1cm of cc] {\cm};
 
   \node (ccv) [lconsistency, right = 4.5cm of wcc] {%\large CCv\\
                              \red{$\hb \subseteq \vis$}\\
                              \teal{$\vis \subseteq \ar \wedge \tord{\ar,E}$}\\
-                             \blue{$V[e]=\so^{-1}(e)$}};
+                             \blue{$V[e]=\so^{-1}(e)$}\\
+                             \brown{\retval}};
   \node (nccv) [cn, below = 0.1cm of ccv] {\cmv};
 
   \node (scc) [sconsistency, above = 2.0cm of ccv] {%\large SCC\\
                              \red{$\hb \subseteq \vis$}\\
                             \teal{$\vis \subseteq \ar$}\\
-                            \blue{$V[e] = \vis^{-1}(e)$}};
+                            \blue{$V[e] = \vis^{-1}(e)$}\\
+                            \brown{\retval}};
   \node (nscc) [cn, below = 0.1cm of scc] {\scc};
 
 
   \node (sccv) [lconsistency, right = 1.0cm of ccv] {%\large SCCv\\
                              \red{$\hb \subseteq \vis$}\\
                             \teal{$\vis \subseteq \ar \wedge \tord{\ar,E}$}\\
-                            \blue{$V[e] = \vis^{-1}(e)$}};
+                            \blue{$V[e] = \vis^{-1}(e)$}\\
+                            \brown{\retval}};
   \node (nsccv) [cn, below = 0.1cm of sccv] {\sccv};
 
   \node (wccv) [lconsistency, below right=1.5cm and 1.0cm of wcc] {%\large WCCv\\
                              \red{$\hb \subseteq \vis$}\\
                              \teal{$\vis \subseteq \ar \wedge \tord{\ar,E}$}\\
-                             \blue{$V[e] =\emptyset$}};
+                             \blue{$V[e] =\emptyset$}\\
+                             \brown{\retval}};
   \node (nwccv) [cn, below = 0.1cm of wccv] {\wccv};
 
   \draw [po] (wcc) to (cc);

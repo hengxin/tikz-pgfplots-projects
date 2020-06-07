@@ -2,7 +2,7 @@
 \usetikzlibrary{positioning}
 \input{newcommands}
 \renewcommand{\vas}[2]{\draw [->, thick, allow upside down] (#1) to node[above, sloped, pos=0.5] {$\Large{\vs},\Large{\arb}$} (#2);}
-\renewcommand{\ar}[2]{\draw [->, thick] (#1) to node[below, sloped] {\Large{\arb}} (#2);}
+\renewcommand{\ar}[2]{\draw [->, thick, allow upside down] (#1) to node[above, sloped] {\Large{\arb}} (#2);}
 \newcommand{\ara}[2]{\draw [->, thick] (#1) to node[above, sloped] {\Large{\arb}} (#2);}
 \begin{document}
 \begin{tikzpicture}
@@ -22,7 +22,7 @@
 
   %\node (p2) [process, below = 1.4cm of p1] {$p_2:$};
   \node (p2-enq2) [enq-op, below = 1.4cm of p1-enq1] {$\enq(2)$};
-  \node (p2-deq2) [deq-op, right = 3.5cm of p2-enq2] {$b:\deq\triangleright2$};
+  \node (p2-deq2) [deq-op, below = 1.4cm of p1-deq2] {$b:\deq\triangleright2$};
 
   \pbva{p1-enq1}{p1-deq1};
   \pbva{p1-deq1}{p1-deq2};

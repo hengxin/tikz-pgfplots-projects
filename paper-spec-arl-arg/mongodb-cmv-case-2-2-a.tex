@@ -5,13 +5,13 @@
 \begin{document}
 \begin{tikzpicture}
 \tikzset{
- process/.style = {rectangle, font = \Large, text width=4em, align = right},
- put/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
- get/.style = {rectangle, font =\Large, draw, text width=9em, text centered},
+ process/.style = {rectangle, font = \huge, text width=6em, align = right},
+ put/.style = {rectangle, rounded corners, font =\Large, draw, fill = blue!30, text width=9em, text centered},
+ get/.style = {rectangle, rounded corners, font =\Large, draw, fill = yellow!30, text width=9em, text centered},
 }
   \node (p-c) [process] {$c:$};
-  \node (e) [get, right = 0.1cm of p-c] {$e=\get(k')$};
-  \node (g) [get, right = 1.6cm of e] {$g = \get(k)$};
+  \node (o) [get, right = 0.1cm of p-c] {$o=\get(k')$};
+  \node (g) [get, right = 3.0cm of o] {$g = \get(k)$};
 
   \node (p-j) [process, below = 1.2cm of p-c] {$j\neq c:$};
   \node (p') [put, right = 0.1cm of p-j] {$p'=\pput(k,\_)$};
@@ -19,10 +19,10 @@
   \node (p-i) [process, below = 1.2cm of p-j] {$i:$};
   \node (p) [put, right = 0.1cm of p-i] {$p=\pput(k,\_)$};
 
-  \pbva{e}{g};
+  \pva{o}{g};
   \ar{p}{p'};
-  \ar{p'}{e};
+  \ar{p'}{o};
   \rvb{p}{g};
-  
+
 \end{tikzpicture}
 \end{document}
