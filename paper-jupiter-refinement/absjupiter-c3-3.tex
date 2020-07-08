@@ -5,9 +5,8 @@
 
 \begin{document}
 \begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}]
-  \node (0) [align = center] {$\Big\{o_1\set{}: \ins{x}{1},$ \\
-  				  $o_2\set{o_1}: \del{x}{1},\; o_4\set{o_1}: \ins{b}{2}$ \\
-				  $o_2\set{o_1, o_4}: \del{x}{1},\; o_4\set{o_1, o_2}: \ins{b}{1} \Big\}$};
-  \node () [fit = (0), bg] {};
+  \rectsplit{$\Big\{o_1\set{}: \ins{x}{1},$ \\
+          $o_2\set{o_1}: \del{x}{1},\; o_4\set{o_1}: \ins{b}{2}$ \\
+          $o_2\set{o_1, o_4}: \del{x}{1},\; o_4\set{o_1, o_2}: \ins{b}{1} \Big\}$}{$b$}
 \end{tikzpicture}
 \end{document}
