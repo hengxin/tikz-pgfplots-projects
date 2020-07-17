@@ -1,0 +1,34 @@
+% clock-si-mindmap.tex
+
+%!TEX program = xelatex
+
+\documentclass[tikz]{standalone}
+\usepackage{xeCJK}
+\usetikzlibrary{mindmap}
+
+\begin{document}
+\begin{tikzpicture}
+  \path[mindmap, 
+      concept color = red, text = white, font = \huge, align = center,
+      level 1 concept/.append style = {
+      every child/.style = {
+          concept color = blue!50, 
+          sibling angle = 90,
+          minimum size = 3cm,
+          align = center,
+          font = \LARGE}}]
+  node[concept] {规约框架 \\ (\textsl{SI})}
+  [clockwise from = 45]
+  child { node (a) [concept] {数据异常} } % a: anomaly
+  child { node (g) [concept] {依赖图} } % g: dependency graph
+  child { node (r) [concept] {健壮性} } % r: robustness
+  child { node (c) [concept] {并发控制 \\ {\large (Clock-SI)}} }; % c: concurrency control
+
+  \node [annotation, right, fill = red!20, font = \large] at (c.east)
+  {\begin{itemize}
+    \item 协议抽取
+    \item TLA$^{+}$描述
+    \item 正确性论证
+   \end{itemize}};
+\end{tikzpicture}
+\end{document}
