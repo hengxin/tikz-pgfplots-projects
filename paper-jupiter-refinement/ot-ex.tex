@@ -1,0 +1,20 @@
+% ot-ex.tex
+
+% see https://tex.stackexchange.com/a/79925
+\documentclass[varwidth]{standalone}
+
+\usepackage{graphicx, subfigure}
+    
+\begin{document}
+\begin{figure}[t]
+  \centering
+  \subfigure[fig:no-ot-ab][Without OT, the states of $C_1$ and $C_2$ diverge.]{
+    \includegraphics[width = 0.45\textwidth]{no-ot-ab}
+  }
+  \hspace{0.04\textwidth}
+  \subfigure[With OT, $C_1$ and $C_2$ converge to the same state.]{
+    \includegraphics[width = 0.45\textwidth]{ot-ab}
+  }
+\end{figure}
+%%%%% fig:ot-ex %%%%%
+\end{document}

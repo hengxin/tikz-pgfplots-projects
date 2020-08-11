@@ -1,0 +1,66 @@
+% contribution-fix-refs.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, calc, arrows, arrows.meta, fit}
+
+\begin{document}
+\begin{tikzpicture}[protocol/.style = {draw, thick, inner sep = 3pt},
+  ot/.style = {draw, thick, inner sep = 3pt},
+  st/.style = {-To, thick},
+  spec/.style = {draw, thick, inner sep = 3pt},
+  sat/.style = {double equal sign distance, -Implies},
+  refine/.style = {>=LaTeX, ->, thick}]
+  % jupiter protocols
+  \node (aj) [protocol] {$AJupiter$};
+  \node (xj) [protocol, right = of aj] {$XJupiter$~[8]};
+  \node (cj) [protocol, right = of xj] {$CJupiter$~[10]};
+
+  % existing protocols: jupiter variants
+  \node (jv) [draw, thick, brown, fit = (aj) (xj) (cj), inner sep = 5pt] {};
+
+  % absjupiter
+  \node (absj) [protocol, draw = blue, right = of cj, align = center]{
+    $AbsJupiter$ \\ {\footnotesize (Section~4.1)}};
+
+  % jupiter family
+  \node (ajabsj) at ($(aj)!0.5!(absj)$) {};
+  \node (jflbl) [below = 18pt of ajabsj] {A Family of \textsl{Jupiter} Protocols 
+    {\footnotesize (Section~4)}};
+  \node (jf) [draw, purple, thick, fit = (aj) (absj), xshift = -3pt, inner sep = 4pt] {};
+
+  % ot
+  \node (xcj) at ($(xj)!0.5!(cj)$) {};
+  \node (sol) [ot, below = 2.0cm of xcj] {Generic solution};
+  \node (issue) [ot, left = 0.80cm of sol]  {Key OT issue};
+
+  \draw[-Stealth, thick] (issue) to (sol);
+
+  \node (st) [draw, thick, above = 0.00cm of sol] {Techniques};
+  \node (ot) [draw, thick, red, fit = (issue) (sol) (st), inner sep = 2pt, 
+	label = {[anchor = center, rotate = -90, align = center, yshift = -15pt] left : OT \\ {
+    \footnotesize (Section~3)}}] {};
+  \draw[{Diamond[open]}-, thick] (st) to (jf.south -| st.north);
+
+  % ot to absjupiter
+  \draw[st] (sol.east) to node [sloped, align = center] {abstract from \\ data structures} (absj.south);
+
+  % refine
+  \path (aj) edge[refine] node (ajrefinexj) {} (xj)
+		(xj) edge[refine] node (xjrefinecj) {} (cj)
+		(cj) edge[refine] node (cjrefineabsj) {} (absj);
+  \node (refinement) [above = 4pt of jf, inner sep = 2pt, label = {left: $:$}] 
+    {\textbf{\emph{Refine}} {\footnotesize (Sections~5 and~6.1)}};
+  \draw[refine, shorten >= 8pt] ($(refinement.west)+(-1.2cm, 0)$) to (refinement);
+
+  % specs
+  \node (wlspec) [spec, right = 1.70cm of absj, align = center] 
+    {{\small $WLSpec$}~[6] \\ {\footnotesize (Section~2.3)}};
+  \node (sec) [spec, below = 0.50cm of wlspec] {{\small $SEC$}~[9]};
+  \node (spec) [fit = (wlspec) (sec), draw, green, thick, inner sep = 3pt, 
+    label = above : Properties] {};
+
+  \draw [sat] (absj) to node [above = 2pt] {\textbf{\emph{Satisfy}}} 
+    node[below = 2pt] {\footnotesize (Section~6.2)} (wlspec);
+  \path (wlspec) edge[sat] (sec);
+\end{tikzpicture}
+\end{document}

@@ -1,4 +1,4 @@
-% file: contribution.tex
+% contribution.tex
 
 \documentclass[tikz]{standalone}
 \usetikzlibrary{positioning, calc, arrows, arrows.meta, fit}
@@ -11,7 +11,7 @@
   sat/.style = {double equal sign distance, -Implies},
   refine/.style = {>=LaTeX, ->, thick}]
   % jupiter protocols
-  \node (aj) [protocol] {$AJupiter$~\cite{Attiya:PODC16}};
+  \node (aj) [protocol] {$AJupiter$};
   \node (xj) [protocol, right = of aj] {$XJupiter$~\cite{Xu:CSCW14}};
   \node (cj) [protocol, right = of xj] {$CJupiter$~\cite{Wei:OPODIS18}};
 
@@ -28,21 +28,15 @@
 
   % ot
   \node (xcj) at ($(xj)!0.5!(cj)$) {};
-  \node (sol) [ot, below = 2.0cm of xcj] {Generic \textsc{Sol}(ution)};
-  \node (issue) [ot, left = 0.80cm of sol]  {Key OT \textsc{Issue}};
+  \node (sol) [ot, below = 2.0cm of xcj] {Generic solution};
+  \node (issue) [ot, left = 0.80cm of sol]  {Key OT issue};
 
   \draw[-Stealth, thick] (issue) to (sol);
 
-  % ot to jupiter protocols
-  % \path (sol) edge[st] (aj)
-  %   		  edge[st] (xj)
-  %   		  edge[st] (cj)
-  %   		  edge[st] (absj);
-  \node (st) [draw, thick, above = 0.00cm of sol] {\textsc{Te}(chniques)};
+  \node (st) [draw, thick, above = 0.00cm of sol] {Techniques};
   \node (ot) [draw, thick, red, fit = (issue) (sol) (st), inner sep = 2pt, 
 	label = {[anchor = center, rotate = -90, align = center, yshift = -15pt] left : OT \\ {\footnotesize (Section~\ref{section:jupiter-family})}}] {};
   \draw[{Diamond[open]}-, thick] (st) to (jf.south -| st.north);
-  % \draw [>=Stealth] (st) -- (sf);
 
   % ot to absjupiter
   \draw[st] (sol.east) to node [sloped, align = center] {abstract from \\ data structures} (absj.south);
@@ -52,23 +46,18 @@
 		(xj) edge[refine] node (xjrefinecj) {} (cj)
 		(cj) edge[refine] node (cjrefineabsj) {} (absj);
   \node (refinement) [above = 4pt of jf, inner sep = 2pt, label = {left: $:$}] 
-	{\textbf{\emph{Refine}} {\footnotesize (Section~\ref{section:refinement} and Section~\ref{ss:tlc-refinement}})};
+	{\textbf{\emph{Refine}} {\footnotesize (Sections~\ref{section:refinement} and~\ref{ss:tlc-refinement}})};
   \draw[refine, shorten >= 8pt] ($(refinement.west)+(-1.2cm, 0)$) to (refinement);
 
   % specs
-  \node (wlspec) [spec, right = 1.30cm of absj, align = center] {{\small \textsl{WLSpec}}~\cite{Attiya:PODC16} \\ {\footnotesize (Section~\ref{ss:wlspec})}};
-  \node (sec) [spec, below = 0.30cm of wlspec] {{\small \textsl{SEC}}~\cite{Shapiro:SSS11}};
-  \node (cp) [spec, below = 0.30cm of sec] {{\small \textsl{CP}}~\cite{Ellis:SIGMOD89}};
-  \node (spec) [fit = (wlspec) (sec) (cp), draw, green, thick, inner sep = 3pt, label = above : Properties] {};
+  \node (wlspec) [spec, right = 1.70cm of absj, align = center] 
+    {{\small $WLSpec$}~\cite{Attiya:PODC16} \\ {\footnotesize (Section~\ref{ss:list})}};
+  \node (sec) [spec, below = 0.50cm of wlspec] {{\small $SEC$}~\cite{Shapiro:SSS11}};
+  \node (spec) [fit = (wlspec) (sec), draw, green, thick, inner sep = 3pt, 
+    label = above : Properties] {};
 
-  \draw [sat] (absj) to node [above = 2pt] {\textbf{\emph{Satisfy}}} node[below = 2pt] {\footnotesize (Section~\ref{ss:tlc-correctness})} (wlspec);
-  \path (wlspec) edge[sat] (sec)
-		(sec) edge[sat] (cp);
-  
-  % satisfy
-  % \node (satisfy) [above = 8pt of spec, inner sep = 2pt, label = {left = -5pt: $:$}] {Satisfies {\footnotesize (Section~\ref{section:tlc-correctness}})};
-  % \draw[sat, shorten >= 8pt] ($(satisfy.west)+(-1.2cm, 0)$) to (satisfy);
-
-  % model checking
+  \draw [sat] (absj) to node [above = 2pt] {\textbf{\emph{Satisfy}}} 
+    node[below = 2pt] {\footnotesize (Section~\ref{ss:tlc-correctness})} (wlspec);
+  \path (wlspec) edge[sat] (sec);
 \end{tikzpicture}
 \end{document}
