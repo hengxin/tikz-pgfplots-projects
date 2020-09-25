@@ -11,10 +11,10 @@
 	timeline/.style = {very thick}, >=Stealth, 
 	send/.style = {>=Stealth, ->},
 	list/.style = {rectangle, draw, inner sep = 2pt, outer sep = 0pt},
-	op/.style = {font = \footnotesize}
+	op/.style = {font = \footnotesize, align = center}
   ]
   \node[list, label = {above:{$C_1$}}] (r1) {$ab$}; 
-  \node[list, right = 1.50cm of r1, label = {above:{$C_2$}}] (r2) {$ab$};
+  \node[list, right = 1.00cm of r1, label = {above:{$C_2$}}] (r2) {$ab$};
 
   \begin{scope}[on background layer]
     \foreach \r/\rbot in {r1/r1bot, r2/r2bot} {
@@ -22,9 +22,10 @@
     }
   \end{scope}
 
-  \draw[send] ($(r1)!0.20!(r1bot)$) node[op] (ins) {$o_1 = \ins{1}{x}$} to ($(r2)!0.65!(r2bot)$) node[op] () {$o_1' = \ins{1}{x}$};
-  \draw[send, red, thick] ($(r2)!0.20!(r2bot)$) node[op, red] (del) {$o_2 = \del{2}$} to ($(r1)!0.65!(r1bot)$) 
-  	node[op, red, dashed, rectangle, draw] () {$o_2' = \del{3}$};
+  \draw[send] ($(r1)!0.20!(r1bot)$) node[op, left] (ins) {$o_1$ \\ $\ins{1}{x}$} 
+    to ($(r2)!0.65!(r2bot)$) node[op, right] () {$o_1'$ \\ $\ins{1}{x}$};
+  \draw[send, red, thick] ($(r2)!0.20!(r2bot)$) node[op, red, right] (del) {$o_2$ \\ $\del{2}$} 
+    to ($(r1)!0.65!(r1bot)$) node[op, red, left] () {$o_2'$ \\ $\del{3}$};
 
   \node (r11) [list] at ($(r1)!0.40!(r1bot)$) {$xab$};
   \node (r12) [blue, list] at ($(r1)!0.85!(r1bot)$) {$xa$};

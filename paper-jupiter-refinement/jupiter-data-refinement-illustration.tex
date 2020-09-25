@@ -1,38 +1,50 @@
 % jupiter-data-refinement-illustration.tex
 
+% !TEX program = pdflatex
 \documentclass[tikz]{standalone}
 \input{jupiter-illustration-preamble}
 
 \usetikzlibrary{arrows.meta}
-\usetikzlibrary{chains}
 
 \begin{document}
-\begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}, node distance = 0.0cm,
-    start chain = going right,
+\begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}, 
     refine/.style = {>=Stealth, ->, very thick, #1}]
+
   % absjupiter-c3-4
-  \node (absj) [on chain, label = {[font = \Huge] above : \textsl{AbsJupiter}}] 
-    {\includegraphics[scale = 1.50]{absjupiter-c3-set}};
+  \node (absj) [label = {[font = \Huge] above : AbsJupiter}] 
+    {\includegraphics[scale = 2.00]{absjupiter-c3-set}};
+
   % cjupiter-c3-4
-  \node (cj) [on chain, label = {[font = \Huge] above : \textsl{CJupiter}}] 
-    {\includegraphics[scale = 1.00]{cjupiter-c3-nary-digraph}};
+  \node (cj) [below = 3.0cm of absj, 
+    label = {[font = \Huge, below = 15pt] below : CJupiter}] 
+    {\includegraphics[scale = 1.50]{cjupiter-c3-nary-digraph}};
+
   % xjupiter-c3-4
-  \node (xj) [on chain, label = {[font = \Huge] above : \textsl{XJupiter}}]
-    {\includegraphics[scale = 1.00]{xjupiter-c3-2d-digraph}};
+  \node (xj) [right = 1.5cm of cj, 
+    label = {[font = \Huge, below = 15pt] below : XJupiter}]
+    {\includegraphics[scale = 1.50]{xjupiter-c3-2d-digraph}};
+
   % ajupiter-c3-4
-  \node (aj) [on chain, label = {[font = \Huge] above : \textsl{AJupiter}}] 
-    {\includegraphics[scale = 1.50]{ajupiter-c3-buffer}};
+  \node (aj) [above = 3.0cm of xj, 
+    label = {[font = \Huge] above : AJupiter}] 
+    {\includegraphics[scale = 2.00]{ajupiter-c3-buffer}};
 
-  \draw [refine = {bend right = 20}] (absj.south) to node [font = \Huge, align = center] 
-    {organized into $n$-ary digraph; \\ grouping $Cop$s with the same context}
-    (cj.south);
+  % absj -> cj
+  \draw [refine] (absj) 
+    to node [font = \Huge, align = center] 
+    {organized into $n$-ary digraph}
+    (cj);
 
-  \draw [refine = {bend left = 10}] (cj.north) to node [below = 10pt, font = \Huge, align = center] 
-    {optimization at the client side; \\ eliminating redundant $OT$s \\ already performed at the server}
-    (xj.north);
+  % cj -> xj
+  \draw [refine = {bend right = 20}] (cj.south) 
+    to node [above = 10pt, font = \Huge, align = center] 
+    {optimization at clients}
+    (xj.south);
 
-  \draw [refine = {bend right = 20}] (xj.south) to node [right = -150pt, font = \Huge, align = center] 
-    {keep local dimension at clients; \\ keep remote dimension at the sever}
-    (aj.south);
+  % xj -> aj
+  \draw [refine] (xj) 
+    to node [font = \Huge, align = center] 
+    {local dimension at clients \\ remote dimension at the server}
+    (aj);
 \end{tikzpicture}
 \end{document}

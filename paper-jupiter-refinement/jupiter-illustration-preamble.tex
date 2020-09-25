@@ -3,13 +3,17 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes, positioning, arrows.meta, calc, backgrounds, fit}
 
-\def\hdist{1.8}
-\def\vdist{2.0}
+\def\hdist{2.0}
+\def\vdist{2.5}
 \tikzset{node distance = \vdist and \hdist}
 
 \tikzset{every lower node part/.style = {red}}
-\newcommand{\statesplit}[4]{% #1: state upper label; #2: state lower label; #3: position; #4: name
-  \node (#4) [circle split, draw, minimum size = 6mm, text width = 10mm, align = center, #3, font = \Large]
+\newcommand{\statesplit}[4]{
+  % #1: state upper label; #2: state lower label; #3: position; #4: name
+  \node (#4) [circle split, draw, 
+    % minimum size = 3mm, 
+    % text width = 5mm, 
+    #3]
   {
     $#1$
     \nodepart{lower}
@@ -17,18 +21,11 @@
   };
 }
 
-\newcommand{\rectsplit}[2]{% #1: state upper label; #2: state lower label
-  \node [draw, rectangle split, rectangle split parts = 2, 
-    align = center, font = \Large]
-  {
-    #1
-    \nodepart{two}
-    \textcolor{red}{#2}
-  };
-}
-
-\newcommand{\transition}[4][]{% #2: start state; #3: end state; #4: transition label; #1: transition label position (optional)
-  \draw[>=Stealth, ->] (#2) to node (#2to#3) [rectangle, draw, above = 2pt, sloped, #1, font = \small] {$#4$} (#3);
+\newcommand{\transition}[4][]{
+  % #1: transition label position (optional)
+  % #2: start state; #3: end state; #4: transition label; 
+  \draw[>=Stealth, ->] (#2) to node (#2to#3) 
+    [rectangle, draw, above = 2pt, sloped, font = \large, #1] {$#4$} (#3);
 }
 
 \newcommand{\set}[1]{\{#1\}}
