@@ -12,16 +12,16 @@
   sat/.style = {double equal sign distance, -Implies},
   refine/.style = {>=LaTeX, ->, thick}]
   % jupiter protocols
-  \node (aj) [protocol] {$AJupiter$};
-  \node (xj) [protocol, right = of aj] {$XJupiter$~[4]};
-  \node (cj) [protocol, right = of xj] {$CJupiter$~[6]};
+  \node (aj) [protocol] {AJupiter};
+  \node (xj) [protocol, right = of aj] {XJupiter~[4]};
+  \node (cj) [protocol, right = of xj] {CJupiter~[6]};
 
   % existing protocols: jupiter variants
   \node (jv) [draw, thick, brown, fit = (aj) (xj) (cj), inner sep = 5pt] {};
 
   % absjupiter
   \node (absj) [protocol, draw = blue, right = 1.2cm of cj, align = center]{
-    $AbsJupiter$ \\ {\footnotesize (Subsection~4.1)}};
+    AbsJupiter \\ {\footnotesize (Subsection~4.1)}};
 
   % jupiter family
   \node (ajabsj) at ($(aj)!0.5!(absj)$) {};
@@ -56,8 +56,8 @@
 
   % specs
   \node (wlspec) [spec, right = 2.30cm of absj, align = center] 
-    {{\small $WLSpec$}~[6] \\ {\footnotesize (Subsection~2.3)}};
-  \node (sec) [spec, below = 0.50cm of wlspec] {{\small $SEC$}~[5]};
+    {{\small WLSpec}~[6] \\ {\footnotesize (Subsection~2.3)}};
+  \node (sec) [spec, below = 0.50cm of wlspec] {{\small SEC}~[5]};
   \node (spec) [fit = (wlspec) (sec), draw, green, thick, inner sep = 3pt, 
     label = above : Properties] {};
 
