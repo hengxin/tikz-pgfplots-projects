@@ -1,0 +1,19 @@
+% tree-expr-add-mul.tex
+
+% !TEX program = pdflatex
+\documentclass[tikz]{standalone}
+\usepackage{tikz-qtree}
+
+\newcommand{\id}{\texttt{\bf id}}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\teal}[1]{\textcolor{teal}{#1}}
+
+\begin{document}
+  \begin{tikzpicture}[sibling distance = 20pt]
+    \Tree [.$E$ [.$T$ [.$T$ [.$F$ \blue{\id} ] ]
+                      [.\blue{$\ast$} ]
+                      [.$F$ \blue{\id} ]]]
+  \end{tikzpicture}
+\end{document}
