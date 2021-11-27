@@ -1,0 +1,117 @@
+% cycles-flowchart.tex
+
+% Author: Brent Longborough
+% See https://texample.net/tikz/examples/flexible-flow-chart/
+\documentclass[x11names]{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,chains}
+%%%<
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5mm}%
+%%%>
+\begin{comment}
+:Title: Easy-maintenance flowchart
+:Tags: flowcharts
+:Author: Brent Longborough
+:Slug: flexible-flow-chart
+
+  This TikZ example illustrates a number of techniques for making TikZ
+  flowcharts easier to maintain:
+    * Use of <on chain> and <on grid> to simplify positioning
+    * Use of global <node distance> options to eliminate the need to
+      specify individual inter-node distances
+    * Use of <join> to reduce the need for references to node names
+    * Use of <join by> styles to tailor specific connectors
+    * Use of <coordinate> nodes to provide consistent layout for
+      parallel flow lines
+    * A method for consistent annotation of decision box exits
+    * A technique for marking coordinate nodes (for layout debugging)
+
+    I encourage you to tinker at this file - add intermediate boxes,
+    alter the global distance settings, and so on, to see how well (or
+    ill!) it adapts.
+\end{comment}
+\begin{document}
+% =================================================
+% Set up a few colours
+\colorlet{lcfree}{Green3}
+\colorlet{lcnorm}{Blue3}
+\colorlet{lccong}{Red3}
+% -------------------------------------------------
+% Set up a new layer for the debugging marks, and make sure it is on
+% top
+\pgfdeclarelayer{marx}
+\pgfsetlayers{main,marx}
+% A macro for marking coordinates (specific to the coordinate naming
+% scheme used here). Swap the following 2 definitions to deactivate
+% marks.
+\providecommand{\cmark}[2][]{%
+  \begin{pgfonlayer}{marx}
+    \node [nmark] at (c#2#1) {#2};
+  \end{pgfonlayer}{marx}
+  }
+\providecommand{\cmark}[2][]{\relax}
+% -------------------------------------------------
+% Start the picture
+\begin{tikzpicture}[%
+    >=triangle 60,              % Nice arrows; your taste may be different
+    start chain=going below,    % General flow is top-to-bottom
+    node distance=6mm and 60mm, % Global setup of box spacing
+    every join/.style={norm},   % Default linetype for connecting boxes
+    ]
+% -------------------------------------------------
+% A few box styles
+% <on chain> *and* <on grid> reduce the need for manual relative
+% positioning of nodes
+\tikzset{
+  base/.style={draw, on chain, on grid, align=center, minimum height=4ex},
+  proc/.style={base, rectangle, text width=8em},
+  test/.style={base, diamond, aspect=2, text width=5em},
+  term/.style={proc, rounded corners},
+  % coord node style is used for placing corners of connecting lines
+  coord/.style={coordinate, on chain, on grid, node distance=6mm and 25mm},
+  % nmark node style is used for coordinate debugging marks
+  nmark/.style={draw, cyan, circle, font={\sffamily\bfseries}},
+  % -------------------------------------------------
+  % Connector line styles for different parts of the diagram
+  norm/.style={->, draw, lcnorm},
+  free/.style={->, draw, lcfree},
+  cong/.style={->, draw, lccong},
+  it/.style={font={\small\itshape}}
+}
+% -------------------------------------------------
+\node [test, font = \large] (t2) {$\mathit{rw}$?};
+\node [test, font = \large, join] (t3) {Adjacent $rw$?};
+% We position the next block explicitly as the first block in the
+% second column.  The chain 'comes along with us'. The distance
+% between columns has already been defined, so we don't need to
+% specify it.
+\node [proc, join=by free] {Set \textsc{mq} wait flag};
+\node [proc, join=by free] (p5) {Dispatch message};
+% Some more nodes specifically positioned (we could have avoided this,
+% but try it and you'll see the result is ugly).
+% -------------------------------------------------
+% Now we place the coordinate nodes for the connectors with angles, or
+% with annotations. We also mark them for debugging.
+\node [coord, right=of t3] (c3)  {}; \cmark{3}
+% -------------------------------------------------
+% A couple of boxes have annotations
+% -------------------------------------------------
+% All the other connections come out of tests and need annotating
+% First, the straight north-south connections. In each case, we first
+% draw a path with a (consistently positioned) annotation node, then
+% we draw the arrow itself.
+\path (t2.south) to node [xshift=1em] {$y$} (t3);
+  \draw [*->,lcnorm] (t2.south) -- (t3);
+% -------------------------------------------------
+% Now the straight east-west connections. To provide consistent
+% positioning of the test exit annotations, we have positioned
+% coordinates for the vertical part of the connectors. The annotation
+% text is positioned on a path to the coordinate, and then the whole
+% connector is drawn to its destination box.
+\path (t3.east) to node [yshift=1em] {NO} (c3);
+  \draw [o->,lccong] (t3.east) -- (p8);
+\end{tikzpicture}
+\end{document}
