@@ -144,3 +144,5 @@ sympy-plots-for-*.tex/
 # Vim Latex-Suite
 *.swp
 *.swo
+
+.history/
