@@ -1,41 +1,65 @@
-\documentclass{standalone}
-\usepackage{tikz}
+\documentclass[tikz]{standalone}
+\usepackage{xeCJK}
 \usetikzlibrary{positioning, calc, arrows.meta, chains, fit}
 
 \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
 
 \begin{document}
-\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-    %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-
-    %Chevron Arrow [id:dp01578346373692674] 
-    \draw  [color={rgb, 255:red, 137; green, 14; blue, 14 }  ,draw opacity=1 ][fill={rgb, 255:red, 140; green, 38; blue, 38 }  ,fill opacity=1 ] (82,21) -- (200.67,21) -- (215,32) -- (200.67,43) -- (82,43) -- (96.33,32) -- cycle ;
-    %Chevron Arrow [id:dp13165538034407764] 
-    \draw  [fill={rgb, 255:red, 218; green, 42; blue, 42 }  ,fill opacity=1 ] (217,21) -- (335.67,21) -- (350,32) -- (335.67,43) -- (217,43) -- (231.33,32) -- cycle ;
-    %Chevron Arrow [id:dp11834238054534563] 
-    \draw   (355,22) -- (473.67,22) -- (488,33) -- (473.67,44) -- (355,44) -- (369.33,33) -- cycle ;
-    %Chevron Arrow [id:dp9670727714245584] 
-    \draw   (490,22) -- (608.67,22) -- (623,33) -- (608.67,44) -- (490,44) -- (504.33,33) -- cycle ;
-    %Straight Lines [id:da10027141263154937] 
-    \draw  [dash pattern={on 4.5pt off 4.5pt}]  (213,51) -- (213,101) -- (213,149) ;
-    %Straight Lines [id:da041805144122867066] 
-    \draw  [dash pattern={on 4.5pt off 4.5pt}]  (350,49) -- (350,99) -- (350,147) ;
-    %Straight Lines [id:da352125801036816] 
-    \draw  [dash pattern={on 4.5pt off 4.5pt}]  (489,50) -- (489,100) -- (489,148) ;
-    %Shape: Rectangle [id:dp506121155226162] 
-    \draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (88,60) -- (350.67,60) -- (350.67,81) -- (88,81) -- cycle ;
-    %Shape: Rectangle [id:dp9132800611313276] 
-    \draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (218,94) -- (480.67,94) -- (480.67,115) -- (218,115) -- cycle ;
-    %Shape: Rectangle [id:dp27558417781884437] 
-    \draw  [color={rgb, 255:red, 255; green, 255; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (501,124) -- (647.67,124) -- (647.67,145) -- (501,145) -- cycle ;
-
-    % Text Node
-    \draw (7,61) node [anchor=north west][inner sep=0.75pt]   [align=left] {problem sovling};
-    % Text Node
-    \draw (8,95) node [anchor=north west][inner sep=0.75pt]   [align=left] {编译原理};
-    % Text Node
-    \draw (9,129) node [anchor=north west][inner sep=0.75pt]   [align=left] {离散数学};
-
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,xscale=1]
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (80, 20) -- (190, 20) -- (195, 30) -- (190, 40) -- (80, 40) -- (85, 30) -- cycle;
+    \node at (135, 30) {\textbf{2017年春季学期}};
+    \draw [dashed]  (195, 40) -- (195, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (195, 20) -- (305, 20) -- (310, 30) -- (305, 40) -- (195, 40) -- (200, 30) -- cycle;
+    \node at (250, 30) {\textbf{2017年秋季学期}};
+    \draw [dashed]  (310, 40) -- (310, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (310, 20) -- (420, 20) -- (425, 30) -- (420, 40) -- (310, 40) -- (315, 30) -- cycle;
+    \node at (365, 30) {\textbf{2018年春季学期}};
+    \draw [dashed]  (425, 40) -- (425, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (425, 20) -- (535, 20) -- (540, 30) -- (535, 40) -- (425, 40) -- (430, 30) -- cycle;
+    \node at (480, 30) {\textbf{2018年秋季学期}};
+    \draw [dashed]  (540, 40) -- (540, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (540, 20) -- (650, 20) -- (655, 30) -- (650, 40) -- (540, 40) -- (545, 30) -- cycle;
+    \node at (595, 30) {\textbf{2019年春季学期}};
+    \draw [dashed]  (655, 40) -- (655, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (655, 20) -- (765, 20) -- (770, 30) -- (765, 40) -- (655, 40) -- (660, 30) -- cycle;
+    \node at (710, 30) {\textbf{2019年秋季学期}};
+    \draw [dashed]  (770, 40) -- (770, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (770, 20) -- (880, 20) -- (885, 30) -- (880, 40) -- (770, 40) -- (775, 30) -- cycle;
+    \node at (825, 30) {\textbf{2020年春季学期}};
+    \draw [dashed]  (885, 40) -- (885, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (885, 20) -- (995, 20) -- (1000, 30) -- (995, 40) -- (885, 40) -- (890, 30) -- cycle;
+    \node at (940, 30) {\textbf{2020年秋季学期}};
+    \draw [dashed]  (1000, 40) -- (1000, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (1000, 20) -- (1110, 20) -- (1115, 30) -- (1110, 40) -- (1000, 40) -- (1005, 30) -- cycle;
+    \node at (1055, 30) {\textbf{2021年春季学期}};
+    \draw [dashed]  (1115, 40) -- (1115, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (1115, 20) -- (1225, 20) -- (1230, 30) -- (1225, 40) -- (1115, 40) -- (1120, 30) -- cycle;
+    \node at (1170, 30) {\textbf{2021年秋季学期}};
+    \draw [dashed]  (1230, 40) -- (1230, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (1230, 20) -- (1340, 20) -- (1345, 30) -- (1340, 40) -- (1230, 40) -- (1235, 30) -- cycle;
+    \node at (1285, 30) {\textbf{2022年春季学期}};
+    \draw [dashed]  (1345, 40) -- (1345, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (1345, 20) -- (1455, 20) -- (1460, 30) -- (1455, 40) -- (1345, 40) -- (1350, 30) -- cycle;
+    \node at (1400, 30) {\textbf{2022年秋季学期}};
+    \draw [dashed]  (1460, 40) -- (1460, 200) ;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (80, 50) -- (195, 50) -- (195, 70) -- (80, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (195, 50) -- (310, 50) -- (310, 70) -- (195, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (310, 50) -- (425, 50) -- (425, 70) -- (310, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (425, 50) -- (540, 50) -- (540, 70) -- (425, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (540, 50) -- (655, 50) -- (655, 70) -- (540, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (655, 50) -- (770, 50) -- (770, 70) -- (655, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (770, 50) -- (885, 50) -- (885, 70) -- (770, 70) -- cycle;
+    \draw [color=green, draw opacity=0][fill=green, fill opacity=0.3] (885, 90) -- (1000, 90) -- (1000, 110) -- (885, 110) -- cycle;
+    \draw [color=green, draw opacity=0][fill=green, fill opacity=0.3] (1115, 90) -- (1230, 90) -- (1230, 110) -- (1115, 110) -- cycle;
+    \draw [color=green, draw opacity=0][fill=green, fill opacity=0.3] (1345, 90) -- (1460, 90) -- (1460, 110) -- (1345, 110) -- cycle;
+    \draw [color=violet, draw opacity=0][fill=violet, fill opacity=0.3] (1000, 130) -- (1115, 130) -- (1115, 150) -- (1000, 150) -- cycle;
+    \draw [color=blue, draw opacity=0][fill=blue, fill opacity=0.3] (1115, 170) -- (1230, 170) -- (1230, 190) -- (1115, 190) -- cycle;
+    \draw [color=blue, draw opacity=0][fill=blue, fill opacity=0.3] (1345, 170) -- (1460, 170) -- (1460, 190) -- (1345, 190) -- cycle;
+    \draw (-20,60)  node [anchor=west][inner sep=0.75pt, align=right] {问题求解};
+    \draw (-20,100)  node [anchor=west][inner sep=0.75pt, align=right] {编译原理};
+    \draw (-20,140)  node [anchor=west][inner sep=0.75pt, align=right] {离散数学};
+    \draw (-20,180)  node [anchor=west][inner sep=0.75pt, align=right] {C语言程序设计基础};
+    
 
 \end{tikzpicture}
 \end{document}
