@@ -2,13 +2,14 @@ if __name__ == '__main__':
     # 箭头形状模板
     arrow_template = "\draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] {} -- {} -- {} -- {} -- {} -- {} -- cycle;"
     baseA = (80, 20)
-    baseB = (190, 20)
-    baseC = (195, 30)
-    baseD = (190, 40)
+    baseB = (135, 20)
+    baseC = (140, 30)
+    baseD = (135, 40)
     baseE = (80, 40)
     baseF = (85, 30)
     baseNodes = [baseA, baseB, baseC, baseD, baseE, baseF]
-
+    
+    width = 60
     # 学期文字模板
     semester_template = "\\node at {} {};"
 
@@ -41,7 +42,7 @@ if __name__ == '__main__':
     }
 
     # 课程文字模板
-    courses_text_template = "\draw (-20,%d)  node [anchor=west][inner sep=0.75pt, align=right] {%s};"
+    courses_text_template = "\draw (-10,%d)  node [anchor=west][inner sep=0.75pt, align=right, font = \large] {%s};"
     courses_map = {
         '问题求解': ps_text_loc,
         '编译原理': compiler_text_loc,
@@ -58,10 +59,10 @@ if __name__ == '__main__':
     for i in range(12):
         nodes = []
         for baseNode in baseNodes:
-            nodes.append((baseNode[0] + 115 * i, baseNode[1]))
+            nodes.append((baseNode[0] + width * i, baseNode[1]))
         arrows.append(arrow_template.format(nodes[0], nodes[1], nodes[2], nodes[3], nodes[4], nodes[5]))
-        semesters_loc = (nodes[5][0] + 50, nodes[5][1])
-        semesters_text = "{\\textbf{" + "{}年{}季学期".format(2017 + i // 2, "春" if i % 2 == 0 else "秋") + "}}"
+        semesters_loc = (nodes[5][0] + 25, nodes[5][1])
+        semesters_text = "{\\textbf{" + "{}-{}".format(2017 + i // 2, "春" if i % 2 == 0 else "秋") + "}}"
         semesters.append(semester_template.format(semesters_loc, semesters_text))
 
         dash_up = (nodes[2][0], ps_text_loc - 20)
@@ -70,8 +71,8 @@ if __name__ == '__main__':
 
     for k, terms in schedule.items():
         for i in terms:
-            left = baseA[0] + 115 * i
-            right = baseC[0] + 115 * i
+            left = baseA[0] + width * i
+            right = baseC[0] + width * i
             progresses.append(progress_templates[k].format(left, right, right, left))
 
     for course, loc in courses_map.items():
