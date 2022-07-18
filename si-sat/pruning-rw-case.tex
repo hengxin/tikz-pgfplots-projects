@@ -1,0 +1,23 @@
+% pruning-rw-case.tex
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[vertex/.style = {circle, draw, minimum size = 30pt},
+  edge/.style = {->, thick},
+  path/.style = {->, thick, decorate, decoration = snake}]
+
+  \node[vertex] (from) {$\mathit{from}$};
+  \node[vertex, right = 2.0cm of from] (to) {$\mathit{to}$};
+  \node[vertex, below = 2.0cm of from] (prec) {$\mathit{prec}$};
+
+  \draw[edge] (from) to node[above]{\textsf{RW}} (to);
+  \draw[edge] (prec) to node[above right]{$\in \textsf{Edge}_{A}$} (from);
+  \draw[path] (to) to[bend left = 70] node[left]{$\in I$} (prec);
+
+  \draw[edge, dashed] (prec) to node[right]{$\in I$} (to);
+\end{tikzpicture}
+\end{document}
