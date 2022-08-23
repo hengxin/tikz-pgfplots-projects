@@ -1,8 +1,15 @@
 %DGraph_counter_example_delete.tex
 
 
-\begin{figure*}[c]{0.5\textwidth}
- %   \centering
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+
   \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
         \node[model] (10472) at (0,0) {Write(443,10), Write(402,7)};
         \node (textof10472) at (1,0.5) {Txn:(10,472)};
@@ -35,6 +42,5 @@
         
         \path[-latex, color=blue] (4172.south) edge node[right] {ww} (10471.north) ;  (10472.north) ;
     \end{tikzpicture}
-    \caption{Delete uncertainty.}
-    \label{fig:delete-DGraph}
-\end{figure*}
+
+\end{document}

@@ -2,8 +2,16 @@
 
 
 
-\begin{figure}[c]{0.5\textwidth}
- %   \centering
+
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+
     \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
         \node[model] (13) at (6,2) {Read(0,4), Write(0,5)};
         \node (textof13) at (6,2.5) {Txn:(1,3)};
@@ -19,6 +27,5 @@
         \path[-latex] (12.south) edge node[left] {wr/ww} (28.north);
         \path[-latex] (13.south) edge node[left] {wr} (14.north);
     \end{tikzpicture}
-    \caption{Delete uncertainty.}
-    \label{fig:delete-galera}
-\end{figure}
+
+\end{document}

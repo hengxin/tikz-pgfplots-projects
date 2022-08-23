@@ -1,8 +1,16 @@
 %Yuga_counter_example_recovery.tex
 
 
-\begin{figure}[c]{0.5\textwidth}
- %   \centering
+
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+
     \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
         \node[model] (07) at (0,0) {Write(10,3)};
         \node (textof07) at (0.7,-0.5) {Txn:(0,7)};
@@ -21,6 +29,4 @@
         \path[dashed, -latex,color=blue] (09.south) edge [out=-70,in=70] node[above] {rw} (07.north); 
         \path[dashed, -latex,color=blue] (115.west) edge [out=160,in=20] node[above] {rw} (07.east); 
     \end{tikzpicture}
-    \caption{Recover the information.}
-    \label{fig:recover-yuga}
-\end{figure}
+\end{document}

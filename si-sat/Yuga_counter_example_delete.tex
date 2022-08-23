@@ -1,8 +1,14 @@
 %Yuga_counter_example_delete.tex
 
 
-\begin{figure}[c]{0.5\textwidth}
- %   \centering
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
     \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
         \node[model] (07) at (0,0) {Write(10,3)};
         \node (textof07) at (0.7,-0.5) {Txn:(0,7)};
@@ -19,6 +25,5 @@
         \path[-latex] (07.north) edge node[left] {so} (09.south); 
         \path[-latex,color=blue] (115.north) edge node[above] {wr} (09.east); 
     \end{tikzpicture}
-    \caption{Delete uncertainty.}
-    \label{fig:delete-yuga}
-\end{figure}
+
+\end{document}

@@ -1,9 +1,15 @@
 %DGraph_counter_example_original
 
-\begin{figure*}[t]
-  \centering
-  \begin{subfigure}[c]{0.5\textwidth}
- %   \centering
+
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+
     \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
         \node[model] (10472) at (0,0) {Write(443,10), Write(402,7)};
         \node (textof10472) at (1,0.5) {Txn:(10,472)};
@@ -15,7 +21,5 @@
         \path[dashed, -latex, color=blue] (9428.west) edge node[left] {rw} (10471.north); 
         \path[-latex] (10471.east) edge node[below] {so} (10472.south); 
     \end{tikzpicture}
-    \caption{The original output of the violation in DGraph.}
-    \label{fig:original-DGraph}
-  \end{subfigure}
-\end{figure*}
+
+\end{document}

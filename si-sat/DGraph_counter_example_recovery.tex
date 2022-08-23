@@ -1,7 +1,15 @@
 %DGraph_counter_example_recovery.tex
 
-\begin{figure*}[c]{0.5\textwidth}
- %   \centering
+
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+
   \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
         \node[model] (10472) at (0,0) {Write(443,10), Write(402,7)};
         \node (textof10472) at (1,0.5) {Txn:(10,472)};
@@ -36,6 +44,6 @@
         \path[dashed, -latex, color=green] (10471.north)  edge [out=110,in=-110] node[left] {ww}  (4172.south) ; 
         \path[dashed, -latex, color=yellow] (9428.south)  edge [out=-70,in=70] node[right] {ww}  (10472.north) ;
     \end{tikzpicture}
-    \caption{Recover the information.}
-    \label{fig:recover-DGraph}
-\end{figure*}
+
+
+\end{document}
