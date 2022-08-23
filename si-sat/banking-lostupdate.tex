@@ -8,22 +8,22 @@
 
 \begin{document}
 \begin{tikzpicture}[
-  node distance = 0.3cm and 1.2cm,
+  node distance = 0.5cm and 0.3cm,
   wr/.style = {->, thick},
   ww/.style = {->, thick, dashed},
   rw/.style = {->, thick, dotted},
-  txn/.style = {draw, inner sep = 3pt}]
+  txn/.style = {draw, inner sep = 3pt, align = center}]
 
   \node[txn, label = above : $T'_{A}$] (t-alice-read) {$\readevent(\acct, 25)$};
 
   \node[txn, label = above : $T_{A} \quad \acct \gets \acct + 50$, above left = of t-alice-read] (t-alice)
-    {$\readevent(\acct, 0) \;\; \writeevent(\acct, 50)$};
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 50)$};
   \node[txn, label = below : $T_{B} \quad \acct \gets \acct + 25$, below left = of t-alice-read] (t-bob)
-    {$\readevent(\acct, 0) \;\; \writeevent(\acct, 25)$};
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 25)$};
 
   \draw[wr, sloped] (t-bob.east) to node[below]{$\WR$} (t-alice-read.south);
-  \draw[rw, bend right] (t-alice.-165) to node[left]{$\RW$} (t-alice.-165 |- t-bob.north);
+  \draw[rw, bend right] (t-alice.-145) to node[]{$\RW$} (t-alice.-145 |- t-bob.north);
   \draw[ww] (t-alice) to node[]{$\WW$} (t-bob);
-  \draw[rw, bend right] (t-bob.15) to node[right]{$\RW$} (t-bob.15 |- t-alice.south);
+  \draw[rw, bend right] (t-bob.35) to node[]{$\RW$} (t-bob.35 |- t-alice.south);
 \end{tikzpicture}
 \end{document}
