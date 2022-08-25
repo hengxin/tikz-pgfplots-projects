@@ -12,22 +12,25 @@
 \begin{document}
 
     \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
-        \node[model] (13) at (6,2) {Read(0,4), Write(0,5)};
-        \node (textof13) at (6,2.5) {Txn:(1,3)};
-        \node[model] (28) at (0,0) {Read(0,4), Write(0,10)};
-        \node (textof28) at (0,-0.5) {Txn:(2,8)};
-        \node[model] (14) at (6,0) {Read(0,5)};
-        \node (textof14) at (6,-0.5) {Txn:(1,4)};
-        \node[model] (12) at (0,2) {Write(0,4)};
-        \node (textof12) at (0,2.5) {Txn:(1,2)};
-        \path[dashed, -latex, color=red] (13.south) edge node[above] {ww} (28.east); 
-        \path[dashed, -latex, color=blue] (28.north) edge node[below] {ww} (13.west); 
-        \path[dashed, -latex, color=blue] (13.west) edge [out=180,in=90] node[below] {rw} (28.north);
-        \path[dashed, -latex, color=red] (28.east) edge [out=0,in=-90] node[above] {rw} (13.south);
-        \path[dashed, -latex,color=red] (14.west) edge node[below] {rw} (28.east); 
-        \path[-latex] (12.east) edge node[above] {wr/ww} (13.west);
-        \path[-latex] (12.south) edge node[left] {wr/ww} (28.north);
-        \path[-latex] ([xshift=0.5ex]13.south) edge node[left] {wr} (14.north);
+        \node[model] (15) at (6,2) {$\R$(0,4), $\W$(0,5)};
+        \node (textof15) at (6,2.5) {$\T$:(1,5)};
+        \node[model] (213) at (0,0) {$\R$(0,4), $\W$(0,13)};
+        \node (textof213) at (0,-0.5) {$\T$:(2,13)};
+        %\node[model] (14) at (6,0) {Read(0,5)};
+        %\node (textof14) at (6,-0.5) {Txn:(1,4)};
+        \node[model] (14) at (0,2) {$\W$(0,4)};
+        \node (textof14) at (0,2.5) {$\T$:(1,4)};
+        
+        \path[dashed, -latex, color=red] (15.south) edge node[above] {$\RW$} (213.east); 
+        \path[dashed, -latex, color=blue] ([xshift=5ex]213.north) edge node[below] {$\RW$} ([yshift=-1ex]15.west); 
+        \path[dashed, -latex, color=blue] ([yshift=-1ex]15.west) edge [out=180,in=90] node[below] {$\WW$} ([xshift=5ex]213.north);
+        \path[dashed, -latex, color=red] (213.east) edge [out=0,in=-90] node[above] {$\WW$} (15.south);
+        %\path[dashed, -latex,color=red] (14.west) edge node[below] {rw} (28.east); 
+        \path[-latex] ([yshift=-1ex]14.east) edge node[above] {$\WR$} ([yshift=-1ex]15.west);
+        \path[dashed, -latex, color=red] ([yshift=2ex]14.east) edge node[above] {$\WW$} ([yshift=2ex]15.west);
+        \path[-latex] (14.south) edge node[right] {$\WR$} (213.north);
+        \path[dashed, -latex,color=blue] ([xshift=-2ex]14.south) edge node[left] {$\WW$} ([xshift=-2ex]213.north);
+        %\path[-latex] ([xshift=0.5ex]13.south) edge node[left] {wr} (14.north);
     \end{tikzpicture}
 
 
