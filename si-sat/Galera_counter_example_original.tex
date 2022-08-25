@@ -1,6 +1,4 @@
-%Galera_counter_example_original.tex
-
-
+% Galera_counter_example_original.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -9,19 +7,14 @@
 \usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
 
 \begin{document}
+  \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},
+    node distance = 1.0cm and 0.2cm]
+    \node[model, label = above : {$\T: (1, 5)$}] (15) {$\readevent(0,4) \;\; \writeevent(0,5)$};
+    \node[model, below left = of 15, label = below : {$\T: (2, 13)$}] (213) {$\readevent(0,4) \;\; \writeevent(0,13)$};
 
-    \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
-        \node[model] (15) at (6,2) {$\R$(0,4), $\W$(0,5)};
-        \node (textof15) at (6,2.5) {$\T$:(1,5)};
-        \node[model] (213) at (0,0) {$\R$(0,4), $\W$(0,13)};
-        \node (textof213) at (0,-0.5) {$\T$:(2,13)};
-        %\node[model] (14) at (6,0) {Read(0,5)};
-        %\node (textof14) at (6,-0.5) {Txn:(1,4)};
-        \path[dashed, -latex, color=red] (15.south) edge node[above] {$\WW$} (213.east); 
-        \path[dashed, -latex, color=blue] (213.north) edge node[below] {$\WW$} (15.west); 
-        \path[dashed, -latex, color=blue] (15.west) edge [out=180,in=90] node[above] {$\RW$} (213.north);
-        \path[dashed, -latex, color=red] (213.east) edge [out=0,in=-90] node[above] {$\RW$} (15.south);
-        %\path[dashed, -latex,color=red] (14.west) edge node[below] {rw} (28.east); 
-    \end{tikzpicture}
-
+    \draw[dashed, ->, thick, red, sloped] (15.west) to node[above]{$\WW$} (213);
+    \draw[dashed, ->, thick, red, bend right = 45, sloped] (213.-5) to node[below] {$\RW$} (15.south);
+    \draw[dashed, ->, thick, blue, sloped] (213.east) to node[below]{$\WW$} (15);
+    \draw[dashed, ->, thick, blue, bend right = 45, sloped] (15.175) to node[above]{$\RW$} (213.north);
+  \end{tikzpicture}
 \end{document}

@@ -1,8 +1,4 @@
-%Galera_counter_example_delete.tex
-
-
-
-
+% Galera_counter_example_delete.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -11,29 +7,21 @@
 \usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
 
 \begin{document}
+  \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},
+    node distance = 1.0cm and 1.5cm]
+    \node[model, label = above : {$\T: (1, 5)$}] (15) {$\readevent(0,4) \;\; \writeevent(0,5)$};
+    \node[model, left = of 15, label = above : {$\T: (1, 4)$}] (14) {$\W$(0,4)};
+    \node[model, below = of 14, label = below : {$\T: (2, 13)$}] (213) {$\readevent(0,4) \;\; \writeevent(0,13)$};
 
-    \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
-        
-        \node[model] (15) at (6,2) {$\R$(0,4), $\W$(0,5)};
-        \node (textof15) at (6,2.5) {$\T$:(1,5)};
-        \node[model] (213) at (0,0) {$\R$(0,4), $\W$(0,13)};
-        \node (textof213) at (0,-0.5) {$\T$:(2,13)};
-        %\node[model] (14) at (6,0) {Read(0,5)};
-        %\node (textof14) at (6,-0.5) {Txn:(1,4)};
-        \node[model] (14) at (0,2) {$\W$(0,4)};
-        \node (textof14) at (0,2.5) {$\T$:(1,4)};
-        
-        \path[dashed, -latex, color=red] (15.south) edge node[below] {$\RW$} (213.east); 
-        \path[dashed, -latex, color=blue] ([xshift=5ex]213.north) edge node[above] {$\RW$} ([yshift=-1ex]15.west); 
-        %\path[dashed, -latex, color=blue] ([yshift=-1ex]15.west) edge [out=180,in=90] node[below] {$\RW$} ([xshift=5ex]213.north);
-        %\path[dashed, -latex, color=red] (213.east) edge [out=0,in=-90] node[above] {$\RW$} (15.south);
-        %\path[dashed, -latex,color=red] (14.west) edge node[below] {rw} (28.east); 
-        \path[-latex] ([yshift=-1ex]14.east) edge node[above] {$\WR$} ([yshift=-1ex]15.west);
-        \path[-latex, color=red] ([yshift=2ex]14.east) edge node[above] {$\WW$} ([yshift=2ex]15.west);
-        \path[-latex] (14.south) edge node[right] {$\WR$} (213.north);
-        \path[-latex,color=blue] ([xshift=-2ex]14.south) edge node[left] {$\WW$} ([xshift=-2ex]213.north);
-        %\path[-latex] ([xshift=0.5ex]13.south) edge node[left] {wr} (14.north);
-        
-    \end{tikzpicture}
+    \draw[->, thick] (14.-10) to node[below] {$\WR$} (14.-10 -| 15.west);
+    \draw[->, thick, color=red] (14.10) to node[above] {$\WW$} (14.10 -| 15.west);
 
+    % \draw[->, thick, red, sloped] (15.195) to node[]{$\WW$} (213.10);
+    \draw[->, thick, red, bend right, sloped] (213.east) to node[below] {$\RW$} (15.200);
+    % \draw[->, thick, blue, sloped] (213.-10) to node[]{$\WW$} (15.205);
+    \draw[->, thick, blue, bend right, sloped] (15.190) to node[below]{$\RW$} (213.15);
+
+    \draw[->, thick] (14.-45) to node[right] {$\WR$} (14.-45 |- 213.north);
+    \draw[->, thick, color=blue] (14.225) to node[left] {$\WW$} (14.225 |- 213.north);
+  \end{tikzpicture}
 \end{document}
