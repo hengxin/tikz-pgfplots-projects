@@ -10,7 +10,7 @@
   \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},
     node distance = 1.0cm and 1.5cm]
     \node[model, label = above : {$\T: (1, 5)$}] (15) {$\readevent(0,4) \;\; \writeevent(0,5)$};
-    \node[model, left = of 15, label = above : {$\T: (1, 4)$}] (14) {$\W$(0,4)};
+    \node[model, left = of 15, label = above : {$\T: (1, 4)$},fill=green!20] (14) {$\W$(0,4)};
     \node[model, below = of 14, label = below : {$\T: (2, 13)$}] (213) {$\readevent(0,4) \;\; \writeevent(0,13)$};
 
     \draw[->, thick] (14.-10) to node[below] {$\WR$} (14.-10 -| 15.west);

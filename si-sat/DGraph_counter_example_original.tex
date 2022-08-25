@@ -11,12 +11,14 @@
 \begin{document}
 
     \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
-        \node[model] (10472) at (0,0) {$\W$(443,10), $\W$(402,7)};
-        \node (textof10472) at (1,0.5) {$\T$:(10,472)};
-        \node[model] (9428) at (0,3) {$\W$(402,6), $\R$(656,3)};
-        \node (textof9428) at (1,2.5) {$\T$:(9,428)};
-        \node[model] (10471) at (-4,-1) {$\W$(656,7)};
-        \node (textof10471) at (-4,-1.5) {$\T$:(10,471)};
+        \node[model, label = below : {$\T: (10, 472)$}] (10472) at (0,0) {$\writeevent(443,10) \; \; \writeevent(402,7)$};
+
+        \node[model, label = above : {$\T: (9, 428)$}] (9428) at (0,3) {$\writeevent(402,6) \; \; \readevent(656,3)$};
+
+
+        \node[model, label = below : {$\T: (10, 471)$}] (10471) at (-4,-1) {$\writeevent(656,7)$};
+
+
         \path[dashed, -latex, color=red] (10472.north) edge node[left] {$\WW$} (9428.south); 
         \path[dashed, -latex, color=blue] (9428.west) edge node[left] {$\RW$} (10471.north); 
         \path[-latex] (10471.east) edge node[below] {$\SO$} (10472.south); 

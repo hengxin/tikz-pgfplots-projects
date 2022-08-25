@@ -11,22 +11,22 @@
 \begin{document}
 
   \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
-        \node[model] (10472) at (0,0) {$\W$(443,10), $\W$(402,7)};
-        \node (textof10472) at (1,0.5) {$\T$:(10,472)};
-        \node[model] (9428) at (0,3) {$\W$(402,6), $\R$(656,3)};
-        \node (textof9428) at (1,2.5) {$\T$:(9,428)};
-        \node[model] (10471) at (-4,-1) {$\W$(656,7)};
-        \node (textof10471) at (-4,-1.5) {$\T$:(10,471)};
-        \node[model] (4172) at (-4,4) {$\W$(656,3),$\W$(753,1)};
-        \node (textof4172) at (-4,4.5) {$\T$:(4,172)};
-        \node[model] (10467) at (-6,1.5) {$\R$(753,1)};
-        \node (textof10467) at (-6.75,2) {$\T$:(10,467)};
-        \node[model] (8380) at (4,-1) {$\R$(443,10)};
-        \node (textof8380) at (4,-1.5) {$\T$:(8,380)};
-        \node[model] (8383) at (6,1.5) {$\W$(248,11)};
-        \node (textof8383) at (6.75,2) {$\T$:(8,383)};
-        \node[model] (9423) at (4,4) {$\R$(248,11)};
-        \node (textof9423) at (4,4.5) {$\T$:(9,423)};
+        \node[model, label = below : {$\T: (10, 472)$}] (10472) at (0,0) {$\writeevent(443,10) \; \; \writeevent(402,7)$};
+        
+        \node[model, label = above : {$\T: (9, 428)$}] (9428) at (0,3) {$\writeevent(402,6) \; \; \readevent(656,3)$};
+
+        \node[model, label = below : {$\T: (10, 471)$}] (10471) at (-4,-1) {$\writeevent(656,7)$};
+
+        \node[model, label = above : {$\T: (4, 172)$}, fill=green!20] (4172) at (-4,4) {$\writeevent(656,3) \; \; \writeevent(753,1)$};
+        
+        \node[model, label = above : {$\T: (10, 467)$}, fill=green!20] (10467) at (-6,1.5) {$\readevent(753,1)$};
+
+        \node[model, label = below : {$\T: (8, 380)$}, fill=green!20] (8380) at (4,-1) {$\readevent(443,10)$};
+
+        \node[model, label = above : {$\T: (8, 383)$}, fill=green!20] (8383) at (6,1.5) {$\writeevent(248,11)$};
+
+        \node[model, label = above : {$\T: (9, 423)$}, fill=green!20] (9423) at (4,4) {$\readevent(248,11)$};
+
 
         
         \path[dashed, -latex, color=red] (10472.north) edge node[left] {$\WW$} (9428.south); 
