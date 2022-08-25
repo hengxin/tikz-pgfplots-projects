@@ -11,37 +11,39 @@
 \begin{document}
 
   \begin{tikzpicture}[model/.style = {draw, minimum size = 15pt},  node distance = 0.5cm and 1.5cm]
-        \node[model, label = below : {$\T: (10, 472)$}] (10472) at (0,0) {$\writeevent(443,10) \; \; \writeevent(402,7)$};
+        \node[model, label = below : {$\T: (10, 472)$}] (10472) {$\writeevent(443,10) \; \; \writeevent(402,7)$};
         
-        \node[model, label = above : {$\T: (9, 428)$}] (9428) at (0,3) {$\writeevent(402,6) \; \; \readevent(656,3)$};
+        \node[model, above = 2 cm of 10472, label = above : {$\T: (9, 428)$}] (9428) {$\writeevent(402,6) \; \; \readevent(656,3)$};
 
-        \node[model, label = below : {$\T: (10, 471)$}] (10471) at (-4,-1) {$\writeevent(656,7)$};
-
-        \node[model, label = above : {$\T: (4, 172)$}, fill=green!20] (4172) at (-4,4) {$\writeevent(656,3) \; \; \writeevent(753,1)$};
+        \node[model, below left = of 10472, label = below : {$\T: (10, 471)$}] (10471) {$\writeevent(656,7)$};
         
-        \node[model, label = above : {$\T: (10, 467)$}, fill=green!20] (10467) at (-6,1.5) {$\readevent(753,1)$};
+         \node[model, above = 4 cm of 10471, label = above : {$\T: (4, 172)$}, fill=green!20] (4172) {$\writeevent(656,3) \; \; \writeevent(753,1)$};
+        
+        \node[model, above left = 2 cm and 1 cm of 10471, label = above : {$\T: (10, 467)$}, fill=green!20] (10467) {$\readevent(753,1)$};
+        
+       
 
-        \node[model, label = below : {$\T: (8, 380)$}, fill=green!20] (8380) at (4,-1) {$\readevent(443,10)$};
+        \node[model, below right =of 10472, label = below : {$\T: (8, 380)$}, fill=green!20] (8380)  {$\readevent(443,10)$};
 
-        \node[model, label = above : {$\T: (8, 383)$}, fill=green!20] (8383) at (6,1.5) {$\writeevent(248,11)$};
+        \node[model, above right = 2 cm and 0.5 cm of 8380, label = above : {$\T: (8, 383)$}, fill=green!20] (8383)  {$\writeevent(248,11)$};
 
-        \node[model, label = above : {$\T: (9, 423)$}, fill=green!20] (9423) at (4,4) {$\readevent(248,11)$};
+        \node[model, above = 4 cm of 8380, label = above : {$\T: (9, 423)$}, fill=green!20] (9423)  {$\readevent(248,11)$};
 
 
         
-        \path[dashed, -latex, color=red] (10472.north) edge node[left] {$\WW$} (9428.south); 
-        \path[dashed, -latex, color=blue] (9428.west) edge node[right] {$\RW$} (10471.north); 
-        \path[-latex] (10471.east) edge node[below] {$\SO$} (10472.south); 
-        \path[-latex, color=blue] (4172.east) edge node[above] {$\WR$} (9428.north) ; 
-        \path[-latex] (4172.south) edge node[left] {$\WR$} (10467.north); 
-        \path[-latex] (10467.south) edge node[left] {$\SO$} (10471.north); 
-        \path[-latex] (10472.south) edge node[below] {$\WR$} (8380.west); 
-        \path[-latex] (8380.north) edge node[right] {$\SO$} (8383.south); 
-        \path[-latex] (8383.north) edge node[right] {$\WR$} (9423.south);
-        \path[-latex] (9423.west) edge node[above] {$\SO$} (9428.north);
+        \path[->, thick, red, sloped] (10472.north) edge node[above] {$\WW$} (9428.south); 
+        \path[->, thick, blue, sloped] (9428.west) edge node[below] {$\RW$} (10471.north); 
+        \path[->, thick, sloped] (10471.east) edge node[below] {$\SO$} ([xshift=-6mm]10472.south); 
+        \path[->, thick, blue, sloped] (4172.east) edge node[above] {$\WR$} ([xshift=-6mm]9428.north) ; 
+        \path[->, thick, sloped] (4172.south) edge node[above] {$\WR$} (10467.east); 
+        \path[->, thick, sloped] (10467.east) edge node[below] {$\SO$} (10471.north); 
+        \path[->, thick, sloped] ([xshift=6mm]10472.south) edge node[below] {$\WR$} (8380.west); 
+        \path[->, thick, sloped] (8380.north) edge node[below] {$\SO$} (8383.west); 
+        \path[->, thick, sloped] (8383.west) edge node[above] {$\WR$} (9423.south);
+        \path[->, thick, sloped] (9423.west) edge node[above] {$\SO$} ([xshift=6mm]9428.north);
         
-        \path[dashed, -latex, color=blue] (4172.south) edge node[right] {$\WW$} (10471.north) ; 
-        \path[dashed, -latex, color=purple] (10471.north)  edge [out=100,in=-100] node[left] {$\WW$}  (4172.south) ; 
+        \path[->, thick, blue, sloped] (4172.south) edge node[above] {$\WW$} (10471.north) ; 
+        \path[dashed, ->, thick, purple, sloped] (10471.north)  edge [out=100,in=-100] node[above] {$\WW$}  (4172.south) ; 
         \path[dashed, -latex, color=orange] (9428.south)  edge [out=-70,in=70] node[right] {$\WW$}  (10472.north) ;
     \end{tikzpicture}
 
