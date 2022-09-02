@@ -1,6 +1,7 @@
 % pruning-rw-case.tex
 
 \documentclass{standalone}
+\input{newcommands}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
@@ -15,9 +16,9 @@
   \node[vertex, below = 2.0cm of from] (prec) {$\mathit{prec}$};
 
   \draw[edge] (from) to node[above]{\textsf{RW}} (to);
-  \draw[edge] (prec) to node[above right]{$\in \textsf{Edge}_{A}$} (from);
-  \draw[path] (to) to[bend left = 70] node[left]{$\in I$} (prec);
+  \draw[edge] (prec) to[sloped] node[above]{in $\graphA$} (from);
+  \draw[path] (to) to[bend left = 70, sloped] node[above]{in $\knowninducedgraph$} (prec);
 
-  \draw[edge, dashed] (prec) to node[right]{$\in I$} (to);
+  \draw[edge, dashed] (prec) to[sloped] node[above]{in $\knowninducedgraph$} (to);
 \end{tikzpicture}
 \end{document}

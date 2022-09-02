@@ -23,10 +23,10 @@
   \draw[wr] (t) to node[above]{$\WR(\keyxvar)$} (tprime);
   \draw[wr] (s) to node[below]{$\WR(\keyxvar)$} (sprime);
 
-  \draw[ww, blue] (t.210) coordinate (t210) to node[near start] {$\WW(\keyxvar)$} (t210 |- s.north);
-  \draw[rw, blue] (tprime.south) to node[near start]{$\RW(\keyxvar)$} (t210 |- s.north);
+  \draw[ww] (t.210) coordinate (t210) to node[near start] {$\WW(\keyxvar)$} (t210 |- s.north);
+  \draw[rw] (tprime.south) to node[near start]{$\RW(\keyxvar)$} (t210 |- s.north);
 
-  \draw[ww, violet] (s.30) coordinate (s30) to node[near start] {$\WW(\keyxvar)$} (s30 |- t.south);
-  \draw[rw, violet] (sprime.north) to node[near start]{$\RW(\keyxvar)$} (s30 |- t.south);
+  \draw[ww] (s.30) coordinate (s30) to node[near start] {$\WW(\keyxvar)$} (s30 |- t.south);
+  \draw[rw] (sprime.north) to node[near start]{$\RW(\keyxvar)$} (s30 |- t.south);
 \end{tikzpicture}
 \end{document}
