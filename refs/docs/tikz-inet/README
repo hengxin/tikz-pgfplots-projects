@@ -1,0 +1,7 @@
+Name of package: tkz-inet
+Author's name: Marc de Falco
+
+The purpose of this package is to extend tikz with some macros in order to 
+draw interaction nets.
+
+License: LaTeX Projet Public License

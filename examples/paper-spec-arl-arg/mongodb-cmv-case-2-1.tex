@@ -1,0 +1,28 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+\input{newcommands}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzset{
+ process/.style = {rectangle, font = \huge, text width=6em, align = right},
+ put/.style = {rectangle, rounded corners,font =\Large, fill = blue!30, draw, text width=9em, text centered},
+ get/.style = {rectangle, rounded corners,font =\Large, fill = yellow!30, draw, text width=9em, text centered},
+}
+  \node (p-c) [process] {$c:$};
+  \node (o) [put, right = 0.1cm of p-c] {$o=\pput(k',\_)$};
+  \node (g) [get, right = 1.6cm of o] {$g = \get(k)$};
+
+  \node (p-j) [process, below = 0.8cm of p-c] {$j\neq c:$};
+  \node (p') [put, right = 0.1cm of p-j] {$p'=\pput(k,\_)$};
+
+  \node (p-i) [process, below = 0.8cm of p-j] {$i:$};
+  \node (p) [put, right = 0.1cm of p-i] {$p=\pput(k,\_)$};
+
+  \pbva{o}{g};
+  \ar{p}{p'};
+  \ar{p'}{o};
+  \rvb{p}{g};
+
+\end{tikzpicture}
+\end{document}

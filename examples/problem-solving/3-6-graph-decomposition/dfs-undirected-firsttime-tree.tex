@@ -1,0 +1,16 @@
+% file: 3-6-graph-decomposition/dfs-undirected-firsttime-tree.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[vertex/.style = {draw, teal, circle, minimum size = 8pt},
+  node distance = 2.0cm and 1.5cm,
+  every edge/.style = {draw, thick}]
+  \node (u) [vertex] {$u$};
+  \node (v) [vertex, below = of u] {$v$};
+
+  \path (u) edge[blue, ->, bend right] node[below, sloped] {$1.$ tree edge} (v)
+	(v) edge[red, ->, bend right, dashed] node[below, sloped] {$2.$ \textcolor{red}{???}}(u);
+\end{tikzpicture}
+\end{document}

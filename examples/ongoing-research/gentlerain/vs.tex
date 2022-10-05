@@ -1,0 +1,48 @@
+% vs.tex
+
+\documentclass[tikz]{standalone}
+\input{gentlerain-preamble}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Stealth, 
+    timeline/.style = {very thick}, 
+    replica/.style = {align = center},
+    node distance = 0.50cm]
+  \node[replica] (ci) {$\client(i)$};
+  \node[replica, right = 0.10cm of ci] (cj) {$\client(j)$};
+  \node[replica, right = 0.10cm of cj] (s) {$\server(s)$};
+  \node[replica, right = of s] (s') {$\server(s')$};
+  \node[replica, right = 0.10cm of s'] (ci') {$\client(i')$};
+  \node[replica, right = 0.10cm of ci'] (cj') {$\client(j')$};
+
+  \foreach \r/\rbot/\style in {ci/cibot/, cj/cjbot/, s/sbot/red, s'/s'bot/red, ci'/ci'bot/, cj'/cj'bot/} {
+    \node[below = 4.0cm of \r] (\rbot) {};
+    \draw[timeline, \style] (\r) to (\rbot);
+  }
+  \draw[timeline, dashed, purple] ($(s)!0.5!(s')$) to ($(sbot)!0.5!(s'bot)$);
+
+  \send{ci}{0.15}{u}{u}{s}{0.30}{u^{\texttt{req}}}{u1req}{left, blue}
+  \send{cj}{0.25}{u}{u}{s}{0.50}{u^{\texttt{req}}}{u2req}{left, blue}
+
+  \send{ci'}{0.20}{u}{u}{s'}{0.25}{u^{\texttt{req}}}{ureq}{right, teal}
+  \send{s'}{0.30}{}{}{s}{0.40}{u^{\texttt{repl}\;s}}{u1repl}{right, teal}
+
+  \send{cj'}{0.30}{u}{u}{s'}{0.40}{u^{\texttt{req}}}{ureq}{right, teal}
+  \send{s'}{0.50}{}{}{s}{0.65}{u^{\texttt{repl}\;s}}{u2repl}{right, teal}
+
+  \node (e) [draw, rectangle, cyan] at ($(s)!0.80!(sbot)$) {$e$};
+
+  \node (lvs) [blue, below left = 0.00cm and 0.70cm of e] {$\lvs$};
+  \path[blue, dashed, draw] 
+  	(lvs) to (u1req.east)
+        (lvs) to (u2req.east);
+
+  \node (rvs) [teal, below right = 0.00cm and 0.70cm of e] {$\rvs$};
+  \path[teal, dashed, draw] 
+  	(rvs) to (u1repl.west)
+        (rvs) to (u2repl.west);
+  % \send{s}{0.30}{}{}{ci}{0.50}{e^{\texttt{rep}\; c}}{erep}{left}
+  % \send{s}{0.35}{}{}{s'}{0.60}{e^{\texttt{repl}\; s}}{erepl}{right}
+\end{tikzpicture}
+\end{document}

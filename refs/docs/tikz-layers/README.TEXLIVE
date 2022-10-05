@@ -1,0 +1,7 @@
+The following files have been removed in the TeX Live installation of
+the current package, typically due to duplication, lack of space, or
+missing source code.  You can find these files on CTAN at
+	http://mirror.ctan.org/graphics/pgf/contrib/tikz-layers
+If questions or concerns, email tex-live@tug.org.
+
+	tikz-layers-doc.pdf

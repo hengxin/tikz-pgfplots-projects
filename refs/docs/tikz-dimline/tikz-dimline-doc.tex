@@ -1,0 +1,422 @@
+
+\documentclass[a4paper]{article}
+
+\usepackage[all]{nowidow}
+\widowpenalty10000
+\clubpenalty10000
+
+
+%% See http://tex.stackexchange.com/questions/78334/print-system-information-in-latex-doc
+\RequirePackage{ifxetex}
+\ifxetex
+\RequirePackage{fontspec}
+\RequirePackage{xltxtra}
+\newcommand{\myxetex}{\XeLaTeX}
+\newcommand{\compilator}{\XeLaTeX{}}
+\newcommand{\cversion}{\the\XeTeXversion\XeTeXrevision}
+
+\else
+\RequirePackage[utf8]{inputenc}
+\newcommand{\myxetex}{\texttt{XeLaTeX}}
+\newcommand{\compilator}{\LaTeX{}}
+\makeatletter
+\newcommand{\cversion}{
+\ifnum\pdftexversion<100 %
+          \the\pdftexversion.\pdftexrevision
+        \else
+          \ifnum\pdftexversion<130 %
+            \expandafter\@car\the\pdftexversion\@empty\@nil.%
+            \expandafter\@cdr\the\pdftexversion\@empty\@nil  
+            \pdftexrevision
+          \else
+            \expandafter\@car\the\pdftexversion\@empty\@nil.%
+            \expandafter\@cdr\the\pdftexversion\@empty\@nil.%
+            \pdftexrevision
+          \fi
+        \fi
+}
+\makeatother
+\fi
+
+\makeatletter
+\newcommand{\tcbversion}{\tcb@version}
+\makeatother
+
+\RequirePackage{etoolbox}
+
+\RequirePackage{minted}
+
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit,spy}
+\usetikzlibrary{intersections}
+
+\usepackage{pgfplots}
+
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins,listings}
+\tcbuselibrary{minted}
+\tcbuselibrary{documentation}
+
+%% Diameter
+\usepackage{ wasysym }
+
+\usepackage{tikz-dimline}
+
+
+%%\tikzset{every picture/.append style={scale=0.5}}
+%% \tikzset{global scale/.style={
+%%     scale=0.5,
+%%     every node/.style={scale=0.5}
+%%   }
+%% }
+
+%\tcbset{listing engine=latex}
+\newminted[srcGrid]{latex}{baselinestretch=0.5,fontsize=\footnotesize}
+
+
+\newtcblisting{exampleB}[2][]{%
+  colframe=red!50!yellow!50!black,
+  colback=white,
+  coltitle=red!50!yellow!3!white,
+  bicolor,colbacklower=red!50!yellow!5!white,
+  fonttitle=\sffamily\bfseries,
+  center upper,
+  minted language=latex,
+  minted options={baselinestretch=0.5,fontsize=\scriptsize},
+  %%lefthand ratio=0.33,
+  %%sidebyside,
+  text and listing,
+  title=#2,#1}
+
+\newtcblisting{exampleA}[2][]{%
+  colframe=red!50!yellow!50!black,
+  colback=white,
+  coltitle=red!50!yellow!3!white,
+  bicolor,colbacklower=red!50!yellow!5!white,
+  fonttitle=\sffamily\bfseries,
+  center upper,
+  minted language=latex,
+  minted options={baselinestretch=0.5,fontsize=\scriptsize},
+  %%lefthand ratio=0.33,
+  %%sidebyside,
+  listing,
+  title=#2,#1}
+
+
+%% \newtcblisting{exampleA}[2][]{%
+%%   colframe=red!50!yellow!50!black,
+%%   colback=white,
+%%   coltitle=red!50!yellow!3!white,
+%%   bicolor,colbacklower=red!50!yellow!5!white,
+%%   fonttitle=\sffamily\bfseries,
+%%   sidebyside,text and listing,
+%%   title=#2,#1}
+
+
+
+
+
+\BeforeBeginEnvironment{srcGrid}{%
+\begin{tcolorbox}[boxrule=0.5pt,left=1mm,width=\linewidth]}
+\AfterEndEnvironment{srcGrid}{\end{tcolorbox}}%
+
+
+
+
+
+%% \AtBeginEnvironment{exampleB}{}
+%% \AtEndEnvironment{exampleB}{}
+
+
+%% \BeforeBeginEnvironment{srcGrid}{%
+%% \begin{exampleB}[boxrule=0.5pt,left=1mm,width=\linewidth]{}}
+%% \AfterEndEnvironment{srcGrid}{\end{exampleB}}%
+
+
+
+%% Just to draw a help grid
+%% \helpgrid{Xa}{Ya}{Xb}{Yb}
+\makeatletter
+\newcommand{\helpgrid@do@nothing}[1]{#1}%
+\newcommand{\helpgrid}[4]{%
+  \pgfplotsifinaxis{%
+    \let\helpgrid@internal\pgfplotsextra%
+  }{%
+    \let\helpgrid@internal\helpgrid@do@nothing%
+  }%
+
+  \begin{scope}
+
+    \coordinate (a) at (#1,#2) {};
+    \coordinate (b) at (#3,#4) {};
+
+    \draw[step=1,gray!10,very thin] (a) grid (b);
+    
+    \foreach \x in {#1,...,#3}
+    \node[anchor=north,gray!20] at (\x, 0) {\tiny{\x}};
+
+    \foreach \y in {#2,...,#4}
+    \node[anchor=east,gray!20] at (0, \y) {\texttt{\tiny{$\y$}}};
+  \end{scope}
+}%
+\makeatother
+
+
+\newcommand{\PGF}{\textsc{PGF}}
+\newcommand{\TikZ}{Ti\textcolor{orange}{\emph{k}}Z}
+
+
+
+\title{
+  \texttt{dimline}\\
+  Technical dimension lines using \PGF/\TikZ\\
+}
+\author{Sébastien Gross\\ \texttt{<seb•$\alpha\tau$•chezwam•$\partial\theta\tau$•org>}}
+\date{\csname ver@tikz-dimline.sty\endcsname}
+
+\begin{document}
+
+\maketitle
+
+
+\let\thefootnote\relax\footnotetext{This documentation was compiled on
+  {\platformname} using {\compilator} {\cversion}, {\PGF} {\pgfversion},
+  \texttt{tcolorbox} {\tcbversion} on {\today}.}
+
+
+Dimension lines are drawn segments that indicate the measurement of a
+feature. The line has an arrow at both ends to show that the dimension
+displayed covers the entire span of that line. The direction of the line
+(vertical, horizontal or diagonal) shows the direction of the
+measurement. Dimension lines are kept outside of the object illustrated,
+typically connected to other lines that display the area where that
+measurement applies. This keeps the illustration clear.
+
+\begin{tcolorbox}[title={Contents},fonttitle=\bfseries\Large,
+  colback=yellow!10!white,colframe=red!50!black,before=\par\bigskip\noindent]
+  \makeatletter
+  \@starttoc{toc}
+  \makeatother
+  %\tableofcontents
+\end{tcolorbox}
+
+
+\newpage
+
+
+
+\section{Overview}
+
+\begin{exampleB}{}
+
+\begin{tikzpicture}[scale=2]
+  \draw[line width=1pt]  (0,0) -- (0,4) -- (.5,4) -- (.5,5) -- (1.,5)
+  -- (1.,4) -- (1.5,4) -- (1.5,0) -- cycle;
+
+  \draw node (A) at (2.5,0) {};
+  
+  \dimline[line style = {line width=0.7},
+    extension start length=-0.24,
+    extension end length=-0.24] {(A)}{($ (A) + (0,4) $)}{$4.0$};
+
+  \dimline[line style = {red, line width=0.7},
+    extension start length=0,
+    extension end length=0] {(0,2)}{(1.5, 2)}{ $\diameter 1.5$};
+
+  \dimline[label style={above=0.5ex,},
+    extension start path = {(0,6) (0,5.7) (0.5,5.4) (0.5,5.05)},
+    extension end path =  {(1.5,6) (1.5,5.7) (1,5.4) (1,5.05)},]
+          {(0,6)}{(1.5,6)}{$\diameter 0.5$};
+\end{tikzpicture}
+\end{exampleB}
+
+
+\let\thefootnote\relax\footnotetext{The \texttt{wasysym} package is required to have \texttt{\textbackslash diameter} command.}
+
+
+\newpage
+
+
+\section{Installation}
+
+To install the \verb"tkiz-dimline" package copy its directory to either to
+\begin{itemize}
+\item \verb"$TEXHOME/tex/latex/"
+\item \verb"$TEXMFHOME/tex/latex/"
+\item \verb"~/texmf/tex/latex/"
+\item \verb"~/Library/texmf/tex/latex/"
+\end{itemize}
+
+\section{Usage}
+
+\subsection{command}
+\begin{docCommand}{dimline}{\oarg{key path}\marg{start}\marg{end}\marg{label}}
+  Creates a new dimension line from \meta{start} to \meta{end} with
+  \meta{label}. An optional \meta{key path} can be used to customise the
+  dimension line.
+
+  This command has to be called within a \docAuxEnvironment*{tikzpicture}
+  environment.
+
+\end{docCommand}
+
+\subsection{options}
+\begin{docKey}{color}{=\meta{color}}{black}
+  Dimension line color.
+\end{docKey}
+\begin{docKey}{line style}{=\meta{style}}{not set}
+  Dimension line style, identical to {\PGF} line style.
+\end{docKey}
+\begin{docKey}{label style}{=\meta{style}}{not set}
+  Dimension label style, identical to {\PGF} label style.
+\end{docKey}
+
+\begin{docKey}{extension start length}{=\meta{size}}{1cm}
+  Length of the extention line at the start point.
+\end{docKey}
+
+\begin{docKey}{extension end length}{=\meta{size}}{1cm}
+  Identical to \refKey*{extension start length}, but for the end point.
+\end{docKey}
+
+\begin{docKey}{extension start angle}{=\meta{angle}}{-90}
+  Angle between the dimension line and the extention line at the start
+  point.  You dont't want to change that value unless you really know what
+  you are doing. You would rather have a look to \refKey*{extension start
+    path} and \refKey*{extension end path}.
+\end{docKey}
+
+\begin{docKey}{extension end angle}{=\meta{angle}}{90}
+  Identical to \refKey*{extension start angle}, but for the end point.
+\end{docKey}
+
+\begin{docKey}{extension start style}{=\meta{style}}{not set}
+  Style for the extension line at the start point.
+\end{docKey}
+
+\begin{docKey}{extension end style}{=\meta{style}}{not set}
+  Identical to \refKey*{extension start style}, but for the end point.
+\end{docKey}
+
+\begin{docKey}{extension start path}{=\meta{path}}{not set}
+  Path (coordinates relative to the current
+  \docAuxEnvironment*{tkizpicture}) for the extension line at the start
+  point.
+\end{docKey}
+
+\begin{docKey}{extension end path}{=\meta{path}}{not set}
+  Identical to \refKey*{extension start path}, but for the end point.
+\end{docKey}
+
+
+\begin{docKey}{arrows}{=\meta{arrows spec}}{dimline-dimline}
+  Arrows used for the dimension line. \docAuxKey{dimline-dimline} is used
+  for standard arrows. Use \docAuxKey{dimeline reverse-dimline reverse} to
+  reverse the arrow heads.
+\end{docKey}
+
+
+
+\section{Examples}
+
+On following examples \docAuxCommand{helpgrid} is only used for a labeled
+grid. This not mandatory you can dicard this line. See source of this
+documentation to see how \docAuxCommand{helpgrid} command is defined.
+
+
+
+\subsection{Basic usage}
+
+This is a very simple usage. It just draws a dimension line (using default
+values) between 2 points with a label on it. Note that the dimension starts
+at the border of the side tick mark, not at the end of the arrow.
+
+\begin{exampleB}{}
+  \begin{tikzpicture}[spy using outlines={circle, magnification=25, size=6cm,
+        connect spies}]
+    \helpgrid{-1}{-1}{5}{4}
+    \draw[line width=0.01,color=red] plot[mark=+] coordinates{(3,3)} {};
+    \draw[line width=0.01,color=green] plot[mark=x] coordinates{(3,3)} {};
+    \dimline[line style = {line width=0.5}]{(0,0)}{(3,3)}{Label};
+    \spy [blue] on (2.975,2.975) in node [fill=white] at (6.5,1.5);
+  \end{tikzpicture}
+\end{exampleB}
+
+
+\subsection{Reverse arrows}
+
+Sometimes, shuch as for very small dimensions, you need to reverse the
+arrows. You can then use a \docAuxKey{dimeline reverse} arrow.
+
+\begin{exampleB}{}
+  \begin{tikzpicture}[spy using outlines={circle, magnification=25, size=6cm,
+        connect spies}]
+    \helpgrid{-1}{-1}{5}{4}
+    \draw[line width=0.01,color=red] plot[mark=+] coordinates{(3,3)} {};
+    \draw[line width=0.01,color=green] plot[mark=x] coordinates{(3,3)} {};
+
+    \dimline[line style = {line width=0.5,
+    arrows=dimline reverse-dimline reverse}]{(0,0)}{(3,3)}{Label};
+    \spy [blue] on (3.025,3.025) in node [fill=white] at (6.5,1.5);
+  \end{tikzpicture}
+\end{exampleB}
+
+\subsection{Styling your dimension lines} 
+
+You can customize your dimension lines like any other \TikZ{} environment.
+\begin{exampleB}{}
+  \begin{tikzpicture}[scale=0.5]
+    \helpgrid{-1}{-1}{4}{7}
+    \draw (0,0) -- (0,4) -- (.5,4) -- (.5,5) -- (1.,5) -- (1.,4) -- (1.5,4) -- (1.5,0)
+    -- cycle;
+    \dimline[color=blue,
+      extension start length=-0.25, extension end length=-0.25]{(2.75,0)}{(2.75,4)}{4.0};
+    \dimline[color=red,
+      line style={arrows=dimline reverse-dimline reverse},
+      label style={above=0.8ex,font=\tiny},
+      extension start length=1,
+      extension end length=1]{(0.5,5.6)}{(1.0,5.6)}{0.5};
+  \end{tikzpicture}
+\end{exampleB}
+
+
+\subsection{Complex extension lines}
+
+This example shows you how to use both a \docAuxKey{extension start path}
+and \docAuxKey{extension end path}. This is useful if you want to enlarge a
+small dimension area.
+
+\begin{exampleB}{}
+  \begin{tikzpicture}[scale=0.5]
+    \helpgrid{-1}{-1}{4}{7}
+    \draw  (0,0) -- (0,4) -- (.5,4) -- (.5,5) -- (1.,5) -- (1.,4) -- (1.5,4) -- (1.5,0)
+    -- cycle;
+
+    \draw[color=red] node (A) at (2.5,0) {} node [yshift=1ex,xshift=-1ex]
+    at (A) {\tiny{A}};
+    \dimline[color=blue,
+      line style = {line width=0.7},
+      extension start length=-0.24,
+      extension end length=-0.24] {(A)}{($ (A) + (0,4) $)}{4.0};
+    \dimline[label style={above=0.5ex, fill=blue!10,},
+      extension start path = {(0,6) (0,5.7) (0.5,5.4) (0.5,5.05)},
+      extension start style = { green },
+      extension end path =  {(1.5,6) (1.5,5.7) (1,5.4) (1,5.05)},]
+            {(0,6)}{(1.5,6)}{0.5};
+    \draw[color=red,line width=0.01] plot[mark=x] coordinates{(A)} {};
+  \end{tikzpicture}
+\end{exampleB}
+
+\section{License}
+
+This program is free software. It comes without any warranty, to the extent
+permitted by applicable law. You can redistribute it and/or modify it under
+the terms of the Do What The Fuck You Want To Public License, Version 2, as
+published by Sam Hocevar. See http://sam.zoy.org/wtfpl/COPYING for more
+details.
+
+
+
+\end{document}

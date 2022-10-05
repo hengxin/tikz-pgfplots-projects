@@ -1,0 +1,19 @@
+% file: triangulation-from-v1.tex
+
+\documentclass[tikz]{standalone}
+
+\usetikzlibrary{positioning, shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}
+  \node (p) [draw, minimum size = 2.5cm, regular polygon, regular polygon sides = 8] {};
+
+  \foreach \n/\cn/\pos in {1/5/below, 2/4/left, 3/3/left, 4/2/above, 5/1/above, 6/8/right, 7/7/right, 8/6/below} {
+    \node (v\n) [\pos = 0.01cm of p.corner \cn] {$v_{\n}$};
+  }
+
+  \foreach \dest in {3, 2, 1, 8, 7} {
+    \draw[blue] (p.corner 5) to (p.corner \dest);
+  }
+\end{tikzpicture}
+\end{document}

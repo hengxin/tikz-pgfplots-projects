@@ -1,0 +1,37 @@
+% ce-galera.tex
+
+\documentclass{standalone}
+\input{newcommands}
+\newcommand{\keyvar}{\mathit{k}}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, trees, positioning, arrows, chains, shapes.geometric,
+    decorations.pathreplacing, decorations.pathmorphing, shapes,
+    matrix, shapes.symbols}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 3.0cm and 0.5cm,
+  every label/.style = {font = \footnotesize},
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+  txn/.style = {draw, inner sep = 2pt, align = center, anchor = center}]
+
+  \node[txn, label = above left : {$(1, 2)$}] (1-2) {$\writeevent(\keyvar_{0}, 3)$ \\ $\writeevent(\keyvar_{0}, 4)$};
+  \node[txn, below left = of 1-2, label = above left : {$(1, 3)$}] (1-3) {$\readevent(\keyvar_{0}, 4)$ \\ $\writeevent(\keyvar_{0}, 5)$};
+  \node[txn, below right = of 1-2, label = above left : {$(2, 8)$}] (2-8)
+    {$\readevent(\keyvar_{0}, 4)$ \\ $\writeevent(\keyvar_{0}, 10)$};
+
+  \path (1-2) edge[wr, sloped, bend right = 20] node[above]{$\WR(\keyvar_{0})$} (1-3)
+  (1-2) edge[so, sloped] node[]{$\SO$} (1-3)
+  (1-2) edge[ww, sloped, bend left = 20, red] node[below]{$\WW(\keyvar_{0})$} (1-3)
+  (1-2) edge[wr, sloped, bend left = 20] node[above]{$\WR(\keyvar_{0})$} (2-8)
+  (1-2) edge[ww, sloped, bend right = 20, blue] node[below]{$\WW(\keyvar_{0})$} (2-8)
+  (1-3) edge[rw, sloped, bend left = 20, blue] node[above]{$\RW(\keyvar_{0})$} (2-8)
+  (2-8) edge[rw, sloped, bend left = 20, red] node[below]{$\RW(\keyvar_{0})$} (1-3)
+  (1-3.10) edge[rw, teal] node[]{$\WW(\keyvar_{0})$} (1-3.10 -| 2-8.west)
+  (2-8.-170) edge[rw, cyan] node[]{$\WW(\keyvar_{0})$} (2-8.-170 -| 1-3.east);
+  \end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+% file: 3-11-matchings-factors/tree-matching-diff-1.tex
+
+\documentclass[tikz]{standalone}
+\usepackage{tikz-qtree}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[level distance = 45pt, sibling distance = 30pt,
+  edge from parent/.style= {
+  	draw, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}}]
+  \tikzset{every node/.style = {draw, circle, minimum size = 15pt}}
+  \tikzset{match/.style = {ultra thick, blue}}
+
+  \Tree [.{} \edge[match];
+    	  [.{} 
+    	      [.{} ] 
+	      [.{} \edge[match]; [.{} ] ] 
+	  ] 
+	  [.{} \edge[match];
+	    [.{}
+	      [.{} ]
+	      [.{} ]
+	    ]
+	  ] 
+	]
+\end{tikzpicture}
+\end{document}

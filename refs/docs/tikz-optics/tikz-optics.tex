@@ -1,0 +1,2316 @@
+\iffalse
+The tikzoptics library documentation
+
+Copyright (C) 2013-2016 by
+  Michel Fruchart <michel.fruchart@ens-lyon.org>
+
+This work may be distributed and/or modified under the conditions of
+the LaTeX Project Public License (LPPL), version 1.3c, which can be
+found at the address:
+https://www.latex-project.org/lppl/lppl-1-3c/
+
+Alternatively, it may be distributed and/or modified under the conditions of
+the GNU Free Documentation License (GNU FDL), version 1.3, which can be found
+at the address:
+https://www.gnu.org/licenses/fdl-1.3.en.html
+or any later version published by the Free Software Foundation.
+\fi
+% allow compression of cross references.
+\pdfminorversion=5 
+\pdfobjcompresslevel=2
+\documentclass[a4paper]{ltxdoc}
+\usepackage{etex}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+\usepackage[a4paper,left=2.25cm,right=2.25cm,top=2.5cm,bottom=2.5cm,nohead]{geometry}
+\usepackage{amsmath}
+
+%\usepackage{makeidx}
+\usepackage[version=3]{mhchem}
+
+\usepackage{csquotes}
+
+\usepackage{xkeyval,calc,listings}
+\usepackage[svgnames,x11names]{xcolor}
+\usepackage{xxcolor} % tikz
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,shapes.misc,shapes.geometric} 
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations,decorations.markings,decorations.pathreplacing,decorations.pathmorphing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{intersections}
+\usetikzlibrary{matrix}
+\usetikzlibrary{fit}
+\usetikzlibrary{ocgx}
+
+
+\usepackage{fancyvrb}
+
+
+\usepackage[framemethod=tikz,usetwoside=false]{mdframed}
+
+\usepackage{fourier-orns}
+\usepackage{lmodern} 
+\usepackage[charter]{mathdesign}
+\usepackage{charter}
+\def\rmdefault{bch} % not scaled
+\def\sfdefault{SourceSansPro-TLF}
+
+\usepackage{textcomp}
+\usepackage[detect-all=true]{siunitx}
+\sisetup{
+        math-micro=\muup,
+        math-ohm  =\Omegaup,
+        text-micro={\fontfamily{mdbch}\textmu},
+        text-ohm  ={\fontfamily{mdbch}\textohm}
+}
+
+\usepackage{attachfile2}
+\attachfilesetup{color=blue}
+
+
+\usepackage[protrusion=true,expansion,kerning=true,final,verbose=false,babel=false]{microtype}
+\DisableLigatures{encoding=T1,family=tt*}
+
+
+% corrige l'interaction foireuse entre tikz et babel[french]
+\AtBeginEnvironment{tikzpicture}{\shorthandoff{:;!}}
+\AtBeginEnvironment{pgfpicture}{\shorthandoff{:;!}}
+
+
+% This is not the standard way to load a tikzlibrary
+% but I want to make sure that the documentation loads
+% the corresponding library (and not e.g. the production version).
+\input{../tikzlibraryoptics.code.tex}
+
+
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+  pdfborder=0 0 0,
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros du manuel pgf/tikz (version : texlive 2012)
+% cf. http://tex.stackexchange.com/questions/72999/is-there-a-listings-configuration-for-tikz-as-used-in-pgf-tikz-manual
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\pgfautoxrefs{1}
+\def\pgfmanual@warning#1{\immediate\write16{! Package pgfmanual Warning: #1}}%
+
+\input{macros/pgfmanual-en-macros}
+\input{macros/pgfmanual.prettyprinter.code.tex}
+\input{macros/pgfmanual.pdflinks.code.tex}
+
+
+\pgfkeys{
+  % set this to 'false' to disable auto reference generation.
+  % However, a little bit runtime overhead will still remain
+  % (and the \pgfmanualpdflabel commands will still be used)
+  /pdflinks/codeexample links=true,
+  %
+  /codeexample/prettyprint/cs arguments/tikzset/.initial=1,
+  /codeexample/prettyprint/cs/tikzset/.code 2 args={\pgfmanualpdfref{#1}{#1}\{\pgfmanualprettyprintpgfkeys{#2}\pgfmanualclosebrace},
+  /codeexample/prettyprint/cs arguments/usetikzlibrary/.initial=1,
+  /codeexample/prettyprint/cs/usetikzlibrary/.code 2 args={\pgfmanualpdfref{#1}{#1}\{\pgfmanualpdfref{#2}{#2}\pgfmanualclosebrace},
+  /codeexample/prettyprint/cs arguments/usepgflibrary/.initial=1,
+  /codeexample/prettyprint/cs/usepgflibrary/.code 2 args={\pgfmanualpdfref{#1}{#1}\{\pgfmanualpdfref{#2}{#2}\pgfmanualclosebrace},
+  %
+  %
+  %
+  % whenever an unqualified key is found, the following key prefix
+  % list is tried to find a match.
+  /pdflinks/search key prefixes in={/tikz/,/pgf/,/tikz/optics/,/tikz/dim/arrow/,},
+  %
+  % the link prefix written to the pdf file:
+  /pdflinks/internal link prefix=tikzopt,
+  %
+  /pdflinks/warnings=false,
+  % for debugging:
+  /pdflinks/show labels=false,
+}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Global styles from pgf/tikz manual (version : texlive 2012)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tikzset{
+  every plot/.style={prefix=plots/pgf-},
+  shape example/.style={
+    color=black!30,
+    draw,
+    fill=yellow!30,
+    line width=.5cm,
+    inner xsep=2.5cm,
+    inner ysep=0.5cm}, 
+  line shape example/.style={
+    color=black!30,
+    draw,
+%    fill=black!30, % utile à quoi ?
+    line width=.5cm,
+    inner xsep=2.5cm,
+    inner ysep=0.5cm}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Specific environnements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Environnement |example only| : aspect similaire à codeexample, mais avec seulement l'exemple (quand le code est trop long)
+\newmdenv[
+  backgroundcolor=graphicbackground,
+  linewidth=0pt,
+  innerleftmargin=0.09cm,innerrightmargin=0.09cm,innertopmargin=0.09cm,
+  leftmargin=0pt,rightmargin=0pt,
+  skipabove=5pt, skipbelow=-2pt,
+  ]{example only}
+
+% Environnement |warning|
+\colorlet{warningbackground}{red!30}
+\makeatletter
+\newenvironment{warning}{%
+\mdfsetup{%
+  backgroundcolor=warningbackground,
+  skipabove=5pt,
+  topline=false,bottomline=false,rightline=false,
+  innerbottommargin=4pt,innertopmargin=0.18cm,
+  leftmargin=0cm, innerleftmargin=0.3cm
+    rightmargin=0cm,innerrightmargin=0.3cm,
+    linewidth=1pt,linecolor=none, topline=false, bottomline=false,
+    }%
+\begin{mdframed}%
+\setlength{\parindent}{0pt}%
+\danger\,%
+}%
+{%
+\end{mdframed}%
+}%
+
+% Environnement |update|
+\colorlet{updatebackground}{blue!30}
+\newenvironment{update}{%
+\mdfsetup{%
+  backgroundcolor=updatebackground,
+  skipabove=5pt,
+  topline=false,bottomline=false,rightline=false,
+  innerbottommargin=4pt,innertopmargin=0.18cm,
+  leftmargin=0cm, innerleftmargin=0.3cm
+    rightmargin=0cm,innerrightmargin=0.3cm,
+    linewidth=1pt,linecolor=none, topline=false, bottomline=false,
+    }%
+\begin{mdframed}%
+\setlength{\parindent}{0pt}%
+\danger\,%
+}%
+{%
+\end{mdframed}%
+}%
+\makeatother
+
+\begin{document}
+
+\VerbatimFootnotes
+
+\title{optics --- une bibliothèque tikz pour les schémas d'optique}
+\author{Michel Fruchart \\
+\href{mailto:michel (dot) fruchart [at] ens-lyon (dot) org}{\texttt{michel (dot) fruchart [at] ens-lyon (dot) org}}}
+
+\date{\tikzopticsversiondate{} -- version \tikzopticsversion \\[0.15cm]
+\large\href{https://github.com/fruchart/tikz-optics}{\texttt{https://github.com/fruchart/tikz-optics}}}
+
+\maketitle
+
+\section{Introduction}
+
+Le but de cette bibliothèque est de permettre de facilement faire des schémas optiques avec tikz, c'est-à-dire de dessiner lentilles, miroirs, etc. Le tracé géométriquement correct (ou non) des rayons est laissé à l'utilisateur.
+
+
+\subsection{Legal matters}
+
+Cette bibliothèque peut être distribuée et modifiée sous les conditions de la licence LaTeX Project Public License (LPPL), version 1.3c\footnote{\url{http://latex-project.org/lppl/lppl-1-3c.txt}}. Elle peut aussi être distribuée et modifiée sous les conditions de la licence GNU General Public License (GNU GPL), soit la version 2\footnote{\url{http://www.gnu.org/licenses/gpl-2.0.en.html}}, soit toute version ultérieure publiée par la Free Software Foundation. Sa documentation, que vous êtes en train de lire, peut être distribuée sous les conditions de la licence LaTeX Project Public License (LPPL), version 1.3c\footnote{\url{http://latex-project.org/lppl/lppl-1-3c.txt}}. Elle peut aussi être distribuée et modifiée sous les conditions de la licence GNU Free Documentation License (GNU FDL), soit la version 1.3\footnote{\url{https://www.gnu.org/licenses/fdl-1.3.en.html}}, soit toute version ultérieure publiée par la Free Software Foundation.
+
+\subsection{Installation de la bibliothèque}
+
+Cette bibliothèque est une \enquote{bibliothèque tikz}. Il y a deux façons de l'utiliser : 
+\begin{itemize}
+  \item en ajoutant le fichier |tikzlibraryoptics.code.tex| dans un dossier où \TeX{} peut le trouver, par exemple dans votre dossier |TEXMFHOME|\footnote{Pour savoir où il se trouve, on peut utiliser la commande \verb|kpsewhich -var-value TEXMFHOME|. }, puis en utilisant la commande |\usetikzlibrary{optics}| ;
+  \item en incluant directement le fichier |tikzlibraryoptics.code.tex| contenant la bibliothèque grâce à la commande |\input|.
+\end{itemize}
+
+Si la bibliothèque est placée dans un dossier |TEXMF|, disons |/home/agamemnon/texmf/|, il faut respecter la structure TDS de ces répertoires\footnote{Voir par exemple \url{https://www.ctan.org/TDS-guidelines}}. En pratique, le fichier |tikzlibraryoptics.code.tex| doit être placé dans le dossier |home/agamemnon/texmf/tex/latex/|, ou dans un sous-dossier comme |home/agamemnon/texmf/tex/latex/tikzoptics|. Le plus simple est d'utiliser le contenu de l'archive |tikzoptics.tds.zip|, qui est structuré comme il se doit et peut directement être ajouté dans le dossier |TEXMF| (comme |/home/agamemnon/texmf/|).
+
+\subsection{Utilisation de la bibliothèque}
+
+\begin{key}{/tikz/use optics}
+Après avoir installé la bibliothèque, il suffit de la charger grace à la commande |\usetikzlibrary{optics}|, puis d'utiliser l'option |use optics| sur une |tikzpicture| pour pouvoir utiliser les commandes\footnote{L'option \texttt{use optics} charge les éléments pertinents de \texttt{/tikz/optics/} dans \texttt{/tikz/}, ce qui permet de les utiliser directement. Séparer a priori les commandes dans des espaces de noms différents permet de réduire le risque de collision de noms.}
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \node[lens] at (0,0) {};
+  \node[mirror] at (1cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+
+Si l'option |use optics| n'est pas utilisée, le code plantera lamentablement (dans les cas favorables) ou aura un comportement inattendu (dans les cas moins favorables).
+\end{key}
+
+\subsection{Élements sur les \texttt{node} de tikz et leur placement}
+
+\emph{Pour plus de détails, lire le manuel de tikz.}
+
+En deux mots, une |node| est en gros un objet, qui peut avoir une certaine forme (|shape|). À différents endroits de cette |node| sont définies des ancres (|anchor|). Au contraire d'une |node| qui est en quelque sorte étendue spatialement, ces ancres représentent des points précis sur le canevas de dessin. La |node| a un nom (facultatif) qui permet d'y faire référence dans la suite du dessin, par exemple pour accéder aux coordonnées d'une ancre. 
+
+La syntaxe minimale pour créer une |node| est |\node {};|, mais cela n'est pas très utile. Il faut spécifier où se trouve la |node| en écrivant |\node at |\meta{position}| {};| (où \meta{position} est une coordonnée, comme |(0,1cm)|). Cela n'est toujours pas très utile car rien n'est dessiné. C'est le rôle des |shape| que de déterminer ce qui est dessiné.
+
+Dessinons ainsi un rectangle rouge en |(0,0)| (ici, c'est le centre du canevas), et de côté |1cm|\footnote{Dans cette documentation, les longueurs ne sont généralement pas écrites avec les conventions du système international, mais avec les conventions habituelles pour du code tikz.}
+
+%
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}
+  \draw[style=help lines,gray!50] (-2cm,-2cm) grid[step=0.5cm] (2cm,2cm);
+  \node[rectangle,minimum height=1cm,minimum width=1cm,draw=red] at (0,0) {};
+\end{tikzpicture}
+\end{codeexample}
+%
+J'ai ajouté une grille de pas |0.5cm| pour mieux voir les coordonnées. Dans cet exemple, c'est le centre du rectangle qui est placé au point |(0,0)|. Pour être plus précis, il s'agit de son ancre |center|. C'est le comportement par défaut, mais tout l'intérêt est qu'on peut placer les autres ancres définies par la |shape| au point spécifié. Ajoutons donc à ce dessin un rectangle bleu dont le bas est situé en |(0,0)|. Comme nous allons avoir plusieurs |node| qui partagent les caractéristiques |rectangle,minimum height=1cm,minimum width=1cm|, je les ai placées dans un \emph{style} que j'ai appelé |joli rectangle| (il ne faudrait pas l'appeler |rectangle| car cela existe déjà). Comme le bas est représenté par l'ancre |south|, il faut ajouter l'option |anchor=south| à la |node|:
+%
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}
+  \draw[style=help lines,gray!50] (-2cm,-2cm) grid[step=0.5cm] (2cm,2cm);
+  \tikzstyle{joli rectangle}=[rectangle,minimum height=1cm,minimum width=1cm]
+  \node[joli rectangle,draw=red] at (0,0) {};
+  \node[joli rectangle,draw=blue,anchor=south] at (0,0) {};
+\end{tikzpicture}
+\end{codeexample}
+%
+J'aimerais maintenant tracer un trait noir entre coin en haut à gauche du carré bleu et le coin en bas à droite du carré rouge. Pour cela, il faut pouvoir accéder aux ancres |north west| (en haut à gauche) et |south east| (en bas à droite) des deux |nodes|. Nous allons donc donner un nom à chacune de ces |nodes|, par exemple |Esther| et |Athalie|:
+%
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}
+  \draw[style=help lines,gray!50] (-2cm,-2cm) grid[step=0.5cm] (2cm,2cm);
+  \tikzstyle{joli rectangle}=[rectangle,minimum height=1cm,minimum width=1cm]
+  \node[joli rectangle,draw=red] 
+    (Esther) at (0,0) {};
+  \node[joli rectangle,draw=blue,anchor=south]
+    (Athalie) at (0,0) {};
+\end{tikzpicture}
+\end{codeexample}
+%
+Pour le moment, cela ne change absolument rien au dessin, mais on peut désormais accéder aux ancres nécessaires par |(Athalie.north west)| et |(Esther.south east)| et dessiner le trait voulu.
+%
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}
+  \draw[style=help lines,gray!50] (-2cm,-2cm) grid[step=0.5cm] (2cm,2cm);
+  \tikzstyle{joli rectangle}=[rectangle,minimum height=1cm,minimum width=1cm]
+  \node[joli rectangle,draw=red]
+    (Athalie) at (0,0) {};
+  \node[joli rectangle,draw=blue,anchor=south]
+    (Esther) at (0,0) {};
+  \draw (Esther.north west) --(Athalie.south east);
+\end{tikzpicture}
+\end{codeexample}
+%
+
+Pour placer les points, il est possible d'utiliser une options du genre |left=of (autre node)|, ou encore |above=5mm of (Esther)|. C'est ce qu'on fait dans l'exemple \ref{sec:exemple_dispersion} p.~\pageref{sec:exemple_dispersion}.
+
+\subsection{Programmer des images : faire des calculs avec tikz}
+
+\emph{Pour plus de détails, lire le manuel de tikz.}
+
+Un des principaux avantages\footnote{Un des principaux inconvénients est que cela demande un peu plus de travail, surtout au début.} d'utiliser du code pour générer des schémas est que cela permet de concevoir les schémas comme un programme informatique. Ainsi, on gagne plusieurs choses :
+\begin{itemize}
+  \item en utilisant des variables pour représenter les longueurs et angles du schéma, on peut facilement l'ajuster immédiatement ainsi que le modifier plus tard au besoin ;
+  \item en utilisant des styles pour l'aspect visuel (couleurs, hachures, etc.), il est plus facile de maintenir une cohérence visuelle entre différents schémas. La modification du style se répercutant sur tous les schémas (tant qu'il n'est pas défini à nouveau), on peut facilement décider de changer le bleu représentant l'eau, ou bien, si on veut distribuer un document en noir et blanc, de la représenter par un motif (|pattern|) approprié ;
+  \item on peut utiliser les diverses ressources de la programmation que sont les boucles, les conditions, et les calculs pour effectuer des tâches répétitives ou complexes ;
+  \item il est possible de réutiliser\footnote{J'aimerais ajouter \enquote{facilement} ici, mais ça n'est hélas pas le cas. Le plus simple est de définir une macro contenant le bout de schéma, et cette méthode marche très bien, mais elle a certaines limites.} des bouts de schéma
+\end{itemize}
+
+Le but de cette section est de rappeler rapidement comment faire des calculs avec |pgfmath|. Une référence complète se trouve dans le manuel de |tikz|. Les commandes principales que nous allons utiliser sont la boucle |\foreach|, et les commandes de calcul |\pgfmathcalc| et |\pgfmathresult|, |\pgfmathdef|, et |\pgfmathsetlength|.
+
+\subsubsection{Calculs}
+
+La commande |\pgfmathcalc{<expression>}| parse calcule l'|<expression>| qui lui est donnée (selon des règles qui sont spécifiées dans le manuel de tikz) et enregistre le résultat dans la macro |\pgfmathresult|. Si on a besoin de garder ce résultat, il faut le copier dans une autre macro (disons par exemple |\reflexionAngle|) en utilisant |\let\reflexionAngle\pgfmathresult|. La syntaxe des expressions mathématiques est assez naturelle. Pour les détails, je vous renvoie au manuel tikz ; voici néanmoins quelques exemples\footnote{Pour essayer une expression mathématique, le plus simple est d'écrire \verb-\pgfmathparse{2+2}\pgfmathresult-
+dans le corps d'un document tex : cela affichera \texttt{\pgfmathparse{2+2}\pgfmathresult} dans le pdf. Ici, j'ai omis les \verb+\pgfmathresult+ pour plus de clareté, mais la commande \verb+\pgfmathparse+ n'affiche rien toute seule !
+} :
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{5*6+3}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{(4^2 + 4)/2}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{factorial(4)}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+% les angles sont en degres !
+\pgfmathparse{cos(45)}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+% r convertit les degres en radians
+\pgfmathparse{cos(pi/4 r)}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{abs(-sqrt(2)/2)}
+\end{codeexample}
+
+Des fonctions comme |acos|, |sinh|, |ln|, etc. sont disponibles\footnote{Des outils rudimentaires pour travailler avec des vecteurs et un générateur de nombres pseudo-aléatoires existent aussi.}. Il est possible de définir des fonctions via la commande |\pgfmathdeclarefunction| ou la clé |/pgf/declare function|, en fournissant éventuellement une implémentation bas niveau :
+
+
+\begin{example only}
+\shorthandoff{;:}
+\pgfkeys{/pgf/declare function={f(\x)=1.7280+0.01345/(\x^2);}}
+\pgfmathparse{f(1)}
+\pgfmathresult
+\end{example only}
+
+\begin{codeexample}[code only]
+\pgfkeys{/pgf/declare function={f(\x)=1.7280+0.01345/(\x^2);}}
+\pgfmathparse{f(1)}
+\pgfmathresult
+\end{codeexample}
+
+À partir de tikz 3.0, la bibliothèque tikz |math| permet de simplifier l'écriture des calculs.
+
+Il existe aussi des fonctions logiques, et les opérateurs booléens habituels (|not(x)=!x|, \verb+or(x,y)=x||y+, |and(x,y)=x&&y|). Par convention, le booléen |true| est représenté par |1| et |false| par |0|. On a alors divers outils avec plusieurs syntaxes :
+
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{2 <= 4}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{greater(1,2)}
+\end{codeexample}
+
+\begin{codeexample}[post={\pgfmathresult}]
+\pgfmathparse{not(1.5 == 0 && 1.5 <= 2)}
+\end{codeexample}
+
+La commande |\pgfmathsetmacro{<macro>}{<expression>}| parse l'|<expression>| mathématique de la même manière que |\pgfmathcalc|, et enregistre le résultat du calcul dans |<macro>|. Par exemple, |\pgfmathsetmacro{\transitionProbability}{0.5+0.1}| enregistre |0.6| dans |\transitionProbability|. Par contre, si le résultat du calcul est une chaîne de caractères, il faut utiliser quelque chose comme |\pgfmathparse{<expression>}\let<macro>\pgfmathresult|.
+
+La commande |\pgfmathtruncatemacro| s'utilise comme |\pgfmathsetmacro|, mais elle renvoie un entier (le résultat tronqué), qui peut être utilisé dans une boucle, ou dans une condition. Par exemple, |\pgfmathtruncatemacro\nmax{5/4}| stocke |1| dans |\nmax|.
+
+\paragraph{Une remarque sur les définitions et les groupes.} |\pgfmathsetmacro| et les commandes assimilées utilisent la primitive TeX |\def| pour définir les macros, ce qui fait qu'on peut redéfinir une macro sans se préoccuper de savoir si elle existait déjà ou non. De manière générale, je préfère utiliser |\def| plutôt que |\newcommand| pour définir et modifier des variables, car elles peuvent devoir changer lors du tracé du dessin. Cela implique de veiller à ne pas redéfinir des commandes existantes par erreur, mais cela évite aussi beaucoup de tracas. Dans la mesure où le contenu d'une |tikzpicture| est contenu à l'intérieur d'un groupe, les éventuelles redéfinitions intempestives n'ont de conséquences qu'à l'intérieur du dessin. Cela veut aussi dire que pour accèder à une variable définie dans une |tikzpicture|, il faut ajouter un |\global| quelque part.
+
+\subsubsection{Conditions}
+
+Quelques mots sur les fonctions logiques de tikz et leur utilisation.
+
+Une expression comme |greater(\x,pi)| est évaluée à |1| si |\x| est plus grand que $\pi$, et à |0| sinon. Toutes les fonctions logiques se comportent de cette manière. Cela permet de définir des fonctions par morceaux, etc. Pour exécuter du code latex sous condition, une méthode (parmi d'autres) consiste en ce qui suit :
+
+
+\begin{example only}
+\foreach \x in {1,2,3,4}
+{
+\pgfmathparse{greater(\x,pi)}
+\ifnum\pgfmathresult=1
+\x{} est plus grand que $\pi$ ; 
+\else
+\x{} est plus petit que $\pi$ ; 
+\fi
+}
+\end{example only}
+%
+\begin{codeexample}[code only]
+\foreach \x in {1,2,3,4}
+{
+  \pgfmathparse{greater(\x,pi)}
+  \ifnum\pgfmathresult=1
+    \x{} est plus grand que $\pi$ ; 
+  \else
+    \x{} est plus petit que $\pi$ ; 
+  \fi
+}
+\end{codeexample}
+
+
+%
+Il peut être nécessaire de stocker le résultat de |\pgfmathresult| dans une macro ; la commande |\pgfmathsetmacro| stockerait |1.0| ou |0.0| (des flottants au lieu d'entiers), qui ne peuvent pas être traités par |\ifnum| : il faut donc faire appel à |\pgfmathtruncateresult|. Ainsi, le code suivant reproduit le même résultat :
+%
+\begin{example only}
+\foreach \x in {1,2,3,4}
+{
+  \pgfmathtruncatemacro\plusGrandQuePi{greater(\x,pi)}
+  \ifnum\plusGrandQuePi=1
+    \x{} est plus grand que $\pi$ ; 
+  \else
+    \x{} est plus petit que $\pi$ ; 
+  \fi
+  }
+\end{example only}
+%
+\begin{codeexample}[code only]
+\foreach \x in {1,2,3,4}
+{
+  \pgfmathtruncatemacro\plusGrandQuePi{greater(\x,pi)}
+  \ifnum\plusGrandQuePi=1
+    \x{} est plus grand que $\pi$ ; 
+  \else
+    \x{} est plus petit que $\pi$ ; 
+  \fi
+}
+\end{codeexample}
+
+On peut aussi vouloir spécifier un aspect visuel selon une condition. Une méthode consiste à définir des styles, qu'on assigne selon la condition. Ici, nous tirons un certain nombre de points au hasard dans un carré. Nous voulons distinguer les points qui se trouvent dans un certain cercle des autres. Pour cela, on définit deux styles |inside| et |outside|. Pour le moment, nous allons colorer les points dedans en rouge et deux dehors en bleu :
+
+\begin{codeexample}[code only]
+\tikzset{inside/.style={red},outside/.style={blue}}
+\end{codeexample}
+
+Ensuite, il suffit d'utiliser la fonction |ifthenelse| pour définir une macro |\pointStyle| qui vaut |inside| ou |outside|, selon la position du point situé en |(\posx,\posy)|. Dans l'exemple qui suit, je me suis rendu compte que les couleurs ne se voient pas quand on imprime en noir et blanc, et j'ai donc dessiné des croix rouges ainsi que des plus bleus en modifiant les styles |inside| et |outside| :
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \tikzset{inside/.style={red,mark=x},outside/.style={blue,mark=+}}
+  \newdimen\radius
+  \pgfmathsetlength\radius{1cm}
+  \pgfmathsetmacro\k{2}
+  \pgfmathtruncatemacro\NumberOfPoints{15}
+
+  \draw (0,0) circle(\radius);
+  \draw (-\k*\radius,-\k*\radius) rectangle (\k*\radius,\k*\radius);
+
+  \newdimen\posx
+  \newdimen\posy
+  \foreach \nil in {1,2,...,\NumberOfPoints}
+  {
+    \pgfmathsetlength\posx{\k*\radius*rand}
+    \pgfmathsetlength\posy{\k*\radius*rand}
+    \pgfmathparse{ifthenelse(veclen(\posx,\posy)<\radius,"inside", "outside")}
+    \let\pointStyle\pgfmathresult
+    \draw[\pointStyle] plot (\posx,\posy);
+  }
+\end{tikzpicture}
+\end{codeexample}
+
+\subsubsection{Boucles \texttt{foreach}}
+
+La boucle |\foreach| s'utilise grossièrement de la manière suivante : 
+%
+\begin{codeexample}[]
+\foreach \x in {1,2,...,10} {\x,}
+\end{codeexample}
+%
+\begin{codeexample}[]
+\foreach \x in {0.42,0.5,12.56} {\x,}
+\end{codeexample}
+%
+Il y a un certain nombre de subtilités dans la syntaxe qui permettent de faire des choses élaborées : je vous renvoie au manuel de tikz qui y consacre un chapitre entier ainsi qu'aux exemples. Remarquez que les boucles peuvent être imbriquées.
+
+Dans l'exemple (inutile) suivant, nous voulons placer une barre tous les |\shift| sur un trait de longueur |\length|. De plus, on veut qu'un trait sur deux soit rouge, et l'autre bleu. On calcule donc le nombre |\imax| de traits à dessiner, puis on utilise une boucle. Dans la boucle, on utilise la parité de la variable de boucle |\i| pour savoir si la barre doit être rouge ou bleue.
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \pgfmathsetmacro\length{4}
+  \pgfmathsetmacro\shift{0.5}
+  \pgfmathtruncatemacro\imax{\length/\shift}
+  
+  \draw (0,0) -- (\length,0);
+  \foreach \i in {0,1,2,...,\imax}
+  {
+    \pgfmathparse{ifthenelse(equal(mod(\i,2),0),"red","blue")}
+    \let\chunkStyle\pgfmathresult
+    \draw[\chunkStyle] (\i*\shift cm,-0.3cm) -- (\i*\shift cm,0.3cm);
+  }
+\end{tikzpicture}
+\end{codeexample}
+
+\subsubsection{Les longueurs}
+
+En tikz, on travaille toujours, de manière implicite ou explicite, avec des longueurs (et des angles). Par exemple, la coordonnée |(1,2)| signifie généralement |(1cm,2cm)| (en fait, |(1,2)| est vu comme une coordonnée dans un système dont les vecteurs unité ont, par défaut, une longueur d'un centimètre, mais qui peuvent être modifiés).
+Le plus souvent, il est raisonnable de préciser explicitement les unités et donc de travailler avec des longueurs.
+
+En (la)tex, les longueurs doivent être déclarées avant d'être utilisées, et contrairement aux macros, il n'est pas d'usage de les déclarer et de les définir en même temps. La commande |\newdimen{<longueur>}| permet de déclarer une longueur\footnote{Pour la même raison que je préfère \texttt{\textbackslash{}def} à \texttt{\textbackslash{}newcommand} pour définir des variables dans les dessins, je préfère \texttt{\textbackslash{}newdimen} à \texttt{\textbackslash{}newlength}.}. Pour lui donner une valeur, le plus simple est d'utiliser la commande |\pgfmathsetlength{<longueur>}{<expression math>}|, qui parse l'|<expression math>| et l'enregistre dans |<longueur>|. Ainsi,
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \newdimen\hauteurFente
+  \pgfmathsetlength\hauteurFente{3cm}
+  \newdimen\largeurFente
+  \pgfmathsetlength\largeurFente{0.25cm}
+  \newdimen\ecartFentes
+  \pgfmathsetlength\ecartFentes{0.5cm}
+
+  \coordinate (L) at (-\ecartFentes/2,0);
+  \coordinate (R) at (\ecartFentes/2,0);
+  \foreach \x in {L,R}
+  \draw[shift={(\x)}] (-\largeurFente/2,-\hauteurFente/2)
+    rectangle (\largeurFente/2,\hauteurFente/2);
+\end{tikzpicture}
+\end{codeexample}
+
+La commande |\pgfmathsetlength| suppose qu'une grandeur sans unité est donnée en points (|pt|). Ainsi, |\pgfmathsetlength\hauteurFente{3}| équivaut à |\pgfmathsetlength\hauteurFente{3pt}|. Néanmoins, il n'est pas une bonne idée de ne pas spécifier l'unité.
+
+Les fonctions de comparaison de |pgfmath| (comme |greater|, |less|, |equal|) peuvent être utilisées avec des longueurs : par exemple, |\pgfmathparse{2cm <= 4cm}| donne |1|, alors que |\pgfmathparse{2cm <= 4pt}| donne |0|.
+
+\subsubsection{Un prisme}
+
+Armés de ces outils, nous pouvons dessiner le parcours de rayons lumineux à travers un prisme en verre. Quelques calculs d'optique géométrique permettent de déterminer les coordonnées nécessaires au tracé, et on obtient ainsi la figure suivante :
+
+\begin{example only}
+\begin{center}
+\begin{tikzpicture}
+  \newdimen\hauteurVerre
+  \newdimen\largeurVerre
+  \newdimen\distanceSource
+  \newdimen\hauteurSource
+  \newdimen\distanceEcran
+  \pgfmathsetlength\hauteurVerre{2cm}
+  \pgfmathsetlength\largeurVerre{1cm}
+  \pgfmathsetlength\distanceSource{1cm}
+  \pgfmathsetlength\hauteurSource{1cm}
+  \pgfmathsetmacro\glassIndex{1.74}
+  \pgfmathsetlength\distanceEcran{1cm}
+
+  \coordinate (A) at (0,\hauteurVerre);
+  \coordinate (B) at (0,0);
+  \coordinate (C) at (\largeurVerre,0);
+
+  % couleur des rayons
+  \colorlet{current ray color}{red}
+
+  % dessin du prisme
+  \draw (A) -- (B) -- (C) -- cycle;
+
+  % source
+  \coordinate (S) at (-\distanceSource,\hauteurSource);
+
+  % tracé des rayons
+  \foreach \x in {-0.1,0,0.1,0.2,...,1}
+  {
+    \pgfmathsetmacro\inAngle{atan((\hauteurSource-\x*\hauteurVerre)/\distanceSource)}
+    % si le rayon ne croise pas le prisme, pas de déflexion du rayon
+    \pgfmathtruncatemacro\noDeflexion{or(notgreater(\x,0),notless(\x,1))}
+    \ifnum\noDeflexion=1
+      \draw[dashed,current ray color] (S)
+        -- (\distanceEcran,{tan(\inAngle)*(\distanceEcran+\largeurVerre+\distanceSource)});
+    \else
+      \pgfmathsetmacro\midAngle{asin((1/\glassIndex)*sin(\inAngle))}
+      \pgfmathsetmacro\y{\x*(1+\largeurVerre/\hauteurVerre*tan(\midAngle))^(-1)}
+      \pgfmathsetmacro\appexAngle{atan(\largeurVerre/\hauteurVerre)}
+      \pgfmathsetmacro\snellSine{\glassIndex*sin(-\appexAngle+\midAngle)}
+
+      % est-ce que le rayon coupe le bas du prisme ?
+      \pgfmathtruncatemacro\goesOut{greater(\y,1)}
+      \ifnum\goesOut=1
+        % je ne dessine pas les rayons qui couperaient le bas du prisme
+      \else
+        % est-ce qu'il y a réflexion totale ?
+        \pgfmathtruncatemacro\totalReflexion{notgreater(abs(\snellSine),1)}
+        \ifnum\totalReflexion=1
+          \newdimen\screenY
+          \pgfmathsetlength\screenY{
+          (1-\y)*\hauteurVerre + tan(asin(\snellSine)+\appexAngle)*
+              (\largeurVerre+\distanceEcran - \largeurVerre*\y)
+          }
+          \draw[current ray color] (S) -- (\largeurVerre*0,{(1-\x)*\hauteurVerre})
+            -- (\largeurVerre*\y,{(1-\y)*\hauteurVerre})
+            -- (\largeurVerre+\distanceEcran,\screenY);
+        \else
+          \draw[dotted,current ray color] (S) -- (\largeurVerre*0,{(1-\x)*\hauteurVerre})
+            -- (\largeurVerre*\y,{(1-\y)*\hauteurVerre});
+        \fi
+      \fi
+    \fi
+  }
+\end{tikzpicture}
+\end{center}
+\end{example only}
+
+Comme nous avons utilisé des paramètres ajustables, il est très facile d'adapter le code de manière à tracer les rayons pour plusieurs longueurs d'ondes (en utilisant la loi de Cauchy) :
+
+\begin{example only}
+\begin{center}
+\input{prisme_dispersion.pgf}
+\end{center}
+\end{example only}
+%
+Le code servant à générer cette figure étant un peu long, je ne l'ai pas inclus dans le corps du document, mais en pièce jointe : \textattachfile[]{prisme_dispersion.pgf}{prisme\_dispersion.pgf}.
+
+
+\section{Exemples}
+
+\subsection{Image d'une fente sur un écran}
+
+Reproduisons un schéma optique simple (qu'il faudrait que je scanne).
+
+La première étape est de placer tous les éléments. On commence de manière très logique par la lampe, qu'on place en |(0,0)|. Ensuite, tous les éléments sont placé à droite les uns des autres. Par exemple, l'anticalorique est placé à |0.5cm| de la sortie de la lampe (ancre |aperture east| de la |node| |QI|) par l'option |right=0.5cm of (QI.aperture east)|. L'écran et la lentille sont situés relativement à la fente parce que j'ai jugé ça plus pratique pour les modifier indépendamment, mais ce genre de choix dépend de l'humeur et de la situation. J'ai nommé les différents éléments de manière peu cohérente pour souligner que les noms des |nodes| sont très libres : on peut y mettre des espaces, des accents\footnote{Vous remarquerez que je n'utilise pas d'accents dans les exemples de code. C'est parce que le code qui traite ces exemples n'est pas capable de les traiter. Par contre, il n'y a aucun problème à les utiliser dans tikz (une |node| peut s'appeler \texttt{(écran)} sans aucun problème, par exemple).}, etc. Il faut juste éviter d'y mettre de point, virgule, double-point, etc. qui ont un sens particulier (le point sépare le nom d'une |node| de celui de l'ancre visée, par exemple).
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \node[halogen lamp] (quartz iode) at (0,0) {Q.I.};
+  \node[heat filter,right=0.5cm of quartz iode.aperture east] (AC) {};
+  \node[slit,right=0.75cm of AC] (fente) {};
+  \node[lens,right=2cm of fente] (L) {};
+  \node[screen,right=5cm of fente] (screen) {};
+\end{tikzpicture}
+\end{codeexample}
+
+%
+Une deuxième étape consiste à tracer les rayons lumineux. Ici, on a de la chance car toutes les positions nécessaires sont des ancres des différentes |node|. Par exemple, |(L.lens south)| est située juste avant le bas de |L| de manière à ce que le dessin soit joli (mais on peut quand même accéder à ce bas via |(L.south)| - l'idée est qu'il s'agit alors du bas du support annulaire de la lentille). On relie donc les ancres par des |--| dans une commande |\draw|.
+%
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  \node[halogen lamp] (quartz iode) at (0,0) {Q.I.};
+  \node[heat filter,right=0.5cm of quartz iode.aperture east] (AC) {} ;
+  \node[slit,right=0.75cm of AC] (fente) {};
+  \node[lens,right=2cm of fente] (L) {};
+  \node[screen,right=5cm of fente] (screen) {};
+
+  \draw[red] (fente.slit north) -- (L.lens north) -- (screen.center)
+  (fente.slit south) -- (L.lens south) -- (screen.center);
+\end{tikzpicture}
+\end{codeexample}
+%
+Il faut ensuite ajouter les étiquettes des différents éléments. Cela est fait via l'option \verb|label|, de la forme \verb|label=|\meta{texte}, ou plus généralement \verb|label=[|\meta{opts}\verb|]|\meta{pos}\verb|:|\meta{texte}. En particulier, pour pouvoir sauter une ligne, il faut par exemple utiliser l'option |align=center|.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  \node[halogen lamp] (quartz iode) at (0,0) {Q.I.};
+  \node[heat filter,right=0.5cm of quartz iode.aperture east,label={below:AC}] (AC) {} ;
+  \node[slit,right=0.75cm of AC,label={below:fente}] (fente) {};
+  \node[lens,right=2cm of fente,label={[align=center]below:achromat \\ $(L)$}] (L) {};
+  \node[screen,right=5cm of fente,label={below:\'ecran}] (screen) {};
+
+  \draw[red] (fente.slit north) -- (L.lens north) -- (screen.center)
+  (fente.slit south) -- (L.lens south) -- (screen.center);
+\end{tikzpicture}
+\end{codeexample}
+
+Enfin, on ajoute les flèches. Pour ce faire, je définis une coordonnée (c'est une |node| qui n'a qu'une seule ancre et qui ne dessine rien) et j'utilise la position verticale de cette coordonnée (point 1) ainsi que les positions horizontales des (centres des) divers objets (point 2), grace à la syntaxe \texttt{(point 1 -\textbar{} point 2)}.
+
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  \node[halogen lamp] (quartz iode) at (0,0) {Q.I.};
+  \node[heat filter,right=0.5cm of quartz iode.aperture east,label={below:AC}] (AC) {} ;
+  \node[slit,right=0.75cm of AC,label={below:fente}] (fente) {};
+  \node[lens,right=2cm of fente,label={[align=center]below:achromat \\ $(L)$}] (L) {};
+  \node[screen,right=5cm of fente,label={below:\'ecran}] (screen) {};
+
+  \draw[red] (fente.slit north) -- (L.lens north) -- (screen.center)
+  (fente.slit south) -- (L.lens south) -- (screen.center);
+
+  \coordinate (arrow origin) at (0,1.5cm);
+
+  \draw[>=technical,<->] (arrow origin -| fente) -- (arrow origin -| L) node[midway,above] {$d$};
+  \draw[>=technical,<->] (arrow origin -| L) -- (arrow origin -| screen) node[midway,above] {$D$};
+\end{tikzpicture}
+\end{codeexample}
+
+Quand le style sera au point, il sera possible d'utiliser |dim arrow| pour indiquer les dimensions au lieu de cette méthode légèrement plus laborieuse.
+
+
+
+\subsection{Des interférences}
+
+Ici, je n'ai pas utilisé |right=of| et ses amis pour placer les |nodes|, mais des calculs de coordonnées.
+
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  \node[laser] (L) at (0,0) {\ce{HeNe}};
+  \node[semi-transparent mirror,rotate=45] (ST) at ($(L)+(3cm,0)$) {};
+  \node[above] at (ST.north) {s\'eparatrice};
+  \node[mirror,rotate=-135] (M1) at ($(ST)+(0,-3cm)$) {};
+  \node[mirror,rotate=-45] (M2) at ($(M1)+(5cm,0)$) {};
+  \node[sensor line,rotate=45,anchor=pixel 3 west,label={[label distance=0.5cm]above right:Caliens}]
+    (Caliens) at ($(ST)+(5cm,0)$) {};
+  \draw[red] (L.aperture east) -- (ST.center) -- (M1.center) -- (M2.center) -- (Caliens.pixel 3 west);
+  \draw[red] (L.aperture east) -- (ST.center) -- (Caliens.pixel 3 west);
+\end{tikzpicture}
+\end{codeexample}
+
+On a utilisé |anchor=pixel 3 west| pour que le centre du capteur soit placé au point |($(ST)+(5cm,0)$)|. 
+
+Plusieurs possibilités pour ajouter un label sont illustrées : créer une |node| au bon endroit avec le texte voulu (ici \emph{séparatrice}), et utiliser la clé \verb|label| (cf. manuel pgf/tikz).
+
+\subsection{De la dispersion}
+\label{sec:exemple_dispersion}
+
+La syntaxe |($(A)!0.6!(B)$)| (\emph{partway modifiers}, lisez le manuel tikz pour les détails) permet de déterminer un point situé à la distance |0.6| entre les points |(A)| et |(B)| (|0| correspond à |(A)| et |1| à |(B)|).
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  % [align=center] permet les labels multiligne
+  % [font=\footnotesize] fait un texte plus petit
+  \tikzset{every label/.style={align=center,font=\footnotesize}}
+   
+  \node[halogen lamp] (S) at (0,0) {QI};
+  \node[heat filter, right=of S] (AC) {};
+  \node[diaphragm, right=0.1cm of AC] (diaphragme) {};
+  \node[slit, right=0.5cm of diaphragme,label={south:{trou \\ \SI{5}{\milli\meter}}}] (T) {};
+  \node[lens,right=2cm of T] (L) {};
+  \node[screen,right=2cm of L] (ecran) {};
+
+  \draw[red]
+  (T.slit north) -- (L.lens north) -- (ecran.center)
+  (T.slit south) -- (L.lens south) -- (ecran.center);
+
+  \draw[blue]
+  (T.slit north) -- (L.lens north) -- ($(ecran.north)!0.6!(ecran.south)$)
+  (T.slit south) -- (L.lens south) -- ($(ecran.north)!0.4!(ecran.south)$);
+\end{tikzpicture}
+\end{codeexample}
+
+
+\subsection{Un téléscope de Cassegrain}
+
+Pour dessiner un miroir troué, on utilise la commande |\clip| de tikz (qu'on place dans un |scope| dont le seul contenu est affecté par le |\clip|). On trace alors les rayons à la main, sans se soucier de l'exactitude du schéma.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+% mirror with hole
+\begin{scope}
+  \clip (-0.75cm,-2.2cm) rectangle (1cm,0-0.33cm) (-0.75cm,2.2cm) rectangle (1cm,0+0.33cm);
+  \node[spherical mirror, object height=4cm, spherical mirror angle=50] (M1) at (0cm,0) {};
+\end{scope}
+
+% small mirror
+\node[convex mirror, spherical mirror orientation=rtl,
+    object height=1cm, spherical mirror angle=90] (M2) at (-4cm,0) {};
+
+% convergence point
+\coordinate (F) at (1cm,0);
+
+% red ray
+\begin{scope}[red]
+  \draw[-<-] (M1.22) coordinate (P1) -- +(-5cm,0);
+  \draw[->-] (P1) -- (M2.30) coordinate (Q1);
+  \draw[->-] (Q1) -- ($(Q1)!1.25!(F)$) coordinate (R1);
+\end{scope}
+
+% blue ray
+\begin{scope}[blue]
+  \draw[-<<-] (M1.-22) coordinate (P2) -- +(-5cm,0);
+  \draw[->>-] (P2) -- (M2.-30) coordinate (Q2);
+  \draw[->>-] (Q2) -- ($(Q2)!1.25!(F)$) coordinate (R2);
+\end{scope}
+
+% violet ray
+\begin{scope}[violet]
+  \draw[-<-] (M1.22) coordinate (P3) -- +(175:5cm);
+  \draw (P3) -- (M2.22) coordinate (Q3);
+  \draw (Q3) -- ($(Q3)!1.25!($(F)+(0,-0.15cm)$)$) coordinate (R3);
+\end{scope}
+
+% sensor
+\node[generic sensor, anchor=aperture west] at ($(R1)!0.5!(R2)$) {};
+\end{tikzpicture}
+\end{codeexample}
+
+\subsection{De l'optique géométrique et des calculs}
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  \node[lens,draw focal points,focal length=1.5cm,object height=2cm] (L) at (0,0) {};
+  \coordinate (P) at (-2cm,0.5cm);
+  \coordinate (Q) at (-2cm,-0.5cm);
+  \draw[red,shorten >=-1cm] (P) -- ($(L.north)!(P)!(L.south)$) -- (L.east focus);
+  \draw[red,shorten >=-1cm] (Q) -- ($(L.north)!(Q)!(L.south)$) -- (L.east focus);
+  \node[screen] at (2.45cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+
+  Cet exemple n'est pas très propre, car j'ai dû allonger manuellement les rayons pour qu'ils aillent jusqu'à l'écran. La méthode suivante, qui consiste à calculer le point d'intersection grâce à une fonction |\toVerticalProjection|, est beaucoup plus propre:
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics]
+  \node[lens,draw focal points,focal length=1.5cm,object height=2cm] (L) at (0,0) {} ;
+  \coordinate (P) at (-2cm,0.5cm) ;
+  \coordinate (Q) at (-2cm,-0.5cm) ;
+  \node[screen] (S) at (2.5cm,0) {};
+
+  \def\toVerticalProjection#1#2#3{let \p{1} = #1, \p{2} = #2, \p{3} = #3 in
+   -- (\x{3},{\y{1}+(\y{2}-\y{1})/(\x{2}-\x{1})*(\x{3}-\x{1})})}
+
+  \draw[red] (P) -- ($(L.north)!(P)!(L.south)$) coordinate (Plens)
+  \toVerticalProjection{(Plens)}{(L.east focus)}{(S)};
+
+  \draw[red] (Q) -- ($(L.north)!(Q)!(L.south)$) coordinate (Qlens)
+  \toVerticalProjection{(Qlens)}{(L.east focus)}{(S)};
+
+\end{tikzpicture}
+\end{codeexample}
+
+\subsection{De la biréfringence avec un interféromètre de Michelson}
+
+\input{birefringence_michelson.pgf}
+
+Cet exemple utilise des intersections pour tracer des rayons lumineux : la syntaxe n'est pas la plus agréable et concise qu'on puisse concevoir, mais elle marche. 
+Cet exemple est aussi l'occasion de montrer l'utilisation du package \texttt{ocgx} avec \texttt{tikz}.
+Le code de la figure est dans le fichier \textattachfile[]{birefringence_michelson.pgf}{birefringence\_michelson.pgf}.
+
+
+\section{Référence}
+
+\subsection{Généralités}
+
+\subsubsection{Options communes}
+
+Certaines options sont communes à beaucoup des |shapes| (à l'exception notable des lampes et capteurs).
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| contrôle la hauteur de la plupart des objets (c'est le cas si rien n'est précisé).
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens, object height=1cm] (L1) at (0,0) {};
+  \node[lens, object height=2cm] (L2) at (3cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/optics/object aspect ratio=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/object aspect ratio})}
+    L'option |object aspect ratio| contrôle le rapport d'aspect de la plupart des objets ayant une largeur. Si \meta{number} vaut |1|, la largeur de l'objet est égale à sa hauteur.
+    Si \meta{number}|=1/2|, la largeur de l'objet vaut la moitié de sa hauteur. 
+    Quand \meta{number or length} est un nombre sans dimension (e.g. |0.5|), il est interprété comme un rapport d'aspect, relatif à la hauteur. Quand il s'agit d'une longueur dimensionnée (e.g. |1cm|), il est directement interprété comme la largeur (\emph{width}) de l'objet.
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[polarizer, object aspect ratio=0.2] (L1) at (0,0) {};
+  \node[polarizer, object aspect ratio=0.5] (L2) at (4cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+\end{key}
+
+\begin{stylekey}{/tikz/optics/object width}
+    L'option |object width| est un alias pour |object aspect ratio|.
+\end{stylekey}
+
+\subsubsection{Longueurs absolues et relatives}
+
+Les divers éléments ont plusieurs longueurs ajustables. La plupart du temps, il n'est nécessaire de spécifier qu'une seule longueur (généralement la hauteur de l'objet) de manière absolue, c'est-à-dire avec une unité de longueur (|cm|, |pt|, |em|, etc.). Les autres longueurs peuvent être spécifiées en unité de cette longueur absolue de référence (il faut alors spécifier un nombre), ou, si cela s'avère plus pratique, comme des longueurs absolues (il faut alors spécifier une unité). Voici un exemple avec |slit height|, qui peut être spécifié relativement à |object height|.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[style=help lines,gray!50]
+    (-3cm,-2cm) grid[step=0.5cm] (2cm,2cm);
+  \node[slit,object height=2cm,slit height=0.5,red,very thick]
+    at (-2cm,0) {};
+  \node[slit,object height=2cm,slit height=0.25,blue,very thick]
+    at (-1cm,0) {};
+  \node[slit,object height=2cm,slit height=0.5cm,violet,very thick]
+    at (0cm,0) {};
+  \node[slit,object height=2cm,slit height=1cm,orange,very thick]
+    at (1cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+
+L'intérêt d'utiliser des longueurs \emph{relatives} est que la \emph{forme générale} d'un objet n'est pas modifiée par un changement d'échelle (il n'y a qu'à changer la longueur absolue de référence).
+
+Les éléments optiques ont plusieurs \enquote{hauteurs}. La hauteur totale est toujours appelée |objet height|, mais par exemple la taille d'une fente est appelée |slit height|, la taille (sans conséquence sur le dessin, mais qui affecte les ancres) d'une lentille sur son support est appelée |lens height|, etc. 
+
+% Note : je ne sais pas si je change les |aspect ratio| par un |object width| qui accepte un \meta{number or length} ...
+% => C'est fait pour un bon nombre de trucs.
+
+
+\subsection{Éléments optiques}
+
+\subsubsection{Lentille}
+
+\begin{shape}{lens}
+Dessine une lentille.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens] (L) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens,draw focal points] (L) at (0,0) {};
+\end{tikzpicture}
+\end{codeexample}
+
+  \begin{stylekey}{/tikz/optics/draw focal points=\meta{style} (default empty)}
+  On peut tracer les foyers avec |draw focal points|. En donnant \meta{style} en argument à la clé |draw docal points|,
+  on peut déterminer comment sont tracés les foyers. Par exemple \texttt{draw focal points={red}} les trace en rouge, et \texttt{draw focal points={circle,draw=none,fill=blue}} trace un cercle rempli en bleu.
+  \end{stylekey}
+
+  \begin{codeexample}[width=6cm]
+  \begin{tikzpicture}[use optics,scale=.5]
+    \node[lens,draw focal points={red}]
+    (L1) at (0,0) {};
+    \node[lens,draw focal points={circle,draw=none,fill=blue}]
+    (L2) at (3cm,0) {};
+  \end{tikzpicture}
+\end{codeexample}
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+\begin{key}{/tikz/optics/focal length=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/focal length})}
+    L'option |focal length| contrôle la distance focale de la lentille.
+
+    \begin{codeexample}[width=6cm,pre={\tikzset{every lens node/.append style={optics,draw focal points}}}]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens, focal length=1cm] (L1) at (0,0) {};
+  \node[lens, focal length=2cm] (L2) at (0,5cm) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/optics/lens height=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/lens height})}
+    L'option |lens height| contrôle la hauteur de la lentille. Il s'agit soit une longueur abolue (avec unité), soit d'une longueur relative mesurée par rapport à la hauteur totale de la lentille avec support.
+
+    \begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens] (L1) at (1cm,0) {};
+  \node[lens, lens height=0.5] (L2) at (-1cm,0) {};
+  \draw[red] (0,0) -- (L1.lens north) (0,0) -- (L1.lens south);
+  \draw[green] (0,0) -- (L2.lens north) (0,0) -- (L2.lens south);
+\end{tikzpicture}
+    \end{codeexample}
+
+    % Serait-il plus judicieux d'avoir un système de coordonnées sur la lentille, genre |(L1.0)| pour le centre, |(L1.1)| pour le haut, |(L1.0.5)| pour un point en haut, à mi-lentille, |(L1.-1)| pour le bas, etc. ? Ou est-ce que |($(L1.north)!0.1!(L1.south)$)| suffit amplement ?
+\end{key}
+
+
+\begin{key}{/tikz/optics/lens type}
+    L'option |lens type| contrôle le type de lentille. Utiliser |lens type=converging| permet de dessiner une lentille convergente (c'est l'option par défaut), alors que |lens type=diverging| permet de dessiner une lentille divergente.
+
+    \begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens,lens type=converging] (L1) at (-1cm,0) {};
+  \node[lens,lens type=diverging] (L2) at (1cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+La figure suivante récapitule les ancres définies par |lens|.
+
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[name=s,lens,object height=7cm,focal length=3cm,
+lens height=0.5,line shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,lens north/right,lens south/right,center/right,
+east focus/above,west focus/above}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+Les clés |east focus| et |west focus| ont pour synonyme |east focal point| et |west focal point|, respectivement.
+
+
+On peut utiliser la clé \texttt{tikz} \texttt{anchor=} pour placer les lentilles les unes par rapport aux autres.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[lens,draw focal points={red}]
+  (L1) at (0,0) {};
+  \node[lens,draw focal points={circle,draw=blue},
+  focal length=0.5cm,anchor=west focus]
+  (L2) at (L1.east focus) {};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+\subsubsection{Fente}
+
+\begin{shape}{slit}
+Dessine une fente.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[slit] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+
+\begin{key}{/tikz/optics/slit height=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/slit height})}
+La clé |slit height| définit la hauteur de la fente (s'il s'agit d'une longueur relative, elle est exprimée en unités de la hauteur de l'objet). 
+Par exemple, \meta{number}|=0.5| donne une fente faisant la moitié de la hauteur du support. De même, \meta{length}|=1cm| donne une fente de |1cm|. Les valeurs de \meta{number} doivent être inférieures à l'unité, et celles de \meta{length} inférieures à celles de |object height|, sans quoi les résultats ne sont pas garantis.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[slit, slit height=0.5] (S) at (0,0) {};
+  \node[slit, slit height=0.3] (S) at (1cm,0) {};
+  \node[slit, slit height=0.1] (S) at (2cm,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{key}
+
+La figure suivante récapitule les ancres définies par |slit|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[name=s,slit,object height=8cm,
+slit height=0.2,line shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,slit north/right,slit south/right,center/left,
+slit center/right}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+\subsubsection{Double fente}
+
+
+\begin{shape}{double slit}
+Dessine une fente double.
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[double slit] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+
+\begin{key}{/tikz/optics/slit height=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/slit height})}
+La clé |slit height| définit la hauteur d'une fente (s'il s'agit d'une longueur relative, elle est en unités de la hauteur de l'objet). 
+Chacune des fentes a une hauteur \meta{number or length}. 
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5,optics/slit separation=0.5]
+  \node[double slit, slit height=0.075] (S) at (0,0) {};
+  \node[double slit, slit height=0.1] (S) at (1cm,0) {};
+  \node[double slit, slit height=0.2] (S) at (2cm,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/optics/slit separation=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/slit separation})}
+La clé |slit separation| définit la distance entre les deux fentes (s'il s'agit d'une longueur relative, elle est en unités de la hauteur de l'objet).
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[double slit, slit separation=0.1] (S) at (0,0) {};
+  \node[double slit, slit separation=0.2] (S) at (1cm,0) {};
+  \node[double slit, slit separation=0.3] (S) at (2cm,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{key}
+
+
+
+La figure suivante récapitule les ancres définies par |double slit|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[double slit,name=s,object height=8cm, slit height=0.15,
+slit separation=0.5, line shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,center/left,
+slit 1 north/right,slit 1 south/right,slit 1 center/right,
+slit 2 north/right,slit 2 south/right,slit 2 center/right}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+
+\subsubsection{Miroir}
+
+
+\begin{shape}{mirror}
+Dessine un miroir plan.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[mirror] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+\begin{key}{/tikz/optics/mirror decoration separation=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/mirror decoration separation})}
+Correspond à la clé |/pgf/decoration/segment length| pour la décoration |border| utilisée pour dessiner le miroir (cf. manuel de pgf/tikz). 
+La valeur correspondant à |/pgf/decoration/segment length| est obtenue en multipliant \meta{number} par la hauteur du miroir.
+\end{key}
+
+\begin{key}{/tikz/optics/mirror decoration amplitude=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/mirror decoration amplitude})}
+Correspond à la clé |/pgf/decoration/amplitude| pour la décoration |border| utilisée pour dessiner le miroir (cf. manuel de pgf/tikz).
+La valeur correspondant à |/pgf/decoration/amplitude| est obtenue en multipliant \meta{number} par la hauteur du miroir.
+\end{key}
+
+
+La figure suivante récapitule les ancres définies par |mirror|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[mirror,name=s,object height=8cm,line shape example,
+mirror decoration separation=0.141, mirror decoration amplitude=0.2] {};
+\foreach \anchor/\placement in
+{north/above,south/below,center/right}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+La clé |focus| a pour synonyme |focal point|.
+
+\end{shape}
+
+\subsubsection{Miroir sphérique}
+
+\begin{shape}{spherical mirror}
+Dessine un miroir sphérique (concave ou convexe).
+
+\begin{warning}
+  Cette partie n'est pas encore au point et peut changer sans préavis.
+\end{warning}
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[spherical mirror] (M) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    La clé |object height| est applicable.
+\end{key}
+
+\begin{key}{/tikz/optics/spherical mirror angle=\meta{angle} (initially \pgfkeysvalueof{/tikz/optics/spherical mirror angle})}
+    La clé |spherical mirror angle| contrôle l'angle d'ouverture du miroir sphérique (un arc de cercle de hauteur spécifiée par |object height| et d'ouverture angulaire \meta{angle} est dessiné).
+    Attention à ne pas choisir $\meta{angle}=0$ : utiliser un miroir plat |mirror| à la place.
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \node[spherical mirror, spherical mirror angle=60] at (0,0) {};
+  \node[spherical mirror, spherical mirror angle=120] at (2cm,0) {};
+  \node[spherical mirror, spherical mirror angle=180] at (4cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+
+\begin{warning}
+  La fonction |from_radius| est expérimentale.
+\end{warning}
+
+Il peut être utile de spécifier non pas l'angle d'ouverture, mais le rayon de courbure du miroir ; dans ce but, une fonction |from_radius(R)| calcule l'angle d'ouverture correspondant au rayon |R|, à hauteur |/tikz/optics/object height| imposée. Bien entendu, il n'est pas possible que la hauteur soit supérieure au double du rayon du miroir.
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \node[spherical mirror, object height=2cm, 
+  spherical mirror angle=from_radius(3cm),
+  draw mirror focus, draw mirror center={red}] (M) {};
+\end{tikzpicture}
+\end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/optics/spherical mirror type}
+    La clé |spherical mirror type| contrôle le type de miroir : utiliser |spherical mirror type=concave| donne un miroir concave (c'est l'option par défaut), alors que |spherical mirror type=convex| donne un miroir convexe.
+    Il est plus commode d'utiliser les styles |convex mirror| et |concave mirror|, qui sont des raccourcis pour cette clé.
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \node[convex mirror, label={[label distance=0.25cm]south:convex mirror}] at (0cm,0) {};
+  \node[concave mirror, label={[label distance=0.25cm]south:concave mirror}] at (4cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+\end{key}
+
+\begin{stylekey}{/tikz/optics/concave mirror}
+    Le style |concave mirror| correspond à |spherical mirror, spherical mirror type=concave|, et dessine un miroir concave. Voir |spherical mirror type| pour un exemple.
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/convex mirror}
+    Le style |convex mirror| correspond à |spherical mirror, spherical mirror type=convex|, et dessine un miroir convexe. Voir |spherical mirror type| pour un exemple.
+\end{stylekey}
+
+
+\begin{key}{/tikz/optics/spherical mirror orientation=\meta{type} (initially |ltr|)}
+    La clé |spherical mirror orientation| contrôle l'orientation de miroir (i.e. dans quel sens on suppose que la lumière se propage). Les valeurs possibles sont |ltr| (\enquote{left to right}) et |rtl| (\enquote{right to left}).
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \node[spherical mirror, spherical mirror orientation=ltr] at (0cm,0) {};
+  \node[spherical mirror, spherical mirror orientation=rtl] at (2cm,0) {};
+\end{tikzpicture}
+\end{codeexample}
+\end{key}
+
+La décoration du miroir (hachures) est contrôlée par les mêmes clés que celle de |mirror| : |mirror decoration separation| et |mirror decoration amplitude|.
+
+
+La figure suivante récapitule certaines des ancres définies par |spherical mirror|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[spherical mirror,name=s,object height=8cm,line shape example,
+mirror decoration separation=0.141, mirror decoration amplitude=0.2] {};
+\foreach \anchor/\placement in
+{north/above,south/below,center/below right,
+east/below right,
+west/below,
+north east/above right,
+north west/above left,
+south east/below right,
+south west/below left,
+mirror center/left,
+arc start/above,
+arc end/below,
+arc center/right,
+27/right,
+focus/above}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+Avec les miroirs sphériques, les \enquote{border anchor} de tikz sont particulièrement utiles. Des ancres numériques (de la forme |node.27|) sont définies, qui permettent d'accèder au bord de la |shape| dans la direction angulaire correspondante (ici à \ang{27}). Rappelons que dans tikz, les angles sont comptés dans le sens trigonométrique à partir de l'axe $Ox$, et exprimés en degrés. Suit un exemple, où on a dessiné le cercle sous-jacent.
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]]
+\coordinate (O) at (0,0);
+\node[circle,draw, inner sep=0, outer sep=0,minimum height=2cm, densely dashed, gray!60] (C) at (O) {};
+\node[spherical mirror,draw,object height=2cm,anchor=mirror center,
+    spherical mirror angle=180] (M) at (O) {};
+\draw[blue] (O) -- (M.0);
+\draw[violet] (O) -- (M.45);
+\draw[red] (O) -- (M.90);
+\draw[orange] (O) -- (M.135);
+\end{tikzpicture}
+\end{codeexample}
+
+\begin{warning}
+  Pour le moment, les angles supérieurs à $\pm$|spherical mirror angle|$/2$ sont traités comme si le miroir était un cercle entier (et pas un arc). Il n'est pas garanti que ce comportement soit maintenu.
+\end{warning}
+
+\end{shape}
+
+
+\begin{stylekey}{/tikz/optics/draw mirror center=\meta{style}}
+    Le style |draw mirror center| permet de dessiner le centre du miroir (avec le style \meta{style} s'il est spécifié).
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+\node[concave mirror,draw mirror center, draw mirror focus={red}] {};
+\end{tikzpicture}
+\end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/draw mirror focus=\meta{style}}
+    Le style |draw mirror focus| permet de dessiner le foyer du miroir (avec le style \meta{style} s'il est spécifié). Voir |draw mirror center| pour un exemple.
+\end{stylekey}
+
+\subsubsection{Polariseur}
+
+\begin{shape}{polarizer}
+Dessine un polariseur.
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[polarizer] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+
+\begin{key}{/tikz/optics/object aspect ratio=\meta{number} (initially \pgfkeysvalueof{/tikz/optics/object aspect ratio})}
+    L'option |object aspect ratio| contrôle le rapport d'aspect du polariseur. Si \meta{number} vaut |1|, la largeur de l'objet est égale à sa hauteur.
+    Si \meta{number}|=1/2|, la largeur du polariseur vaut la moitié de sa hauteur
+
+    \begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[polarizer, object aspect ratio=0.2] (L1) at (0,0) {};
+  \node[polarizer, object aspect ratio=0.5] (L2) at (4cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+
+La figure suivante récapitule les ancres définies par |polarizer|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[polarizer,name=s,object height=8cm,object aspect ratio=0.4,shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,east/right,west/left,center/below,
+north east/right,north west/left,south east/right,south west/left}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+
+\subsubsection{Séparateur de faisceau}
+
+\begin{stylekey}{/tikz/optics/beam splitter}
+Dessine un séparateur de faisceau. Les options et ancres sont les mêmes que pour |polarizer|.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[beam splitter] at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\end{stylekey}
+
+
+\subsubsection{Prisme à vision directe}
+
+\begin{shape}{double amici prism}
+Dessine un prisme à vision directe (double prisme d'Amici).
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[double amici prism] (PVD) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+
+\begin{key}{/tikz/optics/prism height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/prism height})}
+    La clé |prism height| contrôle la hauteur des trois prismes identiques constituant le PVD (la longueur d'un côté est donc $2/\sqrt{3}$ fois cette hauteur).
+
+    \begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[double amici prism, prism height=1cm] (PVD1) at (0,0) {};
+  \node[double amici prism, prism height=0.5cm] (PVD2) at (4cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/optics/prism apex angle=\meta{angle} (initially \pgfkeysvalueof{/tikz/optics/prism apex angle})}
+    La clé |prism apex angle| contrôle l'angle au sommet des trois prismes identiques. \meta{angle} est exprimé en degrés. Si \meta{angle} vaut |60|, les prismes sont des triangles isocèles.
+
+    \begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[double amici prism, prism apex angle=40] (PVD1) at (0,0) {};
+  \node[double amici prism, prism apex angle=60] (PVD2) at (4cm,0) {};
+  \node[double amici prism, prism apex angle=80] (PVD3) at (10cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+
+La figure suivante récapitule les ancres définies par |double amici prism|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[double amici prism,name=s,prism height=4.5cm,shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,east/right,west/left,center/below,
+north east/right,north west/left,south east/right,south west/left}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+
+\subsubsection{Élément générique fin}
+
+\begin{shape}{thin optics element}
+Dessine un élement générique (utilisé pour des éléments plus spécifiques). 
+Cette |shape| peut être utile pour dessiner un objet non prévu, en lui donnant un style pertinent.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[thin optics element] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+La figure suivante récapitule les ancres définies par |thin optics element|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[thin optics element,name=s,object height=8cm,line shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,center/right}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+\subsubsection{Élément générique épais}
+
+\begin{shape}{thick optics element}
+Dessine un élément générique épais.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[thick optics element] at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+
+\begin{key}{/tikz/optics/object height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/object height})}
+    L'option |object height| est applicable.
+\end{key}
+
+
+\begin{key}{/tikz/optics/object aspect ratio=\meta{number or length} (initially 0.05)}
+    L'option |object aspect ratio| contrôle le rapport d'aspect de l'objet.
+\end{key}
+
+
+
+
+La figure suivante récapitule les ancres définies par |thick optics element|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[thick optics element,name=s,object height=8cm,shape example,object aspect ratio=0.2] {};
+\foreach \anchor/\placement in
+{north/above,south/below,east/right,west/left,center/below,
+north east/right,north west/left,south east/right,south west/left}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+\subsubsection{Anticalorique}
+
+\begin{stylekey}{/tikz/optics/heat filter}
+Le style |heat filter| permet de dessiner un filtre anticalorique. Les options de |thick optics element| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[heat filter] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+
+\subsubsection{Écran}
+
+
+\begin{stylekey}{/tikz/optics/screen}
+Le style |screen| permet de dessiner un écran. Les options de |thin optics element| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[screen] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Réseau de diffraction}
+
+\begin{stylekey}{/tikz/optics/diffraction grating}
+Le style |diffraction grating| permet de dessiner un réseau de diffraction. Les options de |thin optics element| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[diffraction grating] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Grille}
+
+\begin{stylekey}{/tikz/optics/grid}
+Le style |grid| permet de dessiner une grille. Les options de |thin optics element| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[grid] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Lame semi-réfléchissante}
+
+\begin{stylekey}{/tikz/optics/semi-transparent mirror}
+Le style |semi-transparent mirror| permet de dessiner un miroir semi-réfléchissant. Les options de |thin optics element| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[semi-transparent mirror] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Diaphragme}
+
+\begin{stylekey}{/tikz/optics/diaphragm}
+Le style |diaphragm| permet de dessiner un diaphragme (c'est un |slit| avec une fente large). Les options de |slit| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[diaphragm] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+
+\subsection{Lampes et capteurs}
+
+\subsubsection{Entrée/sortie optique générique}
+
+\begin{shape}{generic optics io}
+Dessine un système entrée-sortie générique (utilisé pour des objets plus spécifiques).
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+
+\begin{key}{/tikz/optics/io body height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/io body height})}
+    La clé |io body height| contrôle la taille de la lampe. En particulier, \meta{length} spécifie la hauteur du corps de la lampe,
+    et les autres longueurs sont spécifiées relativement à celle-ci. En modifiant \meta{length}, on modifie donc la taille de la lampe
+    sans la déformer.  
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io, io body height=1cm] (L1) at (0,0) {};
+  \node[generic optics io, io body height=2cm] (L2) at (10cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/optics/io body aspect ratio=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/io body aspect ratio})}
+    La clé |io body aspect ratio| contrôle le rapport d'aspect de la lampe. Si \meta{number} vaut |1|, la largeur de la lampe est égale à sa hauteur.
+    Si \meta{number}|=1/2|, la largeur de la lampe vaut la moitié de sa hauteur
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io, io body aspect ratio=1] (L1) at (0,0) {};
+  \node[generic optics io, io body aspect ratio=2] (L2) at (8cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+\begin{stylekey}{/tikz/optics/io body width=\meta{number or length}}
+La clé |io body width| est un alias pour |io body aspect ratio|.
+\end{stylekey}
+
+
+\begin{key}{/tikz/optics/io aperture width=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/io aperture width})}
+    La clé |io aperture width| contrôle la largeur du système de sortie de la lampe (qui représente un condenseur, une lentille de collimation, etc.), en unités de la hauteur du corps de la lampe. Si \meta{number}|=0|, le système de sortie n'est pas affiché.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io, io aperture width=0] at (0,0) {};
+  \node[generic optics io, io aperture width=0.1] at (8cm,0) {};
+  \node[generic optics io, io aperture width=0.5] at (16cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+
+
+\begin{key}{/tikz/optics/io aperture height=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/io aperture height})}
+    La clé |io aperture width| contrôle la hauteur du système de sortie de la lampe (qui représente un condenseur, une lentille de collimation, etc.), en unités de la hauteur du corps de la lampe.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io, io aperture height=0.5] at (0,0) {};
+  \node[generic optics io, io aperture height=0.8] at (8cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/optics/io aperture shift=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/io aperture shift})}
+    L'option |io aperture shift| contrôle le décalage du système de sortie de la lampe par rapport au centre, en unités de la hauteur du corps de la lampe.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5,
+optics,io body height=2cm,io body aspect ratio=0.5,io aperture height=0.3, io aperture width=0.1]
+	\node[generic optics io,io aperture shift=-0.25] at (-5cm,0) {};
+  \node[generic optics io,io aperture shift=0] at (0,0) {};
+  \node[generic optics io,io aperture shift=0.25] at (5cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+On peut afficher du texte dans le corps d'une lampe en utilisant le texte de la |node|.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io] at (-5cm,0) {Q.I.};
+\end{tikzpicture}
+\end{codeexample}
+
+\begin{key}{/tikz/optics/io orientation=\meta{type} (initially |ltr|)}
+    La clé |io orientation| détermine le sens dans lequel est dessiné l'objet (avec l'ouverture à droite (au niveau de l'ancre |east|) quand elle vaut |ltr| et à gauche (au niveau de l'ancre |west|) quand elle vaut |rtl|). Les noms correspondent à \enquote{left to right} et \enquote{right to left}.
+    Seules les arguments |ltr| et |rtl| sont autorisés. La différence avec |rotate| est que |io orientation| modifie les ancres.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic optics io] at (0,0) {};
+  \node[generic optics io,io orientation=ltr] at (5cm,0) {};
+  \node[generic optics io,io orientation=rtl] at (10cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+On peut afficher du texte dans le corps d'une lampe en utilisant le texte de la |node|.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+	\node[generic optics io] at (-5cm,0) {Q.I.};
+\end{tikzpicture}
+\end{codeexample}
+
+
+La figure suivante récapitule les ancres définies par |generic optics io|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[generic optics io,name=s,io body height=4cm,io aperture width=0.7,io body aspect ratio=1.8,shape example] {};
+\foreach \anchor/\placement in
+{body north/above,body south/below,body east/above right,body west/right,body center/below,
+body north east/above,body north west/above,body south east/below,body south west/below,
+aperture north/above,aperture south/below,aperture east/right,aperture west/left,aperture center/below,
+aperture north east/right,aperture north west/left,aperture south east/right,aperture south west/left}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+Notons que les ancres |body east| et |aperture west| correspondent au même point. Les deux sont définies dans un souci de cohérence. Une ancre |east| est définie comme |body east| ou |aperture east| en fonction de la valeur de |io orientation| de manière à ce que |east| soit la clé la plus à l'est (à droite). La même chose a lieu pour l'ancre |west|.
+
+La figure suivante récapitule les ancres définies par |generic optics io, io orientation=rtl|.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[generic optics io,name=s,io body height=4cm,io aperture width=0.7,io body aspect ratio=1.8,
+io orientation=rtl,shape example] {};
+\foreach \anchor/\placement in
+{body north/above,body south/below,body east/above right,body west/above right,body center/below,
+body north east/above,body north west/above,body south east/below,body south west/below,
+aperture north/above,aperture south/below,aperture east/right,aperture west/left,aperture center/below,
+aperture north east/right,aperture north west/left,aperture south east/right,aperture south west/left}
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+
+\subsubsection{Ligne de capteurs}
+
+
+\begin{shape}{sensor line}
+Dessine une ligne de capteurs (type Caliens).
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[sensor line] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/optics/sensor line height=\meta{length} (initially \pgfkeysvalueof{/tikz/optics/sensor line height})}
+    La clé |sensor line height| contrôle la taille de la ligne de capteurs. En particulier, \meta{length} spécifie la hauteur du corps de la ligne,
+    et les autres longueurs peuvent être spécifiées relativement à celle-ci (en ne donnant pas d'unité). Dans ce cas, en modifiant \meta{length}, on modifie donc la taille de la ligne de capteurs
+    sans la déformer.  
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[sensor line, sensor line height=1cm] (L1) at (0,0) {};
+  \node[sensor line, sensor line height=2cm] (L2) at (4cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/optics/sensor line aspect ratio=\meta{number} (initially \pgfkeysvalueof{/tikz/optics/sensor line aspect ratio})}
+    La clé |sensor line aspect ratio| contrôle le rapport d'aspect de la ligne de capteurs.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[sensor line, sensor line aspect ratio=0.2] (L1) at (0,0) {};
+  \node[sensor line, sensor line aspect ratio=0.4] (L2) at (4cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/optics/sensor line pixel number=\meta{number} (initially \pgfkeysvalueof{/tikz/optics/sensor line pixel number})}
+    La clé |sensor line pixel number| contrôle le nombre de pixels \meta{number} de la ligne de capteurs.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[sensor line, sensor line pixel number=2] at (0,0) {};
+  \node[sensor line, sensor line pixel number=4] at (4cm,0) {};
+  \node[sensor line, sensor line pixel number=10] at (8cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/optics/sensor line pixel width=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/sensor line pixel width})}
+    La clé |sensor line pixel width| contrôle la largeur des pixels : \meta{number or length} est la largeur d'un pixel (par rapport à la largeur du capteur si elle est relative).
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[sensor line, sensor line pixel width=0.3] at (0,0) {};
+  \node[sensor line, sensor line pixel width=0.8] at (4cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/optics/sensor line inner ysep=\meta{number or length} (initially \pgfkeysvalueof{/tikz/optics/sensor line inner ysep})}
+    La clé |sensor line inner ysep| contrôle la séparation entre les bords haut et bas du capteur et les pixels. Si \meta{number or length} est une hauteur relative, elle est comptée par rapport à la hauteur du capteur. La hauteur des pixels est calculée de manière à ce qu'il y en ait un nombre |sensor line pixel number|, en tenant compte de cette séparation.
+
+    \begin{codeexample}[]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[sensor line,sensor line inner ysep=0] at (0,0) {};
+  \node[sensor line,sensor line inner ysep=0.1] at (4cm,0) {};
+  \node[sensor line,sensor line inner ysep=0.2] at (8cm,0) {};
+\end{tikzpicture}
+    \end{codeexample}
+\end{key}
+
+
+Les ancres |north|, |south|, |east|, |west|, |center|, |north east|, |north west|, |south east|, |south west|, ainsi que
+|pixel <i> <anchor>| où |<anchor>| vaut |north|, |south|, etc. et où |<i>| est le numéro du pixel considéré
+(allant de |1| à |sensor line pixel number|) sont définies. Par exemple, on peut utiliser |pixel 3 west|.
+
+La figure suivante récapitule les ancres définies par |sensor line| définies globalement ainsi que pour le pixel 4 (en rouge).
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[use optics]
+\node[sensor line,name=s,sensor line height=10cm,sensor line aspect ratio=0.8,
+sensor line inner ysep=0.1,sensor line pixel number=5, shape example] {};
+\foreach \anchor/\placement in
+{north/above,south/below,east/right,west/left,center/below,
+north east/right,north west/left,south east/right,south west/left}
+
+\draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+
+\foreach \anchor/\placement in
+{pixel 4 north/above,pixel 4 south/below,pixel 4 east/right,pixel 4 west/left,pixel 4 center/below,
+pixel 4 north east/right,pixel 4 north west/left,pixel 4 south east/right,pixel 4 south west/left}
+% manque pixel <i> <subanchor>
+\draw[red,shift=(s.\anchor)] plot[mark=x,red] coordinates{(0,0)}
+node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+
+\end{tikzpicture}
+\end{codeexample}
+
+\end{shape}
+
+
+Remarques :
+\begin{itemize}
+	\item Quand les ancres |east| et |west| ne sont pas définies explicitement, elles sont en fait des alias pour |center|. Cela permet aux clés |right=of...| et assimilées de fonctionner correctement.
+\end{itemize}
+
+
+
+\subsubsection{Capteur générique}
+
+\begin{stylekey}{/tikz/optics/generic sensor}
+Le style |generic sensor| permet de dessiner un capteur. Les options de |generic optics io| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic sensor] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Lampe générique}
+
+\begin{stylekey}{/tikz/optics/generic lamp}
+Le style |generic lamp| permet de dessiner une lampe. Les options de |generic optics io| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[generic lamp] (S) at (0,0) {};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Lampe QI}
+
+\begin{stylekey}{/tikz/optics/halogen lamp}
+Le style |halogen lamp| permet de dessiner une lampe de type \enquote{lampe halogène Quartz Iode}. Les options de |generic optics io| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[halogen lamp] (S) at (0,0) {};
+  \node[halogen lamp] (S) at (5cm,0) {QI};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Lampe spectrale}
+
+\begin{stylekey}{/tikz/optics/spectral lamp}
+Le style |spectral lamp| permet de dessiner une lampe de type \enquote{lampe spectrale}. Les options de |generic optics io| sont applicables. Par ailleurs, un style est automatiquement appliqué pour autoriser le texte multiligne.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[spectral lamp] (S) at (0,0) {};
+  \node[spectral lamp] (S) at (5cm,0) {\ce{Hg} \\ BP};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsubsection{Laser}
+
+\begin{stylekey}{/tikz/optics/laser}
+Le style |laser| permet de dessiner un laser. Les options de |generic optics io| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[laser] (S) at (0,0) {};
+  \node[laser] (S) at (5cm,0) {\ce{HeNe}};
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/laser'}
+Le style |laser'| permet de dessiner un laser sans \enquote{orifice de sortie} (i.e. |io aperture width=0pt|). Les options de |generic optics io| sont applicables.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics,scale=.5]
+  \node[laser'] (S) at (0,0) {\ce{Nd}:YAG};
+  \draw[green] (S.aperture east) -- +(2cm,0);
+\end{tikzpicture}  
+\end{codeexample}
+\end{stylekey}
+
+\subsection{Divers}
+
+
+
+\subsubsection{Marquer des rayons}
+
+\begin{update}
+  2014-12-07 : cette partie a été substantiellement modifiée.
+\end{update}
+
+\begin{warning}
+  Cette partie n'est pas encore stable. Les raccourcis |->-|, etc. ne devraient normalement pas changer
+\end{warning}
+
+Les flèches pour marquer les rayons sont conçues pour se trouver \emph{vraiment} au milieu du rayon (contrairement à ce qui arrive en utilisant simplement |\arrow{>>}| avec |put arrow|).
+
+\begin{stylekey}{/tikz/optics/->-}
+  Ce style ajoute une flèche au milieu du chemin.
+  \begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[->-] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/-<-}
+  Ce style ajoute une flèche au milieu du chemin, dans le sens opposé à |->-|.
+  \begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[-<-] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/->>-}
+  Ce style ajoute une double flèche au milieu du chemin.
+  \begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[->>-] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/-<<-}
+  Ce style ajoute une double flèche au milieu du chemin, dans le sens opposé à |-<<-|.
+  \begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[-<<-] (0,0) -- (1.5cm,1.1cm);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/->n-=\{n=\meta{num}, \meta{specs}\}}
+  Ce style ajoute \meta{num} flèches au milieu du chemin. Les spécifications \meta{specs} sont appliquées aux flèches, suivant la syntaxe de |put arrow|.
+  \begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[->n-={n=4}] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/optics/-<n-={n=\meta{num}, \meta{specs}}}
+  Ce style ajoute \meta{num} flèches au milieu du chemin, dans le sens opposé à |->n-|.
+  \begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[-<n-={n=6}] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+Des raccourcis allant de |->-| à |->>>>-| (idem pour |-<-|) sont disponibles. Les styles |->-|, |-<-|, etc. utilisent le style |put arrow| avec la flèche |multiple ray arrow|. Ils peuvent donc être configurés en suivant la syntaxe de |put arrow|, par exemple
+
+\begin{codeexample}[width=4cm]
+\begin{tikzpicture}[use optics]
+  \draw[->>-={at=0.25}, ->-={at=0.75}] (0,0) -- (1.5cm,1cm) -- (3cm, 0);
+\end{tikzpicture}
+\end{codeexample}
+
+Cela marche aussi avec |->n-| et |-<n-|.
+
+\begin{codeexample}[width=4cm]
+\begin{tikzpicture}[use optics]
+  \draw[->n-={n=5, at=0.2, style=red}] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}
+\end{codeexample}
+
+\subsubsection{Placer des choses sur les chemins}
+
+\begin{update}
+  2014-12-07 : cette partie a été substantiellement modifiée.
+\end{update}
+
+\begin{warning}
+  Cette partie n'est pas encore stable. Tout risque de changer à tout moment.
+\end{warning}
+
+\begin{key}{/tikz/put arrow}
+La clé |put arrow| permet d'ajouter facilement une flèche sur un chemin.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[put arrow] (0,0) -- (1.5cm,1cm);
+\end{tikzpicture}  
+\end{codeexample}
+
+Par défaut, la flèche est |\arrow{>}| et elle est placée au milieu du chemin.
+Pour contrôler ces paramètres, il faut utiliser les sous-clés suivantes :
+
+\begin{key}{/tikz/put arrow/pos=\meta{pos} (initially \pgfkeysvalueof{/tikz/put arrow/pos})}
+  Positionne la flèche à la position \meta{pos} sur le chemin (par exemple, \meta{pos}|=0.5| place la flèche au milieu du chemin).
+\end{key}
+
+\begin{key}{/tikz/put arrow/at}
+  Alias pour |/tikz/put arrow/pos|.
+\end{key}
+
+\begin{key}{/tikz/put arrow/arrow=\meta{arrow specification}}
+  Utilise la flèche définie par \meta{arrow specification} (par exemple |stealth| ou |latex|).
+\end{key}
+
+\begin{key}{/tikz/put arrow/arrow'=\meta{arrow specification}}
+  Utilise la flèche définie par \meta{arrow specification} (par exemple |stealth| ou |latex|), mais avec une flèche inversée.
+\end{key}
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[put arrow={arrow'=stealth}] (0,0) -- (1cm,1cm);
+  \draw[put arrow={at=0.2}] (2cm,0) -- (3cm,1cm);
+\end{tikzpicture}  
+\end{codeexample}
+
+\begin{key}{/tikz/put arrow/style=\meta{style}}
+  Le |\meta{style}| est passé à |\arrow[|\meta{style}|]| pour dessiner les flèches.
+\end{key}
+
+\begin{codeexample}[width=5cm]
+\begin{tikzpicture}[use optics]
+  \draw[red,put arrow={arrow=latex}]
+  (0,0) -- (1cm,1cm);
+  \draw[red,put arrow={arrow=latex,style={blue}}]
+  (1cm,0) -- (2cm,1cm);
+\end{tikzpicture}
+\end{codeexample}
+
+\begin{stylekey}{/tikz/put arrow/every arrow}
+  Il s'agit d'un style passé à toutes les flèches dessinées par |put arrow| (dans la portée du style). Il faut utiliser |every arrow/.style={|\meta{style}|}| (ou |append style|, etc.).
+\end{stylekey}
+
+\begin{codeexample}[width=3cm]
+\begin{tikzpicture}[use optics]
+  \draw[red,put arrow={arrow=latex}]
+  (0,0) -- (1cm,1cm);
+  \draw[red, put arrow/every arrow/.style={blue},
+    put arrow={at=0.2}, put arrow={at=0.5}, put arrow={at=0.8}]
+  (1cm,0) -- (2cm,1cm);
+  \draw[red, >=latex, put arrow/every arrow/.style={blue}, 
+    put arrow={at=0.2}, put arrow={at=0.5}, put arrow={at=0.8}]
+  (2cm,0) -- (3cm,1cm);
+\end{tikzpicture}
+\end{codeexample}
+
+
+
+Les différentes flèches utilisables sont détaillées dans le manuel de pgf/tikz.
+
+Pour un contrôle plus fin, il faut utiliser la bibliothèque tikz |markings|. 
+
+Par ailleurs, pour flécher des rayons lumineux, des styles spécifiques |->-|, |-<-|, |->>-| et |-<<-| ont été définis.
+
+\end{key}
+
+\subsubsection{Placer des coordonnées sur les chemins}
+
+\begin{key}{/tikz/put coordinate=\meta{coordinate} at \meta{position}}
+
+Le style |put coordinate| crée une coordonnée nommée \meta{coordinate}
+à l'abscisse curviligne \meta{position} sur le chemin auquel est appliqué le style.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}[use optics]
+  \draw[put coordinate=P at 0.3,put coordinate=Q at 0.7] (0,0)
+    to[bend left] (2cm,0);
+  \draw[red] (P) -- (1cm,-1cm);
+  \draw[blue] (Q) -- (1cm,-1cm);
+\end{tikzpicture}  
+\end{codeexample}
+
+\end{key}
+
+\subsubsection{Indiquer des dimensions sur les schémas}
+
+\begin{warning}
+  Cette partie est expérimentale et sujette à beaucoup de changements brusques sans préavis.
+\end{warning}
+
+Commençons par un exemple.
+
+\begin{codeexample}[width=6cm]
+\begin{tikzpicture}
+\draw[fill=yellow!30]
+   (-1cm,0) coordinate (A) -- (1cm,0) coordinate (B)
+   -- (1cm,1.5cm) coordinate (B') -- (0.25cm,2.5cm) coordinate (b)
+   -- (-0.25cm,2.5cm) coordinate (a) -- (-1cm,1.5cm) coordinate (A')
+   -- cycle;
+
+\draw (A) to[dim arrow'={label'=$D$}] (B);
+\draw (A) to[dim arrow={label=$H$}] (A');
+\draw (a) to[short dim arrow={label=$d$,label near middle}] (b);
+\draw (B') to[dim arrow'={label'=$h$}] (b -| B');
+\end{tikzpicture}  
+\end{codeexample}
+
+
+
+\begin{stylekey}{/tikz/dim arrow=\meta{sous-clés}}
+  Le style |dim arrow| permet d'indiquer des dimensions sur les schémas. Il s'applique à un |to path|. Par exemple,
+
+  \begin{codeexample}[width=4cm]
+\begin{tikzpicture}[use optics]
+  \node[circle,fill=red,inner sep=2pt] (a) at (0,0) {};
+  \node[circle,fill=red,inner sep=2pt] (b) at (2cm,0) {};
+  \draw (a.center) to[dim arrow={label=$\ell$}] (b.center);
+\end{tikzpicture}  
+  \end{codeexample}
+
+  La flèche de dimension est décalée par rapport aux positions de départ et d'arrivée de manière à ne pas se superposer
+  à l'objet dont on veut marquer la dimension.
+
+  Plusieurs sous-clés permettent de spécifier des options en écriant |dim arrow={|\meta{sous-clés}|}|.
+
+  \begin{key}{/tikz/dim arrow/label=\meta{text}}
+  La clé |label| permet de spécifier le \meta{texte} à afficher sur la flèche, qui est positionné à gauche de la flèche par rapport au sens du chemin (via |/tikz/auto=left|).
+  \end{key}
+
+  \begin{key}{/tikz/dim arrow/label'=\meta{text}}
+  La clé |label'| a le même rôle que |label|, mais le \meta{texte} est affiché à droite dans le sens du chemin.
+  \end{key}
+
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=1cm] (R) at (0,0) {};
+
+  \draw (R.north east) to[dim arrow'={label'=$\ell'$}] (R.south east);
+  \draw (R.north east) to[dim arrow'={label=$\ell$}] (R.south east);
+\end{tikzpicture}
+\end{codeexample}
+
+  \begin{key}{/tikz/dim arrow/label text=\meta{text}}
+  La clé |label text| permet de spécifier le \meta{texte} à afficher sur la flèche sans modifier son positionnement.
+  \end{key}
+
+  \begin{stylekey}{/tikz/dim arrow/label style}
+  La clé |label style| permet de spécifier le style avec lequel le label doit être dessiné.
+  À moins de le faire exprès, il n'est pas conseillé de remplacer ce style (qui est utilisé pour placer le label), mais plutôt d'y ajouter des spécifications grace à |/.append style|.
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=1cm] (R) at (0,0) {};
+
+  \draw (R.north east) 
+    to[dim arrow={label=$L$, label style/.append style=red}] (R.south east);
+  \draw (R.north west)
+    to[dim arrow'={label'=$L$}, red] (R.south west);
+\end{tikzpicture}
+\end{codeexample}
+  \end{stylekey}
+
+  \begin{key}{/tikz/dim arrow/raise=\meta{length} (initially \pgfkeysvalueof{/tikz/dim arrow/raise})}
+  La clé |raise| permet de spécifier la distance \meta{length} à laquelle doit être dessinée la flèche de dimension par rapport au chemin initial.
+  \begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=1cm] (R) at (0,0) {};
+
+  \draw (R.north east) 
+    to[dim arrow={label=$\ell$, raise=0.5cm}, black] (R.south east);
+  \draw (R.north east) 
+    to[dim arrow={label=$\ell$, raise=1cm}, red] (R.south east);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+
+  \begin{stylekey}{/tikz/dim arrow/no raise}
+  Équivalent à |raise=0|. (Est-ce bien utile ?)
+  \end{stylekey}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/dim arrow'=\meta{sous-clés}}
+  Le style |dim arrow'| a le même rôle que |dim arrow|, mais la valeur initiale de |/tikz/dim arrow/raise| est de |-|\texttt{\pgfkeysvalueof{/tikz/dim arrow/raise}} au lieu de \texttt{\pgfkeysvalueof{/tikz/dim arrow/raise}}.
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=1cm] (R) at (0,0) {};
+
+  \draw (R.north east) to[dim arrow'={label=$\ell$}, black] (R.south east);
+  \draw (R.north east) to[dim arrow={label=$\ell$}, red] (R.south east);
+\end{tikzpicture}
+\end{codeexample}
+\end{stylekey}
+
+
+\begin{stylekey}{/tikz/short dim arrow=\meta{sous-clés}}
+  Le style |short dim arrow| a le même but que |dim arrow|, mais dans le cas où la dimension à marquer est petite, et où il faut que les flèches soient à l'extérieur.
+
+  \begin{codeexample}[width=4cm]
+\begin{tikzpicture}[use optics]
+  \node[circle,fill=red,inner sep=2pt] (a) at (0,0) {};
+  \node[circle,fill=red,inner sep=2pt] (b) at (1cm,0) {};
+  \draw (a.center)
+  to[short dim arrow={label=$\ell$}]
+  (b.center);
+\end{tikzpicture}  
+  \end{codeexample}
+
+  Les options de |/tikz/dim arrow| s'appliquent, ainsi que quelques options supplémentaires.
+
+  \begin{key}{/tikz/dim arrow/label near start}
+  La clé |label near start| permet de placer l'étiquette donnant la dimension vers le début du chemin.
+  C'est le comportement par défaut.
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=0.5cm] (R) at (0,0) {};
+
+  \draw (R.north east) to[short dim arrow={label=$\ell$}] (R.south east);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+
+  \begin{key}{/tikz/dim arrow/label near end}
+  La clé |label near end| permet de placer l'étiquette donnant la dimension vers la fin du chemin.
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=0.5cm] (R) at (0,0) {};
+
+  \draw (R.north east)
+      to[short dim arrow={label=$\ell$, label near end}] (R.south east);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+
+  \begin{key}{/tikz/dim arrow/label near middle}
+  La clé |label near middle| permet de placer l'étiquette donnant la dimension vers le milieu du chemin. 
+  Dans ce cas, l'étiquette n'est pas décalée par rapport à la flèche (parce qu'il n'y a pas de superposition) ; cela peut être rétabli en spécifiant |/tikz/dim arrow/label style| explicitement.
+
+\begin{codeexample}[]
+\begin{tikzpicture}
+  \node[rectangle, draw=black, fill=yellow!30, minimum width=1cm, minimum height=0.5cm] (R) at (0,0) {};
+
+  \draw (R.north east)
+      to[short dim arrow={label=$\ell$, label near middle}] (R.south east);
+\end{tikzpicture}
+\end{codeexample}
+  \end{key}
+
+
+
+  \begin{key}{/tikz/dim arrow/arrow length=\meta{length} (initially \pgfkeysvalueof{/tikz/dim arrow/arrow length})}
+  La clé |arrow length| permet spécifier la taille \meta{length} des flèches extérieures.
+  \end{key}
+\end{stylekey}
+
+\begin{stylekey}{/tikz/short dim arrow'=\meta{sous-clés}}
+  Le style |short dim arrow'| a le même rôle que |short dim arrow|, mais la valeur initiale de |/tikz/dim arrow/raise| est de |-0.5cm| au lieu de |0.5cm|.
+
+  \begin{codeexample}[width=4cm]
+\begin{tikzpicture}[use optics]
+  \coordinate (a) at (0,0);
+  \coordinate (b) at (1cm,0);
+  \draw[red,mark=x, draw=none] plot coordinates {(a) (b)};
+  \draw (a.center) to[short dim arrow, blue] (b.center);
+  \draw (a.center) to[short dim arrow', red] (b.center);
+\end{tikzpicture}  
+  \end{codeexample}
+\end{stylekey}
+
+\section{Remerciements}
+
+Je remercie les collègues et amis qui ont essuyé les plâtres en utilisant les premières versions de cette bibliothèque, et en particulier les auteurs du livre \emph{Physique expérimentale}\footnote{\url{http://www.physique-experimentale.com/}} pour lequel la bibliothèque a été développée.
+
+
+\end{document}

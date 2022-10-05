@@ -1,0 +1,20 @@
+\RequirePackage{luatex85}
+\documentclass{standalone}
+
+\usepackage{fontspec}
+
+\usepackage{tikz}
+\usetikzlibrary{graphs}
+\usetikzlibrary{nef}
+\usetikzlibrary{quotes}
+
+\begin{document}
+\begin{tikzpicture}[nef]
+    \graph {
+        input [ext] -> gate [ens] -> integrator/$x$ [ens] -> output [ext];
+        integrator -> [bend right, "$-1$"] gate;
+        integrator -> [recurrent] integrator;
+        store -> [inhibit] gate;
+    };
+\end{tikzpicture}
+\end{document}

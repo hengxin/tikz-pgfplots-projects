@@ -1,0 +1,767 @@
+%% tikz-palattice_documentation.tex
+%% Copyright 2017 J. Schmidt
+%% tikz-palattice LaTeX package
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is J. Schmidt.
+% 
+% This work consists of the files tikz-palattice.sty and tikz-palattice_documentation.tex
+% and the 5 example files example1_linear.tex, example2_circular.tex,
+% example3_coordinates.tex, example4_labels.tex and elsa.tex
+
+\documentclass[a4paper]{scrartcl}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{amssymb}
+\usepackage[colorlinks]{hyperref}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz-palattice}
+
+\newcommand{\option}[1]{{\color{blue}$\langle$\textit{#1}$\rangle$}}
+\newcommand{\optiondef}[2]{{\color{green!50!black}$\langle$\textit{#1=#2}$\rangle$}}
+\newcommand{\tikzlabel}{Ti\textit{k}Z}
+
+\author{Jan Schmidt <janschmidt@mailbox.org>}
+\date{v2.3 (March 9, 2017)}
+\title{tikz-palattice - draw particle accelerator lattices with \tikzlabel}
+
+\hypersetup{
+  pdftitle={tikz-palattice - draw particle accelerator lattices with \tikzlabel},
+  pdfauthor={Jan Schmidt}
+}
+
+\begin{document}
+
+\definecolor{keycolor}{RGB}{172, 42, 42}
+\lstset{
+basicstyle=\small\sffamily,
+backgroundcolor=\color{gray!20},
+%numbers=left,
+numberstyle=\tiny,
+breaklines=true,
+%frame=l,
+xleftmargin=\parindent,
+columns=fullflexible,
+showstringspaces=false,
+keywordstyle=\bfseries\color{keycolor},
+commentstyle=\color{black!50},
+identifierstyle=,%\color{blue},
+stringstyle=,
+escapeinside={(*}{*)}
+}
+
+\maketitle
+
+\begin{abstract}
+  The tikz-palattice package allows for drawing a map of a particle accelerator just by
+  giving a list of elements - similar to lattice files for simulation software. The
+  package includes 12 common element types like dipoles, quadrupoles, cavities or screens,
+  as well as automatic labels with element names, a legend, a rule and an environment to
+  fade out parts of the accelerator. The coordinate of any element can be saved and used
+  for custom tikz drawings or annotations. Thereby, lattices can be connected to draw
+  injection/extraction or even a complete accelerator facility.
+\end{abstract}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{elsa.pdf}
+  \caption{The Electron Stretcher Facility ELSA at Bonn University, drawn with
+    tikz-palattice}
+\label{fig:elsa}
+\end{figure}
+
+
+\clearpage
+\parindent=0pt
+Copyright 2017 Jan Schmidt
+
+\medskip
+Permission is granted to distribute and/or modify both the documentation and the code
+under the conditions of the LaTeX Project Public License, either version 1.3 of this
+license or (at your option) any later version. The latest version of this license is in
+http://www.latex-project.org/lppl.txt
+
+\tableofcontents
+
+\section{Installation}
+\label{sec-1}
+\subsection{Copy tikz-palattice.sty}
+\label{sec-1-1}
+You just need to copy the lattice.sty file to a place where your \LaTeX{} installation can recognize it.
+This can be
+\begin{itemize}
+\item the same folder as your .tex document or
+\item in the \LaTeX{} system or user tree.
+\end{itemize}
+E.g. to add it to the system tree for texlive under ubuntu:
+\begin{lstlisting}
+sudo mkdir -p /usr/local/share/texmf/tex/latex/lattice/
+sudo cp lattice.sty /usr/local/share/texmf/tex/latex/lattice/
+sudo mktexlsr
+\end{lstlisting}
+For this path there is also a Makefile prepared, so just enter
+\begin{lstlisting}
+sudo make install
+\end{lstlisting}
+Otherwise read the documentation of your \LaTeX{} distribution.
+
+\subsection{Required packages}
+\label{sec-1-2}
+\begin{itemize}
+\item tikz
+\item siunitx
+\item ifthen
+\item xargs
+\item etoolbox
+\item iflang
+\end{itemize}
+
+\lstset{language=[LaTeX]TeX}
+
+\section{Basic Usage}
+\label{sec:remarks}
+
+Basically, an accelerator lattice is drawn by writing element commands one after the
+other. White spaces and newlines are ignored. Usually you will use one \lstinline+drift+
+and one other element alternately:
+
+\begin{minipage}[c]{0.5\textwidth}
+\begin{lstlisting}
+  \begin{lattice}
+    \source{Gun}{0.4}
+    \drift{0.267}
+    \quadrupole{Q1}{0.4}
+    \drift{0.29}
+    \dipole{M1}{0.8}{30}
+    \drift{0.29}
+    \kicker{VC1}{0.1}
+    \drift{0.2}   
+  \end{lattice}
+\end{lstlisting}
+\end{minipage}
+%
+\begin{minipage}[c]{0.5\textwidth}
+  \begin{center}
+    \begin{lattice}
+      \source{Gun}{0.4}
+      \drift{0.267}
+      \quadrupole{Q1}{0.4}
+      \drift{0.29}
+      \dipole{M1}{0.8}{30}
+      \drift{0.29}
+      \kicker{VC1}{0.1}
+      \drift{0.2}
+    \end{lattice}
+  \end{center}
+\end{minipage}
+
+
+Descriptions of the commands are given in section \ref{sec-5}. There are 5 examples coming
+with this package. Some of the drawings are shown in this document. Please look at the
+separate tex-files for the source code.
+
+\paragraph{Some general remarks:}
+\begin{itemize}
+\item it is recommended to draw lattices using \lstinline+\documentclass{standalone}+
+  especially for larger beamlines.
+\item lengths are set in meter, so you write \{1.32\} for \SI{1.32}{\m}.
+\item beamline with angle \SI{0}{\degree} goes to the right, positive angles bend counter clockwise.
+\item some commands use the \tikzlabel{} \textit{north/east/south/west} terms. \textit{east}
+  of an element is always where the beam leaves the element (downstream) and \textit{west} is where the
+  beam enters the element (upstream).
+\item settings (colors, font, rotatelabel,\ldots{}) changed within a \verb+scope+ environment are set back to the previous values outside of \verb+scope+
+\item picture scale: for lattice scale=1 an element of 1m length is plotted with \SI{2}{\cm} length
+\end{itemize}
+
+Below, the arguments of commands are given in angle brackets. The values after an equal
+sign are default values of optional arguments. E.g. \optiondef{scale}{1} indicates that
+the default value of "scale" is 1.
+
+
+
+\section{The lattice Environment}
+\label{sec-4}
+
+To draw a lattice just add
+\begin{lstlisting}
+\usepackage{tikz-palattice}
+\end{lstlisting}
+to your preambel and use the lattice environment with
+\begin{lstlisting}
+  \begin{lattice}[(*\optiondef{scale}{1}*)][(*\optiondef{tikz options}{}*)]
+    ...
+  \end{lattice}
+\end{lstlisting}
+The \lstinline+lattice+ environment contains a \lstinline+tikzpicture+ environment in
+which the lattice is drawn using usual tikz commands. The \lstinline+lattice+ environment
+has 2 optional arguments:
+\begin{enumerate}
+\item \optiondef{scale}{1} scales whole picture (default is 1).
+\item \optiondef{tikz options}{} gives any options for the \lstinline+tikzpicture+ (e.g.
+  overlay, default is none).
+\end{enumerate}
+
+
+\section{Within lattice Environment}
+\label{sec-5}
+
+\subsection{Elements}
+\label{sec-5-1}
+
+ Here is a list of all implemented element types. The element names are self-explanatory:
+\begin{lstlisting}
+  \drift{(*\option{length/m}*)}[(*\optiondef{name}{}*)]
+  \dipole{(*\option{name}*)}{(*\option{arc length/m}*)}{(*\option{bending angle/deg}*)}[(*\optiondef{type}{s}*)][(*\optiondef{thickness/m}{0.6}*)]
+  \quadrupole{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.5}*)]
+  \sextupole{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.3}*)]
+  \corrector{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.25}*)]
+  \kicker{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.25}*)]
+  \cavity{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.45}*)]
+  \solenoid{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.2}*)]
+  \beamdump{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.5}*)]
+  \source{(*\option{name}*)}{(*\option{length/m}*)}[(*\optiondef{thickness/m}{0.5}*)]
+  \screen{(*\option{name}*)}[(*\optiondef{length/m}{0.2}*)]
+  \valve{(*\option{name}*)}
+  \marker{(*\option{name}*)}[(*\optiondef{length/m}{0.35}*)] % a line perpendicular to the beamline, see Fig. (*\ref{fig:example1}*)
+\end{lstlisting}
+
+
+\subsubsection{Dipole Types}
+The \lstinline+dipole+ option \optiondef{type}{s} allows to select different dipole
+shapes. It is shown in example~2. Possible values are:
+
+\def\dipang{30}
+\def\dipl{1.5}
+\def\dipthick{0.3}
+\begin{minipage}[c]{0.33\textwidth}
+  \centering
+  \begin{lattice}
+    \setangle{-\dipang/2}
+    \drift{0.1}
+    \dipole{s: sector magnet}{\dipl}{\dipang}[s][\dipthick]
+    \drift{0.1}
+  \end{lattice}
+\end{minipage}
+\begin{minipage}[c]{0.33\textwidth}
+  \centering
+  \begin{lattice}
+    \setangle{-\dipang/2}
+    \drift{0.1}
+    \dipole{r: rectangle magnet}{\dipl}{\dipang}[r][\dipthick]
+    \drift{0.1}
+  \end{lattice}
+\end{minipage}
+\begin{minipage}[c]{0.33\textwidth}
+  \centering
+  \begin{lattice}
+    \setangle{-\dipang/2}
+    \drift{0.1}
+    \dipole{br: bend rectangle magnet}{\dipl}{\dipang}[br][\dipthick]
+    \drift{0.1}
+  \end{lattice}
+\end{minipage}
+
+If you use any other letters, also the default (s) is used.
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=10cm]{example1_linear}
+  \caption{Example 1}
+  \label{fig:example1}
+\end{figure}
+
+
+\subsection{Orientation of the lattice}
+\label{sec-5-2}
+
+\begin{lstlisting}
+  \start{(*\option{coordinate/m}*)}
+\end{lstlisting}
+sets starting point of the lattice. Use it before the first element. \option{coordinate/m}
+is of form (x,y) or any tikz label, e.g. (mylabel.east) You can use this with
+\lstinline+\savecoordinate+ (section \ref{sec:coords}) to connect lattices, but it is
+recommended to do this via \lstinline+\goto+ (see below). Both are shown in example 3.
+
+\begin{lstlisting}
+  \rotate{(*\option{angle/deg}*)}
+\end{lstlisting}
+bends the beamline by the given angle.
+
+\begin{lstlisting}
+  \setangle{(*\option{angle/deg}*)}
+\end{lstlisting}
+sets the beamline angle to the given angle. The next element is drawn with beam axis in
+this direction.
+
+\begin{lstlisting}
+  \goto{(*\option{coordinate name}*)}
+\end{lstlisting}
+sets current position and angle to values saved
+with \lstinline+\savecoordinate+ (section \ref{sec:coords}).
+Use this to connect lattices and draw injection, extraction or even a complete accelerator
+facility. This is shown in example 3.
+
+\begin{figure}[h]
+  \centering
+  % this is the ring from example 2, but plotted smaller (30%).
+  % the element sizes (in meter) are the same - as the rule indicates.
+  \begin{lattice}[0.27]
+    \setlabelfont{\tiny}
+    \begin{labeldistance}{0.3}
+      \drift{1}
+      \dipole{M1}{2}{45}
+      \drift{1}
+      \turnlabels
+      \dipole{M2}{2}{45}
+      \turnlabels
+      \drift{1}
+      \dipole{M3}{2}{45}
+      \drift{1}
+      \savecoordinate{myCoord1}[center]
+      \dipole{M4}{2}{45}
+      \drift{1}
+      \dipole{M5}{2}{45}
+      \drift{1}
+      \dipole{M6}{2}{45}
+      \drift{1}
+      \savecoordinate{myCoord2}[center]
+      \dipole{M7}{2}{45}
+      \drift{1}
+      \dipole{M8}{2}{45}
+      \drawrule{(-2.5,-1)}[2]
+    \end{labeldistance}
+    % custom drawing using saved coordinates (to center of drifts)
+    \draw[->, thick] (myCoord2) -- (myCoord1) node[midway,fill=white,rotate=20] {signal};
+  \end{lattice}
+\caption{From example 3}
+\label{fig:fromexample3}
+\end{figure}
+
+
+\newpage
+\subsection{Rule and Legend}
+\label{sec:rule-legend}
+
+\begin{lstlisting}
+  \drawrule{(*\option{position/m}*)}[(*\optiondef{tick distance/m}{1}*)][(*\optiondef{scale}{1}*)][(*\optiondef{height/m}{0.1}*)]
+\end{lstlisting}
+draws a rule to visualize the size of the lattice. Coordinate is of form (x,y) or any tikz
+label, e.g. (mylabel.east)
+
+\begin{lstlisting}
+  \legend{(*\option{position/m}*)}[(*\optiondef{scale}{1}*)]
+\end{lstlisting}
+draws a legend with all element types that occur in the lattice before this command.
+The given \option{position/m} is north west (upper left corner) of the legend box.
+The scale option scales the whole box including the text, which has the usual label
+textsize if scale=1.
+
+\begin{lstlisting}
+  \completelegend{(*\option{position/m}*)}[(*\optiondef{scale}{1}*)]
+\end{lstlisting}
+is similar to \lstinline+\legend+, but shows all element types.
+
+The legend can be customized with the following two commands.
+Here is an example for legend customizations:
+
+\begin{minipage}[c]{0.5\textwidth}
+\begin{lstlisting}
+  \begin{lattice}
+    \drift{0.2}
+    \quadrupole{Q1}{0.4}
+    \drift{0.1}
+    \kicker{C1}{0.1}
+    \drift{0.5}
+    \screen{S1}
+    \drift{0.2}
+    \setlegendtext{quadrupole}{I am focusing}
+    \addlegendentry{What's that?}{cyan, fill=violet}
+    \legend{(0.2,-1)}
+  \end{lattice}
+\end{lstlisting}
+\end{minipage}
+%
+\begin{minipage}[c]{0.5\textwidth}
+  \begin{center}
+  \begin{lattice}
+    \drift{0.2}
+    \quadrupole{Q1}{0.4}
+    \drift{0.1}
+    \kicker{C1}{0.1}
+    \drift{0.5}
+    \screen{S1}
+    \drift{0.2}
+    \setlegendtext{quadrupole}{I am focusing}
+    \addlegendentry{What's that?}{cyan, fill=violet}
+    \legend{(0.2,-1)}
+  \end{lattice}
+  \end{center}
+\end{minipage}
+
+\begin{lstlisting}
+  \setlegendtext{(*\option{type}*)}{(*\option{text}*)}
+\end{lstlisting}
+allows to change the text shown in the legend for element type \option{type}. The legend
+is automatically translated to German if \textit{ngerman} is set with the babel package.
+
+\begin{lstlisting}
+  \addlegendentry{(*\option{text}*)}{(*\option{style}*)}
+\end{lstlisting}
+adds a custom entry to the legend. The style of the legend image can set with
+\option{style}. All style options for a tikz node are allowed. All custom legend entries
+appear below the normal entries.
+
+
+
+
+
+
+\subsection{Labels}
+\label{sec:labels}
+Every element has a text label showing the given element name. The position and
+orientation of the label is set automatically according to the current angle of the
+beamline. Several commands to modify the labels manually are described below. If you want
+to disable labels, leave the element names blank or set the label color (section
+\ref{sec:colors}) to your background color.
+
+\begin{lstlisting}
+  \turnlabels
+\end{lstlisting}
+moves labels to other side of elements (swap with marker labels), while
+\begin{lstlisting}
+  \northlabels
+  \southlabels
+\end{lstlisting}
+explicitly sets the labels to north or south (see section \ref{sec:remarks}) of the
+elements. It is recommended to use these and not \lstinline+\turnlabels+, because
+otherwise the label position at a certain element is determined by the number of
+\lstinline+\turnlabels+ commands before this element.
+
+\begin{lstlisting}
+  \rotatelabels{(*\option{angle/deg}*)}[(*\optiondef{anchor}{}*)]
+\end{lstlisting}
+allows rotation of element labels.
+The \optiondef{anchor}{} sets the center of rotation (north, center, south west,
+\ldots{}). West corresponds to the labels first character. By default the anchor is set
+automatically depending on the current angle of the beamline.
+
+\begin{lstlisting}
+  \begin{labeldistance}{(*\option{distance/m}*)}
+    ...
+  \end{labeldistance}
+\end{lstlisting}
+sets the distance of text labels to the element center for all elements within this
+environment. Default is 0.35.
+
+\begin{lstlisting}
+  \setlabeldistance{(*\option{distance/m}*)}
+  \resetlabeldistance
+\end{lstlisting}
+sets the distance of text labels to the element center for all following elements. the
+reset command sets the default value. Default is 0.35.
+
+\begin{lstlisting}
+  \setlabelfont{(*\option{fontsize}*)}
+\end{lstlisting}
+sets the text label font size. Default is \lstinline+\normalsize+.
+
+
+
+\subsection{Colors}
+\label{sec:colors}
+The colors can be changed at any point of the lattice. A setting is valid until the next
+color command. The reset commands set the according default color. Use a \lstinline+scope+
+environment to change a color for a section of a lattice.
+
+\begin{lstlisting}
+  \setlinecolor{(*\option{type}*)}{(*\option{color}*)}
+  \resetlinecolor{(*\option{type}*)}
+\end{lstlisting}
+for \option{type} drift and marker.
+
+\begin{lstlisting}
+  \setelementcolor{(*\option{type}*)}{(*\option{color}*)}[(*\optiondef{gradient color}{white}*)]
+  \resetelementcolor{(*\option{type}*)}
+\end{lstlisting}
+for all element types. Set \optiondef{gradient color}{white} equal to \option{color} to
+"disable" the gradient.
+
+\begin{lstlisting}
+  \setlabelcolor{(*\option{color}*)}
+\end{lstlisting}
+for textlabels. Set to background color to hide text labels.
+
+
+
+\subsection{Fade Out}
+\label{sec:fade-out}
+
+\begin{lstlisting}
+  \begin{fade}[(*\optiondef{opacity}{0.25}*)]
+    ...
+  \end{fade}
+\end{lstlisting}
+ reduces the opacity of all elements within the environment and sets all colors to gray.
+ So you can fade out regions of the lattice - e.g. for presentations.
+ This can also be used to completely hide regions by setting \optiondef{opacity}{0.25} to
+ zero.
+
+ Custom drawings and annotations (see section \ref{sec:coords}) can also be faded out
+ automatically. The tikz style \lstinline{faded} provides the appropriate settings: Add
+ \lstinline{faded} to the style of any tikz drawing or node within the \lstinline{lattice}
+ environment. If it is drawn within a \lstinline{fade} environment, it is faded out. Else
+ its style is not changed:
+
+\begin{minipage}[c]{0.6\textwidth}
+\begin{lstlisting}
+  \begin{lattice}
+    \tikzset{mynode/.style={
+        anchor=west,xshift=7mm,font=\bf,red}}
+    \setangle{-90}
+    \drift{0.2}
+    \sextupole{S1}{0.2}
+    \drift{0.267}
+    \begin{fade}[0.4]
+      \quadrupole{Q1}{0.4}
+      \savecoordinate{Q1}[center]
+      \node[mynode,faded] at (Q1) {a quadrupole!};
+      \drift{0.29}
+    \end{fade}
+    \kicker{VC1}{0.1}
+    \savecoordinate{kick}[center]
+    \node[mynode,faded] at (kick) {a kicker!};
+    \drift{0.2}   
+    \dipole{M1}{0.8}{30}
+    \drift{0.29}
+  \end{lattice}
+\end{lstlisting}
+\end{minipage}
+%
+\begin{minipage}[c]{0.4\textwidth}
+  \begin{center}
+    \begin{lattice}
+      \tikzset{mynode/.style={anchor=west,xshift=7mm,font=\bf,red}}
+      \setangle{-90}
+      \drift{0.2}
+      \sextupole{S1}{0.2}
+      \drift{0.267}
+      \begin{fade}[0.4]
+        \quadrupole{Q1}{0.4}
+        \savecoordinate{Q1}[center]
+        \node[mynode,faded] at (Q1) {a quadrupole!};
+        \drift{0.29}
+      \end{fade}
+      \kicker{VC1}{0.1}
+      \savecoordinate{kick}[center]
+      \node[mynode,faded] at (kick) {a kicker!};
+      \drift{0.2}   
+      \dipole{M1}{0.8}{30}
+      \drift{0.29}
+    \end{lattice}
+  \end{center}
+\end{minipage}
+
+
+\clearpage
+\subsection{Access lattice Coordinates}
+\label{sec:coords}
+You can use element coordinates to draw anything you want using pgf/tikz. 
+
+\begin{lstlisting}
+  \savecoordinate{(*\option{name}*)}[(*\optiondef{position}{east}*)]
+\end{lstlisting}
+saves the coordinate of the previous element to access it later. Position specifies the
+exact place of the element. \textit{east} and \textit{center} are available (see section
+\ref{sec:remarks}).
+
+\begin{itemize}
+\item you can use all tikz/pgf commands within the lattice environment to draw anything.
+\item You can use this to connect multiple beamlines \textbf{within a lattice environment} with
+  \lstinline+\goto{name}+ (recommended, Figure \ref{fig:twoways} (a)).
+\item You can use this to connect \textbf{multiple lattice environments} with
+  \lstinline+\start{name}+. Use the tikz overlay option. (Figure \ref{fig:twoways} (b))
+\end{itemize}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+  \centering
+  \begin{lattice}[0.8]
+    \rotate{90}
+    \turnlabels %labels to the left
+    \drift{0.5}
+    \quadrupole{QF1}{0.3}
+    \drift{0.2}
+    \kicker{}{0.1}
+    \drift{0.07}
+    \quadrupole{QD2}{0.3}
+    \drift{0.4}
+    \setelementcolor{kicker}{cyan}
+    \kicker{Septum}{0.5}
+    \resetelementcolor{kicker}
+    \savecoordinate{Septum}[center] %save to connect other beamline
+    \drift{0.8}
+    \kicker{}{0.1}
+    \drift{0.37}
+    \quadrupole{QD3}{0.2}
+    \drift{0.17}
+    \kicker{}{0.1}
+    \drift{0.1}
+    \sextupole{SF1}{0.2}
+    \drift{0.27}
+    \dipole{MB1}{0.2}{30}[s][0.4]
+    \drift{0.2}
+
+    % now go back to saved coordinate and continue with another beamline
+    \goto{Septum}
+    \rotate{-20}
+    \turnlabels %labels to the right
+    \drift{0.6}
+    \kicker{SS1}{0.2}
+    \drift{0.2}
+    \kicker{SSH1}{0.2}
+    \drift{0.3}
+    \dipole{M1}{0.2}{-30}[r][0.4]
+    \begin{fade} %fade out this part
+      \drift{0.2}
+      \dipole{M2}{0.2}{50}[r][0.4]
+      \drift{0.2}
+      \dipole{M3}{0.2}{-20}[r][0.4]
+      \drift{0.7}
+    \end{fade}
+    \legend{(0,6.5)}
+  \end{lattice}
+  \caption{one lattice environment and goto}
+\end{subfigure}
+%
+\begin{subfigure}[b]{.45\textwidth}
+\centering
+ \begin{lattice}[0.8]
+    \rotate{90}
+    \turnlabels %labels to the left
+    \drift{0.5}
+    \quadrupole{QF1}{0.3}
+    \drift{0.2}
+    \kicker{}{0.1}
+    \drift{0.07}
+    \quadrupole{QD2}{0.3}
+    \drift{0.4}
+    \setelementcolor{kicker}{cyan}
+    \kicker{Septum}{0.5}
+    \resetelementcolor{kicker}
+    \savecoordinate{Septum}[center] %save to connect other beamline
+    \drift{0.8}
+    \kicker{}{0.1}
+    \drift{0.37}
+    \quadrupole{QD3}{0.2}
+    \drift{0.17}
+    \kicker{}{0.1}
+    \drift{0.1}
+    \sextupole{SF1}{0.2}
+    \drift{0.27}
+    \dipole{MB1}{0.2}{30}[s][0.4]
+    \drift{0.2}
+  \end{lattice}
+  % 
+  %now draw second lattice and connect them using the saved coordinate
+  \begin{lattice}[0.8][overlay]
+    \start{(Septum)}
+    \rotate{70}
+    \drift{0.6}
+    \kicker{SS1}{0.2}
+    \drift{0.2}
+    \kicker{SSH1}{0.2}
+    \drift{0.3}
+    \dipole{M1}{0.2}{-30}[r][0.4]
+    \begin{fade} %fade out this part
+      \drift{0.2}
+      \dipole{M2}{0.2}{50}[r][0.4]
+      \drift{0.2}
+      \dipole{M3}{0.2}{-20}[r][0.4]
+      \drift{0.7}
+    \end{fade}
+    \legend{(-1,6.5)}
+  \end{lattice}
+ \caption{two lattice environments and start}
+\end{subfigure}
+\caption{From example 3: Two ways to connect lattices}
+\label{fig:twoways}
+\end{figure}
+
+
+
+\clearpage
+\section{Changelog}
+\label{sec:changelog}
+v2.1 from 2015/02/23 is the first published version.
+
+\paragraph{v2.2 from 2015/03/01}
+\begin{itemize}
+\item added \lstinline+\northlabels+ and \lstinline+\southlabels+
+\item minor legend improvements (label position is now independent of current lattice settings)
+\item minor documentation improvements
+\end{itemize}
+
+\paragraph{v2.21 from 2015/03/18}
+\begin{itemize}
+\item added \lstinline+faded+ style (apply fade out to custom annotations)
+\item fixed sector dipole drawing
+\item documentation fixes
+\end{itemize}
+
+\paragraph{v2.3 from 2017/03/09}
+\begin{itemize}
+\item added \lstinline+\setlegendtext+ and \lstinline+\addlegendentry+
+\item German legend translation via babel (\textit{ngerman})
+\item legend fixes
+\end{itemize}
+
+
+\section{TODO}
+\label{sec:todo}
+
+\paragraph{What is missing?}
+\begin{itemize}
+\item The look of the elements can be improved
+\item More element types can be added
+\item \ldots{}
+\end{itemize}
+
+I am not an \TeX{} programmer. I basically used the \tikzlabel{} commands and wrote a
+bunch of macros. So there is:
+\begin{itemize}
+\item no error handling implemented
+\item no dedicated scoping of internal macros (use of lattice with documentclass standalone recommended)
+\end{itemize}
+
+\paragraph{Known issues:}
+\begin{itemize}
+\item A circular lattice can have a significant offset (no closed circle), if the dipole
+  bending angles are not integer. Probably, this is due to rounding or calculation
+  accuracy.
+\item Please report bugs!
+\end{itemize}
+
+\end{document}

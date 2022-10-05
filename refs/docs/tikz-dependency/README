@@ -1,0 +1,47 @@
+**TikZ-dependency** -- A library to draw dependency graphs
+==========================================================
+
+TikZ-dependency allows you to draw dependency graphs with little or
+no effort. It also comes with a lot of styling facilities, to let you
+personalize the look and feel of the graphs at your liking.
+
+The package has a very easy to learn, high level interface that can be
+used to draw simple dependency trees, complex non projective graphs,
+bubble parses, and in general any kind of graph which is based on a
+sequence of nodes and edges among these.
+
+Read the documentation in
+
+>   tikz-dependency-doc.pdf 
+
+for installation and usage instructions.
+
+Licensing information is in the file
+
+>   LICENSE
+
+Do not hesistate to contact me for comments, bug reports or
+feature requests. Thanks for using tikz-dependency!
+
+Changelog
+---------
+
+* **Version 1.2** (Jul 5, 2012)
+
+    - Added "edge height" to override the behavior of the edge-drawing algorithm and explicitly set
+      the height of an edge
+    - Incorporated patch by Tetsuo Kiso that fixes error in the handling of "edge end offset x"
+
+* **Version 1.1** (Jan 17, 2012)
+
+    - Added the possibility to use simple arcs as edges (keys: "arc edge"/"segmented edge")
+    - Added "edge start x offset" and "edge end x offset" to fine tune edge start/end point position
+    - Added \depstyle to define styles more easily
+    - Added "simple" theme, based on the parse on page 1 of [Nivre and McDonald, ACL-HLT 2008] 
+    - Added instructions to draw bubble parses
+    - Fixed bug that would cause groupedges not to be straight under some circumstances
+
+* **Version 1.0** (Nov 26, 2011)
+
+    - First public release
+

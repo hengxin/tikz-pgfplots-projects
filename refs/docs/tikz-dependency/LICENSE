@@ -1,0 +1,31 @@
+Licenses for the TikZ-dependency package
+========================================
+
+Different parts of the TikZ-dependency package are distributed
+under different licenses:
+
+1. The code of the package (i.e., tikz-dependency.sty) is 
+   dual-license. This means that you can decide which license you 
+   wish to use when using the TikZ-dependency package. 
+   The two options are:
+
+   a) You can use the GNU Public License, version 2.
+   b) You can use the LaTeX Project Public License, version 1.3c.
+   
+2. The original documentation of the package (i.e., the file 
+   tikz-dependency-doc.tex) is also dual-license. Again, you can 
+   choose between two options:
+
+   a) You can use the GNU Free Documentation License, version 1.2.
+   b) You can use the LaTeX Project Public License, version 1.3c.
+
+The following files are intellectual property of Till Tantau and/or 
+Christian Feuersänger:
+
+   - pgfmanual.code.tex
+   - pgfmanual.prettyprinter.code.tex
+   - pgfmanual-en-macros.tex
+   - pgfmanual.pdflinks.code.tex
+
+They follow the same licensing scheme of tikz-dependency-doc.tex,
+but credits should go to the respective authors.

@@ -1,0 +1,39 @@
+% File: queue-perm-2-queues.tex
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, positioning}
+
+\begin{document}
+\begin{tikzpicture}[seq/.style = {rectangle split, 
+  rectangle split horizontal, 
+  rectangle split draw splits = true, 
+  rectangle split parts = 4,
+  draw}]
+
+  \node[draw, rectangle split,
+	rectangle split horizontal, 
+  	rectangle split parts = 3,
+	inner sep = 3mm
+      ] (queue) {\nodepart{two} {\LARGE $Q$}};
+
+  \node[draw, rectangle split,
+	rectangle split horizontal, 
+  	rectangle split parts = 3,
+	inner sep = 3mm,
+	above = 2.5cm of queue
+      ] (queue') {\nodepart{two} {\LARGE $Q'$}};
+
+  \node[seq, above right = 1.0cm and 1.5cm of queue] (in) {\texttt{in}};
+  \node[seq, above left = 1.0cm and 1.5cm of queue] (out) {\texttt{out}};
+
+  \draw[->, >=Stealth, dashed, blue] (in) to (out);
+
+  \draw[->, >=Stealth, purple] (in.west) to node[sloped, below] {\texttt{add(X, Q)}} (queue.east);
+  \draw[->, >=Stealth, purple] (queue.west) to node[sloped, below] {\texttt{remove(X, Q)}} (out.east);
+
+  \draw[->, >=Stealth, blue] (in.west) to node[sloped, above] {\texttt{add(X, Q)}} (queue'.east);
+  \draw[->, >=Stealth, blue] (queue'.west) to node[sloped, above] {\texttt{remove(X, Q)}} (out.east);
+\end{tikzpicture}
+\end{document}

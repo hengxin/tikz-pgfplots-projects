@@ -1,0 +1,24 @@
+% xjupiter-c3-server-s2ss-c1-4.tex
+
+\documentclass{standalone}
+\input{jupiter-illustration-preamble}
+
+\begin{document}
+\begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}]
+  \statesplit{\{\}}{\epsilon}{}{0}
+
+  \statesplit{1}{x}{below right = of 0}{1}
+  \transition{0}{1}{1: \ins{x}{1}}
+
+  \statesplit{12}{\epsilon}{below right = of 1}{12}
+  \transition{1}{12}{2: \del{x}{1}}
+  
+  \statesplit{123}{a}{below left = of 12}{123}
+  \transition{12}{123}{2: \ins{a}{1}}
+
+  \statesplit{1234}{ba}{below left = of 123}{1234}
+  \transition{123}{1234}{4: \ins{b}{1}}
+
+  \node () [fit = (0) (1) (12) (123) (1234), bg] {};
+\end{tikzpicture}
+\end{document}

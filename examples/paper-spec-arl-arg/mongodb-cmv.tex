@@ -1,0 +1,80 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+\usepackage{mathtools}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\teal}[1]{\textcolor{teal}{#1}}
+\newcommand{\hb}{\texttt{hb}}
+\newcommand{\vis}{\texttt{vis}}
+\newcommand{\so}{\texttt{so}}
+\newcommand{\ar}{\texttt{ar}}
+\newcommand{\tord}[1]{\textsl{to}(#1)}
+
+\newcommand{\wcc}{\textsl{WCC}}
+\newcommand{\wccv}{\textsl{WCCv}}
+\newcommand{\cm}{\textsl{CM}}
+\newcommand{\cmv}{\textsl{CMv}}
+\newcommand{\ccc}{\textsl{CC}}
+\newcommand{\ccv}{\textsl{CCv}}
+\newcommand{\scc}{\textsl{SCC}}
+\newcommand{\sccv}{\textsl{SCCv}}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzset{
+  lconsistency/.style = {rectangle, fill=white, font=\large, draw, inner sep = 2pt, text width=11em, text centered},
+  sconsistency/.style = {rectangle, fill=white, font=\large, draw, inner sep = 2pt, text width=9em, text centered},
+  ssconsistency/.style = {rectangle, fill=white, font=\large, draw, inner sep = 2pt, text width=6em, text centered},
+  lemma/.style = {rectangle, rounded corners, fill=white, draw=white, line width = 1.5pt, inner sep = 6pt},
+  po/.style = {->, very thick},
+  cn/.style = {rectangle, fill=white, draw=white,font=\Large},
+}
+  \node (wcc) [ssconsistency] {%\Large WCC\\
+                             \red{$\hb\subseteq \vis$}\\
+                             \teal{$\vis \subseteq \ar$}\\
+                             \blue{$V[e] = \emptyset$}};
+  \node (nwcc) [cn, below = 0.1cm of wcc] {\wcc};
+
+  \node (cc) [sconsistency, above right=0.1cm and 0.5cm of wcc] {%\large CC\\
+                             \red{$\hb \subseteq \vis$}\\
+                             \teal{$\vis \subseteq \ar$}\\
+                             \blue{$V[e] = \so^{-1}(e)$}};
+  \node (ncc) [cn, below = 0.1cm of cc] {\cm};
+
+  \node (ccv) [lconsistency, draw = red, very thick, right = 4.5cm of wcc] {%\large CCv\\
+                             \red{$\hb \subseteq \vis$}\\
+                             \teal{$\vis \subseteq \ar \wedge \tord{\ar,E}$}\\
+                             \blue{$V[e]=\so^{-1}(e)$}};
+  \node (nccv) [cn, below = 0.1cm of ccv] {\cmv};
+
+  \node (scc) [sconsistency, above = 2.0cm of ccv] {%\large SCC\\
+                             \red{$\hb \subseteq \vis$}\\
+                            \teal{$\vis \subseteq \ar$}\\
+                            \blue{$V[e] = \vis^{-1}(e)$}};
+  \node (nscc) [cn, below = 0.1cm of scc] {\scc};
+
+
+  \node (sccv) [lconsistency, right = 1.0cm of ccv] {%\large SCCv\\
+                             \red{$\hb \subseteq \vis$}\\
+                            \teal{$\vis \subseteq \ar \wedge \tord{\ar,E}$}\\
+                            \blue{$V[e] = \vis^{-1}(e)$}};
+  \node (nsccv) [cn, below = 0.1cm of sccv] {\sccv};
+
+  \node (wccv) [lconsistency,below right=1.5cm and 1.0cm of wcc] {%\large WCCv\\
+                             \red{$\hb \subseteq \vis$}\\
+                             \teal{$\vis \subseteq \ar \wedge \tord{\ar,E}$}\\
+                             \blue{$V[e] =\emptyset$}};
+  \node (nwccv) [cn, below = 0.1cm of wccv] {\wccv};
+
+  \draw [po] (wcc) to (cc);
+  \draw [po] (wcc) to (ccv);
+  \draw [po] (cc) to (scc);
+  \draw [po] (cc) to (ccv);
+  \draw [po] (scc) to (sccv);
+  \draw [po] (wcc) to (wccv);
+  \draw [po] (ccv) to (sccv);
+  \draw [po] (wccv) to (ccv);
+
+\end{tikzpicture}
+\end{document}

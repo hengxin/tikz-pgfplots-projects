@@ -1,0 +1,755 @@
+\documentclass[12pt,a4paper]{ltxdoc}
+
+% TODO: \ex schön machen
+% TODO: Beispielliste anlegen und am Ende anzeigen lassen
+% TODO: Eckige Boxen in Obenrobertamode ermöglichen
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,ngerman]{babel}
+
+\usepackage{standalone}
+
+\usepackage[%print
+]{tikzcodeblocks}
+\usepackage{todonotes}
+\usepackage{listings}
+\usepackage{lmodern} % für textbf in texttt
+\usepackage{wrapfig,booktabs}
+\usepackage[babel]{csquotes}
+\usepackage[right=2cm,left=4.5cm,bottom=3cm,top=2.5cm]{geometry}
+
+\definecolor{buw-gruen}{HTML}{446700}%89ba17
+
+\lstset{
+	basicstyle=\ttfamily,
+	breaklines=true,
+	%literate={ä}{{\"a}}1 {ü}{{\"u}}1 {ö}{{\"o}}1 {ß}{{\ss}}1 {Ä}{{\"A}}1 {Ü}{{\"Ü}}1 {Ö}{{\"O}}1,
+	tabsize=2,
+	language=[LaTeX]{TeX},
+	 numbers=left, numberstyle=\tiny,%, stepnumber=5, numbersep=5pt,
+	keywordstyle=\color{red},       % keyword style
+	morekeywords={\node,\tikz},
+	commentstyle=\itshape\color{purple!40!black},
+	frame=L,	                   % adds a frame around the code
+}
+
+\lstset{literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\usepackage{comment}
+\usepackage{booktabs}
+\usepackage[nochapter]{vhistory} %TODO ersetzen oder selber implementieren
+
+\usepackage{array}
+\usepackage{subcaption}
+
+
+\title{TikZ Codeblocks v.\vhCurrentVersion}
+\author{Adrian Salamon}
+\date{\vhCurrentDate}
+
+
+\setlength{\parindent}{0em}
+
+
+\def\PrintDescribeMacro#1{\strut \MacroFont\textcolor{buw-gruen}{\string #1\ }}
+\let\PrintDescribeEnv\PrintDescribeMacro
+\let\PrintMacroName\PrintDescribeMacro
+\let\PrintEnvName\PrintDescribeEnv
+
+
+
+% Define own examples
+\usepackage{marginnote}
+\newcommand{\ex}[1]{\vspace*{1em} \marginnote{\textbf{\sffamily Bsp:} #1}}
+
+\newcommand{\hinweis}{\noindent{\huge!\,}\normalfont\textbf{\sffamily Hinweis:}} 
+
+
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section*{Versionshistorie}
+
+\begin{versionhistory}
+  \vhEntry{0.1 }{2017-07-06}{A. Salamon}{published}
+  \vhEntry{0.11}{2017-07-18}{A. Salamon}{update: shapes, translations and fix typos}
+  \vhEntry{0.12}{2018-04-03}{A. Salamon}{update: LED colors}
+  \vhEntry{0.13}{2020-04-06}{A.~Salamon, A.~Wagner }{bug-fix: wrongly shifed nodes}
+\end{versionhistory}
+%
+  \begin{itemize}[leftmargin=*,noitemsep]
+  \item Translations
+  \begin{itemize}[noitemsep]
+	  \item via \textbf{babel} for structures (if/wenn, then/dann\dots)
+	  \item marcos and styles are now (partly) also in english\footnote{Feel free to contact me, if you are an english speaker and want to use everything in english.}
+  \end{itemize}
+  \item new Shapes
+	  \begin{itemize}[noitemsep]
+		  \item \tikz\node[codeblocks,musik,pinhigh]{pinhigh};
+		  \item \tikz\node[codeblocks,start,pinlow]{pinlow};
+	  \end{itemize}
+	\item Package option \texttt{print} gets rid of all colors: \tikz\node[codeblocks,print, aktion,]{no colors};
+	\item Open-Roberta colors are now more accurate and usable next to the standard colors. (see \ref{sec:robertacolors}.)
+  \end{itemize}
+  \begin{itemize}
+ 	\item fixed LED-Color for NEPO-Editor.
+	\item Nepo:
+		\begin{tikzpicture}[codeblocks,openroberta]
+			\node[bild]{\bild{\0 \X \0 \0 \\}};
+		\end{tikzpicture}
+		%
+		PXT: \begin{tikzpicture}[codeblocks]
+			\node[start]{\bild{\0 \X \0 \0 \\}};
+		\end{tikzpicture}
+  \end{itemize}
+
+%\begin{longtable}{llp}
+%0.1. & 2017-07-06 & looong\\
+%\end{longtable} 
+  
+\section{Präambel}
+
+Diese Sammlung von TikZ Stilen und Kommandos soll helfen, grafische Codeblöcke, wie beim Calliope mini Editor, der Sprache NEPO von Open Roberta oder der Programmierumgebung Scratch zu setzen. Sie ersetzt \textbf{nicht} die Auseinandersetzung mit TikZ und der entsprechenden Syntax. Die Positionierung, Benennung und Referenzierung der Elemente muss weiterhin manuell gestaltet werden.
+
+Dies ist eine Entwicklerversion. Bezeichner und Paketname können in späteren Versionen noch variieren.
+
+Fragen nehme ich gerne per \href{mailto:adriansalamon@gmail.com?subject=Question for tikzcodeblocks}{adriansalamon@gmail.com} entgegen. 
+
+
+\subsection{Editoren mit graphischer Programmierung}
+
+\texttt{tikzcodeblocks} wurde erstellt, um Quelltexte auf Blockbasis für den Microcontroller Calliope mini zu setzen. Alle verwendeten Farben und Gestaltungen sind daher standardmäßig vom PXT Editor von Calliope inspiriert. Als alternative Farbgebung ist eine Variation nach Open Roberta implementiert (siehe \ref{sec:robertacolors}). Es lässt sich jedoch auch Code mit Farb- und Formgebungen anderer Editoren setzen.
+
+\begin{table}[hbt!]\centering
+\begin{tabular}{ll}
+	\toprule
+	Editor & URL \\ \midrule
+
+	PXT - Calliope 	& 	\url{http://pxt.calliope.cc/} 				\\
+	Open Roberta 		& 	\url{https://lab.open-roberta.org/} 	\\
+	Scratch 				& 	\url{https://scratch.mit.edu/projects/editor} 			\\
+	\bottomrule
+\end{tabular}
+\caption{Tabelle von Editoren mit graphischen Codeblöcken.}
+\end{table}
+
+
+
+\subsection{Alternativpakete}
+
+Während der Entwicklung dieses Paketes wurde das Paket \texttt{scratch}\footnote{\url{https://www.ctan.org/pkg/scratch?lang=de}.} veröffentlicht. Damit lässt sich graphischer Code in der Optik von Scratch sehr einfach setzen. Die Dokumentation des Pakets ist zur Zeit auf Französisch verfügbar.
+
+Ein Unterschied zwischen den Paketen \texttt{scratch} und \texttt{tikzcodeblocks} ist m.\,E. vor allem folgender: \texttt{scratch} lässt sich \textbf{nicht} in andere TikZ Umgebungen einbinden. Die einzelnen Objekte sind nicht als Nodes\footnote{In dieser Dokumentation wird die Bezeichnung \textbf{Node} für die Knoten in TikZ verwendet.} referenzierbar. Die Syntax ist jedoch deutlich schmaler als bei \texttt{tikzcodeblocks}. Ein Blick lohnt sich bestimmt für die meisten interessierten Nutzer.
+
+
+\subsection{Installation und Benutzung}
+
+Das Paket wird über die üblichen \LaTeX-Paketmanager installiert (z.\,B. \TeX{}Live)
+und per \DescribeMacro{tikzcodeblocks} \lstinline|\usepackage{tikzcodeblocks}| in die Präambel des gewünschten Dokuments eingebunden.
+
+\DescribeMacro{codeblocks} Mit \lstinline|\begin{tikzpicture}[codeblocks]| werden die Codeblock-Stile in die jeweilige tikzpicture-Umgebung  geladen. Es setzt das Verhalten für \lstinline[language=TeX]|every Node|.
+
+% Nacktes Beispiel
+\begin{minipage}{0.6\textwidth}
+	\lstinputlisting[language={},morekeywords={usepackage, codeblocks}
+	]{examples/bsp-hello-world.tikz}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\input{examples/bsp-hello-world.tikz}
+\end{minipage}
+
+
+\section{Beispielcode}
+
+Eine Beispiel zeigt Ergebnisse der Nutzung des Pakets.
+Der Quellcode zur Erstellung der Vektorgrafik folgt unter dem Beispiel.
+
+\begin{center}
+	\input{examples/bsp-start-roberta.tikz}
+\end{center}
+\lstinputlisting[basicstyle=\footnotesize \ttfamily]{examples/bsp-start-roberta.tikz}
+
+
+\subsection{English Codeexample}
+
+\begin{center}
+	\input{examples/bsp-english.tikz}
+\end{center}
+%
+\lstinputlisting[
+	basicstyle=\footnotesize \ttfamily,
+	language={},
+	morekeywords={
+		square,
+		moveindent,
+		under,
+		ifthenelsecode,
+		loopcode,
+		puzzlepiece,
+		otherlanuage}
+	]{examples/bsp-english.tikz}
+
+\clearpage
+
+
+\section{Bausteine und Befehle}
+
+\subsection{Bausteinklassen nach PXT-Calliope Editor}
+
+% Hilfskonstruktionen für das schnelle Setzen aller Stile
+\newcommand{\trynode}[1]{\lstinline|#1|& \tikz\node[#1,codeblocks]{#1}; & \tikz\node[openroberta,#1,codeblocks,eckig,]{#1};\\}
+\newcommand{\trynodeOpenRoberta}[1]{\lstinline|#1|& \tikz\node[openroberta,#1,codeblocks,eckig,]{#1};\\}
+
+Die Klassen der Programmierbausteine werden nach folgendem Muster als TikZ-Style angegeben.
+
+\begin{quotation}
+	\lstinline|\node[STYLE] {Inhalt};|
+\end{quotation}
+
+Die Defaulteinstellung orientiert sich an den Farben und Formen des Calliope-PXT-Editors. Mithilfe des Stils \DescribeMacro{openroberta} \lstinline|openroberta| können alternative Farb- und Formdefinitionen geladen werden, die sich an der NEPO-Umgebung von Open-Roberta orientieren. Der Stil kann auch für eine ganze TikZ-Umgebung verwendet werden.
+
+\label{sec:robertacolors}
+\renewcommand{\arraystretch}{0.6}
+	\begin{longtable}{lll}
+		\toprule
+\sffamily	Stilname & \sffamily pxt (Standard) & \sffamily openroberta\\ \midrule \endhead
+		\trynode{grundlage}
+		\trynode{eingabe}
+		\trynode{schleife}
+		\trynode{logik}
+		\trynode{musik}
+		\trynode{led}
+		\trynode{platzhalter}
+		\trynode{mathe}
+		\trynode{funk}
+		\trynode{motor}
+		\trynode{zeichenkette} 
+		\trynode{spiel}
+		\trynode{bild}
+		\trynode{pins}
+		\trynode{konsole}
+		\trynode{steuerung}
+		\trynode{bluetooth}
+		% OopenRoberta
+		\trynode{start}
+		\trynode{aktion}
+		\trynode{sensor}
+		\trynode{kontrolle}
+		\trynode{liste}
+		\trynode{farbe}
+		\trynode{bild}
+		\trynode{variablen}
+		\trynode{funktion}
+		\trynode{nachricht}
+		\bottomrule
+		
+	\end{longtable}
+
+\hinweis{In PXT und im Open-Roberta-Editor heißen die entsprechenden Einträge für Zeichenketten \enquote{Texte}. Der Style \enquote{Text} ist von TikZ jedoch bereits intern belegt und wird hier deswegen als \enquote{zeichenkette} verwendet.}
+
+
+Standardmäßig wird das Paket mit der PXT-Farbinformation geladen, um die Farben des PXT-Editors für Calliope zu verwenden.\footnote{Damit beide Stile problemlos ineinander überführt werden können, ohne dass bestimmte Stile in anderen Kontexten undefiniert sind, wurden einige Stile doppelt Zugeordnet: \texttt{pxt-grundlagen} = \texttt{openroberta-start}, \texttt{pxt-musik} = \texttt{openroberta-aktion}, etc.}
+
+Die Stile unterscheiden sich voneinander nur durch ihre Farben. \lstinline|openroberta| läd standardmäßig noch den Stil \lstinline|eckig|.
+ 
+ 
+\subsection{Skalierung} 
+
+\ex{Skalierung}  Die Skalierung des gesamten Bildes ist mit dem TikZ-Boardmittel \texttt{scale} möglich.
+ 
+\begin{minipage}{0.78\textwidth}
+\begin{lstlisting}[language={},morekeywords={scale}]
+\begin{tikzpicture}[codeblocks, scale=0.7]
+	\node[variablen]{Hello World;};
+\end{tikzpicture}
+%
+\begin{tikzpicture}[codeblocks, scale=1.3]
+	\node[variablen]{Hello World;};
+\end{tikzpicture}
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+ 	\begin{tikzpicture}[codeblocks, scale=0.7]
+ 		\node[variablen]{Hello World;};
+ 	\end{tikzpicture}
+ 	%
+ 	\begin{tikzpicture}[codeblocks, scale=1.3]
+ 		\node[variablen]{Hello World;};
+ 	\end{tikzpicture}
+\end{minipage} 
+ 
+ 
+ 
+
+\subsection{Farben}
+
+\subsubsection{Lokale Farbänderung}
+Lokale Überschreibungen sind -- wie üblich -- durch Angabe einer Farbe bei den entsprechenden Node-Attributen möglich.
+
+\ex{Lokale Farbänderung}
+{\tikz\node[codeblocks,fill=black,draw=red]{schwarzer Hintergrund - roter Rahmen};\\
+\lstinline|\node[fill=black,draw=red]{schwarzer Hintergrund - roter Rahmen}|
+}
+
+
+
+\subsubsection{Globale Farbänderung}
+
+\DescribeMacro{\setcolor}\label{sec:setcolor}%
+Der Befehl \cmd\setcolor\marg{farbreferenz}\marg{hexfarbcode} lässt zu, Farben dokumentenweit umzudefinieren.
+
+\ex{Globale Farbänderung}
+\tikz\node[codeblocks,logik,]{Alte Farbe}; \lstinline|\setcolor{logik-color}{ff0000}| \setcolor{logik-color}{ff0000} \tikz\node[codeblocks,logik,]{Neue Farbe!};
+\setcolor{logik-color}{006970}
+
+
+
+\subsubsection{Keine Farben (print)}
+
+Mit der Paketoption \lstinline[language={},morekeywords=print]|\usepackage[print]{tikzcodeblocks}| lassen sich alle Farben entfernen. Es werden lediglich Umrisse, sowie ausgefüllte LEDs gezeichnet. Die Schriftfarbe ist schwarz.
+
+\ex{print}
+\begin{tikzpicture}[codeblocks,print]
+\einruecken{
+	\node[aktion](one){\stringbox{myText}};
+}
+\node[musik,under={one}{1}{0}](two){\intbox{11}\dropdown{=}\boolbox{wahr}};
+\end{tikzpicture}
+
+\subsection{Boxen}
+Boxen werden innerhalb von Codeblöcken verwendet, um bestimmte Platzhalter und Datentypen zu kennzeichnen. Die Farben werden dabei teilweise in Abhängigkeit zum Parent (durch Durchsichtigkeit) gesetzt.
+
+\DescribeMacro{\dropdown{}}
+\DescribeMacro{\intbox{}}
+\DescribeMacro{\stringbox{}}
+\DescribeMacro{\boolbox{}}
+
+\begin{center}
+\begin{tabular}{m{0.32\linewidth}m{0.22\linewidth}m{0.22\linewidth}}
+	\toprule
+	\sffamily Code														& \sffamily PXT                                         	& \sffamily Open Roberta   \\\midrule
+	\lstinline|\dropdown{Dropdown}| & \tikz\node[codeblocks]{\dropdown{Dropdown}}; 	& \tikz\node[codeblocks,openroberta]{\dropdown{Dropdown}};\\
+	\lstinline|\intbox{5}| 					& \tikz\node[codeblocks]{\intbox{5}}; 					& \tikz\node[codeblocks,openroberta]{\intbox{5}}; 				\\
+	\lstinline|\stringbox{Text}|	  & \tikz\node[codeblocks]{\stringbox{Text}}; 		& \tikz\node[codeblocks,openroberta]{\stringbox{Text}}; 	\\
+	\lstinline|\boolbox{wahr}|	 		& \tikz\node[codeblocks]{\boolbox{wahr}}; 			& \tikz\node[codeblocks,openroberta]{\boolbox{wahr}};			\\
+	\bottomrule
+\end{tabular}
+\end{center}
+
+\lstinline|\intbox|, \lstinline|\stringbox|, \lstinline|\boolbox| haben alle als optionales Argument die Möglichkeit Stile hinzuzufügen.
+
+
+\ex{optionales Argument bei Boxen}
+\begin{tabular}{rl}
+\intbox[]{42} 							& \lstinline|\intbox{42}| \\[1em]
+\intbox[puzzleteil]{42} 	&\lstinline|\intbox[puzzleteil]{42}|\\
+\end{tabular}
+
+
+\ex{Boxen mit Kapselung}
+\tikz\node[codeblocks,eingabe]{Meine \dropdown{Dropdown}-Box mit Wert \intbox{5}};\\
+\lstinline|\node[eingabe]{Meine \dropdown{Dropdown}-Box mit Wert \intbox{5}};|
+
+
+\hinweis{} Bei der Verwendung des Stils \texttt{openroberta} ändern sich auch entsprechend die Farben der int-, string- und boolboxen.
+
+
+\subsection{Bilder/LED-Matrix}
+
+\DescribeMacro{\bild} Mit \cmd\bild\oarg{skalierungsfaktor}\marg{Inhalt} lassen sich LED-Matrizen setzen. Es erwartet einen Tabelleninhalt. Jede Zeile muss entsprechend per \lstinline|\\| beendet werden. Zeilen und Spalten könen dabei unbegrenzt sein. Dabei gelten weiterhin folgende Befehle:
+		\begin{itemize}[noitemsep]
+	\item \DescribeMacro{\emptyled} \lstinline|\emptyled| setzt eine $5 \times 5$ LED-Matrix, bei der alle LEDs ausgeschaltet sind.\\ \bild{\emptyled}
+	\item \DescribeMacro{\fullled} \lstinline|\fullled| setzt eine $5 \times 5$ LED-Matrix, bei der alle LEDs angeschaltet sind.\\ \bild{\fullled}
+	\item \DescribeMacro{\X} \lstinline|\X| repräsentiert darin eine angeschaltete LED~~\bild{\X\\}
+	\item \DescribeMacro{\0} \lstinline|\0| repräsentiert darin eine ausgeschaltete LED~~\bild{\0\\}
+	\item Die Kombination von \lstinline|\bild{}|, \lstinline|\X|, und \lstinline|\0| ergiebt schließlich alle möglichen LED-Maritzen:
+
+\ex{Beliebige Matrix}
+\begin{minipage}[l]{0.6\textwidth}
+		\hspace*{-2cm}
+\begin{lstlisting}
+	\bild{
+		\X \X \X \X \0 \0 \\
+		\X \X \0 \X \0 \0 \\
+	}
+\end{lstlisting}
+	\end{minipage}
+	\begin{minipage}[c]{0.8\textwidth}
+	\bild{
+		\X \X \X \X \0 \0 \\
+		\X \X \0 \X \0 \0 \\
+	}
+	\end{minipage}
+
+\item  \DescribeMacro{\bild} Mit dem optionalen Argument kann ein Skalierungsfaktor angegeben werden.
+
+\ex{Bildskalierung}
+
+\begin{tabular}{cc}
+	\bild[0.4]{\emptyled} &  \bild[1.5]{\emptyled}\\
+	{\lstinline|\bild[0.4]{\emptyled}|} &  {\lstinline|\bild[1.5]{\emptyled}|}\\
+\end{tabular}
+\end{itemize}
+
+\hinweis{} \lstinline|\X|, \lstinline|\0| sowie \lstinline|\emptyled| und \lstinline|\fullled| können nur innerhalb des \lstinline|\bild|-Kommandos verwendet werden.
+
+
+
+\subsection{Strukturen} \label{sec:strukturen}
+
+Strukturen helfen, die Positionierung von Nodes zu vereinfachen. Dafür können Verzweigungen und Schleifen verwendet werden. Damit muss nur noch in seltenen Fällen eine manuelle Positionierung von Nodes vorgenommen werden. Intern werden Tabellen verwendet.
+
+\subsubsection{Verzweigungen}
+
+\DescribeMacro{\wenndann} Über den Befehl \sloppy \cmd\wenndann\oarg{TikZ-Stil}\marg{TEXT: Bedingung}\marg{NODE: Anweisung}\marg{TEXT: Nodename} wird die Kontrollstruktur Verzweigung abgebildet. Der \lstinline|logik|-/bzw. \lstinline|kontrolle|-Stil wird automatisch gesetzt. Das letzte Argument ist die Bezeichnung des eigenen Nodenamen, damit nachfolgende Codeblöcke dies bei ihrerer Positionierung referenzieren können. 
+
+\DescribeMacro{\wenndannsonst} \cmd\wenndannsonst\oarg{TikZ-Stil}\marg{TEXT: Bedingung}\marg{NODE: Dann-Anweisung}\marg{NODE: Sonst-Anweisung}\marg{TEXT: Nodename} verhält sich analog zu \cmd\wenndann, ist jedoch um einen Sonst-Block, der mit Nodes gefüllt wird, erweitert. Automatisch ergänzt werden die Wörter \enquote{wenn}, \enquote{dann} und \enquote{sonst}.
+
+\hinweis{Das optionale Argument ist oft notwendig, um die Verzweigung richtig in Relation zu vorherstehenden Blöcken zu positionieren. Siehe hierfür \ref{sec:unter}.}
+
+%\ex{Muster einer Verzweigungen}
+
+\begin{tabular}{lll}
+&\begin{tikzpicture}[codeblocks]
+\wenndann{TEXT: Bedingung}{\node[aktion]{NODE: Anweisung};}{name}
+\end{tikzpicture} &
+
+\begin{tikzpicture}[codeblocks]
+\wenndannsonst{TEXT: Bedingung}{\node[aktion]{NODE: Anweisung};}{\node[aktion]{NODE: Anweisung};}{name}
+\end{tikzpicture}\\
+Deutsch: &\lstinline|\wenndann| & \lstinline|\wenndannsonst|\\
+English: & \lstinline|\ifthenblocks| & \lstinline|\ifthenelseblocks| \\
+\end{tabular}
+
+
+\ex{Verzweigungen}
+\input{examples/bsp-verzweigung.tikz}
+\lstinputlisting[language={},morekeywords={wenndannsonst}]{examples/bsp-verzweigung.tikz}
+
+\hinweis{Sollen Nodes in Textfeldern gesetzt werden, so muss \lstinline|\tikz| vorgeschoben werden.}
+
+\subsubsection{Schleifen}
+
+
+\DescribeMacro{\schleife} Die Schleife nach dem Muster
+\cmd\schleife\oarg{TikZ-Stil}\marg{TEXT: Für/solange/etc.}\marg{TEXT: Bedingung}\marg{NODE: Anweisung}\marg{TEXT: Nodename} ist eine weitere vordefinierte Struktur. Automatisch ergänzt wird der Begriff \enquote{mache}.
+
+\ex{Muster: Schleifen}
+\begin{tabular}{ll}
+& \begin{tikzpicture}[codeblocks]
+\schleife{TEXT: Für/solange/etc}{TEXT:Bedingung}{\node[logik]{NODE: Anweisung};}{name}
+\end{tikzpicture}\\
+deutsch & \cmd\schleife\oarg{STIL}\marg{PRE}\marg{BED}\marg{ANW}\marg{NAME}\\
+english & \cmd\loopblocks\oarg{STYLE}\marg{PRE}\marg{COND}\marg{INST}\marg{NAME}\\\\
+\end{tabular}
+
+
+
+\ex{Schleifen}
+\begin{tikzpicture}[codeblocks]
+\schleife[draw]{Solange}{\tikz\node[logik,keinezacken]{\dropdown{A}~\dropdown{=}~\dropdown{B}};}{
+	\node[aktion]{A=B+B};}{schl1}
+
+\schleife[draw,unter={schl1}{0}{0}]{Für}{\intbox{int i=0}, \intbox{i<10}, \intbox{i++}}{
+	\node[aktion]{A=B+B};}{schl2}
+\end{tikzpicture}
+\begin{lstlisting}[morekeywords={schleife}]
+\schleife[draw]{Solange}{\tikz\node[logik,keinezacken]{\dropdown{A}~\dropdown{=}~\dropdown{B}};}{
+	\node[aktion]{A=B+B};}{schl1}
+
+\schleife[draw,unter={schl1}{0}{0}]{Für}{\intbox{int i=0}, \intbox{i<10}, \intbox{i++}}{
+	\node[aktion]{A=B+B};}{schl2}
+\end{lstlisting}
+
+
+\subsubsection{Branches, loops and the english language}
+\begin{otherlanguage}{english}
+	If you want to use this package in an english document just load \lstinline|\usepackage[english]{babel}| in the preamble. It will automatically set the outer words for branches and loops in english.
+\end{otherlanguage}
+
+\ex{English example}
+\begin{otherlanguage}{english}
+	\lstinline|\usepackage[english]{babel}|\\
+	\begin{tikzpicture}[codeblocks]
+	\wenndannsonst{A = B}{\node[aktion]{A++};}{\node[aktion]{B-{}-};}{name}
+	\end{tikzpicture}
+\end{otherlanguage}
+
+\begin{lstlisting}[]
+\begin{otherlanguage}{english}
+  \begin{tikzpicture}[codeblocks]
+    \wenndannsonst{A = B}{\node[aktion]{A++};}{\node[aktion]{B-{}-};}{name}
+  \end{tikzpicture}
+\end{otherlanguage}
+\end{lstlisting}
+
+\DescribeMacro{\ifthenblocks} 
+\DescribeMacro{\ifthenelseblocks} 
+\DescribeMacro{\loopblocks} To fit the commands to the english language please you can use |\ifthenblocks|, |\ifthenelseblocks| and |\loopblocks|. Notice the added \enquote{blocks}, because the \LaTeX Command \lstinline|\ifthenelse| is already used by the \texttt{ifthen}-Package. 
+
+\begin{table}[htb] \centering
+\begin{tabular}{ll}
+\toprule
+english & german\\ \midrule 
+\lstinline|\ifthenblocks| 		&\lstinline|\wenndann|\\
+\lstinline|\ifthenelseblocks|	&\lstinline|\wenndannsonst|\\
+\lstinline|\loopblocks|				&\lstinline|\schleife| \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+\section{Positioneriung der Nodes}
+
+\subsection{Manuelles Positionieren}\label{sec:unter}
+
+Mit konsequenter Verwendung der Strukturen ist manuelles Einrücken selten notwendig. Jedoch ist das Aneinanderketten der Nodes unabdinglich. Hierfür wird der Stil
+\DescribeMacro{unter} \texttt{unter=}\marg{NODE}\marg{X-Einzug-Faktor}\marg{Y-Einzug-Faktor} verwendet. Hierbei wird der Einzug als Ankerpunkt jeweils relativ zum Vorgänger gesetzt.
+
+	\vspace{1em}
+%	\hspace*{-3cm}
+	\begin{tikzpicture}[codeblocks,scale=1.0]
+	\node[grundlage] (drueber) {Hier beginnt der Code};
+	\node[eingabe, unter={drueber}{1}{8}] (drunter){Das ist das letzte Kommando};
+
+	\draw[black, ->, rounded corners=0] (drueber) -- (drunter.165) node[midway, black,right] {Abstand 8 (\#3)};
+	\draw[black, ->, rounded corners=0] (drueber.south west) |- (drunter.west) node[midway, black,left] {Einzug 1 (\#2)};
+
+	\draw[black, ->, rounded corners=0] (drunter.east) |- (drueber.east) node[near start,right] {Bezug auf start-node (\#1)};
+
+	\end{tikzpicture}\vspace{2em}
+
+	\begin{lstlisting}[keywords={},morekeywords={drueber,drunter}]
+	\node[grundlage] (drueber) {Hier beginnt der Code};
+	\node[eingabe, unter={drueber}{1}{8}] (drunter){Das ist das letzte Kommando};
+	\end{lstlisting}
+
+	\hinweis{Dank der Verwendung von Kontrollstrukturen (siehe \ref{sec:strukturen}) ist manuelles Einrücken in der Regel nicht notwendig.}
+
+
+
+\subsubsection{Verschieben der Zacken bei manueller Einrückung}
+%\input{examples/bsp-openroberta-umgebung.tikz}
+%\lstinputlisting[language={},firstline=3, lastline=14,morekeywords={\einruecken}]{examples/bsp-openroberta-umgebung.tikz}
+
+\DescribeMacro{\einruecken} Über das Kommando \cmd\einruecken\marg{nodes} lässt sich der untere Zacken eines Nodes um genau einen Einzug verschieben (siehe: \ref{sec:unter};). Die obere Ausbuchtung bleibt an ihrem normalen Platz.
+
+\begin{otherlanguage}{english}
+	\DescribeMacro{\moveindent} The english equivalent to\cmd\einruecken{} is \cmd\moveindent.
+\end{otherlanguage}
+
+\vspace{1em}
+\begin{tikzpicture}[codeblocks]
+\node[kontrolle](eins){wenn\dots \\dann\dots};
+\einruecken{
+	\node[kontrolle, right=2cm of eins](zwei){wenn\dots \\dann\dots};
+}
+\draw[black,dashed,very thick,->] ($(eins.south west)+(1.5em,-0.2em)$)--($(zwei.south)+(0em,-0.2em)$) node[midway,below]{\normalfont Zacken verschiebt sich nach rechts};
+\end{tikzpicture}\hfil
+%
+%Verschachtelung mit Einrückung und Open Roberta Zacken
+\ex{Verschachteltes Einrücken}
+\input{examples/bsp-verschachtelt-zacken.tikz}
+\lstinputlisting[basicstyle=\footnotesize \ttfamily, keywords={},language={},morekeywords={einruecken},]{examples/bsp-verschachtelt-zacken.tikz}
+
+
+\ex{einruecken}
+\input{examples/bsp-einruecken.tikz}
+\lstinputlisting[keywords={},language={},morekeywords={einruecken},firstline={2},lastline={5}]{examples/bsp-einruecken.tikz}
+
+
+\subsection{Automatisches Einrücken}
+Siehe Strukturen \ref{sec:strukturen}!
+
+
+\clearpage
+\section{Dekorationen}
+
+\subsection{Puzzleoptik}
+\newcommand{\mydeco}[1]{
+	\tikz\node[codeblocks,mathe,#1](one){A+B};&#1
+}
+
+
+
+
+Um die Verzahnung der einzelnen Elemente darzustellen, wird standardmäßig eine Puzzleoptik verwendet, welche die \textit{vertikale} Beziehung der Bausteine zueinander verdeutlicht. Sie ist über die Form \DescribeMacro{robertashape} \lstinline|robertashape| definiert.
+
+Soll die \textit{horizontale} Beziehung von Bausteinen betont werden, so kann die Form \DescribeMacro{puzzleteil} \lstinline|puzzleteil| verwendet werden.
+
+\DescribeMacro{keinezacken} Mit dem Stil \lstinline|keinezacken| lassen sich alle vordefinierten Zacken entfernen. Dies ist v.\,A. bei verschachtelten Nodes notwendig. \lstinline|keinezacken| ist ein Alias für \lstinline|rectangle|.
+
+\DescribeMacro{eckig} Der Stil \lstinline|eckig| entfernt alle runde Ecken und orientiert sich damit stärker an dem Erscheinungsbild von Open Roberta.
+
+Für Start- und Endbausteine sind die Formen \DescribeMacro{pinlow}\lstinline|pinlow| und \DescribeMacro{pinhigh}\lstinline|pinhigh| definiert.
+
+%\begin{wraptable}{r}{0.6\textwidth}
+\begin{table}[htb!]
+	\begin{center}%\vspace*{-2.3em}
+		\begin{tabular}{rll}
+			\toprule
+			\textsf{Shape} 		& \textsf{deutsch} 	& \textsf{english}\\\midrule
+			\mydeco{} & \\
+			\mydeco{pinlow} & pinlow \\
+			\mydeco{pinhigh} & pinhigh\\
+			\mydeco{keinezacken} & nopins\\
+			\mydeco{eckig} & square\\
+			\mydeco{eckig, keinezacken} & square, nopins\\
+			\mydeco{puzzleteil} & puzzlepiece \\
+			\mydeco{puzzleteil, eckig} & puzzlepiece, square\\
+			\bottomrule
+		\end{tabular}
+		\caption{Übersicht über Blockformen}
+	\end{center}
+\end{table}
+%\end{wraptable}
+
+
+\ex{keinezacken}
+Der Stil \enquote{keinezacken} ist z.\,B. bei verschachtelten Nodes notwendig: 
+
+\begin{tikzpicture}
+	\node[codeblocks,aktion](A){mache \tikz\node[mathe]{A=B};};
+	\node[codeblocks,aktion,right = 1cm of A](B){mache \tikz\node[mathe,keinezacken]{A=B};};
+
+\draw[->,very thick, dashed,black] (A)--(B);
+\end{tikzpicture}
+%
+\begin{lstlisting}[keywords={},morekeywords={keinezacken}]
+	\node[aktion]{mache \tikz\node[mathe,keinezacken]{A=B};};
+\end{lstlisting}
+
+
+\subsection{Symbole und kleine Elemente}
+
+\DescribeMacro{\usb} \lstinline|\usb| setzt ein \usb.
+
+\DescribeMacro{\farbe} \lstinline|\farbe{color}| setzt ein Quadrat mit der angegeben Farbe \farbe{buw-gruen}. Zu verwenden auch in Nodes: \tikz\node[farbe,puzzleteil]{~\farbe{yellow}};
+
+\clearpage
+
+
+\section{FAQ}
+
+\subsection{Wie kann ich für ein komplettes Dokument eine Farbe umdefinieren?}
+
+\DescribeMacro{\setcolor} 
+\begin{longtable}{p{0.1\textwidth}p{0.9\textwidth}}
+Ist:		&  \tikz\node[codeblocks,logik,]{Alte Farbe};\\
+Soll:		&  \noindent\setcolor{logik-color}{ff0000}\tikz\node[codeblocks,logik,]{Neue Farbe!};\\
+Lösung:	&  \lstinline|\setcolor{logik-color}{ff0000}|
+\end{longtable}
+%
+% Globale Änderung wieder rückgängig machen
+\setcolor{logik-color}{006970}
+
+
+\subsection{Eine nested Box ist zu hoch/zu niedrig}
+
+
+\begin{longtable}{p{0.1\textwidth}p{0.9\textwidth}}
+Ist:		&  \begin{tikzpicture}[codeblocks]
+\einruecken{\node[grundlage,pinlow](grund){dauerhaft};}
+\node[logik,unter={grund}{1}{0}](wenn1){wenn \tikz\node[platzhalter,keinezacken]{\dropdown{modus}}; \dropdown{=} \intbox{1} };
+\end{tikzpicture}\\
+Soll:		&  \input{examples/bsp-einruecken.tikz}\\
+Lösung:	& 
+\noindent Verwende den Hilfstyle \lstinline|boden|:
+
+\lstinputlisting[keywords={},language={},morekeywords={boden},firstline={2},lastline={5}]{examples/bsp-einruecken.tikz}\\
+\end{longtable}
+
+
+
+
+
+\begin{comment}
+\subsection{Openroberta Stil hat hässliche Rundungen}
+
+\begin{tikzpicture}[codeblocks]
+	\node[musik,draw] (bad)	{schlecht};
+	\node[musik,draw, rounded corners =0pt, right= 1.9em of bad] (good)	{besser};
+
+	\draw[->,very thick,dashed, black] (bad)--(good);
+\end{tikzpicture}
+
+\begin{lstlisting}
+\begin{tikzpicture}[codeblocks,openroberta]
+	\node[musik,draw] (bad)	{schlecht};
+	\node[musik,draw, rounded corners =0pt, right=of bad] (good)	{besser};
+\end{lstlisting}
+
+Der Stil \enquote{musik} ist nicht für den Openroberta Style definiert\footnote{Es wurde sich an den Bezeichnern der Benutzeroberfläche orientiert}. U.u. wird auf den PXT Stil zurückgegriffen. Manuelles hinzufügen von \lstinline|rounded corners=0pt| ist ein lokaler hotfix.
+\end{comment}
+
+\subsection{Ich will einen Node innerhalb eines Nodes setzten}
+
+Verwende eine verschachtelte TikZ-Umgebung, z.\,B. mit dem \lstinline|\tikz|-Befehl:
+
+\begin{tikzpicture}[codeblocks]
+\node[logik]{außen:
+	\tikz\node[aktion]{innen};
+};
+\end{tikzpicture}
+
+\begin{lstlisting}
+\node[logik]{außen:
+	\tikz\node[aktion]{innen};
+};
+\end{lstlisting}
+
+
+%\todo{Keine Zacken aber Puzzleteil?
+%falsch: puzzleteil ->keinezacken
+%richtig: keinezacken,puzzleteil,}
+
+
+\subsection{Mein Block ist sehr klein und deswegen verformt}
+
+\begin{longtable}{p{0.1\textwidth}p{0.9\textwidth}}
+Ist:		& 	\tikz\node[codeblocks,logik](one){1};\\
+Soll:		&  	\tikz\node[codeblocks,logik,](one){2~~};
+						\tikz\node[codeblocks,logik, minimum width=1cm](one){3};\\
+Lösung:	& Erweitere den Inhalt des Nodes um Whitespace/Phantome oder setzte \lstinline|minimum width| für den Node.
+
+\begin{lstlisting}
+\node[logik](one){2~~};
+\node[logik, minimum width=1cm](one){3};
+\end{lstlisting}
+\end{longtable}
+
+
+
+
+
+
+\section{Mehr Beispielcode}
+
+\subsection{Bsp: Calliope Smart Home}
+	\input{examples/smarthome.tikz}
+	\lstinputlisting[basicstyle=\footnotesize  \ttfamily]{examples/smarthome.tikz}
+
+
+\end{document}

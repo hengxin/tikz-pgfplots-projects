@@ -1,0 +1,13 @@
+% file: 3-8-apsp/negative-weight-cycle.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 8pt, font = \large},
+    path/.style = {->, decorate, decoration = {snake, amplitude = .4mm, segment length = 2mm, post length = 1mm}}]
+
+  \node (i) {$i$};
+  \path (i) edge[path, out = 30, in = 150, looseness = 10] node [draw = none, below] {\textcolor{red}{$-$}} (i);
+\end{tikzpicture}
+\end{document}

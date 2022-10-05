@@ -1,0 +1,14 @@
+% z2-of-z6.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[ele/.style = {circle, minimum size = 8pt, fill = lightgray},
+  op/.style = {red, very thick}]
+  \node (0) [ele] {$0$};
+  \node (3) [ele, below = of 0] {$3$};
+
+  \draw[op] (0) to (3);
+\end{tikzpicture}
+\end{document}

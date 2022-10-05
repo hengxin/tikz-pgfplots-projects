@@ -1,0 +1,71 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+
+\begin{document}
+
+\pgfplotstableread{chameleon-aliyun-batch-bvfvsv-0.5.dat}{\rwwf}  % #r/#w = 1 : 2	write-frequent
+\pgfplotstableread{chameleon-aliyun-batch-bvfvsv-4.0.dat}{\rwrf}  % #r/#w = 4 : 1	read-frequent
+
+\begin{tikzpicture}[vc/.style = {mark = #1, mark options = {scale = 1.8}}]
+	\begin{groupplot}[group style = {group size = 2 by 1}]
+	  \nextgroupplot[title = {a) rwRatio = $1:2$ (write-frequent workload)}, 
+		xlabel = {MPL}, 
+		ylabel = {Transaction abort rates}, 
+		xtick = data, ymin = 0, 
+		% ytick = {0, 0.1, 0.2, 0.3}, 
+		yticklabel style = {
+				/pgf/number format/fixed,
+				/pgf/number format/precision = 2},
+		scaled y ticks = false,
+		grid = major, minor y tick num = 1,
+		cycle list name = color,
+	  ]
+	  \addplot[vc = {otimes}] table[x = mpl, y = vc100] {\rwwf};
+	  \addplot[vc = {triangle}] table[x = mpl, y = vc110] {\rwwf};
+	  \addplot[vc = {o}] table[x = mpl, y = vc111] {\rwwf};
+	  \addplot[vc = {square}] table[x = mpl, y = vc200] {\rwwf};
+	  \addplot[vc = {diamond}] table[x = mpl, y = vc201] {\rwwf};
+	  \addplot[vc = {pentagon}] table[x = mpl, y = vc211] {\rwwf};
+	  % \addplot[vc = {o}] table[x = mpl, y = vc212] {\rwwf};
+	  % \addplot[vc = {diamond}] table[x = mpl, y = vc221] {\rwwf};
+
+	  \nextgroupplot[title = {b) rwRatio = $4:1$ (read-frequent workload)},
+		xlabel = {MPL},
+		xtick = data, 
+		% ytick = {0, 0.1, 0.2, 0.3}, 
+		ymin = 0, % ymax = 0.4,
+		yticklabel style = {
+				/pgf/number format/fixed,
+				/pgf/number format/precision = 2},
+		scaled y ticks = false,
+		grid = major, minor y tick num = 1,
+		legend entries = {
+			vc$(1,0,0)$ \\
+			vc$(1,1,0)$ \\
+			vc$(1,1,1)$ \\
+			vc$(2,0,0)$ \\
+			vc$(2,0,1)$ \\
+			vc$(2,1,1)$ \\
+			% vc$(2,1,2)$ \\
+			% vc$(2,2,1)$ \\
+		  },
+		  legend pos = outer north east,
+		legend style = {
+		  legend columns = 6,
+		  cells = {anchor = west},
+		  font = \footnotesize,
+		  transpose legend,
+		},
+	  ]
+	  \addplot[vc = {otimes}] table[x = mpl, y = vc100] {\rwrf};
+	  \addplot[vc = {triangle}] table[x = mpl, y = vc110] {\rwrf};
+	  \addplot[vc = {o}] table[x = mpl, y = vc111] {\rwrf};
+	  \addplot[vc = {square}] table[x = mpl, y = vc200] {\rwrf};
+	  \addplot[vc = {diamond}] table[x = mpl, y = vc201] {\rwrf};
+	  \addplot[vc = {pentagon}] table[x = mpl, y = vc211] {\rwrf};
+	  % \addplot[vc = {o}] table[x = mpl, y = vc212] {\rwrf};
+	  % \addplot[vc = {diamond}] table[x = mpl, y = vc221] {\rwrf};
+	\end{groupplot}
+\end{tikzpicture}
+\end{document}

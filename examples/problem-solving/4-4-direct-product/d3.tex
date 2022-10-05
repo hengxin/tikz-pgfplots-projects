@@ -1,0 +1,31 @@
+% d3.tex
+
+\documentclass[tikz]{standalone}
+
+\begin{document}
+\begin{tikzpicture}[ele/.style = {circle, minimum size = 25pt, fill = lightgray, font = \large},
+  s/.style = {-, red, very thick},
+  r/.style = {->, blue, very thick, bend left},
+  rr/.style = {<-, blue, very thick, bend left}]
+  % inner
+  \foreach \angle/\label [count = \name from 0] in {90/s, -30/r^2s, -150/rs} {
+	\node (in-\name) [ele] at (\angle:1.5) {$\label$};
+  }
+
+  % outer
+  \foreach \angle/\label [count = \name from 0]in {90/1, -30/r, -150/r^2} {
+	\node (out-\name) [ele] at (\angle:3.0) {$\label$};
+  }
+
+  \foreach \i in {0, 1} {
+	\def\next{\the\numexpr\i+1}
+	\draw[r] (out-\i) to (out-\next);
+	\draw[rr] (in-\i) to (in-\next);
+
+	\draw[s] (in-\i) to (out-\i);
+  }
+  \draw[r] (out-2) to (out-0);
+  \draw[rr] (in-2) to (in-0);
+  \draw[s] (in-2) to (out-2);
+\end{tikzpicture}
+\end{document}

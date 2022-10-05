@@ -1,0 +1,48 @@
+% Underlying graph for minimum spanning tree (mst) example
+% Redrawn from Figure 5.3 of the textbook ``Algorithms'' by Dasgupta
+
+\documentclass[beamer]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{mindmap, positioning}
+
+\begin{document}
+\begin{frame}{MST Example}
+\begin{tikzpicture}[node distance = {1.0cm and 1.5cm}, 
+  	v/.style = {draw, circle},
+  mstv/.style = {v, fill = teal},	% vertices in mst
+  mste/.style = {circle connection bar, brown, fill}, % edges in mst
+]
+  \node (a) [v] {A};
+  \node (c) [v, right = of a] {C};
+  \node (e) [v, right = of c] {E};
+
+  \draw (a) to node[above] {1} (c);
+  \draw (c) to node[above] {3} (e);
+
+  \node (b) [v, below = of a] {B};
+  \node (d) [v, right = of b] {D};
+  \node (f) [v, right = of d] {F};
+
+  \draw (b) to node[below] {1} (d);
+  \draw (d) to node[below] {4} (f);
+
+  \draw (a) to node[left] {2} (b);
+  \draw (c) to node[below] {2} (b);
+  \draw (c) to node[right] {2} (d);
+  \draw (e) to node[below] {3} (d);
+  \draw (e) to node[right] {1} (f);
+
+  \uncover<2->{
+	\draw[mste] (a) to (c); \node [mstv] at (a) {A}; \node [mstv] at (c) {C};
+	\draw[mste] (b) to (d); \node [mstv] at (b) {B}; \node [mstv] at (d) {D};
+	\draw[mste] (e) to (f); \node [mstv] at (e) {E}; \node [mstv] at (f) {F};
+	\node [mstv] at (b) {B};
+	\draw[mste] (c) to (e);
+  }
+  
+  \only<2>{ \draw[mste] (a) to (b); }
+  \uncover<3->{ \draw[mste] (b) to (c); }
+\end{tikzpicture}
+\end{frame}
+\end{document}

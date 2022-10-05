@@ -1,0 +1,741 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Documentation for the tikzlings package
+% A package to bring cute little animals and other beings into tikz
+% Maintained by samcarter
+%
+% Project repository and bug tracker:
+% https://github.com/samcarter/tikzlings
+%
+% Released under the LaTeX Project Public License v1.3c or later
+% See http://www.latex-project.org/lppl.txt
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[parskip=half]{scrartcl}
+
+% packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}  
+\usepackage[utf8]{inputenc}    
+\usepackage[english]{babel}
+\usepackage[svgnames]{xcolor}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{tikzlings}
+\usepackage[most]{tcolorbox}
+\usepackage{bearwear}
+\usepackage[paper=a4paper,margin=3cm]{geometry}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{scrlayer-scrpage} 
+\usepackage[hang,flushmargin,bottom]{footmisc}
+\usepackage[%
+  colorlinks=true,
+  breaklinks=true,
+  allcolors=SteelBlue!50!black
+]{hyperref}
+\usetikzlibrary{3d}
+
+% macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CTAN}{\textsc{CTAN}\xspace}
+\newcommand{\TikZ}{Ti\emph{k}Z\xspace}
+\newcommand{\tikzducks}{Ti\emph{k}Zducks\xspace}
+\newcommand{\tikzmarmots}{Ti\emph{k}Zmarmots\xspace}
+\newcommand{\tikzlings}{Ti\emph{k}Zlings\xspace}
+\newcommand{\miktex}{MiK\TeX\xspace}
+\newcommand{\texlive}{\TeX{}Live\xspace}
+
+% including commented lines from the .sty files %%%%%%%%%%%%%%%%%%%%%%
+% thanks to Phelype Oleinik https://topanswers.xyz/tex?q=1861#a2092
+\ExplSyntaxOn
+\makeatletter
+\iow_new:N \l__tikzlings_iow
+\tl_new:N \l__tikzlings_file_name_tl
+\NewDocumentCommand \CommentInput { m }
+  { \tikzlings_comment_input:n {#1} }
+\cs_new_protected:Npn \tikzlings_comment_input:n #1
+  {
+    \file_get_full_name:nNTF {#1} \l__tikzlings_file_name_tl
+      { \__tikzlings_comment_input: }
+      { \msg_error:nnn { tikzlings } { file-not-found } {#1} }
+  }
+\msg_new:nnn { tikzlings } { file-not-found } { File~'#1'~not~found. }
+\cs_new_protected:Npn \__tikzlings_comment_input:
+  {
+    \group_begin:
+      \cctab_select:N \c_other_cctab
+      \int_set:Nn \tex_endlinechar:D { `\^^M }
+      \use:x { \tex_everyeof:D { \exp_not:N \q_nil \char_generate:nn { 13 } { 13 } } }
+      \char_set_active_eq:NN \^^M \__tikzlings_process_line:w
+      \char_set_catcode_active:N \^^M
+      \iow_open:Nn \l__tikzlings_iow { \c_sys_jobname_str . cif } % cif => comment input file
+      \exp_after:wN \__tikzlings_process_line:w
+        \tex_input:D { \l__tikzlings_file_name_tl }
+      \iow_close:N \l__tikzlings_iow
+    \group_end:
+    \declare@file@substitution { \l__tikzlings_file_name_tl } { \c_sys_jobname_str . cif }
+    \input { \l__tikzlings_file_name_tl }
+    \undeclare@file@substitution { \l__tikzlings_file_name_tl }
+  }
+\group_begin:
+\char_set_catcode_active:N \^^M
+\char_set_active_eq:NN \^^M \scan_stop:
+\cs_new_protected:Npx \__tikzlings_process_line:w #1 ^^M
+  { \exp_not:N \__tikzlings_parse_line:w ^^M #1 ^^M \c_percent_str \s_stop }
+\cs_set_protected:Npn \__tikzlings_tmp:w #1
+  {
+    \cs_new_protected:Npn \__tikzlings_parse_line:w ##1 ^^M #1 ##2 \s_stop
+      {
+        \tl_if_empty:nTF {##1}
+          {
+            \peek_charcode_remove:NTF #1
+              { \__tikzlings_ignore_line:w }
+              { \__tikzlings_output_line:w }
+            ##2 \s_stop ^^M
+          }
+          {
+            \tl_set:Nx \l_tmpa_tl { \tl_tail:n {##1} }
+            \tl_if_eq:NNF \l_tmpa_tl \q_nil { ^^M }
+          }
+      }
+    \cs_new_protected:Npn \__tikzlings_output_line:w ##1 ^^M #1 \s_stop
+      { \iow_now:Nn \l__tikzlings_iow {##1} }
+    \cs_new_protected:Npn \__tikzlings_ignore_line:w ##1 \s_stop { }
+  }
+\exp_args:No \__tikzlings_tmp:w { \c_percent_str }
+\group_end:
+\makeatother
+\ExplSyntaxOff
+
+% customisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addtokomafont{sectioning}{\color{SteelBlue}}
+\addtokomafont{date}{\normalsize}
+\addtokomafont{author}{\normalsize}
+
+\deftocheading{toc}{}%
+\setcounter{tocdepth}{1}
+
+\newcommand*\gobbleentrynumber[1]{}
+\newcommand*\mytocformat[1]{#1}
+\newcommand*\mytocpageformat[1]{#1}
+\RedeclareSectionCommand[
+  toclinefill=\TOCLineLeaderFill,
+  tocnumwidth=0pt,
+  tocentrynumberformat=\gobbleentrynumber,
+  tocentryformat=\mytocformat,
+  tocpagenumberformat=\mytocpageformat,
+  tocbeforeskip=0.8ex plus 1pt minus 1pt
+]{section}
+
+\makeatletter
+\renewcommand{\sectionlinesformat}[4]{%
+\Ifstr{#1}{section}{%
+    \parbox[t]{\linewidth}{%
+      \raggedsection\@hangfrom{\hskip #2#3}{#4}\par%
+      \kern-.75\ht\strutbox\rule{\linewidth}{.8pt}%
+    }%
+  }{%
+    \@hangfrom{\hskip #2#3}{#4}}% 
+}
+\makeatother
+
+\renewcommand*{\subsectionformat}{}
+\renewcommand*{\sectionformat}{}
+
+\setlength{\footnotemargin}{0.7em}
+
+\colorlet{blue}{SteelBlue}
+
+\lstdefinestyle{duckstyle}{%
+  language={[latex]TeX},
+  tabsize=2,
+  breaklines,
+  basicstyle=\ttfamily,
+  commentstyle={\color{green!50!black}\slshape}, 
+  columns=fullflexible,
+  alsodigit={-},
+  alsoletter={3},
+  emphstyle=\color{red!60!black},
+  emph=[1]{
+    % package names
+    tikzlings, tikzlings-marmots, tikzlings-bears, tikzlings-coatis, tikzlings-koalas, tikzlings-marmots, tikzlings-owls, tikzlings-penguins, tikzlings-snowmen, tikzlings-mice, tikzlings-moles, tikzlings-sloths, tikzlings-pigs, tikzlings-cats, tikzlings-hippos, tikzlings-rhinos, tikzlings-pandas, tikzlings-bees, tikzlings-anteaters, tikzlings-squirrels, tikzlings-sheep, tikzlings-chickens, tikzlings-elephants, tikzlings-bugs, tikzlings-bats, tikzlings-wolves,
+    % tikzlings options
+    body, 3D, rotatehead, sideward, blush, sleeping, whiskers, teeth, shadow, askphil, leftstep, rightstep, eye, nose, pupil, bill, feet, belly, ask, phil, mouth, rotatearms, paws, back, pupilwidth, globalwarming, wings, antennas, stripes, arms, ears, tail, eyelid, hands, muzzle, schroedinger, toes, monocle, contour, comb, baby,
+    % acessoires
+    buttons, hat, tophat, beret, strawhat, ribbon, harlequin, niuqelrah, witch, magichat, magicstars, crown, queencrown, kingcrown, santa, chef, graduate, tassel, alien, book, bookcolour, signpost, signcolour, signback, speech, think, bubblecolour, pizza, cheese, baguette, cake, icecream, flavoura, flavourb, flavourc, milkshake, wine, cricket, hockey, football, crystalball, magicwand, rollingpin, lightsaber, torch, basket, easter, egga, eggb, eggc, crozier, shovel, pickaxe, umbrella, umbrellaclosed, handbag, cocktail, strawbroom, strawbroomstick, strawbroomribbon, broom, broomstick,
+    % tikz options
+    scale, yshift, xshift, rotate,
+    % other
+    figchild, standalone, document,  
+  },
+  texcsstyle=*\color{SteelBlue!50!black}\bfseries,
+  keywordstyle=\color{red!60!black}\bfseries,
+  morekeywords={tikzpicture},
+  moretexcs={
+    % latex keywords
+    usepackage, usetikzlibrary, 
+    % tikzlings names
+    marmot, coati, bear, koala, owl, penguin, thing, tikzling, snowman, mouse, moles, sloth, pig, cat, hippo, rhino, panda, bee, anteater, squirrel, bearwear, sheep, chicken, elephant, bug, bat, wolf,
+    % other
+    tikzlinghookbackground, tikzlinghookbelly, tikzlinghookbody, tikzlinghookforeground, mousehookbelly
+  },
+  delim ={[s][\ttfamily\color{green!50!black}]{$}{$}},
+  moredelim=[is][\footnotesize\ttfamily\color{orange!70!black}]{|}{|},
+  index=[1][emph]
+}
+
+\tcbset{%
+  colframe=SteelBlue!50!black,
+  arc=0mm,
+  fonttitle=\bfseries,
+  sidebyside,
+  listing options={style=duckstyle},
+  center lower,
+  righthand width=6.5cm,
+  bottom=0pt, 
+  top=0pt,
+  tikz lower,
+  height plus=3cm,
+  colback=SteelBlue!30!white
+}
+
+\lstset{style=duckstyle}
+
+\pgfmathsetseed{2}
+\setlength{\footheight}{50pt}
+
+\cfoot{\thepage} 
+\pagestyle{scrheadings}
+
+\newcommand{\coatihookbackground}{\path (-1.63,0.1) rectangle (1.63,2.26);}
+\newcommand{\mousehookbackground}{\path (-1.6,0.1) rectangle (0.905, 2.17);}
+\newcommand{\cathookbackground}{\path (-1.6,0.1) rectangle (0.905, 2.17);}
+
+\cfoot{%
+  \begin{tikzpicture}[scale=0.5] 
+      \tikzling[signpost={\thepage}]
+  \end{tikzpicture}
+} 
+
+% meta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{The \texorpdfstring{\tikzlings}{tikzlings} package}
+\subtitle{drawing animals and beings in \TikZ}
+\author{%
+  \texorpdfstring{\texttt{samcarter}\\[0.8em]
+    \url{https://github.com/samcarter/tikzlings}\\
+    \url{https://www.ctan.org/pkg/tikzlings}
+  }{samcarter}}
+\date{Version v0.9 \textendash{} 2022/04/21}
+
+\begin{document}
+\maketitle
+\thispagestyle{scrheadings}
+
+\section*{Introduction}
+\label{intro}
+
+The \tikzlings are a collection of little animals (and beings) drawn in \TikZ. It is the next evolutionary phase of the \tikzmarmots package extending it with further animals (and beings) and also adding the ability to natively use many of the accessories known from the \tikzducks package. 
+
+This package is work in progress, therefore I would be happy to hear your feedback and ideas how to improve the package. 
+The head version of the source code can be found on \url{github.com/samcarter/tikzlings}, including a bug tracker -- please make constructive use of it! 
+If you seek any other assistance (not bug reports/feature requests), I suggest asking a question at \url{topanswers.xyz/tex}.
+A more stable package version can be found on \CTAN (\url{https://www.ctan.org/pkg/tikzlings}) and is included in both \miktex and \texlive as \tikzlings. 
+
+\subsection*{Acknowledgements}
+
+I'd like to thank the friendly and helpful community of \TeX{} users for their suggestions, feedback and help to create this package and find a suitable name for it. As a thank you all the \tikzlings have a name which is in some way or another connected to the users of \TeX{}.
+
+\subsection*{License}
+
+Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright}
+\texttt{samcarter}. Permission is granted to copy, distribute and\slash or modify this software under the terms of the LaTeX project public licence, version 1.3c or later \url{http://www.latex-project.org/lppl.txt}.
+
+\clearpage
+\section*{The \tikzlings}
+
+The \tikzlings package is a collection of packages. It can either be loaded as a whole with \lstinline|\usepackage{tikzlings}| or the subpackages containing the individual animals (and beings) can be used separately, e.g.\ by loading \lstinline|\usepackage{tikzlings-marmots}|.
+
+The basic usage is the same for all animals (and beings). Inside a \lstinline|tikzpicture|, the \tikzlings can be added via \color{SteelBlue!50!black}\lstinline|\<name_of_the_tikzling>|\color{black}. For example
+
+\begin{tcblisting}{}
+\marmot
+\end{tcblisting}
+
+will produce a marmot. All usual \TikZ and \lstinline|pgf| keys can be passed as optional argument to change the appearance. For example scaling and rotating the \tikzlings can be done by
+
+\begin{tcblisting}{}
+\penguin[rotate=30,scale=0.5]
+\end{tcblisting}
+
+In addition to the standard options provided by \TikZ each \tikzlings also comes with some additional options which are listed in the following sections. If these additional options consist of multiple words they are available both with and without spaces, for example \lstinline|askphil| and \lstinline|ask phil| will be treated as the same.
+
+To make customisation  of the \tikzlings easier, some hooks are provided, which can be redefined by the user in order to add commands at specific layers:
+\begin{itemize}
+  \color{SteelBlue!50!black}
+  \item \lstinline|\<name_of_the_tikzling>hookbackground|
+  \item \lstinline|\<name_of_the_tikzling>hookbelly|
+  \item \lstinline|\<name_of_the_tikzling>hookbody| 
+  \item \lstinline|\<name_of_the_tikzling>hookforeground|
+\end{itemize}
+
+With regard to the individual components of the \tikzlings, they are located in the following z order:
+\begin{center}
+\begin{tikzpicture}[scale=1.05]
+    \newcommand{\planes}{\fill[SteelBlue!30!white,opacity=0.9]  (-1.9,-0.1) rectangle (1.9,2.4);}
+    \newcommand{\hooks}{\draw[SteelBlue!50!black, rounded corners=3pt, line width=1pt]  (-1.9,-0.1) rectangle (1.9,2.4);}
+    \newcounter{layer}
+    \setcounter{layer}{0}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \hooks
+      \node[font=\footnotesize\ttfamily,rotate=45] at (0,0.1) {background};
+    \end{scope}
+    \addtocounter{layer}{1}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \planes
+      \newcommand{\rhinohookbelly}{
+        \pgfsetfillopacity{0}
+        \pgfsetstrokeopacity{0}
+      }
+      \rhino
+    \end{scope}
+    \addtocounter{layer}{1}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \hooks
+      \node[font=\footnotesize\ttfamily,rotate=45] at (0,0.1) {belly};
+    \end{scope}
+    \addtocounter{layer}{1}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \planes
+      \newcommand{\rhinohookbackground}{
+        \pgfsetfillopacity{0}
+        \pgfsetstrokeopacity{0}
+      }      
+      \newcommand{\rhinohookbelly}{
+        \pgfsetfillopacity{1}
+        \pgfsetstrokeopacity{1}
+      }
+      \rhino
+    \end{scope}
+    \addtocounter{layer}{1}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \hooks
+      \node[font=\footnotesize\ttfamily,rotate=45] at (0,0.1) {body};
+    \end{scope}
+    \addtocounter{layer}{1}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \planes
+      \thing[magichat,magicwand]
+    \end{scope}
+    \addtocounter{layer}{1}
+    \begin{scope}[canvas is zy plane at x=\thelayer*1.8]
+      \hooks
+      \node[font=\footnotesize\ttfamily,rotate=45] at (0,0.1) {foreground};
+    \end{scope}
+  \end{tikzpicture}
+\end{center}
+
+{\raggedright In addition, the hooks \lstinline|\tikzlinghookbackground|, \lstinline|\tikzlinghookbelly|,\newline \lstinline|\tikzlinghookbody| and \lstinline|\tikzlinghookforeground| are available and will effect all\newline \tikzlings.}
+
+A short example how the hooks can be used:
+\begin{tcblisting}{}
+\newcommand{\mousehookbelly}{%
+ \fill[red!80!black] 
+(0.55, 1.35) -- (0.65, 0.3) -- 
+(-0.65, 0.3) -- (-0.55, 1.35) 
+-- (0.0, 0.9) -- cycle;
+}
+\mouse
+\end{tcblisting}
+
+\subsection*{List of all \tikzlings:}
+
+\begingroup
+  \hypersetup{hidelinks}
+  \tableofcontents
+\endgroup
+
+\makeatletter
+% modified from https://chat.stackexchange.com/transcript/message/56515698#56515698
+\ExplSyntaxOn
+\cs_new_protected:Npn \tikzlings_load_stys:N #1 {
+  \clist_map_inline:Nn #1 {
+    \exp_args:Nx \CommentInput { 
+      tikzlings- \__tikzlings_after_slash:w ##1 / / \s_stop .sty
+    }
+  }
+}
+\cs_new_eq:NN \tikzling@loadstys \tikzlings_load_stys:N
+\ExplSyntaxOff
+\tikzling@loadstys\tikzling@list
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Random Tikzling 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section[Ti\emph{k}Zling]{Rani, the Ti\emph{k}Zling}
+
+\emph{The full name of this Ti\emph{k}Zling is ``Random'', but everybody just calls them ``Rani''}
+
+\subsection{Package name}
+
+\begin{tcolorbox}[lower separated=false, lefthand width=.8\linewidth]
+\vspace*{0.5cm}
+\lstinline|\usepackage{tikzlings}|
+\vspace*{0.5cm}
+\end{tcolorbox}
+
+\subsection{Basic Usage}
+
+\begin{tcblisting}{}
+\tikzling
+\end{tcblisting}
+
+\subsection{Options}
+
+Only options common for all \tikzlings are supported for the \lstinline|\tikzling|. These are the ability to change the body colour
+\begin{tcblisting}{}
+\tikzling[body=blue]
+\end{tcblisting}
+
+to view the \tikzlings from behind
+\begin{tcblisting}{}
+\tikzling[back]
+\end{tcblisting}
+
+and the \lstinline|3D| key, which will make the Ti\emph{k}Zlings 3-dimensional:
+\begin{tcblisting}{}
+\tikzling[3D]
+\end{tcblisting}
+
+And finally the \lstinline|contour| key will only draw the outlines:
+\begin{tcblisting}{}
+\tikzling[contour=black]
+\end{tcblisting}
+
+If an option of a specific tikzlings is used (for example \lstinline|sleeping| which only the koala and sloth can do) this only works if you are lucky and one of them is drawn, in all other cases it will result in an error. 
+
+In addition all usual \TikZ and \lstinline|pgf| keys can be used in the optional argument as well as the accessories presented in the following section.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Accessories 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{Accessories}
+
+To customise the \tikzlings the package provides a number of accessories which can be added to all the \tikzlings simply by adding the respective keyword as optional argument:
+
+\begin{tcblisting}{}
+\bear[hat]
+\end{tcblisting}
+ 
+For most of these items, the colour can be customised:
+
+\begin{tcblisting}{}
+\koala[crown=orange!50!yellow]
+\end{tcblisting}
+
+Unfortunately it is very difficult to create accessories that will fit all the different shapes of the \tikzlings. Therefore it is also possible to add them separately as optional argument of the \lstinline|\thing| macro, which allows more control of their size and placement:
+
+\begin{tcblisting}{}
+\owl
+\thing[tophat,scale=1.5,yshift=-0.6cm,xshift=-0.05cm]
+\end{tcblisting}
+
+A list of all available accessories is given below. For completeness the default colours for each key are shown, but actually it is unnecessary unless it should be changed. In case more than one key is shown, all but the first are optional.
+
+\subsection{Hats}
+
+\begin{tcblisting}{}
+\penguin[
+  hat=blue!40!black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\snowman[
+  tophat=black!90!white
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\mouse[
+  beret=black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\anteater[
+  strawhat=blue,
+  ribbon=black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\coati[
+  harlequin=blue,
+  niuqelrah=red
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\cat[
+  witch=gray
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bear[
+  magichat=violet,
+  magicstars=yellow!80!brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\sheep[
+  crown=yellow!90!orange
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bat[
+  queencrown=yellow
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\marmot[
+  kingcrown=gray
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\mouse[
+  santa=red!80!black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bear[
+  chef=gray!20!white
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\wolf[
+  graduate=black,
+  tassel=red
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\penguin[
+  alien=green
+]
+\end{tcblisting}
+
+\subsection{Communication}
+
+\begin{tcblisting}{}
+\coati[
+  book={\tiny\TeX},
+  bookcolour=brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\pig[
+  signpost={\TeX},
+  signcolour= brown!50!black,
+  signback=green!40!black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bear[
+  speech={\TeX},
+  bubblecolour=gray!30!white
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\penguin[
+  think={\TeX},
+  bubblecolour=gray!30!white
+]
+\end{tcblisting}
+
+\subsection{Food}
+
+\begin{tcblisting}{}
+\koala[
+  pizza
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\mouse[
+  cheese=yellow!30!orange!60!white
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bug[
+  baguette=brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\moles[
+  cake=violet
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\marmot[
+  icecream=brown!60!gray,
+  flavoura=brown!50!black,
+  flavourb=white!70!brown,
+  flavourc=red!50!white
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\penguin[
+  milkshake=red!20!white
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\owl[
+  wine=red!70!black
+]
+\end{tcblisting}
+
+\subsection{Sports}
+
+\begin{tcblisting}{}
+\coati[
+  cricket=brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bug[
+  hockey=brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\elephant[
+  football=white
+]
+\end{tcblisting}
+
+\subsection{Other items}
+
+\begin{tcblisting}{}
+\marmot[
+  crystalball=cyan
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bear[
+  magicwand
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\coati[
+  rollingpin=brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\penguin[
+  lightsaber=green
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\snowman[
+  torch=gray
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\mouse[
+  basket=brown!70!gray
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\sloth[
+  easter=brown!70!gray,
+  egga=blue,
+  eggb=green,
+  eggc=red
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\koala[
+  crozier=brown
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\snowman[
+  shovel=gray
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\penguin[
+  pickaxe=gray
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bug[
+  strawbroom=brown!50!white,
+  strawbroomstick=brown,
+  strawbroomribbon=red!50!black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\chicken[
+  broom=brown,
+  broomstick=gray!50!black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\rhino[
+  umbrella=cyan
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\marmot[
+  umbrellaclosed=cyan
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\mouse[
+  handbag=red!70!black
+]
+\end{tcblisting}
+
+\begin{tcblisting}{}
+\bear[
+  cocktail
+]
+\end{tcblisting}
+
+\end{document}

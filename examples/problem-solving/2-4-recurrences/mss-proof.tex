@@ -1,0 +1,21 @@
+% mss-proof.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{shapes.multipart, positioning, decorations, decorations.pathreplacing}
+
+\begin{document}
+\begin{tikzpicture}[array/.style = {
+    rectangle split, rectangle split parts = #1, 
+    rectangle split horizontal, 
+    rectangle split part fill = {white, white, white, blue!50, blue!50, blue!50, blue!50, red!50, white},
+    draw, anchor = center, minimum width = 0.60cm},
+    brace/.style = {decorate, decoration = {brace, mirror, raise = #1}}]
+  \node (a) [array = 10] 
+  {\nodepart{two}\nodepart{three}\nodepart{four}\nodepart{five}\nodepart{six}\nodepart{seven}$i-1$\nodepart{eight}$i$\nodepart{nine}\nodepart{ten}};
+
+  \draw[brace = 3pt, red] (a.seven split south) to (a.eight split south);
+  \draw[brace = 8pt, blue] (a.five split south) to (a.eight split south);
+  \draw[brace = 13pt, purple] (a.three split south) to (a.eight split south);
+  \draw[brace = 18pt, teal] (a.one split south) to (a.eight split south);
+\end{tikzpicture}
+\end{document}

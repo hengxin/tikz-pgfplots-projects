@@ -1,0 +1,49 @@
+tikz-qtree 
+David Chiang <chiang at isi dot edu>
+Version 1.2 (22 Apr 2012)
+
+This package provides a macro for drawing trees with TikZ using the
+easy syntax of Alexis Dimitriadis' Qtree. It improves on TikZ's
+standard tree-drawing facility by laying out tree nodes without
+collisions; it improves on Qtree by adding lots of features from TikZ
+(for example, edge labels, arrows between nodes); and it improves on
+pst-qtree in being usable with pdfTeX and XeTeX.
+
+Please see tikztree-manual.pdf for instructions and examples.
+
+Version history:
+1.2 (2012/04/20)
+ - level-specific styles (thanks to Andrew Stacey)
+
+1.12 (2011/10/10)
+ - fixed bug that was inserting spaces
+
+1.11 (2010/12/25):
+ - options don't break options for standard TikZ trees
+
+1.1 (2009/12/25):
+ - much deeper trees can be typeset without exceeding capacity
+ - sideways trees
+ - extra package for improved Qtree compatibility
+ - connections can be drawn to whole subtrees instead of nodes
+
+1 (2009/12/22):
+ - initial release
+
+-----
+
+Copyright (C) 2002, 2009 by David Chiang
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.

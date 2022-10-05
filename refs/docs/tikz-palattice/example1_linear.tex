@@ -1,0 +1,53 @@
+%% example1_linear.tex
+%% Copyright 2015 J. Schmidt
+%% tikz-palattice LaTeX package
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is J. Schmidt.
+% 
+% This work consists of the files tikz-palattice.sty and tikz-palattice_documentation.tex
+% and the 5 example files example1_linear.tex, example2_circular.tex,
+% example3_coordinates.tex, example4_labels.tex and elsa.tex
+
+\documentclass[]{standalone}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz-palattice}
+
+
+\begin{document}
+
+\begin{lattice}
+  \source{MySource}{0.4}
+  \drift{0.167}
+  \quadrupole{Q1}{0.4}
+  \drift{0.1}
+  \kicker{VC1}{0.1}
+  \drift{0.29}
+  \drift{0.2}
+  \screen{S1}
+  \drift{0.2}
+  \quadrupole{Q2}{0.4}
+  \drift{0.3}
+  \marker{marker 1}[1.2]
+  \drift{1.16}[Space left!]
+  \marker{marker 2}[1.2]
+  \drift{0.15}
+  \cavity{Acceleration?}{2}
+  \drift{0.63}
+  \dipole{M1}{0.5}{90}[r]
+  \drift{0.3}
+  \quadrupole{Q42}{0.4}
+  \drift{0.3}
+\end{lattice}
+
+\end{document}

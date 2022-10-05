@@ -1,0 +1,44 @@
+# YAML 1.2
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+---
+cff-version: 1.2.0
+title: tikz-trackschematic
+message: 'If you use this software, please cite it using these metadata.'
+type: software
+authors:
+  - given-names: Martin
+    family-names: Scheidt
+    email: m.scheidt@tu-bs.de
+    orcid: 'https://orcid.org/0000-0002-9384-8945'
+    affiliation: TU Braunschweig
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.5539844
+    description: 'Collection of archived snapshots of all versions of the library'
+  - type: doi
+    value: 10.5281/zenodo.6222186
+    description: Current version
+url: 'https://www.railtoolkit.org/projects/tikz-trackschematic/'
+repository: 'https://github.com/railtoolkit/tikz-trackschematic'
+repository-code: 'https://repository.ivev.bau.tu-bs.de/martin/tikz-trackschematic'
+repository-artifact: 'https://ctan.org/pkg/tikz-trackschematic'
+abstract: >-
+  A TikZ library for creating track diagrams inz
+  railways. The tikz-trackschematic library is a
+  toolbox of symbols geared primarily towards
+  creating track schematic for either research or
+  educational purposes. It provides a TikZ frontend
+  to some of the symbols which maybe needed to
+  describe situations and layouts in railway
+  operation.
+keywords:
+  - tex
+  - tikz
+  - railway
+  - railroad
+  - tracks
+  - schematics
+license: ISC
+version: v0.6.3
+date-released: 2022-02-15

@@ -1,0 +1,30 @@
+% xjupiter-c3-2d-digraph.tex
+
+\documentclass{standalone}
+\input{jupiter-illustration-preamble}
+
+\begin{document}
+\begin{tikzpicture}[bg/.style = {rectangle, draw, very thick}]
+  \statesplit{\{\}}{\epsilon}{}{0}
+  \statesplit{1}{x}{below left = of 0}{1}
+  \transition{0}{1}{1: \ins{x}{1}}
+  \statesplit{12}{\epsilon}{below left = of 1}{12}
+  \statesplit{14}{xb}{below right = of 1}{14}
+  \statesplit{124}{b}{below right = of 12}{124}
+  \statesplit{123}{a}{below left = of 12}{123}
+  \statesplit{1234}{ba}{below right = of 123}{1234}
+  \transition{1}{12}{2: \del{x}{1}}
+  \transition{1}{14}{4: \ins{b}{2}}
+  \transition{12}{124}{4: \ins{b}{1}}
+  \transition{14}{124}{2: \del{x}{1}}
+  \transition{12}{123}{3: \ins{a}{1}}
+  \transition{124}{1234}{3: \ins{a}{2}}
+  \transition{123}{1234}{4: \ins{b}{1}}
+
+  \node () [fit = (0) (1) (12) (123) (14) (124) (1234), bg] {};
+
+  % \node () [draw, red,  rotate fit = -45, fit = (1to14) (12to124) (123to1234),
+  %   inner sep = 8pt,
+  %   rectangle, rounded corners, loosely dashed, ultra thick] {};
+\end{tikzpicture}
+\end{document}

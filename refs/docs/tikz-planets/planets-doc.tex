@@ -1,0 +1,289 @@
+% tikz-planets documentation -- illustrate celestial mechanics with TikZ
+% Version 1.0.2
+
+% Isabelle M. Santos
+% This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. 
+% To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+
+\documentclass[12pt, twocolumn]{article}
+
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{planets}
+
+\usepackage[top=2cm, bottom=2cm, right=1.7cm, left=1.7cm]{geometry}
+
+\title{The TikZ-planets package}
+\author{Isabelle M. Santos}
+\date{Version 1.0.2 -- 2020/04/19}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+I initially created this package to illustrate celestial mechanics for an astronomy course I taught in 2019. 
+It makes it easy to add sketches of solar system objects to illustrate seasons, moon phases,... 
+The commands provided by this package are to be used in a \verb|tikzpicture| environment. 
+
+This package is a work in progress and is my first attempt at creating a TikZ package. I would be really happy to receive suggestions on how to improve it. 
+
+\subsection{Installation}
+Move the package (.sty file) to a latex search directory (usually \url{~/texmf/} on a Unix-type system) if you want to be able to use it from any directory. 
+Ask you system administrator if you need help.
+
+\subsection{Requirements}
+Tikz-planets requires the following standard packages to be installed
+\begin{itemize}
+\item xcolor
+\item pgfkeys
+\item xstring
+\item tikz
+\end{itemize}
+
+\subsection{License}
+The package can be found at \url{https://framagit.org/Moutmout/tikz-planets.git}. 
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/4.0/}.
+
+\section{Usage}
+\subsection{Drawing a planet}
+Drawing one of the eight solar system planets is rather straightforward, use \verb|\planet[surface=earth]|, replacing the option \verb|earth| with the name of any planet. 
+Although they are not planets, the \verb|\planet| command can also be used to draw the Sun, the Moon and Pluto, by setting the \verb|surface=<name>| keyword.
+
+\begin{verbatim}
+\planet[surface=sun]
+\planet[surface=earth]
+\planet[surface=moon]
+\planet[surface=mars]
+\end{verbatim}
+\begin{tikzpicture}
+\planet[surface=sun]
+\planet[surface=earth, centerx=2.2]
+\planet[surface=moon, centerx=4.4]
+\planet[surface=mars, centerx=6.6]
+\end{tikzpicture}
+
+If you need a planet that isn't in the solar system, you can make a generic one with a solid color surface.
+
+\begin{verbatim}
+\planet
+\planet[color=brown]
+\end{verbatim}
+\begin{tikzpicture}
+\planet
+\planet[color=brown, centerx=2.2]
+\end{tikzpicture}
+
+\subsection{Rings}
+The four gas giants in the solar system sport a ring, but only Saturn is shown with a ring by default. 
+A "Saturn-like" set of rings can be drawn around any planet with the \verb|rings| option. 
+A thin ring with a custom radius can be drawn with the \verb|ring=<radius>| option. 
+%and a thin ring with the \verb|thin ring| option. 
+%Thin rings can be set with a custom radius. 
+
+\begin{verbatim}
+\planet[surface=mercury, rings]
+\planet[surface=neptune, ring=1.5]
+\end{verbatim}
+\begin{tikzpicture}
+\planet[surface=mercury, rings]
+\planet[surface=neptune, ring=1.5, centerx=4.4]
+\end{tikzpicture}
+
+\subsection{Rotational characteristics}
+Most planets rotate around a set axis that can be tilted with respect to the plane of orbit. 
+The rotation axis of the Earth, for instance, is tilted by 23.5 degrees.
+Uranus spins on its side, with a rotation axis tilted at 90 degrees.  
+This can be illustrated using the \verb|tilt=<angle in degrees>| and the \verb|rotation| options. 
+
+Venus rotates in the opposite direction compared to the other planets in the solar system. 
+This can be illustrated with the \verb|retrograde| option. 
+
+\begin{verbatim}
+\planet[surface=pluto, tilt=22.5]
+\planet[surface=uranus, tilt=90, rotation, 
+        ring=1.7]
+\planet[surface=venus, 
+        retrograde, rotation]
+\end{verbatim}
+\begin{tikzpicture}
+\planet[surface=pluto, tilt=22.5]
+\planet[surface=uranus, tilt=90, rotation, ring=1.7, centerx=3.3]
+\planet[surface=venus, rotation, retrograde, centerx=6.6]
+\end{tikzpicture}
+
+\subsection{Phases}
+Half of a planet or moon is in the shadow of the Sun. This can be illustrated with the \verb|phase=<name>| keyword, which can take the following values: \verb|new|, \verb|first crescent|, \verb|first half|, \verb|waxing gibbous|, \verb|full|, \verb|waning gibbous|, \verb|last half| or \verb|last crescent|.
+
+\hspace{1em}
+
+\begin{tikzpicture}
+	\planet[surface=moon, phase=new, centerx=0]
+	\node[red] at (0, 0) {new};
+	\planet[surface=moon, phase=first crescent, centerx=2]
+	\node[red, align=center] at (2, 0) {first \\ crescent};
+	\planet[surface=moon, phase=first half, centerx=4]
+	\node[red, align=center] at (4, 0) {first \\ half};
+	\planet[surface=moon, phase=waxing gibbous, centerx=6]
+	\node[red, align=center] at (6, 0) {waxing \\ gibbous};
+	\planet[surface=moon, phase=full, centery=-2, centerx=6]
+	\node[red, align=center] at (6, -2) {full};
+	\planet[surface=moon, phase=waning gibbous, centerx=4, centery=-2]
+	\node[red, align=center] at (4, -2) {waning \\ gibbous};
+	\planet[surface=moon, phase=last half, centerx=2, centery=-2]
+	\node[red, align=center] at (2, -2) {last \\ half};
+	\planet[surface=moon, phase=last crescent, centerx=0, centery=-2]
+	\node[red, align=center] at (0, -2) {last \\ crescent};
+\end{tikzpicture}
+
+If the phase is specified for a planet with "Saturn-like" rings, then the rings will also be shaded. 
+
+\begin{verbatim}
+\planet[surface=saturn, 
+        phase=first half, tilt=20]
+\planet[surface=saturn, 
+        phase=waxing gibbous, tilt=-20]
+\end{verbatim}
+\begin{tikzpicture}
+\planet[surface=saturn, phase=first half, tilt=20]
+\planet[surface=saturn, phase=waxing gibbous, centerx=4.5, tilt=-20]
+\end{tikzpicture}
+
+\subsection{Size and position}
+By default, a planet has a radius of $1$ and is centered at $(0, 0)$. 
+To draw schematics illustrating celestial mechanics, it is useful to use several \verb|\planet|s in one figure. 
+
+The size of the planet is set with the \verb|scale=<planet radius>| keyword. 
+For instance, \verb|scale=2| makes the radius of the planet twice as big. 
+
+The position of the center of the planet can be set by specifying the $x$ and $y$ coordinates of the center with the \verb|centerx=<x coordinate>| and/or \verb|centery=<y coordinate>| keywords. 
+Alternatively, the coordinates of the planet's center can be set using the \verb|center=<point>| keyword. 
+This makes it possible to specify the center of the planet in either cartesian, polar coordinates or named points. 
+
+\begin{verbatim}
+\planet[center={(0, 1.5)}, scale=.6]
+\planet[centerx=4, centery = 1]
+\planet[center={(45 : 3)}, scale=1.2]
+\node (A) at (7, 2) {};
+\planet[center={(A)}]
+\end{verbatim}
+\begin{tikzpicture}
+\planet[center={(0, 1.5)}, scale=.6]
+\planet[centerx=4, centery = 1]
+\planet[center={(45 : 3)}, scale=1.2]
+\node (A) at (7, 2) {};
+\planet[center={(A)}]
+\end{tikzpicture}
+
+\onecolumn
+\section{Complete examples}
+Here are a few examples of what can be done with the TikZ-planets package. More examples can be found at \url{https://framagit.org/search?utf8=%E2%9C%93&snippets=true&scope=snippet_titles&repository_ref=&search=tikz-planets}.
+\subsection{The seasons}
+Season's are caused by the tilt of Earth's axis. 
+This is why summer in the northern hemisphere happens at the same time as winter in the southern hemisphere. 
+
+\begin{verbatim}
+	\planet[surface=sun]
+	
+	\planet[surface=earth, phase = first half, rotation, tilt=23.5, centerx=-5]
+	\planet[surface=earth, phase = last half, rotation, tilt=23.5, centerx=5]
+	\planet[surface=earth, phase = new, rotation, tilt=23.5, centery=-3]
+	\planet[surface=earth, phase = full, rotation, tilt=23.5, centery=3]
+\end{verbatim}
+\begin{tikzpicture}
+	\planet[surface=sun]
+	
+	\planet[surface=earth, phase = first half, rotation, tilt=23.5, centerx=-5]
+	\planet[surface=earth, phase = last half, rotation, tilt=23.5, centerx=5]
+	
+	\planet[surface=earth, phase = new, rotation, tilt=23.5, centery=-3]
+	\planet[surface=earth, phase = full, rotation, tilt=23.5, centery=3]
+\end{tikzpicture}
+
+\subsection{The phases of the Moon}
+Half of the Moon is in the shadow of the Sun. 
+Since the Moon goes around the Earth, the shadows on the near-side of the Moon change. 
+
+\begin{verbatim}
+	\planet[surface=earth, phase=first half]
+	\planet[surface=sun, centerx=10, scale=2]
+	
+	\planet[surface=moon, phase=first half, centerx=-2.5, scale=.5]
+	\planet[surface=moon, phase=first half, centerx=2.5, scale=.5]
+	\planet[surface=moon, phase=first half, centery=-2.5, scale=.5]
+	\planet[surface=moon, phase=first half, centery=2.5, scale=.5]
+\end{verbatim}
+\begin{tikzpicture}
+	\planet[surface=earth, phase=first half]
+	\planet[surface=sun, centerx=10, scale=2]
+	
+	\planet[surface=moon, phase=first half, centerx=-2.5, scale=.5]
+	\planet[surface=moon, phase=first half, centerx=2.5, scale=.5]
+	\planet[surface=moon, phase=first half, centery=-2.5, scale=.5]
+	\planet[surface=moon, phase=first half, centery=2.5, scale=.5]
+\end{tikzpicture}
+
+\subsection{The solar system}
+You might have learned ``My Violent Evil Monster Just Scared Us Nuts'', ``My Very Excellent Mother Just Served Us Nachos'', or some other mnemonic to remember the order of the eight (or nine if you're old enough) planets in the solar system. 
+The distances in the following sketch are not to scale, but the radii roughly are.
+
+\begin{verbatim}
+	\clip (0,-3) rectangle (20, 3);
+	\planet[surface=sun, scale=28, centerx=-27]
+	\planet[surface=mercury, centerx=1.5, tilt=0, scale=.1]
+	\planet[surface=venus, centerx=2.5, tilt=2.6, scale=.25]
+	\planet[surface=earth, centerx=3.5, tilt=23.5, scale=.25]
+	\planet[surface=mars, centerx=4.5, tilt=25.2, scale=.13]
+	\planet[surface=jupiter, centerx=8, tilt=3, scale=2.75]
+	\planet[surface=saturn, centerx=12, tilt=26.7, scale=2.3]
+	\planet[surface=uranus, centerx=15.5, tilt=97.8, scale=1]
+	\planet[surface=neptune, centerx=17.3, tilt=28.3, scale=.97]
+\end{verbatim}
+\begin{tikzpicture}
+	\clip (0,-3) rectangle (20, 3);
+	\planet[surface=sun, scale=28, centerx=-27]
+	\planet[surface=mercury, centerx=1.5, tilt=0, scale=.1]
+	\planet[surface=venus, centerx=2.5, tilt=2.6, scale=.25]
+	\planet[surface=earth, centerx=3.5, tilt=23.5, scale=.25]
+	\planet[surface=mars, centerx=4.5, tilt=25.2, scale=.13]
+	\planet[surface=jupiter, centerx=8, tilt=3, scale=2.75]
+	\planet[surface=saturn, centerx=12, tilt=26.7, scale=2.3]
+	\planet[surface=uranus, centerx=15.5, tilt=97.8, scale=1]
+	\planet[surface=neptune, centerx=17.3, tilt=28.3, scale=.97]
+\end{tikzpicture}
+
+\twocolumn
+
+\section{Changelog}
+
+\subsection{Version 1.0.2}
+\begin{itemize}
+\item Made planets and wasysym compatible
+\item Possibility to use a point to specify the center of a planet (thus use polar coordinates)
+\item Make a more schematic representation of Jupiter that better fits with the graphical style used for the telluric planets
+\item A ring system can be added around any planet
+\item Ensure the radius of a planet is exactly 1 by default
+\item Thin rings can be drawn with any radius
+\item Draw the phase before rings to avoid having a strange shadow on the rings
+\item Rings typically are in the equatorial plane of their planet: make rings tilt with axial tilt
+\item Use solid color rather than shading for rings so that they have the same appearance when tilted
+\item Added Pluto
+\item Added shading to the rings for each phase
+\item Fixed documentation typos
+\end{itemize}
+
+\subsection{Version 1.0.1}
+\begin{itemize}
+\item Crescent and gibbous phases
+\item Added Mercury, Venus, Jupiter, Saturn, Uranus and Neptune surfaces
+\item Rotation can now be retrograde
+\item Color used no longer depends on x11names
+\end{itemize}
+
+\end{document}

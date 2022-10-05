@@ -1,0 +1,31 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\input{newcommands}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzset{
+  enq-op/.style = {rectangle, rounded corners, fill = blue!30, draw, font = \Large},
+  deq-op/.style = {rectangle, rounded corners, fill = yellow!30, draw, font = \Large},
+  process/.style = {font = \huge},
+  po/.style = {->, very thick},
+  vis/.style = {->, shorten >= 3pt, very thick, dashed}
+}
+
+  \node (p1-enq2) [enq-op] {$\enq(2)$};
+  \node (p1-deq1) [deq-op, right = 3.2cm of p1-enq2] {$\deq\triangleright 1$};
+
+  \node (p2-enq1) [enq-op, below = 2cm of p1-enq2] {$\enq(1)$};
+  \node (p2-deq2) [deq-op, right = 3.2 of p2-enq1] {$\deq\triangleright 2$ };
+
+  \pva{p1-enq2}{p1-deq1};
+  \pva{p2-enq1}{p2-deq2};
+
+  \vas{p2-enq1}{p1-deq1};
+  \va{p1-deq1}{p2-deq2};
+  \vae{p1-enq2}{p2-deq2};
+
+  \ar{p2-enq1}{p1-enq2};
+\end{tikzpicture}
+\end{document}

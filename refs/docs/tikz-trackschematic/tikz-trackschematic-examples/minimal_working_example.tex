@@ -1,0 +1,16 @@
+\documentclass{standalone}
+
+% loading the library
+\usepackage{tikz-trackschematic}
+
+\begin{document} % LaTeX
+  \begin{tikzpicture} % TikZ
+
+    % draw a track with (x,y) coordinates
+    \maintrack (0,0) -- (6,0);
+
+    % place a train on the track
+    \train[forward] at (5,0) label ();
+
+  \end{tikzpicture}
+\end{document}

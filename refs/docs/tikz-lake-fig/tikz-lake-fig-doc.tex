@@ -1,0 +1,157 @@
+\documentclass[bigger]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tabularx}
+
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+\usepackage{tikz-lake-fig}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2D inputs outputs}
+  \begin{frame}{2D inputs outputs}
+  
+    \begin{tabular}{c|c}
+    \begin{minipage}{0.65\textwidth}\lakediagramblue[0.6]\end{minipage} & lake diagram blue\\
+    \begin{minipage}{0.65\textwidth}\lakediagramgreen[0.6]\end{minipage} & lake diagram green
+    \end{tabular}
+  
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{3D profile blue}
+  \begin{frame}{3D profile blue}
+   
+    \begin{tabular}{c|c}
+    {Isolated}
+     \begin{minipage}{0.55\textwidth}\isolatedprofile[0.4]{cyan}\end{minipage} & isolated profile\\
+    {Headwater} 
+     \begin{minipage}{0.55\textwidth}\headwaterprofile[0.6]{cyan}\end{minipage} & headwater profile\\
+    {Primary}
+     \begin{minipage}{0.55\textwidth}\primaryprofile[0.6]{cyan}\end{minipage} & primary profile\\
+    {Secondary}
+     \begin{minipage}{0.55\textwidth}\secondaryprofile[0.8]{cyan}\end{minipage} & secondary profile
+    \end{tabular}
+  
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{3d profile green}
+  \begin{frame}{3d profile green}
+   
+    \begin{tabular}{c|c}
+    {Isolated}
+     \begin{minipage}{0.55\textwidth}\isolatedprofile[0.4]{green}\end{minipage} & isolated profile\\
+    {Headwater} 
+     \begin{minipage}{0.55\textwidth}\headwaterprofile[0.6]{green}\end{minipage} & headwater profile\\
+    {Primary}
+     \begin{minipage}{0.55\textwidth}\primaryprofile[0.6]{green}\end{minipage} & primary profile\\
+    {Secondary}
+     \begin{minipage}{0.55\textwidth}\secondaryprofile[0.8]{green}\end{minipage} & secondary profile
+    \end{tabular}
+  
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2D Connectivity Diagram}
+  \begin{frame}{2D Connectivity Diagram}
+  \begin{minipage}[c]{\paperwidth}
+    \connectivitydiagram[1]
+  \end{minipage}
+  \end{frame}
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Isolated Budget}
+  \begin{frame}{Isolated Budget}
+    \begin{center}
+      \isolatedwireframe[1.2]
+    \end{center}
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Secondary Budget}
+  \begin{frame}{Secondary Budget}
+    \begin{center}
+      \secondarywireframe[1]
+    \end{center}
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Secondary Shaded}
+  \begin{frame}{Secondary Shaded}
+    \begin{center}
+      \secondaryprofileflatequal[0.8]{gray}
+      \definecolor{halfgrey}{HTML}{aaaaaa}
+      \secondaryprofileflatequal[0.8]{halfgrey}
+      \secondaryprofileflatequal[0.8]{white}
+    \end{center}
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{3D Connectivity Diagram}
+\begin{frame}{3D Connectivity Diagram}
+    \begin{center}
+      \secondaryprofileflatequal[0.8]{white}
+      \primaryprofileflatequal[0.8]{white} \\
+      \isolatedprofileflatequal[0.8]{white}
+    \end{center}
+  \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{2D Watershed Connectivity}
+\begin{frame}
+\begin{columns}[t]
+\begin{column}{0.7\textwidth}
+\begin{figure}\flushleft
+      \watershedconnectivity[0.73]
+\end{figure}
+\end{column}
+\begin{column}{0.3\textwidth}
+\end{column}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Incremental versus Cumulative Loading}
+\begin{frame}{Incremental versus Cumulative Loading}
+  \begin{center}
+    \incrementalcumulativeloads[1.1]
+  \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Retention vs Trapping}
+\begin{frame}{Retention vs Trapping}
+  \begin{center}
+    \retentiontrapping[1.1]
+  \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Isolated vs Ecological Context}
+\begin{frame}{Isolated vs Ecological Context}
+
+  \begin{minipage}[b]{0.28\paperwidth}
+    \isolated[0.96]
+    \vspace{0.7em}
+  \end{minipage}
+  \begin{minipage}[b]{0.22\paperwidth}
+    \secondary[1.3]
+  \end{minipage}
+  \begin{minipage}[b]{0.24\paperwidth}
+    \secondarypluswatershed[1.3]
+  \end{minipage}
+  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,34 @@
+% 2nd-isomorphism.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{chains, scopes, shapes, fit}
+
+\begin{document}
+\begin{tikzpicture}[group/.style = {circle, minimum size = 25pt, font = \large},
+  every on chain/.style = join, every join/.style = -, node distance = 0.8cm and 1.0cm]
+  { 
+	% G chain
+	[start chain = G going below] 
+	\node (g) [on chain] {$G$};
+	\node (hn) [red, on chain, below = 0.50cm of g] {$HN$}; 
+
+	% H branch
+	{ [start branch = H going below left] 
+	  \node (h) [blue, on chain] {$H$};
+	}
+
+	% N branch
+	{ [start branch = N going below right] 
+	  \node (n) [red, on chain] {$N$};
+	}
+
+	% continue G chain
+	\node [on chain] {}; % dummy node 
+	\node (hcapn) [blue, on chain, join = with G/H-end, join = with G/N-end] {$H \cap N$};
+	\node (e) [on chain, below = 0.50cm of hcapn] {$\{ e \}$};
+
+	% 
+	% \node (hn/n) [draw, fit = (hn) (n), rectangle, rotate fit = 140, dashed, inner sep = 2pt] {};
+  }
+\end{tikzpicture}
+\end{document}

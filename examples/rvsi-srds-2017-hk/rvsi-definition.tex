@@ -1,0 +1,126 @@
+\documentclass{standalone}
+
+\usepackage{lmodern}
+\usepackage{tikz}
+\usetikzlibrary{positioning, chains, calc, arrows.meta, backgrounds}
+
+% define layers
+    \pgfdeclarelayer{foreground}
+    \pgfdeclarelayer{background}
+% tell TikZ how to stack them (back to front)
+    \pgfsetlayers{background,main,foreground}
+
+\begin{document}
+
+\tikzset{trans-node/.style = {draw, line width = 3pt, inner sep = 12pt}}
+\tikzset{read-from/.style = {>={Stealth[length = 12pt]}, ->, dash pattern = on 20pt off 10pt, thick}}
+\tikzset{knode/.style = {inner sep = 8pt, outer sep = 5pt, font=\fontsize{40}{40}\selectfont}}
+\tikzset{toarrow/.style = {>={Stealth[length = 12pt]}, ->, ultra thick}}
+\tikzset{dashline/.style = {ultra thick, dash pattern = on 20pt off 10pt}}
+\tikzset{cs/.style = {outer sep = 5pt, font=\fontsize{40}{40}\selectfont}}  % c: commit; s: start
+
+% #1: numbering
+\newcommand{\xtrans}[1]{\node (x#1) [trans-node, on chain = x, font=\fontsize{30}{30}\selectfont] {$T_{x_#1}: w_{x_#1}(x_#1)$}}
+\newcommand{\ytrans}[1]{\node (y#1) [trans-node, on chain = y, font=\fontsize{30}{30}\selectfont] {$T_{y_#1}: w_{y_#1}(y_#1)$}}
+
+\begin{tikzpicture}[start chain = x going right,
+  		start chain = y going right,
+	      	node distance = 1.0cm,
+	        font = \huge]
+  % transactions updating x
+  \begin{scope}
+    \foreach \i in {1, ..., 6}
+      \xtrans{\i};
+  \end{scope}
+
+  % transactions updating y
+  \begin{scope}
+    \node (y1) [trans-node, on chain = y, below left = 3.0cm and -2.0cm of x3, font=\fontsize{30}{30}\selectfont] {$T_{y_1}: w_{y_1}(y_1)$};
+    \foreach \i in {2, ..., 6}
+      \ytrans{\i};
+  \end{scope}
+   
+  % transaction T_i reading x and y
+  \begin{scope}
+    \node (ti) [trans-node, below right = 2.0cm and 2.5cm of y2, font=\fontsize{35}{35}\selectfont] 
+	  {$T_i: \hskip 3em r_i(x_2) \hskip 8em r_i(y_5) \hskip 4em$};
+  \end{scope}
+
+  \uncover<2->{
+    % T_i reads x2
+    \begin{pgfonlayer}{background}
+	  \coordinate (c-rx2) at ($(ti.north) !0.5! (ti.north west)$);
+	  \draw[read-from]  (x2.south) to (c-rx2); % [out = -70, in = 120] (c-rx2);
+    \end{pgfonlayer}
+    
+    % T_i reads y5
+    \coordinate (c-ry5) at ($(ti.north) !0.5! (ti.north east)$);
+    \draw[read-from] (y5.south) to (c-ry5);
+  }
+
+  \uncover<3->{
+    % k1
+    \def\konespace{11cm}
+    \begin{scope}[on background layer]
+	% c-x2-top: commit time of T_x2
+	\draw let \p{p-x2} = (x2.east), \p{p-ti} = (ti.north west) in
+	    node (c-x2-top) [cs] at ($(\x{p-x2}, \y{p-ti}) + (0.0cm, \konespace)$) {$c_{x_2}$};
+	\draw[dashline] (x2.north east) to (c-x2-top.south);
+
+	% s-ti-top: start time of T_i (drawn at the top)
+	\node (s-ti-top) [cs] at ($(ti.north west) + (0.0cm, \konespace)$) {$s_i$};
+	\draw[dashline] let \p{p-ti} = (ti.west), \p{p-x4} = (x4.west) in
+		  (s-ti-top.south) to (\x{p-ti}, \y{p-x4});
+
+	% k1 at center of c-x2-top and s-ti-top
+	\node (k1) [knode] at ($(c-x2-top) !0.5! (s-ti-top)$) {$k_1$};
+	\draw [toarrow] (k1) to (c-x2-top);
+	\draw [toarrow] (k1) to (s-ti-top);
+    \end{scope}
+  }
+
+  \uncover<4->{
+    % k2
+    \def\ktwospace{1.5cm}
+    \begin{scope}[on background layer]
+	% s-ti-bot: start time of T_i (drawn at the bottom)
+	\node (s-ti-bot) [cs] at ($(ti.south west) - (0.0cm, \ktwospace)$) {$s_i$};
+	\draw[dashline] let \p{p-ti} = (ti.west), \p{p-x4} = (x4.west) in
+	(s-ti-bot.north) to (\x{p-ti}, \y{p-x4});
+
+	% c-y5-bot: commit time of T_y5
+	\draw let \p{p-y5} = (y5.east), \p{p-ti} = (ti.south west) in
+	node (c-y5-bot) [cs] at ($(\x{p-y5}, \y{p-ti}) - (0.0cm, \ktwospace)$) {$c_{y_5}$};
+	\draw [dashline] (y5.south east) to (c-y5-bot.north);
+
+	% k2 at center of s-ti-bot and c-y5-bot
+	\node (k2) [knode] at ($(s-ti-bot) !0.5! (c-y5-bot)$) {$k_2$};
+	\draw [toarrow] (k2) to (s-ti-bot);
+	\draw [toarrow] (k2) to (c-y5-bot);
+    \end{scope}
+  }
+
+  \uncover<5->{
+    % k3
+    \begin{scope}[on background layer]
+	% (invisible; as positioning anchor) s-ti-mid: start time of T_i (drawn in the middle)
+	\node (s-ti-mid) [cs] at ($(s-ti-top) !0.35! (s-ti-bot)$) {};
+
+	% c-x2-bot: commit time of T_x2 (drawn at the bottom)
+	\draw let \p{p-x2} = (x2.east), \p{p-s-ti-mid} = (s-ti-mid) in
+	  node (c-x2-bot) [cs] at (\x{p-x2}, \y{p-s-ti-mid}) {$c_{x_2}$};
+	\draw[dashline] (x2.south east) to (c-x2-bot.north);
+
+	% c-y5-top: commit time of T_y5 (drawn at the top)
+	\draw let \p{p-y5} = (y5.east), \p{p-s-ti-mid} = (s-ti-mid) in
+	  node (c-y5-top) [cs] at (\x{p-y5}, \y{p-s-ti-mid}) {$c_{y_5}$};
+	\draw[dashline] (y5.north east) to (c-y5-top.south);
+
+	% k3 at center of c-x2-bot and c-y5-top
+	\node (k3) [knode] at ($(c-x2-bot) !0.5! (c-y5-top)$) {$k_3$};
+	\draw [toarrow] (k3) to (c-x2-bot);
+	\draw [toarrow] (k3) to (c-y5-top);
+    \end{scope}
+  }
+\end{tikzpicture}
+\end{document}

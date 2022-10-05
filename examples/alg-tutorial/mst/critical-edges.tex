@@ -1,0 +1,26 @@
+% file: graph-paths/critical-edges.tex
+
+\documentclass[tikz]{standalone}
+
+\usetikzlibrary{positioning, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[n/.style = {circle, draw}, % node
+    leadsto/.style = {->, decorate, decoration = {
+    	zigzag, amplitude = 1.50pt, segment length = 1.5mm, pre length = 2.5pt, post length = 2.5pt}},
+    e/.style = {-}, % edge
+  ]
+
+  \node (s) [n] {$s$};
+  \node (x) [n, below left = of s] {$x$};
+  \node (y) [n, below = of x] {$y$};
+  \node (u) [n, below right = of s] {$u$};
+  \node (v) [n, below = of u] {$v$};
+
+  \path (s) edge[e] node[left] {$1$} (x)
+	(x) edge[e] node[left] {$2$} (y)
+	(y) edge[e] node[below] {$1$} (v)
+	(v) edge[e] node[right] {$2$} (u)
+	(u) edge[e, dashed, red] node[right] {$e$} (s);
+\end{tikzpicture}
+\end{document}

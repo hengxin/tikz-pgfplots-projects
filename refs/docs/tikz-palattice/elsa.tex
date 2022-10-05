@@ -1,0 +1,952 @@
+%% elsa.tex
+%% Copyright 2017 J. Schmidt
+%% tikz-palattice LaTeX package
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is J. Schmidt.
+% 
+% This work consists of the files tikz-palattice.sty and tikz-palattice_documentation.tex
+% and the 5 example files example1_linear.tex, example2_circular.tex,
+% example3_coordinates.tex, example4_labels.tex and elsa.tex
+
+
+\documentclass[tikz]{standalone}
+%\usepackage[ngerman]{babel}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{iflang}
+\usepackage{tikz-palattice}
+
+\sisetup{range-units=single, range-phrase=\,-\,, detect-weight=true, detect-family=true}
+\addto\extrasngerman{\sisetup{locale = DE}}
+\addto\extrasenglish{\sisetup{locale = US}}
+
+\def\scale{0.5}
+
+\tikzset{biggestlabel/.style={font=\bfseries\Huge,scale=2.5, align=center,faded}}
+\tikzset{biglabel/.style={font=\bfseries\Huge,scale=2, align=center,faded}}
+\tikzset{mediumlabel/.style={font=\huge,scale=2, align=center,faded}}
+\tikzset{smalllabel/.style={font=\Large,scale=2.2, align=center,faded}}
+\tikzset{experimentlabel/.style={mediumlabel, fill=white, fill opacity=0.7, text opacity=1}}
+
+
+
+% ---------------------------------------------------------------------
+% The lattice data given in this file is designated for drawing a map
+% and should not be used for any calculations or simulation!
+% ---------------------------------------------------------------------
+
+\begin{document}
+\begin{lattice}[\scale]
+\def\quadl{0.2}
+\setelementcolor{dipole}{blue!55!cyan!90}[blue!55!cyan!90]
+\setelementcolor{solenoid}{cyan}
+\setlinecolor{drift}{red!70!black}
+\def\photonbeam{black}
+% "switch labels off":
+%\setlabelcolor{white}
+
+\drawrule{(58,-7)}[5][3][0.3]
+\setangle{180}
+\start{(0,0)}
+
+%-----------------------------------
+%LINAC2
+%-----------------------------------
+\northlabels
+\source{}{1}
+\savecoordinate{PolQ}[center]
+\drift{2.5}
+\drift{0.5} % wand
+\source{}{0.2}
+\drift{0.8}
+\savecoordinate{L2label}
+\cavity{}{3.85}
+\drift{0.35}
+\quadrupole{Q1}{\quadl}
+\drift{0.5}
+\quadrupole{Q2}{\quadl}
+\drift{0.35}
+\quadrupole{Q3}{\quadl}
+\drift{0.3}
+\dipole{M90}{0.5}{-90}
+\drift{0.3}
+\quadrupole{Q4}{\quadl}
+\drift{0.75}
+\quadrupole{Q5}{\quadl}
+\drift{1.9}
+\quadrupole{Q6}{\quadl}
+\drift{3.55}
+\quadrupole{Q7}{\quadl}
+\drift{2.1}
+\corrector{KD}{\quadl}
+\drift{2.1}
+\dipole{}{0.4}{0}[r][0.3] % M3
+\savecoordinate{M3}[center]
+\drift{0.4}
+\quadrupole{Q8}{\quadl}
+\drift{3}
+\savecoordinate{BoosterInj}
+
+%title
+\node[mediumlabel, anchor=north, yshift=-1cm] at (L2label)
+{LINAC 2\\{\Large \SI{26}{\MeV}}};
+\node[mediumlabel, anchor=west, xshift=4mm] at (PolQ)
+{\IfLanguageName{ngerman}{Quelle}{Source of} pol.
+  $e^-$};
+
+
+%-----------------------------------
+%LINAC1
+%lattice backwards to set start at M3
+%-----------------------------------
+\goto{M3}
+\setangle{-180}
+\northlabels
+\drift{0.44}
+\quadrupole{Q7}{\quadl}
+\drift{0.2}
+\quadrupole{Q6}{\quadl}
+\drift{0.35}
+\turnlabels
+\dipole{M2}{0.3}{45}
+\drift{1.1}
+\dipole{M1}{0.3}{45}
+\savecoordinate{M1}[center]
+\southlabels
+\drift{0.58}
+\quadrupole{Q5}{\quadl}
+\drift{0.36}
+\quadrupole{Q4}{\quadl}
+\drift{0.58}
+\quadrupole{Q3}{\quadl}
+\drift{0.38}
+\cavity{}{0.67}[0.3] %EKS
+\drift{0.1}
+\dipole{EKS}{0.2}{0}
+\rotate{60}
+\drift{0.15}
+\rotate{-60}
+\dipole{}{0.2}{0}
+\rotate{-60}
+\drift{0.15}
+\rotate{60}
+\dipole{}{0.2}{0}
+\drift{0.07}
+\quadrupole{Q2}{\quadl}
+\drift{0.13}
+\quadrupole{Q1}{\quadl}
+\drift{0.16}
+\savecoordinate{L1label}
+\cavity{}{2.73}
+\drift{0.35}
+\dipole{}{0.35}{0}
+\drift{0.17}
+\drift{1.3}
+\rotate{180}
+\source{}{0.5}
+
+%title
+\node[mediumlabel, xshift=-1cm, anchor=east] at (L1label)
+{LINAC 1\\{\Large \SI{20}{\MeV}}};
+
+
+%-----------------------------
+%LINAC1-Bestrahlungsplatz
+%-----------------------------
+\goto{M1}
+\setangle{90}
+\northlabels
+\drift{0.25}
+\drift{0.37}
+\quadrupole{QT1}{\quadl}
+\drift{0.2}
+\quadrupole{QT2}{\quadl}
+\drift{0.45}
+\savecoordinate{bestrahlung}
+\beamdump{}{0.5}
+%title
+\node[smalllabel, yshift=5mm, anchor=east, text width=3cm] at (bestrahlung)
+{\IfLanguageName{ngerman}{Bestrahlungs\-platz}{irradiation area}};
+
+
+%-----------------------------
+%Booster
+%-----------------------------
+% custom legend entry for combined function magnets
+\addlegendentry{Combined Function}{fill=green!55!black}
+\begin{scope}
+\setelementcolor{dipole}{green!55!black}[green!55!black]
+\goto{BoosterInj}
+\southlabels
+%\marker{Start}[0.5]
+\setlabeldistance{0.5}
+\kicker{INJSEPT}{0.88}
+\savecoordinate{links}
+\drift{0.44725}
+\dipole{M1}{4.0056}{-30}[s][0.6]
+\drift{1.7945}
+\dipole{M2}{4.0056}{-30}[s][0.6]
+\drift{0.35975}
+\kicker{B1}{0.3875}
+\drift{0.3}
+\kicker{K1}{0.3875}
+\drift{0.35975}
+\dipole{M3}{4.0056}{-30}[s][0.6]
+\drift{0.35975}
+\kicker{B2}{0.3875}
+\drift{0.3}
+\kicker{S1}{0.3875}
+\drift{0.35975}
+\dipole{M4}{4.0056}{-30}[s][0.6]
+\drift{0.4295}
+\corrector{VC1}{0.13}
+\drift{0.245}
+\kicker{S2}{0.63}
+\drift{0.36}
+\dipole{M5}{4.0056}{-30}[s][0.6]
+\drift{0.34225}
+\kicker{S3}{1.08}
+\savecoordinate{Booster_extract}[center]
+\drift{0.37225}
+\dipole{M6}{4.0056}{-30}[s][0.6]
+\drift{0.38725}
+\corrector{VC2}{0.13}
+\drift{0.315}
+\kicker{B3}{0.6}
+\savecoordinate{rechts}
+\drift{0.36225}
+\dipole{M7}{4.0056}{-30}[s][0.6]
+\drift{0.49225}
+\corrector{VC3}{0.13}
+\drift{0.295}
+\kicker{K2}{0.45}
+\drift{0.42725}
+\dipole{M8}{4.0056}{-30}[s][0.6]
+\drift{0.86225}
+\kicker{K3}{0.45}
+\drift{0.48225}
+\dipole{M9}{4.0056}{-30}[s][0.6]
+\drift{0.44725}
+\cavity{DORIS}{0.9}
+\drift{0.44725}
+\dipole{M10}{4.0056}{-30}[s][0.6]
+\drift{1.7945}
+\dipole{M11}{4.0056}{-30}[s][0.6]
+\drift{1.7945}
+\dipole{M12}{4.0056}{-30}[s][0.6]
+\drift{0.46725}
+\end{scope}
+
+%title
+\path (links) -- (rechts) node[midway,biggestlabel, text width=6cm] {Booster-
+  Synchrotron\\{\SIrange{0.5}{1.2}{\GeV}}}; %\\{\it\SI{120}{\GeV\per\s}}
+
+
+
+%-----------------------------
+% Transferkanal Booster->ELSA
+%-----------------------------
+\goto{Booster_extract}
+\setangle{-47}
+\northlabels
+\drift{2}
+\corrector{KV1}{0.25}
+\drift{0.16}
+\quadrupole{QA}{0.48}
+\drift{0.16}
+\corrector{KV2}{0.25}
+\turnlabels
+\drift{1.4}
+\corrector{KV3}{0.25}
+\drift{0.16}
+\quadrupole{QB}{0.48}
+\drift{3.67}
+\quadrupole{QC}{0.48}
+\drift{0.16}
+\corrector{}{0.25}
+\drift{1.9}
+\savecoordinate{ELSA_inject}
+
+
+
+%-----------------------------
+% Stretcherring
+%-----------------------------
+\goto{ELSA_inject}
+\setangle{-55}
+\setlabeldistance{0.5}
+\northlabels
+
+% "end" put at beginning to start at injection
+\drift{0.2325}
+\screen{}[0.025] %BPM31
+\drift{0.01665}
+\quadrupole{QD31}{0.4997}
+\drift{0.02115}
+%\marker{IC31}
+\drift{0.28}
+\dipole{M31}{2.875}{15}
+\drift{0.2765}
+\corrector{KV31}{0.13}
+\drift{0.1615}
+\corrector{MSI31}{0.6}
+\drift{0.2745}
+%\marker{IC32}
+\drift{0.01915}
+\quadrupole{QF32}{0.4997}
+\drift{0.01115}
+\screen{}[0.025] %BPM32
+\drift{0.1005}
+\sextupole{SX32}{0.287}
+\drift{0.2069}
+\quadrupole{LQ32}{0.45}[0.2]
+\drift{0.5296}
+\corrector{KV32}{0.13}
+\drift{0.35375}
+\quadrupole{SQ32}{0.45}
+\drift{1.382}
+\quadrupole{TJQ32}{0.5515}[0.2]
+\drift{0.12625}
+
+% usual start
+%\marker{start}[0.5]
+\drift{0.013}
+%\marker{IC01}
+\drift{0.02115}
+\quadrupole{QD1}{0.4997}
+\drift{0.00365}
+\screen{}[0.025] %BPM01
+\drift{0.6285}
+\corrector{KV01}{0.13}
+\drift{1.30675}
+\quadrupole{SQ1}{0.45}
+\drift{1.01375}
+\quadrupole{LQ1}{0.45}[0.2]
+\drift{0.2065}
+\sextupole{SX1}{0.287}
+\drift{0.0825}
+%\marker{IC02}
+\drift{0.05415}
+\quadrupole{QF2}{0.4997}
+\drift{0.00615}
+\screen{}[0.025] %BPM02
+\drift{0.2145}
+\corrector{IJK2}{0.73}
+\drift{0.0595}
+\corrector{KV02}{0.13}
+\drift{0.2962}
+\dipole{M2}{2.875}{15}
+\drift{0.2803}
+%\marker{IC03}
+\drift{0.02115}
+\begin{scope}
+  \rotatelabels{55}[west]
+  \quadrupole{QD3}{0.4997}
+  \drift{0.00865}
+  \screen{}[0.025] %BPM03
+  \drift{0.103}
+  \sextupole{SD3}{0.287}
+  \drift{0.1025}
+  \corrector{KV03}{0.13}
+  \drift{3.011}
+  \corrector{IJK3}{0.73}
+  \drift{0.2195}
+  % \marker{IC04}
+  \drift{0.02115}
+  \quadrupole{QF4}{0.4997}
+  \drift{0.01115}
+  \screen{}[0.025] %BPM04
+  \drift{0.1005}
+  \sextupole{SF4}{0.287}
+  \drift{0.1995}
+  \corrector{KV04}{0.13}
+  \drift{0.7082}
+\end{scope}
+\dipole{M4}{2.875}{15}
+\drift{0.2803}
+%\marker{IC05}
+\drift{0.02115}
+\begin{scope}
+  \rotatelabels{90}[west]
+  \quadrupole{QD5}{0.4997}
+  \drift{0.00365}
+  \screen{}[0.025] %BPM05
+  \drift{0.1545}
+  \corrector{KV05}{0.13}
+  \drift{1.1482}
+\end{scope}
+\dipole{M5}{2.875}{15}
+\drift{0.2803}
+%\marker{IC06}
+\drift{0.02115}
+\begin{scope}
+  \rotatelabels{90}[west]
+  \quadrupole{QF6}{0.4997}
+  \drift{0.00615}
+  \screen{}[0.025] %BPM06
+  \drift{0.1745}
+  \kicker{MSE6}{0.65}
+  \drift{0.139}
+  % \marker{ICMSE6}
+  \drift{0.0185}
+  \corrector{KV06}{0.13}
+  \drift{0.3182}
+\end{scope}
+\dipole{M6}{2.875}{15}
+\drift{0.2803}
+%\marker{IC07}
+\drift{0.02115}
+\quadrupole{QD7}{0.4997}
+\drift{0.00865}
+\screen{}[0.025] %BPM07
+\drift{0.185}
+\kicker{MSE7}{0.9}
+\savecoordinate{ELSA_extract_neu}
+
+
+\drift{0.3427}
+\dipole{M7}{2.875}{15}
+\savecoordinate{sylibeamline}[center]
+
+
+\drift{0.2803}
+%\marker{IC08}
+\drift{0.02115}
+\quadrupole{QF8}{0.4997}
+\drift{0.01115}
+\screen{}[0.025] %BPM08
+\drift{0.971}
+\corrector{KV08}{0.13}
+\drift{0.3242}
+\dipole{M8}{2.875}{15}
+\drift{0.30145}
+\quadrupole{QD9}{0.4997}
+\drift{0.00365}
+\screen{}[0.025] %BPM09
+\drift{0.2727}
+\dipole{M9}{2.875}{15}
+\drift{0.3473}
+\corrector{KV09}{0.13}
+\drift{0.963}
+%\marker{IC10}
+\drift{0.02115}
+\quadrupole{QF10}{0.4997}
+\drift{0.00615}
+\screen{}[0.025] %BPM10
+\drift{0.2702}
+\dipole{M10}{2.875}{15}
+\drift{0.6963}
+\corrector{KV10}{0.13}
+\drift{0.2115}
+\sextupole{SD10}{0.287}
+\drift{0.105}
+\screen{}[0.025] %BPM11
+\drift{0.00665}
+\quadrupole{QD11}{0.4997}
+\drift{0.02115}
+%\marker{IC11}
+\drift{0.2802}
+\dipole{M11}{2.875}{15}
+\drift{0.7103}
+\corrector{KV11}{0.13}
+\drift{0.1975}
+\sextupole{SF11}{0.287}
+\drift{0.1075}
+\screen{}[0.025] %BPM12
+\drift{0.00415}
+\quadrupole{QF12}{0.4997}
+\drift{0.02115}
+%\marker{IC12}
+\drift{0.2802}
+\dipole{M12}{2.875}{15}
+\drift{1.1563}
+\corrector{KV12}{0.13}
+\drift{0.154}
+%\marker{IC13}
+\drift{0.02115}
+\quadrupole{QD13}{0.4997}
+\drift{0.00365}
+\screen{}[0.025] %BPM13
+\drift{0.2727}
+\dipole{M13}{2.875}{15}
+\drift{0.7263}
+\corrector{KV13}{0.13}
+\drift{0.584}
+%\marker{IC14}
+\drift{0.02115}
+\quadrupole{QF14}{0.4997}
+\savecoordinate{rechts}
+
+
+\drift{0.00615}
+\screen{}[0.025] %BPM14
+\drift{3.6265}
+\corrector{KV14}{0.13}
+\drift{0.829}
+%\marker{IC15}
+\drift{0.02115}
+\quadrupole{QD15}{0.4997}
+\drift{0.00865}
+\screen{}[0.025] %BPM15
+\drift{0.2677}
+\dipole{M15}{2.875}{15}
+\drift{1.1483}
+\corrector{KV15}{0.13}
+\drift{0.162}
+%\marker{IC16}
+\drift{0.02115}
+\quadrupole{QF16}{0.4997}
+\drift{0.01115}
+\screen{}[0.025] %BPM16
+\drift{0.1005}
+\sextupole{SX16}{0.287}
+\drift{0.2065}
+\quadrupole{LQ16}{0.45}[0.2]
+\drift{0.3075}
+\cavity{PETRA1}{1.6}
+\drift{0.93725}
+\quadrupole{TJQD16}{0.5515}[0.2]
+\drift{0.12475}
+\screen{}[0.025] %BPM17
+\drift{0.01165}
+\quadrupole{QD17}{0.4997}
+\drift{0.02115}
+%\marker{IC17}
+\drift{0.429}
+\cavity{PETRA2}{1.6}
+\drift{0.311}
+\corrector{KV17}{0.13}
+\drift{1.0665}
+\quadrupole{LQ17}{0.45}[0.2]
+\drift{0.2065}
+\sextupole{SX17}{0.287}
+\drift{0.0825}
+%\marker{IC18}
+\drift{0.05415}
+\quadrupole{QF18}{0.4997}
+\drift{0.00615}
+\screen{}[0.025] %BPM18
+\drift{0.962}
+\corrector{KV18}{0.13}
+\drift{0.3382}
+\dipole{M18}{2.875}{15}
+\drift{0.2803}
+%\marker{IC19}
+\drift{0.02115}
+\begin{scope}
+  \rotatelabels{60}[east]
+  \quadrupole{QD19}{0.4997}
+  \drift{0.00865}
+  \screen{}[0.025] %BPM19
+  \drift{0.103}
+  \sextupole{SD19}{0.287}
+  \drift{0.2105}
+  \corrector{KV19}{0.13}
+  \drift{0.507}
+  \screen{}[0] %FMON
+  \drift{2.943}
+  \sextupole{SF19}{0.287}
+  \drift{0.1075}
+  \screen{}[0.025] %BPM20
+  \drift{0.00415}
+  \quadrupole{QF20}{0.4997}
+  \drift{0.02115}
+  % \marker{IC20}
+  \drift{0.985}
+  \corrector{KV20}{0.13}
+  \drift{0.3252}
+\end{scope}
+\dipole{M20}{2.875}{15}
+\begin{scope}
+  \rotatelabels{90}[east]
+  \drift{0.2803}
+  % \marker{IC21}
+  \drift{0.02115}
+  \quadrupole{QD21}{0.4997}
+  \drift{0.00365}
+  \screen{}[0.025] %BPM21
+  \drift{0.1765}
+  \corrector{KV21}{0.13}
+  \drift{1.126}
+\end{scope}
+\dipole{M21}{2.875}{15}
+\begin{scope}
+  \rotatelabels{90}[east]
+  \drift{0.2805}
+  % \marker{IC22}
+  \drift{0.02115}
+  \quadrupole{QF22}{0.4997}
+  \drift{0.00615}
+  \screen{}[0.025] %BPM22
+  \drift{0.1315}
+  \kicker{MSE22}{0.65}
+  \drift{0.165}
+  % \marker{ICMSE22}
+  \drift{0.0005}
+  \corrector{KV22}{0.13}
+  \drift{0.3535}
+\end{scope}
+\dipole{M22}{2.875}{15}
+\drift{0.28}
+%\marker{IC23}
+\drift{0.02115}
+\quadrupole{QD23}{0.4997}
+\drift{0.00865}
+\screen{}[0.025] %BPM23
+\drift{0.1765}
+\kicker{MSE23}{0.9}
+\savecoordinate{ELSA_extract}
+
+
+\drift{0.351}
+\dipole{M23}{2.875}{15}
+\drift{0.2805}
+%\marker{IC24}
+\drift{0.02115}
+\quadrupole{QF24}{0.4997}
+\drift{0.01115}
+\screen{}[0.025] %BPM24
+\drift{0.886}
+\corrector{KV24}{0.13}
+\drift{0.4095}
+\dipole{M24}{2.875}{15}
+\drift{0.2645}
+\screen{}[0.025] %BPM25
+\drift{0.01165}
+\quadrupole{QD25}{0.4997}
+\savecoordinate{compton}[center]
+
+
+\drift{0.02115}
+%\marker{IC25}
+\drift{0.28}
+\dipole{M25}{2.875}{15}
+\drift{0.6985}
+\corrector{KV25}{0.13}
+\drift{0.612}
+%\marker{IC26}
+\drift{0.02115}
+\quadrupole{QF26}{0.4997}
+\drift{0.00615}
+\screen{}[0.025] %BPM26
+\drift{0.2705}
+\dipole{M26}{2.875}{15}
+\drift{0.729}
+\corrector{KV26}{0.13}
+\drift{0.178}
+\sextupole{SD26}{0.287}
+\drift{0.1055}
+\screen{}[0.025] %BPM27
+\drift{0.00665}
+\quadrupole{QD27}{0.4997}
+\drift{0.02115}
+%\marker{IC27}
+\drift{0.28}
+\dipole{M27}{2.875}{15}
+\drift{0.7025}
+\corrector{KV27}{0.13}
+\drift{0.2055}
+\sextupole{SF27}{0.287}
+\drift{0.1075}
+\screen{}[0.025] %BPM28
+\drift{0.00415}
+\quadrupole{QF28}{0.4997}
+\drift{0.02115}
+%\marker{IC28}
+\drift{0.2805}
+\dipole{M28}{2.875}{15}
+\drift{1.159}
+\corrector{KV28}{0.13}
+\drift{0.151}
+%\marker{IC29}
+\drift{0.02115}
+\quadrupole{QD29}{0.4997}
+\drift{0.00365}
+\screen{}[0.025] %BPM29
+\drift{0.2725}
+\dipole{M29}{2.875}{15}
+\drift{0.3105}
+\corrector{KV29}{0.13}
+\drift{0.0455}
+\corrector{IJK29}{0.73}
+\drift{0.2245}
+%\marker{IC30}
+\drift{0.02115}
+\quadrupole{QF30}{0.4997}
+\savecoordinate{links}
+
+
+\drift{0.00615}
+\screen{}[0.025] %BPM30
+\drift{3.0545}
+\corrector{KV30}{0.13}
+\drift{0.248}
+\corrector{MSI30}{0.9}
+\resetlabeldistance
+
+%title - aligned between M29 and QF14 via \savecoordinate
+\draw[draw=none] (links) -- (rechts) node[midway, biggestlabel]
+{ELSA Stretcherring\\{\SIrange{0.5}{3.2}{\GeV}}}; %\\{\it\SI{6}{\GeV\per\s}}
+
+
+%-----------------------
+% Compton-Polarimeter
+%-----------------------
+\begin{scope}
+  \setlinecolor{drift}{\photonbeam}
+  \goto{compton}
+  \drift{13.7}
+  \savecoordinate{comptonlabel}
+  \beamdump{}{1.6}[0.7]
+  \goto{compton}
+  \rotate{180}
+  \drift{3.9}
+  \beamdump{}{0.25}[0.25]
+\end{scope}
+%title
+\node[smalllabel, anchor=east, text width=4cm] at (comptonlabel)
+{Compton-\\{Polarimeter}};
+
+%------------------------------
+% Syli-Beamline (Streak-Kamera)
+%------------------------------
+\begin{scope}
+  \setlinecolor{drift}{\photonbeam}
+  \goto{sylibeamline}
+  \rotate{-11.5}
+  \drift{12.5}
+  \savecoordinate{sylilabel}
+  \beamdump{}{1.25}[0.5]
+\end{scope}
+% title
+\node[smalllabel, anchor=west, yshift=1cm, text width=4cm] at (sylilabel)
+{\IfLanguageName{ngerman}{Synchrotronlicht}{synchrotron light}\\\IfLanguageName{ngerman}{Diagnoseplatz}{diagnostic area}};
+
+
+%-----------------------
+%Extraktion + CB
+%-----------------------
+\goto{ELSA_extract}
+\southlabels
+\rotate{-8}
+\drift{0.2}
+%----
+%\dipole{M23}{0.9}{1.60428}
+\drift{0.9}
+\rotate{1.60428}
+%----
+\drift{1.08}
+\rotatelabels{90}[west]
+\corrector{SSV1}{0.34}
+\drift{0.1}
+\corrector{SSH1}{0.34}
+\drift{0.36}
+\quadrupole{QF1}{0.4749}
+\drift{0.39}
+\solenoid{}{2}
+\drift{0.38}
+\quadrupole{QD1}{0.4749}
+\drift{0.25}
+\corrector{SSH2}{0.34}
+\drift{0.1}
+\corrector{SSV2}{0.34}
+\drift{0.6}
+\rotatelabels{0}
+\turnlabels
+\dipole{MB1}{1.08}{10.7716}[r][0.6]
+\savecoordinate{MB1}[center]
+\drift{0.41}                                                               
+\quadrupole{QN1}{0.3}[0.2]
+\drift{0.93}                                                               
+\quadrupole{QN2}{0.3}[0.2]                                                      
+\drift{0.33}
+\dipole{MB3}{1.08012}{2.92208}[r][0.6]
+\drift{0.42}
+\corrector{SSH3}{0.34}
+\drift{1.61}
+\quadrupole{QF2}{0.4749}
+\drift{2.218}
+\rotatelabels{0}[west]
+\corrector{SSV3}{0.2}
+\rotatelabels{0}
+\drift{0.242}
+\quadrupole{QD2}{0.4749}
+\drift{1.6515}
+\savecoordinate{CBphotons}
+\begin{labeldistance}{1}
+  \dipole{Tagger}{1.26}{8.99544}[r][1.2]
+  \drift{1.34}
+  \dipole{M5}{1.26}{6.1994}[r][1.2]
+\end{labeldistance}
+\drift{5.7}
+\savecoordinate{CBlabel}
+\drift{5.7}
+\beamdump{}{1}[1]
+
+%Photon-Beamline
+\goto{CBphotons}
+\begin{scope}
+\setlinecolor{drift}{\photonbeam}
+\drift{16}
+\beamdump{\IfLanguageName{ngerman}{Photonenkamera}{photon camera}}{0.4}[0.2]
+\end{scope}
+
+%title
+\node[experimentlabel, anchor=center, yshift=0.6cm] at (CBlabel) {Crystal Barrel (E1)};
+\node[biglabel, yshift=3.8cm,xshift=-3cm, text width=7cm] at (CBlabel)
+{\IfLanguageName{ngerman}{Hadronenphysik- Experimente}{hadron physics experiments}};
+
+
+%-------------------
+%BGO-OD
+%-------------------
+  \goto{MB1}
+  \rotate{-10.8-11}
+  \southlabels
+  \drift{1.03}                                                               
+  \dipole{MB2}{1.08166}{-11}[r][0.6]
+  \drift{1.06}                                                               
+  \quadrupole{QF2}{0.45}                                                     
+  \drift{1.32}             
+  \rotatelabels{90}[west]                                                  
+  \corrector{SSH3}{0.34}                                                        
+  \drift{0.1}                                                                
+  \corrector{SSV3}{0.34}
+  \rotatelabels{0}                                                        
+  \drift{1.76}                                                               
+  \quadrupole{QD2}{0.45} 
+  \drift{0.95}
+  \begin{scope}
+    \setlabeldistance{0.7}
+    \dipole{Tagger}{1.34}{0}[r][1]
+  \end{scope}
+
+  % photon beamline
+  \begin{scope}
+  \setlinecolor{drift}{\photonbeam}
+  \drift{6.95}
+  \dipole{}{1.61}{0}[r][3.64] %spektrometer
+  \savecoordinate{BGOlabel}
+  \drift{3.13}
+  \beamdump{\IfLanguageName{ngerman}{Photonenkamera}{photon camera}}{0.4}[0.2]
+  \end{scope}
+
+  % title
+  \node[experimentlabel, anchor=center, xshift=1cm,yshift=-0.4cm] at (BGOlabel) {BGO-OD (E2)};
+
+
+%-----------------------------
+%neue externe Strahlführung
+%-----------------------------
+\goto{ELSA_extract_neu}
+\southlabels
+\rotate{-5.44}
+\drift{2.55}
+\begin{scope}
+\setlabelfont{\footnotesize}
+\rotatelabels{-90}[west]
+\corrector{SSH1}{0.34}[0.29]
+\end{scope}
+\drift{0.225}
+\begin{scope}
+\setlabelfont{\footnotesize}
+\rotatelabels{-90}[west]
+\corrector{SSV1}{0.2}[0.162]
+\end{scope}
+\drift{0.26856}
+\quadrupole{QF1}{0.5}[0.266]
+\drift{0.1435}
+\begin{scope}
+\setlabelfont{\scriptsize}
+\northlabels
+\setlabeldistance{0.2}
+\screen{CS1}[0.2]
+\end{scope}
+\drift{5.3035}
+\begin{scope}
+\setlabelfont{\footnotesize}
+\northlabels
+\rotatelabels{-90}[east]
+\corrector{SSH2}{0.2}[0.22]
+\end{scope}
+\drift{0.16}
+\begin{scope}
+\setlabelfont{\footnotesize}
+\northlabels
+\rotatelabels{-90}[east]
+\corrector{SSV2}{0.2}[0.175]
+\end{scope}
+\drift{0.16}
+\quadrupole{QD2}{0.4997}[0.61]
+\drift{0.11309}
+\begin{scope}
+\setlabelfont{\scriptsize}
+\northlabels
+\screen{CS2}[0.2]
+\end{scope}
+\drift{0.8032}
+\begin{labeldistance}{1.2}
+  \dipole{MB}{1.50274}{-12}[r][2]
+\end{labeldistance}
+\drift{0.41180}
+\begin{scope}
+\setlabelfont{\scriptsize}
+\northlabels
+\screen{CS3}[0.2]
+\end{scope}
+\drift{0.50289}
+\quadrupole{QF3}{0.4997}[0.61]
+\drift{0.22983}
+\begin{scope}
+\setlabelfont{\footnotesize}
+\northlabels
+\rotatelabels{-90}[east]
+\corrector{SSH3}{0.2}[0.22]
+\drift{0.31732}
+\end{scope}
+\begin{scope}
+\setlabelfont{\footnotesize}
+\northlabels
+\rotatelabels{-90}[east]
+\corrector{SSV3}{0.2}[0.175]
+\end{scope}
+\drift{0.74414}
+\begin{scope}
+\setlabelfont{\scriptsize}
+\northlabels
+\cavity{IR}{0.130}[0.168]
+\end{scope}
+\drift{0.34731}
+\quadrupole{QD4}{0.4997}[0.61]
+\drift{0.113094}
+\begin{scope}
+\setlabelfont{\scriptsize}
+\northlabels
+\screen{CS4}[0.2]
+\end{scope}
+\drift{0.653}
+\savecoordinate{NEWSFlabel}
+\setlinecolor{drift}{dotted}
+\drift{6.45}
+\beamdump{}{0.5} 
+  %title
+  \node[experimentlabel, fill=none,anchor=north, yshift=-4mm, text width=7cm] at (NEWSFlabel)
+  {\IfLanguageName{ngerman}{Messplatz für}{Area
+      for}\\\IfLanguageName{ngerman}{Detektortests}{Detector
+      Tests} (E3)};
+
+%---------------------------
+% legend shows all element types occuring before this commmand
+\legend{(67,46)}[3]
+\end{lattice}
+\end{document}

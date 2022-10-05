@@ -1,0 +1,12 @@
+% file: polygon-ear.tex
+
+\documentclass[tikz]{standalone}
+
+\begin{document}
+\begin{tikzpicture}
+  \path[draw, very thick] (0,0) -- (2.5, 0.5) -- (4, -0.5) -- (6, 0.) 
+  -- (6.5, 4) -- (4.5, 1.5) -- (3, 3.5) coordinate (7) -- (1.5, 3.5) -- (1, 2) coordinate (9) -- (-0.5, 1.5) -- cycle;
+
+  \draw[blue, ultra thick] (7) -- (9);
+\end{tikzpicture}
+\end{document}

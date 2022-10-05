@@ -1,0 +1,26 @@
+\documentclass[a4paper]{ltxdoc}
+\usepackage[version=latest]{pgf}
+\usepackage{xkeyval,calc,listings,tikz,fp,amsmath,amssymb}
+\usepackage[T1]{fontenc}%
+\usepackage{makeidx}
+\makeindex
+\usepackage{hyperref}
+\hypersetup{%
+        colorlinks=true,
+        linkcolor=blue,
+        filecolor=blue,
+        urlcolor=blue,
+        citecolor=blue,
+        pdfborder=0 0 0,
+}
+\makeatletter          % see https://tex.stackexchange.com/q/33946
+\input{pgfmanual.code} % 
+\makeatother           % 
+\input{pgfmanual-en-macros.tex} % link from
+% /usr/local/texlive/2019/texmf-dist/doc/generic/pgf/macros/pgfmanual-en-macros.tex
+% or the equivalent on your installation
+\def\pgfautoxrefs{1}
+\usetikzlibrary{bbox}
+\begin{document}
+\input{pgfmanual-en-library-bbox.tex}
+\end{document}

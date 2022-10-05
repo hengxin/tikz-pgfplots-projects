@@ -1,0 +1,1125 @@
+%% This is file `tikz-ladder-doc.tex'
+%% Version: 1.3
+%% Version date: 2022-04-10
+%% 
+%% Copyright (C) 2018 by Luis Paulo Laus, laus@utfpr.edu.br
+%%
+%% This package can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License distributed from CTAN
+%% archives in directory macros/latex/base/lppl.txt; either
+%% version 1 of the License, or (at your option) any later version,
+%% with `The Package' referring to the software `tikzlibraryladder.code.tex' and its
+%% accompanying documentation and `The Copyright Holder' referring to the
+%% person Luis Paulo Laus.
+%% 
+%% 
+%% IMPORTANT NOTICE: 
+%% 
+%% For error reports, comments or suggestions in case of UNCHANGED 
+%% versions send mail to:
+%% laus@utfpr.edu.br
+%% 
+%%
+\documentclass[a4paper]{ltxdoc}
+\usepackage[hyphens]{url}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage[version=latest]{pgf}
+\usepackage{calc,listings,tikz}
+
+% if you need an index.
+\usepackage{makeidx}
+
+% for cross-references:
+\usepackage{hyperref}
+    \hypersetup{%
+        colorlinks=true,    % use true to enable colors below:
+        linkcolor=blue,%red,
+        filecolor=blue,%magenta,
+        pagecolor=blue,%red,
+        urlcolor=blue,%cyan,
+        citecolor=blue,
+        pdfborder=0 0 0,    % PDF link-darstellung, falls colorlinks=false. 0 0 0: nix. 0 0 1: default.
+        pdfsubject={Typesetting Ladder Diagrams with LaTeX and TikZ},
+        pdfauthor={Luis Paulo Laus},
+        pdftitle={Typesetting Ladder Diagrams with with LaTeX and TikZ},
+        pdfkeywords={Ladder Diagrams,PCL,IEC 61131,LaTeX,TikZ},
+    }
+
+% We need lots of libraries...
+\usetikzlibrary{backgrounds}
+
+\newif\ifgdccodebasic
+\newif\ifgdccodeogdf
+
+\usepackage[a4paper,left=2.25cm,right=2.25cm,top=2.5cm,bottom=2.5cm,nohead]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xxcolor}
+%%\usepackage{pifont}
+%\usepackage{tgpagella} % no ligatures (test)
+\usepackage{makeidx}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+
+\input{pgfmanual-en-macros}    % Borrowed from TikZ/PGF
+%% ctan:/graphics/pgf/contrib/tikz-dependency/pgfmanual-en-macros.tex
+%% https://mirrors.ctan.org/graphics/pgf/contrib/sa-tikz/doc/macros/pgfmanual-en-macros.tex
+
+\makeindex
+
+\makeatletter
+\renewcommand*\l@section[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty\@secpenalty
+    \addvspace{1.0em \@plus\p@}%
+    \setlength\@tempdima{2.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \endgroup
+  \fi}
+\renewcommand*\l@subsection{\@dottedtocline{2}{2.5em}{3.3em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{5.8em}{4.2em}}
+\def\@pnumwidth{2.2em}
+\makeatother
+
+
+% Global styles:
+\tikzset{
+  every plot/.style={prefix=plots/pgf-},
+  shape example/.style={
+    color=black!30,
+    draw,
+    fill=yellow!30,
+    line width=.5cm,
+    inner xsep=2.5cm,
+    inner ysep=0.5cm}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file really starts here, all the above is for pgfmanual 
+% compatibility
+%%%\usetikzlibrary{circuits.plc.ladder}
+\input ../tex/tikzlibrarycircuits.plc.ladder.code
+
+\begin{document}
+
+\title{Typesetting Ladder Diagrams with \LaTeX{} and \tikzname{}}
+\author{Luis Paulo Laus\\e-mail: \texttt{laus@utfpr.edu.br}}
+\date{Version: 1.3, Version date: 2022-04-10}
+
+\maketitle
+
+\section{Abstract}
+Ladder diagram (LD) is a graphical programming language that has evolved from electrical wiring diagrams for relay control systems used with programmable controllers (PLC\footnote{Formerly known as programable logic controllers.}) as described in the international standard IEC-61\,131-3 \cite{61131}. An LD program enables the programmable controller to test and modify data using standard graphic symbols. These symbols are laid out in networks in a manner similar to a ``rung'' of a relay ladder logic diagram. This library provides \tikzname\ symbols to draw high-quality ladder diagrams. All standard and some non-standard symbols are possible, including all kinds of contacts, coils and blocks. I decided to write this package, although it is available another package named |ladder| that also uses \tikzname\ to typeset ladder diagrams because that package seems\footnote{Sorry, but the documentation is in French and I limited myself to looking at the figures.} to lack support for blocks. The |tikz-ladder|, on the contrary, supports all features described in IEC-61\,131-3 \cite{61131}, namely, blocks (for functions, function blocks, etc.), contacts and coils.
+
+
+\section{Ladder Diagram}
+According to IEC-61\,131-3 \cite[sic, p.~211]{61131}, the usage of letters, semi-graphic or graphic for the representation of graphical elements is implementer specific and not a normative requirement. This poses a problem for creating a package for typesetting ladder diagrams in agreement with a standard that should be used by everyone: you can do whatever you want. Thus, this package provides \tikzname\ symbols for typesetting ladder diagram as close as possible to the standard, but not too close since a program in the standard would look like:
+\begin{center}
+\begin{minipage}{5cm}
+\begin{verbatim}
+|   a    b       c     d   |
++--( )--| |--+--( )---( )--+
+|            |      e      |
+|            +-----( )-----+
+|                          |
+\end{verbatim}
+\end{minipage}
+\end{center}
+and it is probably not what you want. With |tikz-ladder|, you can produce something like\footnote{This slightly awkward example was extracted from reference~\cite[p.~218]{61131}; and explained by: ``In the rung shown above, the value of the Boolean output $a$ is always |TRUE|, while the value of outputs $c$, $d$ and $e$ upon completion of an evaluation of the rung is equal to the value of input $b$.''. In the 2013 version, there is a typo: the $a$ is missing. The 2003 version is correct.}:
+
+\begin{center}
+\begin{tikzpicture} [circuit plc ladder,thick]
+  \draw(0,0)
+    to [coil={info={$a$}}] ++(1,0)
+    to [contact NO={info={$b$}}] ++(1,0) coordinate(node1)
+    to [coil={info={$c$}}] ++(1,0)
+    to [coil={info={$d$}}] ++(1,0) coordinate(laddertopright);
+  \draw(node1) -- ++(0,-1)
+    to [coil={info={$e$}}] ++(2,0);
+\ladderrungend{2}
+\ladderpowerrails
+\end{tikzpicture}
+\end{center}
+
+The next section provides a formal introduction to the package and it is not meant to be complete. Section~\ref{guidance} gives some design guidance which is arguably the most important part of this document. The remaining contains more technical material and examples. The last sections address some specific issues and contain some final remarks, acknowledgements and references.
+
+
+\section{Ladder Diagram Library}
+
+\begin{pgflibrary}{circuits.plc.ladder}
+This library provides graphics for ladder diagrams related to programable controllers (PLC) and according to the international standard IEC-61\,131-3 \cite{61131}. The library was written to extend the standard \tikzname-library |circuit|. The reader is urged to read Section~``Circuit Libraries'' of reference \cite{Tantau}.
+This library defines many symbols and the following keys, macros and lengths:
+
+\begin{key}{/tikz/circuit plc ladder}
+This style calls |circuit plc ladder| and installs ladder diagram graphics for symbols like contacts, coils and blocks. Users are urged to read Section~\ref{guidance} for discussed examples and strategies for typesetting ladder diagrams.
+\end{key}
+
+\begin{command}{{\ladderskip}}
+A \LaTeX\ length is automatically set by |circuit plc ladder| to the vertical length unit, |y|. It can be used to prescribe widths and heights, especially regarding |blocks|. This length will be accurate even if the vertical length unit is redefined, for instance, via an option like |y=1cm|.
+\end{command}
+
+\begin{command}{{\ladderrungend}\marg{number}}
+This macro skips a \meta{number} of |\ladderskip| and resets the vertical coordinate so the next rung will start at |(0,0)|. It is meant to be used as an \emph{end of rung mark}. The \meta{number} does not need to be the number of rows in the current rung. Some arbitrary space can be used.
+\end{command}
+
+\begin{command}{{\ladderpowerrails}}
+This macro draws one or two power rails. It trusts |\ladderrungend| to draw the lines with the correct length. For two power rails, left and right, it also depends on the definition of point |laddertopright| at the end of the first row of the top rung.
+\end{command}
+
+\begin{key}{/tikz/ladderrungsep=\meta{number} (initially 0.2)}
+This key sets the extra space left at the end of every rung given in |\ladderskip| length unit.
+\begin{codeexample}[width=4.2cm]
+\begin{tikzpicture}[circuit plc ladder,thick,ladderrungsep=0.8]
+  \draw(0,0) 
+    to [contact NO={info={$A$},name=ca}] ++(1,0)
+    to [coil={info={$Q$}}] ++(1,0) coordinate(laddertopright);
+  \fill[red!20] (laddertopright |- ca.south) rectangle +(-2,-1em);
+  \draw(0,-1) 
+    to [contact NO={info={$B$},name=cb}] ++(1,0) -- +(0,1);
+  \fill[red!20] (laddertopright |- cb.south) 
+       rectangle +(-2,-1em) coordinate (pb);
+  \fill[blue!20] (pb) rectangle ++(2,-0.8);
+\ladderrungend{2}
+  \draw(0,0) 
+    to [contact NO={info={$C$},name=cc}] ++(1,0)
+    to [coil={info={$R$}}] ++(1,0);
+  \fill[red!20] (laddertopright |- cc.south) 
+       rectangle +(-2,-1em) coordinate (pc);
+  \fill[blue!20] (pc) rectangle ++(2,-0.8);
+\ladderrungend{1}
+  \draw(0,0) 
+    to [contact NO={info={$D$}}] ++(1,0)
+    to [coil={info={$S$}}] ++(1,0);
+\ladderrungend{1}
+\ladderpowerrails
+\end{tikzpicture}
+\end{codeexample}
+In this example, the commands |fill| draw ping rectangles to illustrate the free vertical space of about 1\,|em| between one row and the next inside the same rung and blue rectangles to illustrate the extra space between consecutive rungs inserted by |ladderrungsep=0.8|. If |ladderrungsep| is set to zero, the distance between rungs will the same as the distance between rows inside a rung, namely 1\,|\ladderskip|. As a consequence, the tip of the letters $C$, $R$, $D$ and $S$ would go inside the ping rectangles just like the tip of the letter $B$.
+\end{key}
+\noindent{}The next section brings examples and strategies for typesetting ladder diagrams. The detailed description of the library features is left for the subsequent sections.
+\end{pgflibrary}
+
+
+\section{Design Guidance\label{guidance}}
+This section brings some recommendations that reflect the way I produce ladder diagrams. It may or may not work for you. Feel free to e-mail me if you have better ideas. One concept behind Section~``Circuit Libraries'' of reference \cite{Tantau} is that networks are drawn slightly different from other graphics in \tikzname. In essence, we draw a line and place several symbols on this line. Therefore, although it is possible to draw a symbol from the |tikz-ladder| library using the command |\node|, in general, it is much easier to use a combination of commands |\draw| and |to|. The |tikz-ladder| has been written to work this way.
+
+The first thing to consider is that, as the manual says \cite{Tantau}, ``\tikzname\ \emph{ist kein Zeichenprogramm}'' which translates to ``\tikzname\ \emph{is not a drawing program}''. You shall start with a draft of your diagram and then codify it using \tikzname. Generally, a handmade pencil sketch on grid paper will do. In this draft, you shall use node names for future reference. So, an example draft would look like this:
+
+\begin{center}
+\begin{tikzpicture}[circuit plc ladder,very thick,ladderrungsep=0,x=1cm,y=1cm]
+  \draw[blue,very thin,step=\ladderskip] (-1,2) grid (7,-8);
+  \draw(0,0) coordinate(N0)
+    to [contact NO={info={$E$}}] ++(1,0) --++(2,0)
+    to [block={info=$T1$,inputs={EN,IN,PT},
+        outputs={ENO,Q,ET},symbol={TON},name=T1,
+        minimum width=2\ladderskip,
+        input sep=\ladderskip,output sep=\ladderskip}]  
+        ++(3,0) coordinate(laddertopright);
+  \draw(0,-1)
+    to [contact NO={info={$I$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0) coordinate(N1)
+    -- (T1.input 2)
+    (T1.output 2) -- (6,-1) coordinate(N7); % grid coordinate
+  \draw(0,-2)
+    to [contact NC={info={$I$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- (N1);
+  \draw (T1.input 3) -- +(-0.2,0) node[left]{T\#2s}
+        (T1.output 3) -- +(0.2,0);
+\ladderrungend{3}
+  \draw(0,0) 
+    to [contact NO={info={$T1.Q$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0) coordinate(N2)
+    -- ++(3,0) coordinate(N3)
+    to [coil={info={$Q$}}] ++(1,0);
+  \draw(0,-1) 
+    to [contact NC={info={$T1.Q$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- (N2)
+    (N3) -- ++(0,-1)
+    to [coil={info={$K$}}] ++(1,0);
+\ladderrungend{2}
+  \draw(0,0)
+    to [contact NO={info={$a$}}] ++(1,0) coordinate(N4)
+    to [contact NO={info={$c$}}] ++(1,0)
+    -- ++(1,0) coordinate(N5)
+    -- ++(2,0)
+    to [coil={info={$f$}}] ++(1,0);
+  \draw(N4) -- ++(0,-1)
+    to [contact NO={info={$d$}}] ++(1,0) coordinate(N6)
+    to [contact NO={info={$e$}}] ++(1,0) -- (N5);
+  \draw(0,-2)
+    to [contact NO={info={$b$}}] ++(1,0) -| (N6);
+\ladderrungend{3}
+\ladderpowerrails
+  \foreach \x in {1,...,6} 
+    \node[label={[label distance=-4pt,above, red,font=\footnotesize]N\x},
+      circle,inner sep=2pt,draw=red] at (N\x) {};
+  \node[label={[label distance=-4pt,above left, red,font=\footnotesize](0,0)},
+    circle,inner sep=2pt,draw=red] at (N0) {};
+  \node[label={[label distance=-4pt,above right, red,font=\footnotesize](6,-1)},
+    circle,inner sep=2pt,draw=red] at (N7) {};
+  \node[label={[label distance=-4pt,above right, red,font=\footnotesize]laddertopright},
+    circle,inner sep=2pt,draw=red] at (laddertopright) {};
+\end{tikzpicture}
+\end{center}
+
+\noindent{}The diagram is constituted of horizontal wires or lines, where the components (contacts, coils and blocks) are inserted forming a row of elements, and vertical wires that joint with the horizontal ones. Nodes (coordinates) are placed at wire junctions and other meaningful points. Note that, in the example above, some nodes are indicated by name while others by their coordinates (see the red circles). Using the name instead of coordinates makes the diagram easier to modify, but the node position is needed. In most cases, the node position arises naturally from the construction of the diagram, but sometimes it is unknown and coordinates or cumbersome operations on coordinates have to be used instead. As a rule of thumb, \emph{named nodes should be placed using the command |coordinate| at every junction in which one wire goes down then right}, like |N3| and |N4|. Most of the time, for wires that go down then left like |N1|, |N2|, |N5| and |N6|, the connection can be made using relative coordinates like in \verb!-- ++(0,1)! or \verb!-- +(0,1)! since those connections will be made when the next row, the row below, is coded. A situation when it is worth using named nodes, even if wires below the current row come exclusively from the left, is when there is more than one connection like this:
+
+\begin{center}
+\begin{tikzpicture}[circuit plc ladder,very thick,ladderrungsep=0,x=1cm,y=1cm]
+  \draw[blue,very thin,step=\ladderskip] (-1,1) grid (5,-4); % grid
+  \draw(0,0) 
+    to [contact NO={info={$a$}}] ++(1,0)
+    to [contact NO={info={$b$}}] ++(1,0)
+    to [contact NC={info={$c$}}] ++(1,0) coordinate(laddercoil)
+    to [coil={info={$Q$}}] ++(1,0) coordinate(laddertopright);
+  \draw(0,-1) 
+    to [contact NO={info={$d$}}] ++(1,0)
+    to [contact NO={info={$e$}}] ++(1,0) -- +(1,0) coordinate(NoC1);
+  \draw(0,-2)
+    to [contact NC={info={$f$}}] ++(1,0)
+    to [contact NO={info={$g$}}] ++(1,0) -- +(1,0) coordinate(NoC2);
+  \draw(0,-3)
+    to [contact NO={info={$h$}}] ++(1,0) coordinate(N0);
+   \draw[purple, ultra thick] (N0) -| (laddercoil);
+\ladderrungend{4}
+\ladderpowerrails
+  \node[label={[label distance=0pt,rotate=90,right,red,font=\footnotesize]laddercoil},
+    circle,inner sep=2pt,draw=red] at (laddercoil) {};
+  \node[label={[label distance=-4pt,above right,red,font=\footnotesize]NoC1},
+    circle,inner sep=2pt,draw=red] at (NoC1) {};
+  \node[label={[label distance=-4pt,above right,red,font=\footnotesize]NoC2},
+    circle,inner sep=2pt,draw=red] at (NoC2) {};
+\end{tikzpicture}
+\end{center}
+
+\noindent{}Here, node |laddercoil| is connected to contact $e$, $g$ and $h$. In \tikzname, only the last connection is made: contact $h$ is connected to node |laddercoil|; horizontal fillers, |-- +(1,0)|, are placed after contacts $e$ and $g$ and the second and third rows end in those fillers; nodes |NoC1| and |NoC2| are not used and can be suppressed.
+
+The second thing to consider is that |tikz-ladder| uses the |\tikzcircuitssizeunit| to keep all figures proportional. Therefore, when you consider any length related to symbol size, it is a good idea to specify that length using |\tikzcircuitssizeunit| as the length unit\footnote{The default value of \textbackslash\verb|tikzcircuitssizeunit| is 7\,pt or approximately 2.46\,mm and it can be set by the \verb|circuit symbol unit| key among several other keys.}. Even better, used the new length |\ladderskip|. 
+
+From version~1.3 on, |tikz-ladder| automatically sets |x| and |y| length units to 5\,|\tikzcircuitssizeunit| or approximately 12.35\,mm. It also sets a new length |\ladderskip| to |y| even if |y| is manually modified, for instance, via writing |y=7\tikzcircuitssizeunit| in the options list. The intention is to use |\ladderskip| as the vertical length unit to specify any length that depends on the diagram size. In particular, |\ladderskip| is used internally as the vertical distance between rows inside a rung and to draw power rails. Users can use |\ladderskip| to set |input sep| and |output set|, for instance. Compare:
+
+\begin{codeexample}[width=4cm]
+\begin{tikzpicture}[circuit plc ladder,thick]
+  \draw(0,0)
+    to [block={info=$T1$,inputs={EN,IN,PT},
+        outputs={ENO,Q,ET},symbol={TON},
+        name=T1,minimum width=2\ladderskip,
+        input sep=\ladderskip,output sep=\ladderskip}]
+        ++(3,0) coordinate(laddertopright);
+\ladderrungend{3}
+\ladderpowerrails
+\end{tikzpicture}
+\end{codeexample}
+
+\noindent{}with
+
+\begin{codeexample}[width=4cm]
+\begin{tikzpicture}[circuit plc ladder,thick,y=7\tikzcircuitssizeunit]
+  \draw(0,0)
+    to [block={info=$T1$,inputs={EN,IN,PT},
+        outputs={ENO,Q,ET},symbol={TON},
+        name=T1,minimum width=2\ladderskip,
+        input sep=\ladderskip,output sep=\ladderskip}]  
+        ++(3,0) coordinate(laddertopright);
+\ladderrungend{3}
+\ladderpowerrails
+\end{tikzpicture}
+\end{codeexample}
+
+\noindent{}The width of the diagram remained the same because the horizontal length unit, |x|, was not changed, but |\ladderskip| was modified by |y=7\tikzcircuitssizeunit| affecting the block width and height: the width because |minimum width| depends on |\ladderskip|; the height because of |output sep| and |output sep|. Also, the power rails' length was affected (see below for more on power rails).
+
+Keeping track of a few rows in a rung is easy, but manually placing everything in the diagram is not, particularlly, if this diagram contains many rungs. So, a strategy was devised: draw one rung at a time and move the datum (reset the origin) at the end of every rung. This is done by a new macro |\ladderrungend| which resets the vertical reference to a vertical position $n$ rows below the current position (plus some inter-rung space) where $n$ is passed as a macro parameter. Note that |\ladderrungend| relies on |\ladderskip|. It also serves to \emph{mark} the rung end in the code (\tikzname\ ``program'') that generates the diagram making it more readable. The extra optional space between consecutive rungs is set as a fraction of |\ladderskip| by key |ladderrungsep|. One important advantage of this strategy is that this makes it possible to change the rung position by simply cutting and pasting it around because every node starts at |(0,0)|. No further adjustments nor editing are required.
+
+Returning to the example at the beginning of this section, we start coding at position |(0,0)| and use command |to| to place the symbols rung by rung, row by row:
+
+\begin{codeexample}[width=7.7cm]
+\begin{tikzpicture}[circuit plc ladder,thick]
+  \draw(0,0)
+    to [contact NO={info={$E$}}] ++(1,0) --++(2,0)
+    to [block={info=$T1$,inputs={EN,IN,PT},
+        outputs={ENO,Q,ET},symbol={TON},name=T1,
+        minimum width=2\ladderskip,
+        input sep=\ladderskip,output sep=\ladderskip}]  
+        ++(3,0) coordinate(laddertopright);
+  \draw(0,-1)
+    to [contact NO={info={$I$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0) coordinate(N1)
+    -- (T1.input 2)
+    (T1.output 2) -- (6,-1); % grid coordinate
+  \draw(0,-2)
+    to [contact NC={info={$I$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- (N1);
+  \draw (T1.input 3) -- +(-0.2,0) node[left]{T\#2s}
+        (T1.output 3) -- +(0.2,0);
+\ladderrungend{3}
+  \draw(0,0) 
+    to [contact NO={info={$T1.Q$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0) coordinate(N2)
+    -- ++(3,0) coordinate(N3)
+    to [coil={info={$Q$}}] ++(1,0);
+  \draw(0,-1) 
+    to [contact NC={info={$T1.Q$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- (N2)
+    (N3) -- ++(0,-1)
+    to [coil={info={$K$}}] ++(1,0);
+\ladderrungend{2}
+  \draw(0,0)
+    to [contact NO={info={$a$}}] ++(1,0) coordinate(N4)
+    to [contact NO={info={$c$}}] ++(1,0)
+    -- ++(1,0) coordinate(N5)
+    -- ++(2,0)
+    to [coil={info={$f$}}] ++(1,0);
+  \draw(N4) -- ++(0,-1)
+    to [contact NO={info={$d$}}] ++(1,0) coordinate(N6)
+    to [contact NO={info={$e$}}] ++(1,0) -- (N5);
+  \draw(0,-2)
+    to [contact NO={info={$b$}}] ++(1,0) -| (N6);
+\ladderrungend{3}
+\ladderpowerrails
+\end{tikzpicture}
+\end{codeexample}
+
+\noindent{}First, a normally open contact $E$ is placed in the path by command |to|. This command interrupts the path, draws a node with the symbol corresponding to its options (a normally open contact in this case) and returns to the path drawing a line between the coordinate before it and the symbol and a second line between the symbol and the coordinate after the command |to|. So, each command |to| is written between two coordinates. It is very convenient to use relative coordinates to prescribe the second coordinate such that the $x$ value will be the space reserved for the symbol. Thus, |++(1,0)| will give one length unit for the symbol (see the grid in the example draft). Next, a filler of two units is placed with command |-- ++(2,0)|. Then, a block for a timer is placed leaving three-length units. The |minimum width|, |input sep| and |output sep| are all specified in terms of |\ladderskip|. The first row of the first rung ends with the command |coordinate(laddertopright)| which will be used by macro |\ladderpowerrails| to draw, quite obviously, the power rails.
+
+The first rung continues at point |(0,-1)|, followed by contacts $I$ and $Q$, both placed into a gap of one length unit each. Node |N1| is declared just after contact $Q$. Next, a line is drawn to the timer block second input, |-- (T1.input 2)|. The line connecting the second output to the right power rail is drawn using the absolute coordinate, |(6,-1)|. This point can also be specified using \verb!(T1.output 2 -| laddertopright)! which is more flexible and less prone to mistakes, see Section Coordinates at Intersections of reference \cite{Tantau}. This circumstance, connecting an output to an unspecified point, is uncommon but can happen. Normally, only the first block output is connected and it is done by the command |to| which inserts the block.
+
+Continuing at point |(0,-2)|, two contacts, $I$ and $Q$, are placed into a gap of one length unit each and this row is connected to the row above by command |-- (N1)| or just |-- +(0,1)| because we know for sure this contact will be connected with the line right above it. Here, a single |+| is used since local coordinates do not need to be updated. 
+
+Finally, the preset time is written outside the block and little lines are drawn for the preset time and elapsed time -- terminals for PT and ET. The first rung ends with macro |\ladderrungend{3}| and the next rung will start at |(0,0)|, just like the first one.
+
+The second rung starts with two contacts, node |N2|, a filler |-- ++(3,0)|, another node |N3| and a coil $Q$. Node |N3| is placed to mark the start point of the descending line connected to coil $K$. In the next row, starting at |(0,-1)|, two contacts are inserted and the line is connected with the row above by command |-- (N2)| and, just like the first rung, it can be replaced by |-- +(0,1)|. The path restarts at node |N3| moving down and coil $K$ is inserted. The second rung ends with |\ladderrungend{2}|.
+
+The third and last rung starts at |(0,0)|. Node |N4| is placed between contacts $a$ and $c$. This node is used to place contact $d$. Node |N5| is placed between two fillers where a connection from contact $e$ arrives. A single filler of three length unit can be used after contact $c$ if node |N5| is suppressed because the connection is made after placing contact $e$ by a command like |--+(0,1)|. Node |N6| is placed between contacts $d$ and $e$ to make it easy to connect the left side of contact $b$. This connection could be done by |-- ++(1,0) --+(0,1)| or \verb!-|++(1,1)! but if the previous row is modified it would also have to be changed accordingly. The use of named nodes avoids this need.
+
+The third rung ends with |\ladderrungend{3}| and the macro |\ladderpowerrails| is used to draw the power rails on both sides of the diagram. This macro relies on node |laddertopright| placed in the very first row and the use of macro |\ladderrungend| to draw the power rails at the correct length.
+
+Every rung starts with |\draw(0,0)| to mark the first position. The next row of the same rung will start with |\draw(0,-1)| and so forth.
+
+All contacts and coils are placed by something like, e.g., \verb|to [contact NC={info={$I$}}] ++(1,0)|. The |to| command places the element between the current position and the next position which is one length unit at the right of the current position. Blocks are bigger and need more space, so after a block use |++(2,0)| or even a higher value.
+
+It is possible to pass a value different from the number of rows into a rung to macro |\ladderrungend|. This can be necessary, for instance, if the rung contains a big block. If, however, the user is not happy with the default separation between all rungs, the key |ladderrungsep| can be used to set a more suitable value.
+
+While typesetting a complex ladder diagram, it might be useful to draw a grid at least until you are satisfied with the produced diagram. Care should be taken, however, because macro |\ladderrungend| leaves extra space between successive rungs which would lead to grid misalignment. This can be avoided by temporarily setting |ladderrungsep| to zero or another integer. For instance, start your diagram with:
+
+\begin{codeexample}[code only]
+\begin{tikzpicture}[circuit plc ladder,thick,ladderrungsep=0]
+  \draw[blue,very thin,step=\ladderskip] (0,0) grid (5,-7);
+\end{codeexample}
+
+\noindent{}After completion, |ladderrungsep| can be returned to its original setting or any other suitable value and the grid can be erased or commented out.
+
+Another hint that can help is to make named nodes visible. Assuming all nodes start with |N| followed by a sequential number, the following code can be placed at the end of the picture to display (draw) the first four nodes:
+
+\begin{codeexample}[code only]
+  \foreach \x in {1,...,4} 
+    \node[label={[label distance=-4pt,above, red,font=\tiny]N\x},
+      circle,inner sep=1pt,draw=red,thin] at (N\x) {};
+\end{codeexample}
+
+The right power rail is optional and many people are refraining from using it. Thus, the line on the right side of some symbols should not be drawn. To prevent \tikzname\ from drawing a line leaving the right side of the symbol, place this symbol at the end of the gap by typing |at end| or |pos=1| in the options list; like
+
+\begin{codeexample}[width=4.3cm,leave comments]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to[contact NO={info={$a$}}] ++(1,0)
+             to[contact NO={info={$b$}}] ++(1,0)
+             to [coil={info={$c$},pos=1}] ++(1,0);
+\end{codeexample}
+
+\noindent{}The total gap for the coil can be reduced since the right side is not used anymore and this will make the space evenly distributed:
+
+\begin{codeexample}[width=4.3cm,leave comments]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to[contact NO={info={$a$}}] ++(1,0)
+             to[contact NO={info={$b$}}] ++(1,0)
+             to [coil={info={$c$},pos=1}] ++(0.5,0);
+\end{codeexample}
+
+\noindent{}Moreover, if no |laddertopright| is set, |\ladderpowerrails| will draw only the left power rail. Returning once more to the example at the beginning of this section:
+\begin{codeexample}[width=7.7cm]
+\begin{tikzpicture}[circuit plc ladder,thick]
+  \draw(0,0)
+    to [contact NO={info={$E$}}] ++(1,0) --++(2,0)
+    to [block={info=$T1$,inputs={EN,IN,PT},
+        outputs={ENO,Q,ET},symbol={TON},name=T1,
+        minimum width=2\ladderskip,pos=1,
+        input sep=\ladderskip,output sep=\ladderskip}]  
+        ++(1.5,0);
+  \draw(0,-1)
+    to [contact NO={info={$I$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0) coordinate(N1)
+    -- (T1.input 2);
+  \draw(0,-2)
+    to [contact NC={info={$I$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- (N1);
+  \draw (T1.input 3) -- +(-0.2,0) node[left]{T\#2s}
+        (T1.output 1) -- +(0.2,0)
+        (T1.output 2) -- +(0.2,0)
+        (T1.output 3) -- +(0.2,0);
+\ladderrungend{3}
+  \draw(0,0) 
+    to [contact NO={info={$T1.Q$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0) coordinate(N2)
+    -- ++(3,0) coordinate(N3)
+    to [coil={info={$Q$},pos=1}] ++(0.5,0);
+  \draw(0,-1) 
+    to [contact NC={info={$T1.Q$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- (N2)
+    (N3) -- ++(0,-1)
+    to [coil={info={$K$},pos=1}] ++(0.5,0);
+\ladderrungend{2}
+  \draw(0,0)
+    to [contact NO={info={$a$}}] ++(1,0) coordinate(N4)
+    to [contact NO={info={$c$}}] ++(1,0)
+    -- ++(1,0) coordinate(N5)
+    -- ++(2,0)
+    to [coil={info={$f$},pos=1}] ++(0.5,0);
+  \draw(N4) -- ++(0,-1)
+    to [contact NO={info={$d$}}] ++(1,0) coordinate(N6)
+    to [contact NO={info={$e$}}] ++(1,0) -- (N5);
+  \draw(0,-2)
+    to [contact NO={info={$b$}}] ++(1,0) -| (N6);
+\ladderrungend{3}
+\ladderpowerrails
+\end{tikzpicture}
+\end{codeexample}
+
+\noindent{}Note that the space meant for all symbols that would be connected to the right power rail, namely the timer $T1$ and coils $Q$, $K$ and $f$, is divided by two.
+
+You may need to change the diagram size. There are a few options: place it into |\resizebox|; use the key |scale|; set |x| and |y| length unit; and change the |\tikzcircuitssizeunit| through the key |circuit symbol unit|. Placing into a |\resizebox| changes everything and it is the preferable option for presentations. The key |scale| only changes the space between symbols, but the font size, line width and symbol sizes are all kept the same. Changing the |\tikzcircuitssizeunit| or setting set |x| and |y| length unit keeps the font size and line width, but changes the size of the symbol and, if you were careful, the distance between symbols.
+
+For example, to shrink the diagram to 70\% of its normal size, place these commands before your |\begin{tikzpicture}|. Note that you will have to undo this after the diagram. 
+
+\begin{codeexample}[code only]
+\tikzset{circuit symbol unit=4.9pt}
+\scriptsize
+\end{codeexample}
+
+\noindent{}Incidentally, |\scriptsize| means 70\% of the current font size. The result should be:
+
+\begin{center}
+\tikzset{circuit symbol unit=4.9pt}
+\scriptsize
+\begin{tikzpicture} [circuit plc ladder,thick,execute at end picture=%
+{
+\begin{pgfonlayer}{background}
+\path[fill=graphicbackground]
+($(current bounding box.south west) + (-0.2,-0.2)$) rectangle
+($(current bounding box.north east) + (0.2,0.2)$);
+\end{pgfonlayer}
+}]
+  \draw(0,0)
+    to [contact NO={info={$E$}}] ++(1,0) --++(2,0)
+    to [block={info=$T1$,inputs={EN,IN,PT},
+        outputs={ENO,Q,ET},symbol={TON},
+        name=T1,minimum width=2\ladderskip,
+        input sep=\ladderskip,output sep=\ladderskip}]  
+        ++(3,0) coordinate(laddertopright);
+  \draw(0,-1)
+    to [contact NO={info={$I$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0)
+    -- (T1.input 2)
+    (T1.output 2) -- (6,-1); % grid coordinate
+  \draw(0,-2)
+    to [contact NC={info={$I$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- +(0,1);
+  \draw (T1.input 3) -- +(-0.2,0) node[left]{T\#2s}
+        (T1.output 3) -- +(0.2,0);
+\ladderrungend{3}
+  \draw(0,0) 
+    to [contact NO={info={$T1.Q$}}] ++(1,0)
+    to [contact NC={info={$Q$}}] ++(1,0)
+    -- ++(3,0) coordinate(N1)
+    to [coil={info={$Q$}}] ++(1,0);
+  \draw(0,-1) 
+    to [contact NC={info={$T1.Q$}}] ++(1,0)
+    to [contact NO={info={$Q$}}] ++(1,0) -- +(0,1)
+    (N1) -- ++(0,-1)
+    to [coil={info={$K$}}] ++(1,0);
+\ladderrungend{2}
+  \draw(0,0)
+    to [contact NO={info={$a$}}] ++(1,0) coordinate(N2)
+    to [contact NO={info={$c$}}] ++(1,0) -- ++(3,0)
+    to [coil={info={$f$}}] ++(1,0);
+  \draw(N2) -- ++(0,-1)
+    to [contact NO={info={$d$}}] ++(1,0) coordinate(N3)
+    to [contact NO={info={$e$}}] ++(1,0) -- ++(0,1);
+  \draw(0,-2)
+    to [contact NO={info={$b$}}] ++(1,0) -| (N3);
+\ladderrungend{3}
+\ladderpowerrails
+\end{tikzpicture}
+\end{center}
+\normalsize
+
+\tikzset{circuit symbol unit=7pt}
+
+This may not be the best way to perform big adjustments, but it can help in some occasions where a small adjustment is needed. Also, if you do it frequently, consider writing a macro to encapsulate the feature.
+
+The next sections give details on the symbols supported by |tikz-ladder| divided in three main categories:
+\begin{description}[align=right,leftmargin=22mm,labelwidth=20mm,labelsep=2mm]
+\item[contacts] all kinds of standard contacts;
+\item[coils] all kinds of standard coils are supported and the curvature of a coil is customizable;
+\item[blocks] all kinds of standard blocks are supported and examples of timers, counter, bistable functions blocks, edge detection functions blocks and call representation are given.
+\end{description}
+
+
+\section{Contacts}
+A contact is an element which imparts a state to the horizontal link on its right side which is equal to the Boolean |AND| of the state of the horizontal link at its left side with an appropriate function of an associated Boolean input, output or memory variable. A contact does not modify the value of the associated Boolean variable \cite[sic, p.~216]{61131}.
+
+\begin{codeexample}[]
+\begin{tikzpicture}[circuit plc ladder]
+  \node[name=s, shape=contact ladder, shape example, inner xsep=1cm, inner ysep=1cm, minimum width=6cm, minimum height=6cm]{};
+\foreach \anchor/\placement in {center/above, 30/above right, north/above, south/below, east/left, 
+ west/right, north east/above, south east/below, south west/below, north west/above,input/left,output/right}
+  \draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)} node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+All kinds of standard contacts can be represented: normally open contact (NO); normally closed contact (NC); positive transition-sensing contact (P); negative transition-sensing contact (N); compare contacts both typed and overloaded (for typesetting purposes it makes no difference.) In the following examples, the Boolean variable associated with the contact is indicated by ``***''.
+
+Normally open contact (NO):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [contact NO={info={***}}] ++(2,0);
+\end{codeexample}
+
+Normally closed contact (NC):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [contact NC={info={***}}] ++(2,0);
+\end{codeexample}
+
+Variation of the normally closed contact (NC):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [var contact NC={info={***}}] ++(2,0);
+\end{codeexample}
+
+Positive transition-sensing contact (P):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [contact P={info={***}}] ++(2,0);
+\end{codeexample}
+
+Negative transition-sensing contact (N):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [contact N={info={***}}] ++(2,0);
+\end{codeexample}
+
+Compare contact (typed):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+ \draw(0,0) to [contact NO={
+   info={\scriptsize intvalue1},
+   info'={\scriptsize intvalue2},
+   symbol={\tiny$\genfrac{}{}{0pt}{}{>}{\text{Int}}$}}] ++(2,0);
+\end{codeexample}
+
+Compare contact (overloaded):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [contact NO={
+    info={\scriptsize value1},
+    info'={\scriptsize value2},
+    symbol={\tiny$\genfrac{}{}{0pt}{}{<>}{}$}}] ++(2,0);
+\end{codeexample}
+
+There are two possibilities for normally closed contact. It is not recommended to mix them in the same document unless to explain their equivalence.
+
+\subsection{Keys for contacts}
+
+The most common key used with contacts is |info| which sets the variable name associated with the contacts. One may also need |info'| and |name|; both standard keys. In addition to the keys described in Section~''Circuit Libraries'' of reference \cite{Tantau}, contacts accept:
+\begin{key}{/tikz/symbol=\meta{name}}
+This key sets the information, usually a single letter or comparison symbol, that will appear between the vertical lines. Usable for drawing compare contacts.
+\end{key}
+
+
+\section{Coils}
+
+A coil copies the state of the link on its left to the link on its right without modification and stores an appropriate function of the state or transition of the left link into the associated Boolean variable \cite[sic, p.~218]{61131}. 
+
+\begin{codeexample}[]
+\begin{tikzpicture}[circuit plc ladder]
+  \node[name=s, shape=coil ladder, shape example, inner xsep=1cm, inner ysep=1cm, minimum width=6cm, minimum height=6cm]{};
+\foreach \anchor/\placement in {center/above, 30/above right, north/above, south/below, east/left, 
+ west/right, north east/above, south east/below, south west/below, north west/above,input/left,output/right}
+  \draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)} node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+  \draw[thin]([yshift=-4mm]s.south east) -- ++(0,-0.9) coordinate(x1)  -- ++(0.2,0)
+     ([yshift=-4mm]$0.2*(s.south west) + 0.8*(s.south east)$) -- ++(0,-0.9) coordinate(x2) -- ++(-0.2,0)
+     (x2) -- ++(0,-0.2);
+  \draw[thin,<->] (x1) -- (x2) node[midway,above]{0.2};
+  \draw[thin]([yshift=-4mm]s.south east) -- ++(0,-1.5) coordinate(x1)  -- ++(0.2,0)
+     (x1) -- ++(0,-0.2) ([yshift=-4mm]s.south west)  -- ++(0,-1.5) coordinate(x2) -- ++(-0.2,0)
+     (x2) -- ++(0,-0.2);
+  \draw[thin,<->] (x1) -- (x2) node[midway,above]{1};
+\end{tikzpicture}
+\end{codeexample}
+The |coil ladder curvature| controls how round the coils look like. The default value is 0.2 as indicated above; 0.5 makes a round coil like\footnote{It can be used to draw relay coils according to NEMA -- National Electrical Manufacturers Association.}:
+
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil R={info={Motor},
+     coil ladder curvature=0.5,
+     minimum size=2.4\tikzcircuitssizeunit}] ++(2,0);
+\end{codeexample}
+
+Note that it is also necessary to set the |minimum size| or |minimum height| because coils have a proportion of $2.4\times2$. If you do this frequently, you can set the style for the coils like:
+
+\begin{codeexample}[code only]
+every coil R/.style={coil ladder curvature=0.5,minimum size=2.4\tikzcircuitssizeunit}
+\end{codeexample}
+
+Values above 0.5, although possible, lead to estrange figures.
+
+All kinds of standard coils are supported: coil (normal); negated coil (normally activated, NA); set (latch) coil; reset (unlatch) coil; positive transition-sensing coil; and negative transition-sensing coil. In the following examples, the Boolean variable associated with the coil is indicated by ``***''.
+
+Coil (normally deactivated):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={***}}] ++(2,0);
+\end{codeexample}
+
+Negated coil (normally activated, NA):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil NA={info={***}}] ++(2,0);
+\end{codeexample}
+
+Variation of the negated coil (normally activated, NA):
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [var coil NA={info={***}}] ++(2,0);
+\end{codeexample}
+
+Set (latch) coil:
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil S={info={***}}] ++(2,0);
+\end{codeexample}
+
+Reset (unlatch) coil:
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil R={info={***}}] ++(2,0);
+\end{codeexample}
+
+Positive transition-sensing coil:
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={***},symbol=P}] ++(2,0);
+\end{codeexample}
+
+Negative transition-sensing coil:
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={***},symbol=N}] ++(2,0);
+\end{codeexample}
+
+Note that positive and negative transition-sensing coils are not supported directly because, to be honest, no one uses them. Their symbols have to be coined using a normal coil and the parameter |symbol|.
+
+There are two possibilities for negated coil (NA). It is not recommended to mix them in the same document unless to explain their equivalence.
+
+It is possible, though not recommended because it disagrees with IEC-61\,131-3 \cite{61131}, to use non-standard coils, e.g., some people use L (for latch) and U (for unlatch) instead of, S and R, respectively. This is achieved by setting the |symbol| of a |coil| like:
+
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={***},symbol=L}] ++(2,0);
+\end{codeexample}
+\noindent{}The same trick has been used for positive and negative transition-sensing coils.
+
+
+\subsection{Keys for coils}
+
+The most common key used with coils is |info| which sets the variable name associated with the coil. One may also need |info'|, |name| and |minimum size|; all standard keys. In addition to the keys described in Section~``Circuit Libraries'' of reference \cite{Tantau}, coils accept: 
+\begin{key}{/tikz/symbol=\meta{name}}
+This key sets the information, usually a single letter, that will appear between the parenthesis. Usable for non-standard or rarely used coils like positive and negative transition-sensing coils.
+\begin{codeexample}[width=2.7cm]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={***},symbol=L}] ++(2,0);
+\end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/coil ladder curvature=\meta{curvature index} (initially 0.2)}
+This key sets the curvature index, a number between 0.001 and 0.5 (in practice, though higher values are permitted) that defined how much the parentheses will be bent. It is the fraction of the total coil width occupied by one parenthesis. Usable for drawing electric coils in NEMA standard. In this case, the |minimum size| will have to be adjusted to correct the coil aspect ratio.
+\begin{codeexample}[width=2.7cm,leave comments]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={\%Q0.0},
+    coil ladder curvature=0.1}] ++(2,0);
+\end{codeexample}
+\begin{codeexample}[width=2.7cm,leave comments]
+\tikz[circuit plc ladder,thick]
+  \draw(0,0) to [coil={info={\%Q0.0},
+    coil ladder curvature=0.3}] ++(2,0);
+\end{codeexample}
+\end{key}
+
+
+\section{Blocks}
+
+Blocks are used to represent all other features besides contacts and coils, namely functions, methods and function blocks -- call representation. The main functions and function blocks are: timers, counters, communication, string treatment, arithmetic and logical operations. Blocks can have many inputs and outputs. The first input and output shall be aligned with the rung line. This is done automatically and explains why the |center| anchor is not in the centre of the rectangle. For the exact rectangle centre, use the |block center| anchor.
+
+Next, a block for a counter is represented with the anchors, you can see the input |>A| causes a clock input indication and the symbol |>| itself is gobbled. The input and output names are not accordingly to the standard IEC-61\,131-3 \cite{61131}.
+
+\begin{codeexample}[]
+\Huge
+\begin{tikzpicture}[circuit plc ladder]
+  \node[name=s, shape=block ladder, shape example, minimum width=8cm, minimum height=8cm, inner xsep=1cm,
+   inner ysep=1cm, input sep=2cm, output sep=4cm, inputs={>A,B,C}, clksize=2cm,  outputs={X,Y}, symbol
+   color=black!30, symbol={\textcolor{red}{SYMBOL}}] {block \vrule width1pt height2cm};
+  \foreach \anchor/\placement in {center/right, block center/above,text/left, 0/left, 15/above right, 60/above,
+   270/above, 300/above, mid/above, mid east/right, mid west/left, base/below,
+   base east/below right, base west/left, north/above, south/below, east/left, west/right,
+   north east/above right, south east/below, south west/below, north west/above, input 1/left,
+   input 2/left, input 3/left, output 1/right, output 2/right}
+  \draw[shift=(s.\anchor)] plot[mark=x] coordinates{(0,0)} node[\placement] {\scriptsize\texttt{(s.\anchor)}};
+\end{tikzpicture}
+\end{codeexample}
+
+In the following subsections, the standard names are employed accordingly to IEC-61\,131-3 \cite{61131}.
+
+\subsection{Keys for blocks}
+
+The three most common keys used with blocks are |symbol| which sets the block type, |name| which sets a \tikzname\ label to be used in future references, particularly to access the inputs and outputs, and |info| which sets the variable name associated with the POU (program organization unit) represented by the block. One may also need the standard keys |info'| and |minimum width|. In addition to the keys described in Section~``Circuit Libraries'' of reference \cite{Tantau}, blocks accept: 
+\begin{key}{/tikz/symbol=\meta{name}}
+This key sets the information that appears inside the block rectangle, on the top. It specifies the POU type represented by the block.
+\end{key}
+
+\begin{key}{/tikz/symbol color=\meta{colour}}
+This key sets the colour used for all texts inside the block: symbol, inputs and outputs. In a |beamer| presentation it can be overridden for a particular input/output by forcing the text colour like this: \verb|{\textcolor{blue}{Q}}|. For other document classes, you need to use a box:
+\begin{codeexample}[width=5.3cm]
+\newsavebox{\myeqbox} % only once, preferable in the document preamble
+\savebox{\myeqbox}{\textcolor{blue}{Q}}
+\tikz[circuit plc ladder,thick] \draw[orange](0,0) to [block={violet,
+   info={[blue]$CT1$},inputs={>CU,R,PV}, outputs={\usebox{\myeqbox},CV},
+   symbol={CTU\_SINT}, symbol color=red, minimum width=2.4cm}] ++(4,0);
+\end{codeexample}
+\end{key}
+
+
+\begin{key}{/tikz/clksize=\meta{width} (initially 0.8\char`\\|tikzcircuitssizeunit|)}
+This key sets the size for the clock input indicator (|>|).
+\begin{codeexample}[width=5.3cm]
+\tikz[circuit plc ladder,thick] \draw(0,0) to [block={
+   info=$CT1$,inputs={>$CU$,R,PV}, outputs={Q,CV},
+   symbol=CTU\_SINT, clksize=0.4cm,
+   minimum width=2.4cm}]  ++(4,0);
+\end{codeexample}
+\end{key}
+
+\begin{key}{/tikz/input sep=\meta{width} (initially 1.6\char`\\|tikzcircuitssizeunit|)}
+This key sets the vertical distance between two consecutive inputs.
+\begin{codeexample}[width=5.3cm]
+\begin{tikzpicture}[circuit plc ladder,thick,x=1cm,y=1cm]
+  \draw(0,0) to [contact NO={info={$I1$}}] ++(1,0)
+     to [block={info=$TM1$,symbol=TON,
+       inputs={EN,IN,PT},outputs={ENO,Q,ET},
+       name=TM1,minimum width=1.6cm,
+       input sep=1cm,output sep=1cm}] ++(3,0)
+    to [coil={info={$M$},pos=1}] ++(0.5,0);
+  \draw(0,-1) to [contact NO={info={$I2$}}] ++(1,0) -- (TM1.input 2)
+    (TM1.output 2) -- (4,-1) to [coil={info={$R$},pos=1}] ++(0.5,0)
+    (TM1.input 3) -- +(-0.3,0)node[left]{T\#3s} (0,1) -- +(0,-3.5);
+\end{tikzpicture}
+\end{codeexample}
+\noindent{}Note that, in this example, |x|, |y|, |input sep| and |output sep| are all set to 1\,cm. Usually, this is not a good idea and a multiple of |\tikzcircuitssizeunit| should be used instead. Even better, |\ladderskip| should be used in |input sep| and |output sep| because this length is automatically set to |y|. See Section~\ref{guidance} for details.
+\end{key}
+
+\begin{key}{/tikz/output sep=\meta{width} (initially 1.6\char`\\|tikzcircuitssizeunit|)}
+This key sets the vertical distance between two consecutive outputs (see example above).
+\end{key}
+
+\begin{key}{/tikz/input=\meta{inputs} (initially |{IN}|)}
+This key sets the input names that appear inside the block. It is a comma-separated list of inputs. Clock inputs are indicated by the first character being |>|. Coordinates for future external connections are automatically generated in the form \emph{name}.|input|~$n$, where $n$ is the input number starting in 1. An empty input can be generated by |~| or |{}|. The minimal number of inputs is one, an empty list of inputs generates an error.
+\end{key}
+
+\begin{key}{/tikz/output=\meta{outputs} (initially |{Q}|)}
+This key sets the output names that appear inside the block. It is a comma-separated list of outputs. Coordinates for future external connections are automatically generated in the form \emph{name}.|output|~$n$, where $n$ is the output number starting in 1. An empty output can be generated by |~| or |{}|. The minimal number of outputs is one, an empty list of outputs generates an error.
+\end{key}
+ 
+
+\subsection{Timers}
+The standard IEC-61\,131-3 \cite[p.~114]{61131} specifies three timers as follows:
+
+\noindent{}On-delay:
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={IN,PT},outputs={Q,ET},
+   symbol=TON,minimum width=18mm] (tp1) {};
+\draw (tp1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (tp1.input 2) -- +(-5mm,0) node[left]{TIME}
+      (tp1.output 1) -- +(5mm,0) node[right]{BOOL}
+      (tp1.output 2) -- +(5mm,0) node[right]{TIME};
+\end{codeexample}
+
+\noindent{}Off-delay:
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={IN,PT},outputs={Q,ET},
+   symbol=TOF,minimum width=18mm] (tp1) {};
+\draw (tp1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (tp1.input 2) -- +(-5mm,0) node[left]{TIME}
+      (tp1.output 1) -- +(5mm,0) node[right]{BOOL}
+      (tp1.output 2) -- +(5mm,0) node[right]{TIME};
+\end{codeexample}
+
+\noindent{}Pulse:
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={IN,PT},outputs={Q,ET},
+   symbol=TP,minimum width=18mm] (tp1) {};
+\draw (tp1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (tp1.input 2) -- +(-5mm,0) node[left]{TIME}
+      (tp1.output 1) -- +(5mm,0) node[right]{BOOL}
+      (tp1.output 2) -- +(5mm,0) node[right]{TIME};
+\end{codeexample}
+
+\subsection{Counters}
+The clock input is indicated by the character |>| which needs to be the very first one in the input description of a clock input. You can use any number of clock inputs and they can appear in any order. For instance, the inputs of an up-down counter with enable input shall be declared as \verb|inputs={EN,>CU,>CD,R,LD,PV}|. 
+
+The standard IEC-61\,131-3 \cite[p.~113]{61131} specifies three counters. In the following examples, the symbol ``*'' indicates the numerical type of the counter (like |INT|, |DINT|, etc.).
+
+\noindent{}Up-Counter:
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={>CU,R,PV},outputs={Q,CV},
+   symbol=CTU\_*,minimum width=20mm] (ct1) {};
+\draw (ct1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 3) -- +(-5mm,0) node[left,yshift=-0.4ex]{*}
+      (ct1.output 1) -- +(5mm,0) node[right]{BOOL}
+      (ct1.output 2) -- +(5mm,0) node[right,yshift=-0.4ex]{*};
+\end{codeexample}
+
+\noindent{}Down-counters:
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={>CD,LD,PV},outputs={Q,CV},
+   symbol=CTD\_*,minimum width=20mm] (ct1) {};
+\draw (ct1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 3) -- +(-5mm,0) node[left,yshift=-0.4ex]{*}
+      (ct1.output 1) -- +(5mm,0) node[right]{BOOL}
+      (ct1.output 2) -- +(5mm,0) node[right,yshift=-0.4ex]{*};
+\end{codeexample}
+
+\noindent{}Up-down counters:
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={>CU,>CD,R,LD,PV},outputs={QU,QD,CV},
+     symbol=CTUD\_*,minimum width=20mm] (ct1) {};
+\draw (ct1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 3) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 4) -- +(-5mm,0) node[left]{BOOL}
+      (ct1.input 5) -- +(-5mm,0) node[left,yshift=-0.4ex]{*}
+      (ct1.output 1) -- +(5mm,0) node[right]{BOOL}
+      (ct1.output 2) -- +(5mm,0) node[right]{BOOL}
+      (ct1.output 3) -- +(5mm,0) node[right,yshift=-0.4ex]{*};
+\end{codeexample}
+
+\subsection{Standard bistable function blocks}
+
+Bistable function block (set dominant): |RS(S1,R, Q1)|
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={S1,R},outputs={Q1},
+   symbol=SR,minimum width=18mm] (sr1) {};
+\draw (sr1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.output 1) -- +(5mm,0) node[right]{BOOL};
+\end{codeexample}
+
+\noindent{}Bistable function block (set dominant) with long input names: |RS(SET1,RESET, Q1)|
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={SET1,RESET},outputs={Q1},
+   symbol=SR,minimum width=18mm] (sr1) {};
+\draw (sr1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.output 1) -- +(5mm,0) node[right]{BOOL};
+\end{codeexample}
+
+\noindent{}Bistable function block (reset dominant): |RS(S,R1, Q1)|
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={S,R1},outputs={Q1},
+   symbol=SR,minimum width=18mm] (sr1) {};
+\draw (sr1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.output 1) -- +(5mm,0) node[right]{BOOL};
+\end{codeexample}
+
+\noindent{}Bistable function block (reset dominant) with long input names\footnote{Here we have a clear inconsistency between the text description that presents the input |RESET1| and graphical representation where it is |R1|. It is probably just a typo, but the form presented in~\cite[p.~112]{61131} was kept unchanged.}: |RS(SET,RESET1, Q1)|
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={SET,R1},outputs={Q1},
+   symbol=SR,minimum width=18mm] (sr1) {};
+\draw (sr1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.input 2) -- +(-5mm,0) node[left]{BOOL}
+      (sr1.output 1) -- +(5mm,0) node[right]{BOOL};
+\end{codeexample}
+
+
+\subsection{Standard edge detection function blocks}
+
+Rising edge detector: |R_TRIG(CLK, Q)|
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={CLK},outputs={Q},
+   symbol=R\_TRIG,minimum width=20mm] (ed1) {};
+\draw (ed1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (ed1.output 1) -- +(5mm,0) node[right]{BOOL};
+\end{codeexample}
+
+\noindent{}Falling edge detector: |F_TRIG(CLK, Q)|
+\begin{codeexample}[width=6cm,pre={\begin{tikzpicture}[circuit plc ladder,thick]},post=\end{tikzpicture}]
+\node[block,inputs={CLK},outputs={Q},
+   symbol=F\_TRIG,minimum width=20mm] (ed1) {};
+\draw (ed1.input 1) -- +(-5mm,0) node[left]{BOOL}
+      (ed1.output 1) -- +(5mm,0) node[right]{BOOL};
+\end{codeexample}
+
+
+\subsection{Call representation}
+
+A call is used to execute a function, a function block instance or a method of a function block or class \cite[sic, p.~60]{61131}. They are represented by blocks.
+
+The proper map for in-out variables (|VAR_IN_OUT|) needs special care. This map is represented by a line internal to the block connecting the left and right sides of the in-out variable. The problem is that |tikz-ladder| only creates anchors external to the block, meaning, at the left side of the inputs and the right side of outputs. We need the opposite. This situation can be overcome in three ways: using the |calc| library to add and subtract a suitable distance to/from the standard anchors; using |xshif| to displace the standard anchors; creating two coordinates related to the input and output anchors but dislocating a suitable amount towards the interior of the block. Using |calc| library, one example is:
+\begin{codeexample}[width=5.3cm,pre={\begin{tikzpicture}[circuit plc ladder,thick,x=1cm,y=1cm]},post=\end{tikzpicture}]
+  \draw(0,0)
+    to [contact NO={info={cond}}]  ++(1,0)
+    to [block={inputs={EN,A,C},outputs={ENO,B,C},
+        symbol=myFB, info=myInst, name=mf1,
+        minimum width=1.6cm, 
+        input sep=1.2em, output sep=1.2em}] ++(3,0)
+    to [coil={info={X}}] +(1,0);
+  \draw (mf1.input 2) -- +(-0.2,0) node[left]{v1}
+        (mf1.input 3) -- +(-0.2,0) node[left]{v3}
+        (mf1.output 2) -- +(0.2,0) node[right]{v2}
+        (mf1.output 3) -- +(0.2,0)
+        ($(mf1.input 3) + (1em,0)$) -- ($(mf1.output 3) - (1em,0)$);
+\end{codeexample}
+
+\noindent{}The same effect can be obtained replacing the last code line by \verb|([xshift=1em]mf1.input 3) -- ([xshift| \verb|=-1em]mf1.output 3);|, but this time, the anchors are displaced by the command |xshift|. If, however, you prefer to use the |\coordinate| command, place:
+\begin{codeexample}[code only]
+  \coordinate[xshift=1em] (p1) at (mf1.input 3);
+  \coordinate[xshift=-1em] (p2) at (mf1.output 3);
+\end{codeexample}
+\noindent{}between the two |\draw| commands and replace de last code line by \verb|(p1) -- (p2);|.
+
+A lot of things can go wrong here. If, for instance, the |VAR_IN_OUT| label is modified or the |inner sep| is changed, you might need to modify the amount of space left for the labels on both sides.
+
+
+\subsection{Directly represented variables (\%)}
+
+Direct representation of a single-element variable shall be provided by a special symbol formed by the concatenation of \cite[sic, p.~54]{61131}:
+\begin{itemize}
+\item a per cent sign ``\%'' and
+\item location prefixes I, Q or M and
+\item a size prefix X (or none), B, W, D or L and
+\item one or more (hierarchical addressing) unsigned integers that shall be separated by periods ``.''.
+\end{itemize}
+EXAMPLES:
+\begin{itemize}
+\item \%MW1.7.9
+\item \%ID12.6
+\item \%QL20
+\end{itemize}
+
+The character \% must be preceded by a backslash ``|\%|''. It is also possible to place an illustrative text along with the |info|, usually above it. The user-friendly variable names are placed in blue above each directly represented variable in the following example. The label distance is set globally to |-3pt| to save space. Even so, the distance between rows has to be increased to make room for the labels. So, |y| is set to 6\,|\tikzcircuitssizeunit| or 20\% above its default value.
+
+\begin{codeexample}[leave comments]
+\begin{tikzpicture} [circuit plc ladder,thick,
+                     label distance=-3pt,y=6\tikzcircuitssizeunit]
+  \draw(0,0)
+    to [contact NO={info={[label={[blue]$b_1$}]\%I0.1}}] ++(1,0)
+    coordinate(laddercoil)
+    to [contact NC={info={[label={[blue]$b_0$}]\%I0.0}}] ++(1,0) 
+    to [coil={info={[label={[blue]$K_1$}]\%Q0.0}}] ++(1,0)
+    coordinate(laddertopright);
+  \draw(0,-1)
+    to [contact NO={info={[label={[blue]$K_1$}]\%Q0.0}}] ++(1,0)
+    -- (laddercoil);
+\ladderrungend{2}
+\ladderpowerrails
+\end{tikzpicture}
+\end{codeexample}
+
+
+\section{NEMA}
+
+It is possible to typeset  NEMA -- National Electrical Manufacturers Association -- standard diagrams using this package. The main difference is that coils are represented by \tikz[circuit plc ladder,thick,baseline]\draw(0,0) to [coil={coil ladder curvature=0.5, minimum size=2.4\tikzcircuitssizeunit}] ++(1,0);
+instead of \tikz[circuit plc ladder,thick,baseline]\draw(0,0) to [coil] ++(1,0);%
+.
+
+You can replace all coil symbols for circles globally placing the following keys in the document preamble:
+
+\begin{codeexample}[code only]
+\tikzset{
+    coil NA/.style={coil={#1,symbol={$/$}}},
+    every coil/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5},
+    every coil S/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5},
+    every coil R/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5},
+    every coil NA/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5}
+}
+\end{codeexample}
+
+That would produce:
+\tikzset{
+    coil NA/.style={coil={#1,symbol={$/$}}},
+    every coil/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5},
+    every coil S/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5},
+    every coil R/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5},
+    every coil NA/.style={minimum size=2.4\tikzcircuitssizeunit,coil ladder curvature=0.5}
+}
+
+\begin{codeexample}[width=5.2cm]
+\begin{tikzpicture} [circuit plc ladder,thick]
+  \draw(0,0)
+    to [coil={info={$a$}}] ++(1,0) 
+    to [coil S={info={$b$}}] ++(1,0) 
+    to [coil R={info={$c$}}] ++(1,0) 
+    to [coil NA={info={$d$}}] ++(1,0); 
+\end{tikzpicture}
+\end{codeexample}
+
+If, however, you have lots of diagrams you better of redefining at least the |coil graphic| which is likely the most used one (not to say the only one). It is because the algorithm used to draw coils uses arcs, which are less efficient than circles. Thus, place this key in your document preamble:
+
+\begin{codeexample}[code only]
+\tikzset{
+  set coil graphic={
+    circuit symbol lines,
+    fill=none,
+    circuit symbol size=width 2.4 height 2.4,
+    transform shape,
+    shape=circle ee,
+    node contents=\pgfkeysvalueof{/pgf/ladder symbol}
+  }
+}
+\end{codeexample}
+
+
+\section{Known Issues}
+The |center| anchor of the block symbol is not in the centre and it is disturbing, to say the least. This is due \tikzname\ positioning algorithm, which is unlike to change. 
+
+The way the library was written is not exactly like the standard \tikzname\ libraries. It seems that the official libraries are written in two distinct files: one for \tikzname\ stuff and another for \pgfname, but I don't know how to separate it, thus we have a single file (at least for now). 
+
+
+\section{Final Remarks}
+
+This package has been tested and used for more than three years, so I do believe it is mature by now and I decided to share it. On the other hand, I was the only person who used it\footnote{Not entirely true, a total of three people asked me about the package.}, therefore idiosyncrasies were not detected.
+
+Any comments, suggestions and feedback are welcomed. I will do my best to answer as soon as possible. My contact e-mail is on the first page.
+
+It should be great if someone with experience in writing \tikzname\ libraries could have a look at the code and point out errors or improvements to be made. 
+
+Typesetting ladder diagrams may be boring and time-consuming. One thing you can try is \verb|JQM| - Java Quine McCluskey for minimization of Boolean functions available on \url{https://sourceforge.net/projects/jqm-java-quine-mccluskey/}. It can generate the solution and create the corresponding ladder diagram based on a given truth table. Unfortunately, it does not place blocks.
+
+
+\section{Acknowledgement}
+
+I would like to thank Martin Fabian with the Chalmers University of Technology for the strong encouragement to rewrite Section~\ref{guidance} and provide more examples. 
+
+
+\begin{thebibliography}{1}
+\bibitem{61131}\textbf{International Electrotechnical Commission}. \textit{IEC 61\,131-3:2013 -- Programmable controllers - Part~3: Programming languages}. Geneva, 2013.
+\bibitem{Tantau}\textbf{Tantau}, Till. \textit{The TikZ and PGF Packages} : Manual for version 3.1.9a-34-ga0d9cada, \url{https://github.com/pgf-tikz/pgf}, 2021.
+\end{thebibliography}
+
+\end{document}

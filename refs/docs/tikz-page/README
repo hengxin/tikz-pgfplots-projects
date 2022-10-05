@@ -1,0 +1,108 @@
+
+
+TIKZ PAGE
+
+
+Small macro to help building nice and complex page layout materials.
+
+
+Build
+
+You can build the whole package using the make command.
+
+
+Installation
+
+To install the tkiz-page package copy its directory to either to:
+
+-   $TEXHOME/tex/latex/
+-   $TEXMFHOME/tex/latex/
+-   ~/texmf/tex/latex/
+-   ~/Library/texmf/tex/latex/
+
+
+Usage
+
+A simple page:
+
+    \documentclass{article}
+    \usepackage{tikz-page}
+    \usepackage{lipsum}
+    \newcommand{\tikzpagelayout}{
+      \tpshowframes
+      \tikzpageputanchors
+    }
+    \pagestyle{plain}
+    \begin{document}
+    \lipsum
+    \end{document}
+
+A more complex document:
+
+    \documentclass{article}
+    \usepackage{tikz-page}
+    \usepackage{lipsum}
+    \definecolor{halfgray}{gray}{0.55}
+    \newcommand\anglei{-45}
+    \newcommand\angleii{45}
+    \newcommand\angleiii{225}
+    \newcommand\angleiv{135}
+    \newcommand{\tikzpagelayout}{
+      \tpflip{
+        \coordinate (aux1) at ([yshift=-15pt]page.northeast);
+        \coordinate (aux2) at ([yshift=-410pt]page.northeast);
+        \coordinate (aux3) at ([xshift=-4.5cm]page.northeast);
+        \coordinate (aux4) at ([yshift=-150pt]page.northeast);
+      }{
+        \coordinate (aux1) at ([yshift=-15pt]page.northwest);
+        \coordinate (aux2) at ([yshift=-410pt]page.northwest);
+        \coordinate (aux3) at ([xshift=4.5cm]page.northwest);
+        \coordinate (aux4) at ([yshift=-150pt]page.northwest);
+        \renewcommand\anglei{-135}
+        \renewcommand\angleii{135}
+        \renewcommand\angleiii{-45}
+        \renewcommand\angleiv{45}
+      }
+      \begin{scope}[halfgray!40,line width=12pt,rounded corners=12pt]
+        \draw (aux1) -- coordinate (a) ++(\angleiii:5) -- ++(\anglei:5.1) coordinate (b);
+        \draw[shorten <= -10pt] (aux3) -- (a) -- (aux1);
+        \draw[opacity=0.6,halfgray,shorten <= -10pt] (b) -- ++(\angleiii:2.2) -- ++(\anglei:2.2);
+      \end{scope}
+      \draw[halfgray,line width=8pt,rounded corners=8pt,shorten <= -10pt]
+      (aux4) -- ++(\angleiii:0.8) -- ++(\anglei:0.8);
+      \begin{scope}[halfgray!70,line width=6pt,rounded corners=8pt]
+        \draw[shorten <= -10pt] (aux2) -- ++(\angleiii:3) coordinate[pos=0.45] (c) -- ++(\anglei:3.1);
+        \draw (aux2) -- (c) -- ++(\angleiv:2.5) -- ++(\angleii:2.5) -- ++(\anglei:2.5) coordinate[pos=0.3] (d);   
+        \draw (d) -- +(\angleii:1);
+      \end{scope}
+    }
+    \pagestyle{plain}
+    \begin{document}
+    \lipsum
+    \end{document}
+
+See tikz-page.pdf for further help.
+
+
+Example
+
+[tikz example]
+
+
+License
+
+This program is free software. It comes without any warranty, to the
+extent permitted by applicable law. You can redistribute it and/or
+modify it under the terms of the Do What The Fuck You Want To Public
+License, Version 2, as published by Sam Hocevar. See
+http://sam.zoy.org/wtfpl/COPYING for more details.
+
+This file may be distributed and/or modified under the conditions of the
+LaTeX Project Public License, either version 1.3c of this license or (at
+your option) any later version. The latest version of this license is
+in:
+
+http://www.latex-project.org/lppl.txt
+
+and version 1.3c or later is part of all distributions of LaTeX version
+2006/05/20 or later.

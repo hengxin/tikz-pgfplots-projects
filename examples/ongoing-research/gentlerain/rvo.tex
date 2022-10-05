@@ -1,0 +1,30 @@
+% rvo.tex
+
+\documentclass[tikz]{standalone}
+\input{gentlerain-preamble}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Stealth, 
+    timeline/.style = {very thick}, 
+    replica/.style = {align = center},
+    node distance = 0.50cm]
+  \node[replica] (ci) {$\client(i)$};
+  \node[replica, right = of ci] (s) {$\server(s)$};
+  \node[replica, right = of s] (s') {$\server(s')$};
+  \node[replica, right = of s'] (cj) {$\client(j)$};
+
+  \foreach \r/\rbot in {ci/cibot, s/sbot, s'/s'bot, cj/cjbot} {
+    \node[below = 4.0cm of \r] (\rbot) {};
+    \draw[timeline] (\r) to (\rbot);
+  }
+  \draw[timeline, dashed] ($(s)!0.5!(s')$) to ($(sbot)!0.5!(s'bot)$);
+
+  \send{ci}{0.30}{f}{f}{s}{0.80}{f^{\texttt{req}}}{freq}{left}
+
+  \send{cj}{0.25}{e}{e}{s'}{0.40}{e^{\texttt{req}}}{ereq}{right}
+  \send{s'}{0.50}{}{}{s}{0.65}{e^{\texttt{repl} s}}{erepl}{right}
+
+  \draw[red, dashed, ->] (e) to node[sloped, above] {\rvo} (f);
+\end{tikzpicture}
+\end{document}

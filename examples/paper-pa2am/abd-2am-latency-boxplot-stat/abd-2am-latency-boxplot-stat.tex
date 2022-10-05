@@ -1,0 +1,134 @@
+% run: lualatex abd-2am-latency-boxplot-stat.tex to avoid ``Tex capacity exceeded'' error if
+% necessary
+\documentclass{standalone}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{statistics}
+
+\pgfplotsset{ compat=1.8, }
+
+\newcommand{\twoam}[8]{
+  \addplot[
+    mark=x,
+    boxplot prepared={
+      draw position=#8,
+      lower whisker=#1,
+      lower quartile=#2,
+      median=#3,
+      upper quartile=#4,
+      upper whisker=#5,
+      average=#6,
+      box extend=1.0,
+      every box/.style={fill=red!40,draw=red!40},
+      every whisker/.style={dashed, gray},
+      every median/.style={white, solid,thin},
+      every average/.style={mark=star, blue},
+    },
+  ]
+  coordinates {} coordinate (twoam-average) at (boxplot box cs: \boxplotvalue{average}, 0.8) ;
+  % table[y index=0] {#7};
+}
+
+\newcommand{\abd}[8]{
+  \addplot[
+    mark=x,
+    boxplot prepared={
+      draw position=#8,
+      lower whisker=#1,
+      lower quartile=#2,
+      median=#3,
+      upper quartile=#4,
+      upper whisker=#5,
+      average=#6,
+      box extend=1.0,
+      every box/.style={fill=red!70,draw=red!70},
+      every whisker/.style={dashed, gray},
+      every median/.style={white, solid},
+      every average/.style={mark=star, red},
+    },
+  ]
+  coordinates {} coordinate (abd-average) at (boxplot box cs: \boxplotvalue{average}, 0.2)
+  coordinate (abd-lw) at (boxplot box cs: \boxplotvalue{lower whisker},1.0)
+  coordinate (abd-lq) at (boxplot box cs: \boxplotvalue{lower quartile},1.0)
+  coordinate (abd-m) at (boxplot box cs: \boxplotvalue{median},1.8)
+  coordinate (abd-uw) at (boxplot box cs: \boxplotvalue{upper whisker},1.0)
+  coordinate (abd-uq) at (boxplot box cs: \boxplotvalue{upper quartile},1.0)
+  coordinate (abd-a) at (boxplot box cs: \boxplotvalue{average},0.6);
+  % table[y index=0] {#7};
+}
+
+\begin{document}
+\begin{tikzpicture}[reduce/.style={violet,->}, qlabel/.style={font=\footnotesize, blue},
+  reducetxt/.style={sloped, above, font=\scriptsize}]
+  \begin{groupplot}[
+        group style={
+	  group size=2 by 1,
+	  y descriptions at=edge left,
+	  x descriptions at=edge bottom,
+	  horizontal sep=1.0cm,
+	},
+	boxplot/draw direction=y,
+	ytick={50,100,150,200,250,300},
+	minor y tick num=4,
+	xtick={2,6,10,14},
+	minor xtick={1,3,5,7,9,11,13,15},
+	xticklabels={
+	  {2},
+	  {3},
+	  {4},
+	  {5},
+	  },
+	x tick label style={
+	    align=center,
+	},
+	ymax=300,
+	skip coords between index={0}{5},
+	xlabel={Replica factor},
+	ylabel={\textsl{Read} latency (ms)},
+	height=5cm,
+	width=8cm,
+      ]
+
+      \nextgroupplot[title={rate $\lambda = 5$ (PA2AM vs ABD)}]
+      \twoam{47}{91}{110}{128}{570}{123}{boxplot-rate5-replica2-2am.txt}{1.0}
+      \abd{68}{120}{141}{169}{321}{154}{boxplot-rate5-replica2-abd.txt}{3.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$20\%$} (twoam-average);
+
+      \twoam{49}{79}{98}{119}{180}{99}{boxplot-rate5-replica3-2am.txt}{5.0}
+      \abd{68}{110}{130}{150}{210}{133}{boxplot-rate5-replica3-abd.txt}{7.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$26\%$} (twoam-average);
+
+      \twoam{54}{90}{107}{127}{180}{108}{boxplot-rate5-replica4-2am.txt}{9.0}
+      \abd{88}{141}{161}{188}{280}{167}{boxplot-rate5-replica4-abd.txt}{11.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$35\%$} (twoam-average);
+      \node[qlabel] at (abd-lw) {$\min$};
+      \node[qlabel] at (abd-lq) {$25$th};
+      \node[qlabel] at (abd-m) {median};
+      \node[qlabel] at (abd-uq) {$75$th};
+      \node[qlabel] at (abd-uw) {$99$th};
+      \node[qlabel, left] at (abd-a) {average};
+
+      \twoam{58}{90}{101}{120}{188}{108}{boxplot-rate5-replica5-2am.txt}{13.0}
+      \abd{89}{151}{170}{191}{260}{175}{boxplot-rate5-replica5-abd.txt}{15.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$38\%$} (twoam-average);
+    \nextgroupplot[title={rate $\lambda = 50$ (PA2AM vs ABD)}]
+    \twoam{49}{100}{110}{120}{261}{115}{boxplot-rate50-replica2-2am.txt}{1.0}
+    \abd{68}{118}{137}{159}{700}{154}{boxplot-rate50-replica2-abd.txt}{3.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$25\%$} (twoam-average);
+
+    \twoam{47}{71}{90}{109}{229}{95}{boxplot-rate50-replica3-2am.txt}{5.0}
+    \abd{69}{109}{120}{139}{300}{131}{boxplot-rate50-replica3-abd.txt}{7.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$27\%$} (twoam-average);
+
+    \twoam{47}{89}{100}{119}{259}{108}{boxplot-rate50-replica4-2am.txt}{9.0}
+    \abd{80}{139}{150}{171}{370}{168}{boxplot-rate50-replica4-abd.txt}{11.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$36\%$} (twoam-average);
+
+    \twoam{56}{90}{100}{112}{268}{110}{boxplot-rate50-replica5-2am.txt}{13.0}
+    \abd{89}{150}{169}{190}{430}{188}{boxplot-rate50-replica5-abd.txt}{15.0}
+      \draw[reduce] (abd-average) to node[reducetxt] {$41\%$} (twoam-average);
+    \end{groupplot}
+\end{tikzpicture}
+\end{document}

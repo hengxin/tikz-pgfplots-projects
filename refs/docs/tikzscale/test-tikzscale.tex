@@ -1,0 +1,96 @@
+\documentclass[twocolumn]{article}
+
+\usepackage{lua-visual-debug}
+\usepackage{tikzscale}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\usepackage{currfile}
+\usepackage{lmodern}
+% Use the package ifpdf to share one test document between pdflatex and latex
+\usepackage{ifpdf}
+% Load the MWE package, although its functionality is not needed. The loading highlights, that some graphics used below are part of the MWE package.
+\usepackage{mwe}
+
+\usetikzlibrary{external}
+\tikzexternalize
+% \tikzexternalize[mode=list and make]
+% \tikzexternaldisable % activate this line and test without "shell-escape" and without \tikzexternalenable below
+\ifpdf
+\else
+	\tikzset{external/system call={latex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"; dvips -o "\image".ps "\image".dvi}}
+\fi
+
+\begin{document}
+	\section*{Tests}
+	\begin{itemize}
+		\item Test that with externalization, no picture is generated multiple times.
+		\item Test that there are no warnings with and without using externalization.
+		\item Test with \texttt{pdflatex} and \texttt{latex} and do not forget to use \texttt{dvips}.
+		\item Normal input command\\%
+			\input{testRectangle.tikz}%
+		\item Use includegraphics with file ending\\%
+			\includegraphics{testRectangle.tikz}%
+		\item Use includegraphics without file ending\\%
+			\includegraphics{testRectangle}%
+		\item Use includegraphics with scaling to the column's width\\%
+			\includegraphics[width=\linewidth]{testRectangle}%
+		\item Use includegraphics with scaling to a dimension\\%
+			\includegraphics[width=5cm]{testRectangle}%
+		\item Use includegraphics with scaling while having column width already\\%
+			\includegraphics[width=\linewidth]{linewidth}%
+		\item Use \texttt{input} with pgfplots\\%
+			\input{pgfplots-test.tikz}%
+		\item Use pgfplots without optional parameter\\%
+			\includegraphics{pgfplots-test}%
+		\item Use pgfplots with given width and height\\%
+			\includegraphics[width=\linewidth,height=0.3\linewidth]{pgfplots-test}%
+		\item Use includegraphics with only a node\\%
+			\includegraphics{testNode.tikz}%
+% 		\item Use includegraphics with scaling only a node results in an error\\%
+% 			\includegraphics[width=\linewidth]{testNode.tikz}%
+		\ifpdf
+			\item Use includegraphics with jpg\\%
+				\includegraphics{example-grid-100x100bp.jpg}%
+			\item Use includegraphics with pdf\\%
+				\includegraphics{example-grid-100x100bp.pdf}%
+			\item Use includegraphics with png\\%
+				\includegraphics{example-grid-100x100bp.png}%
+			\item Use includegraphics with pdf and scaling\\%
+				\includegraphics[width=0.3\linewidth]{example-grid-100x100bp.pdf}%
+			\item Use includegraphics with column width\\%
+				\includegraphics[width=\linewidth]{example-grid-100x100bp.jpg}%
+			\item Input a 2D pgfplots\\
+				\input{testgraphic2D.tikz}%
+			\item Use includegraphics with a two dimensional plot\\%
+				\includegraphics{testgraphic2D.tikz}%
+			\item Use includegraphics with a scaled two dimensional plot with line width and an axis ratio of 1\\%
+				\includegraphics[width=\linewidth,axisratio=1]{testgraphic2D.tikz}%
+			\item Use includegraphics with a scaled two dimensional plot with given height and an axis ratio of 0.5\\%
+				\includegraphics[height=\linewidth,axisratio=0.5]{testgraphic2D.tikz}%
+			\item Use includegraphics with a scaled two dimensional plot with given height and an axis ratio of 0.5 and temporarily deactivated externalization\\%
+				\tikzexternaldisable
+				\includegraphics[height=\linewidth,axisratio=0.5]{testgraphic2D.tikz}%
+				\tikzexternalenable
+			\item Use includegraphics with a scaled two dimensional plot with given height and an axis ratio of 0.5 again\\%
+				\includegraphics[height=\linewidth,axisratio=0.5]{testgraphic2D.tikz}%
+			\item Use includegraphics with a scaled two dimensional plot with line width and a default axis ratio\\%
+				\includegraphics[width=\linewidth]{testgraphic2D.tikz}%
+			\item Input a two dimensional plot with a tight frame with width \newlength{\mylen}\settowidth{\mylen}{\frame{\input{testgraphic2D.tikz}}}\the\mylen\\%
+				\frame{\input{testgraphic2D.tikz}}
+			\item Use a two dimensional plot with a tight frame with width \settowidth{\mylen}{\frame{\includegraphics{testgraphic2D.tikz}}}\the\mylen\\%
+				\frame{\includegraphics{testgraphic2D.tikz}}
+		\else
+			\item Use includegraphics with eps (this is not found within dvi, even without tikzscale)\\%
+				\includegraphics{example-grid-100x100bp.eps}%
+			\item Use includegraphics with eps and full path (this is not shown, even without tikzscale)\\%
+				\includegraphics{/usr/share/texlive/texmf-dist/tex/latex/mwe/example-grid-100x100bp.eps}%
+		\fi
+		\item Use includegraphics with a histogram of a normal distribution\\%
+			\includegraphics[width=\linewidth,height=0.5\linewidth]{histogramNormal}%
+		\item {Use \texttt{\textbackslash graphicspath} with superfluous space\graphicspath{{somefolder} } (only defined locally for the current item)
+			\includegraphics{testRectangle.tikz}}%
+		\item Use a tikz-3Dplot, which is known to have a different size after externalization compared to the measurements without externalization and is thus rebuilt every time if the counter-measurements are not successful.\\%
+			\includegraphics[width=\linewidth]{3Dplot}
+	\end{itemize}
+\end{document}

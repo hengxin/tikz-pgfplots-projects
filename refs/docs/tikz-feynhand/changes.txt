@@ -1,0 +1,88 @@
+LIST OF CHANGES 
+
+by which this package tikz-feynhand (Version 1.1.0 of 2019/08/19) 
+which is available at https://ctan.org/pkg/tikz-feynhand
+
+was obtained from Version 1.0.0
+
+==========================================================================
+
+All file names and line numbers below refer to the files of Version 1.1.0.
+
+==============================================
+   FILE:   tikz-feynhand.sty
+
++ no changes
+
+==============================================
+   FILE:   tikzlibraryfeynhand.code.tex
+
++ line 228: inserted:
+
+%% Slash
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\tikzfeynhand@slash{%
+  \pgfutil@ifnextchar[{\tikzfeynhand@key@opt{slash@@}}
+  {\tikzfeynhand@key@opt{slash@@}[]}}
+\pgfkeyslet{/tikzfeynhand/slash/.@cmd}{\tikzfeynhand@slash}
+
+%% Backslash
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\tikzfeynhand@backslash{%
+  \pgfutil@ifnextchar[{\tikzfeynhand@key@opt{backslash@@}}
+  {\tikzfeynhand@key@opt{backslash@@}[]}}
+\pgfkeyslet{/tikzfeynhand/backslash/.@cmd}{\tikzfeynhand@backslash}
+
+
+==============================================
+   FILE:   tikzfeynhand.keys.code.tex
+
++ line 629: inserted:
+
+  %% Slashes
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  slash/.search also={/tikzfeynhand,/tikz},
+  %% Parameters
+  slash/size/.store in=\tikzfeynhand@slash@size,
+  slash/size=5\feynhandlinesize,
+  slash/style/.store in=\tikzfeynhand@slash@style,
+  slash/style={},
+  %% Styles
+  slash@@/.style args={[#1]#2}{
+    /tikz/line width = \feynhandlinesize,
+    /tikz/decoration={
+      markings,
+      mark=at position #2 with {
+        \tikzfeynhandset{slash/.cd,#1}
+        \draw [\tikzfeynhand@slash@style] (-\tikzfeynhand@slash@size, -2*\tikzfeynhand@slash@size) -- (\tikzfeynhand@slash@size, 2*\tikzfeynhand@slash@size);
+      },
+    },
+    /tikz/postaction={
+      /tikz/decorate=true,
+    },
+  },
+  slash@@/.default={[]0.5},
+  %%
+  %% Backslashes
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  backslash/.search also={/tikzfeynhand,/tikz},
+  %% Parameters
+  backslash/size/.store in=\tikzfeynhand@backslash@size,
+  backslash/size=5\feynhandlinesize,
+  backslash/style/.store in=\tikzfeynhand@backslash@style,
+  backslash/style={},
+  %% Styles
+  backslash@@/.style args={[#1]#2}{
+    /tikz/line width = \feynhandlinesize,
+    /tikz/decoration={
+      markings,
+      mark=at position #2 with {
+        \tikzfeynhandset{backslash/.cd,#1}
+        \draw [\tikzfeynhand@backslash@style] (-\tikzfeynhand@backslash@size, 2*\tikzfeynhand@backslash@size) -- (\tikzfeynhand@backslash@size, -2*\tikzfeynhand@backslash@size);
+      },
+    },
+    /tikz/postaction={
+      /tikz/decorate=true,
+    },
+  },
+  backslash@@/.default={[]0.5},

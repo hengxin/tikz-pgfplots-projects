@@ -1,0 +1,112 @@
+%% example5_legend.tex
+%% Copyright 2017 J. Schmidt
+%% tikz-palattice LaTeX package
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is J. Schmidt.
+% 
+% This work consists of the files tikz-palattice.sty and tikz-palattice_documentation.tex
+% and the 6 example files example1_linear.tex, example2_circular.tex,
+% example3_coordinates.tex, example4_labels.tex example5_legend.tex and elsa.tex
+
+\documentclass[]{standalone}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz-palattice}
+
+
+
+
+\begin{document}
+
+\begin{lattice}
+  \rotate{-90}
+  \drift{0.167}
+  \quadrupole{Q1}{0.4}
+  \drift{0.1}
+  \kicker{C1}{0.1}
+  \drift{0.29}
+  \drift{0.2}
+  \screen{S1}
+  \drift{0.2}
+  \quadrupole{Q2}{0.4}
+  \drift{0.1}
+  \kicker{C2}{0.1}
+  \drift{0.2}
+  \setlegendtext{quadrupole}{argh}
+  \addlegendentry{Vthe Quad}{}
+  \addlegendentry{Vein sextU}{cyan, bottom color=violet, top color=white}
+  \addlegendentry{VCombined Function}{fill=green!40!black}
+
+  \completelegend{(0.8,0)}
+\end{lattice}
+
+
+\end{document}
+
+
+
+
+
+
+       % \global\let\legprevi\legindex%
+       % \pgfmathsetmacro{\legindex}{\legindex+1} \global\let\legindex\pgfmathresult%
+
+
+  % \def\q{{1.2,1.5,3.1,0}}
+  % \draw (-0.5,0) -- (-0.5,-{\q[0]});
+  % \draw (-0.6,0) -- (-0.6,-{\q[1]});
+  % \draw (-0.7,0) -- (-0.7,-{\q[2]});
+
+  % \pgfkeyssetvalue{/pal/legend/dipole}{tolle Fahrt}
+  % \pgfkeyssetvalue{/pal/legend/quadrupole}{tolle Wurst}
+  % \pgfkeyssetvalue{/pal/legend/quadrupole/.style}{fill=yellow}
+  % \node[draw] at (2,-4) {\pgfkeysvalueof{/pal/legend/dipole}};
+  % \node[draw] at (2,-5) {\pgfkeysvalueof{/pal/legend/quadrupole}};
+
+% \tikzset{
+%   /pal/List/.initial = {erstens},
+%   /pal/List/.append = {,roms},
+% }
+% \edef\mylist{\pgfkeysvalueof{/pal/List}}
+
+% \node[align=center] at (2,-4) {%
+%   \foreach \txt in \mylist {\txt, }
+% };
+
+% \pgfkeys{
+%   /tikz/.cd,
+%   execute style/.style = {#1},
+%   execute macro/.style = {execute style/.expand once=#1},
+%   /test/hallo/.store in = \hallo
+% }
+% \pgfkeys{/test/.cd, hallo = {red,font=\bf,draw}}
+% \node[execute macro=\hallo] at (2,-4) {Törö!};
+
+
+
+% \matrix [matrix, draw, ampersand replacement=\&, matrix anchor=north west, anchor=west,column sep=2mm] (legend) at (1,-2)
+% {
+  % \draw[/legimg/quadrupole] (0,-0.15) rectangle (0.5,0.15); \& \node {\pgfkeysvalueof{/legtxt/quadrupole}}; \\
+  % \draw[/legimg/sextupole] (0,-0.15) rectangle (0.5,0.15); \& \node {\pgfkeysvalueof{/legtxt/sextupole}}; \\
+%};
+
+ % \pgfmathsetmacro{\legprevi}{0}
+ % \pgfmathsetmacro{\legindex}{1}
+ % \node[draw, anchor=north west] at (1,-2) {
+ %   \begin{tikzpicture}[start chain=going below,node distance=2mm]
+ %     \foreach \ele in \mylist {%
+ %       \node[on chain, /legimg/\ele, draw,minimum width=5mm, minimum height=3mm] (n) {};%
+ %       \node[anchor=west,xshift=2mm] at (n.east) {\pgfkeysvalueof{/legtxt/\ele}};%
+ %     }
+ %   \end{tikzpicture}
+ %;

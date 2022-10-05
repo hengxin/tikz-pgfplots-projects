@@ -1,0 +1,242 @@
+%% example3_coordinates.tex
+%% Copyright 2017 J. Schmidt
+%% tikz-palattice LaTeX package
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is J. Schmidt.
+% 
+% This work consists of the files tikz-palattice.sty and tikz-palattice_documentation.tex
+% and the 5 example files example1_linear.tex, example2_circular.tex,
+% example3_coordinates.tex, example4_labels.tex and elsa.tex
+
+\documentclass[a4paper]{scrartcl}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+\usepackage{verbatim}
+\usepackage{tikz-palattice}
+
+
+% compile twice to connect lattices!
+
+
+\title{Two more lattices}
+\subtitle{scaling lattices and accessing coordinates}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.45\textwidth}
+  \centering
+  % this is the ring from example 2, but plotted smaller (30%).
+  % the element sizes (in meter) are the same - as the rule indicates.
+  \begin{lattice}[0.3]
+    \setlabelfont{\tiny}
+    \begin{labeldistance}{0.3}
+      \drift{1}
+      \dipole{M1}{2}{45}
+      \drift{1}
+      \turnlabels
+      \dipole{M2}{2}{45}
+      \turnlabels
+      \drift{1}
+      \dipole{M3}{2}{45}
+      \drift{1}
+      \savecoordinate{myCoord1}[center]
+      \dipole{M4}{2}{45}
+      \drift{1}
+      \dipole{M5}{2}{45}
+      \drift{1}
+      \dipole{M6}{2}{45}
+      \drift{1}
+      \savecoordinate{myCoord2}[center]
+      \dipole{M7}{2}{45}
+      \drift{1}
+      \dipole{M8}{2}{45}
+      \drawrule{(-2.5,-1)}[2]
+    \end{labeldistance}
+    % custom drawing using saved coordinates (to center of drifts)
+    \draw[->, thick] (myCoord2) -- (myCoord1) node[midway,fill=white,rotate=20] {signal};
+  \end{lattice}
+\end{subfigure}
+%
+%
+%
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \begin{lattice}
+    \setangle{70}
+    \northlabels %labels to the left
+    \drift{0.5}
+    \quadrupole{QF1}{0.3}
+    \drift{0.2}
+    \kicker{}{0.1}
+    \drift{0.07}
+    \quadrupole{QD2}{0.3}
+    \drift{0.4}
+    \setelementcolor{kicker}{cyan}
+    \kicker{Septum}{0.5}
+    \resetelementcolor{kicker}
+    \savecoordinate{Septum}[center] %save to connect other beamline
+    \drift{0.8}
+    \kicker{}{0.1}
+    \drift{0.37}
+    \quadrupole{QD3}{0.2}
+    \drift{0.17}
+    \kicker{}{0.1}
+    \drift{0.1}
+    \sextupole{SF1}{0.2}
+    \drift{0.27}
+    \dipole{MB1}{0.2}{30}[s][0.4]
+    \drift{0.2}
+
+    % now go back to saved coordinate and continue with another beamline
+    \goto{Septum}
+    \rotate{-20}
+    \southlabels %labels to the right
+    \drift{0.6}
+    \kicker{SS1}{0.2}
+    \drift{0.2}
+    \kicker{SSH1}{0.2}
+    \drift{0.3}
+    \dipole{M1}{0.2}{-30}[r][0.4]
+    \begin{fade} %fade out this part
+      \drift{0.2}
+      \dipole{M2}{0.2}{50}[r][0.4]
+      \drift{0.2}
+      \dipole{M3}{0.2}{-20}[r][0.4]
+      \drift{0.7}
+    \end{fade}
+
+    \drawrule{(-0.75,-0.2)}[0.8]
+  \end{lattice}
+\end{subfigure}
+\caption{A figure with two lattices}
+\label{fig:lattices}
+\end{figure}
+
+
+
+
+
+
+\clearpage
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+  \centering
+  \begin{lattice}
+    \rotate{90}
+    \northlabels %labels to the left
+    \drift{0.5}
+    \quadrupole{QF1}{0.3}
+    \drift{0.2}
+    \kicker{}{0.1}
+    \drift{0.07}
+    \quadrupole{QD2}{0.3}
+    \drift{0.4}
+    \setelementcolor{kicker}{cyan}
+    \kicker{Septum}{0.5}
+    \resetelementcolor{kicker}
+    \savecoordinate{Septum}[center] %save to connect other beamline
+    \drift{0.8}
+    \kicker{}{0.1}
+    \drift{0.37}
+    \quadrupole{QD3}{0.2}
+    \drift{0.17}
+    \kicker{}{0.1}
+    \drift{0.1}
+    \sextupole{SF1}{0.2}
+    \drift{0.27}
+    \dipole{MB1}{0.2}{30}[s][0.4]
+    \drift{0.2}
+
+    % now go back to saved coordinate and continue with another beamline
+    \goto{Septum}
+    \rotate{-20}
+    \southlabels %labels to the right
+    \drift{0.6}
+    \kicker{SS1}{0.2}
+    \drift{0.2}
+    \kicker{SSH1}{0.2}
+    \drift{0.3}
+    \dipole{M1}{0.2}{-30}[r][0.4]
+    \begin{fade} %fade out this part
+      \drift{0.2}
+      \dipole{M2}{0.2}{50}[r][0.4]
+      \drift{0.2}
+      \dipole{M3}{0.2}{-20}[r][0.4]
+      \drift{0.7}
+    \end{fade}
+    \legend{(0,6.5)}
+  \end{lattice}
+  \caption{one lattice environment and goto}
+\end{subfigure}
+%
+\begin{subfigure}[b]{.45\textwidth}
+\centering
+ \begin{lattice}
+    \rotate{90}
+    \northlabels %labels to the left
+    \drift{0.5}
+    \quadrupole{QF1}{0.3}
+    \drift{0.2}
+    \kicker{}{0.1}
+    \drift{0.07}
+    \quadrupole{QD2}{0.3}
+    \drift{0.4}
+    \setelementcolor{kicker}{cyan}
+    \kicker{Septum}{0.5}
+    \resetelementcolor{kicker}
+    \savecoordinate{Septum}[center] %save to connect other beamline
+    \drift{0.8}
+    \kicker{}{0.1}
+    \drift{0.37}
+    \quadrupole{QD3}{0.2}
+    \drift{0.17}
+    \kicker{}{0.1}
+    \drift{0.1}
+    \sextupole{SF1}{0.2}
+    \drift{0.27}
+    \dipole{MB1}{0.2}{30}[s][0.4]
+    \drift{0.2}
+  \end{lattice}
+  % 
+  %now draw second lattice and connect them using the saved coordinate
+  \begin{lattice}[1][overlay]
+    \start{(Septum)}
+    \rotate{70}
+    \drift{0.6}
+    \kicker{SS1}{0.2}
+    \drift{0.2}
+    \kicker{SSH1}{0.2}
+    \drift{0.3}
+    \dipole{M1}{0.2}{-30}[r][0.4]
+    \begin{fade} %fade out this part
+      \drift{0.2}
+      \dipole{M2}{0.2}{50}[r][0.4]
+      \drift{0.2}
+      \dipole{M3}{0.2}{-20}[r][0.4]
+      \drift{0.7}
+    \end{fade}
+    \legend{(-1,6.5)}
+  \end{lattice}
+ \caption{two lattice environments and start}
+\end{subfigure}
+\caption{Two ways to connect lattices}
+\label{fig:twoways}
+\end{figure}
+
+\end{document}

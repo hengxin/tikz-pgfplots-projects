@@ -1,0 +1,25 @@
+% file: 3-2-greedy/deadline-swap.tex
+
+\documentclass[tikz]{standalone}
+
+\usetikzlibrary{positioning, calc, shapes.multipart, decorations.pathreplacing}
+
+\begin{document}
+\begin{tikzpicture}[]
+  \node (before) [rectangle split, rectangle split parts = 4, draw, anchor = center, rectangle split horizontal]
+  {\nodepart[text width = 0.50cm]{one}
+   \nodepart[text width = 2cm, align = center]{two}$J_i$
+   \nodepart[text width = 1cm, align = center]{three}$J_j$
+   \nodepart[text width = 0.50cm]{four}};
+   
+  \node (o) [left = 0.20cm of before] {$\mathcal{O}:$};
+
+  \node (after) [below = 1.0cm of before, rectangle split, rectangle split parts = 4, draw, anchor = center, rectangle split horizontal]
+  {\nodepart[text width = 0.50cm]{one}
+   \nodepart[text width = 1cm, align = center]{two}$J_j$
+   \nodepart[text width = 2cm, align = center]{three}$J_i$
+   \nodepart[text width = 0.50cm]{four}};
+
+  \node (o') [left = 0.20cm of after] {$\mathcal{O'}:$};
+\end{tikzpicture}
+\end{document}

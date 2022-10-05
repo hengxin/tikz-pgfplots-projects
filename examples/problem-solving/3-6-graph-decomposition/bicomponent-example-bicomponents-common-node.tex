@@ -1,0 +1,54 @@
+% file: 3-6-graph-decomposition/bicomponent-example-bicomponents-common-node.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style = {draw, circle, minimum size = 6pt},
+  node distance = 0.25cm and 1.0cm,
+  cnode/.style = {fill = #1!20},
+  every edge/.style = {draw, thick}]
+  \begin{scope}
+    \node (g) {$G$};
+    \node (i) [below right = of g] {$I$};
+    \node (b) [below left = of i, cnode = blue] {$B$};
+
+    \path (g) edge (b)
+	      edge (i)
+	  (b) edge (i);
+  \end{scope}
+
+  \begin{scope}[yshift = -2.5cm]
+    \node (b) [cnode = blue] {$B$};
+    \node (c) [below right = of b] {$C$};
+    \node (e) [below left = of c, cnode = teal] {$E$};
+
+    \path (b) edge (e)
+  	      edge (c)
+  	  (c) edge (e);
+  \end{scope}
+
+  \begin{scope}[yshift = -5.0cm]
+    \node (e) [cnode = teal] {$E$};
+    \node (f) [below = 0.8cm of e, cnode = cyan] {$F$};
+
+    \path (e) edge (f);
+  \end{scope}
+
+  \begin{scope}[yshift = -7.5cm, node distance = 1.0cm and 1.0cm]
+    \node (f) [cnode = cyan] {$F$};
+    \node (a) [below left = of f] {$A$};
+    \node (d) [below right = of f] {$D$};
+    \node (h) [above left = of a] {$H$};
+    \node (j) [above right = of d] {$J$};
+
+  \path (f) edge (h)
+	    edge (a)
+	    edge (d)
+	(h) edge (a)
+	(a) edge (d)
+	(d) edge (j)
+	(j) edge (f);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

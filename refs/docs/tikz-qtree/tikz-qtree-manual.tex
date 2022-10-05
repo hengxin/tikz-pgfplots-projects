@@ -1,0 +1,402 @@
+\documentclass{article}
+
+\usepackage{mathspec,xltxtra}
+
+\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\setmonofont[Scale=0.95]{DejaVu Sans Mono}
+\newfontfamily\verbfont[Scale=0.8]{DejaVu Sans Mono}
+\newfontfamily\ar[Script=Arabic]{DejaVu Sans}
+\newfontfamily\ja{Hiragino Maru Gothic Pro}
+\newfontfamily\javerbfont[Scale=0.85,LetterSpace=5.0]{Hiragino Maru Gothic Pro}
+\setmathrm{DejaVu Serif} \setmathfont(Digits,Latin){DejaVu Serif}
+
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+
+\usepackage{fullpage}
+
+\usepackage{fancyvrb,fvrb-ex}
+\fvset{gobble=0,xleftmargin=0.5in,xrightmargin=2.75in,formatcom=\verbfont}
+\VerbatimFootnotes
+
+\newcommand\tikztree{\texttt{tikz-qtree}}
+
+\tikzset{>=latex}
+
+\title{\tikztree: better trees with TikZ}
+\author{David Chiang\\\texttt{chiang@isi.edu}}
+\date{Version 1.2 (22 Apr 2012)}
+
+\begin{document}
+
+\maketitle
+
+The \tikztree{} package provides a macro for drawing trees with
+TikZ\footnote{\texttt{http://sourceforge.net/projects/pgf/}} using the
+easy syntax of Alexis Dimitriadis'
+Qtree\footnote{\texttt{http://www.ling.upenn.edu/advice/latex/qtree/}}. It
+improves on TikZ's standard tree-drawing facility by laying out tree
+nodes without collisions; it improves on Qtree by adding lots of
+features from TikZ; and it improves on \verb|pst-qtree| in being
+usable with pdf\TeX{} and
+\XeTeX{}.\footnote{Although \XeTeX{} works with \verb|pst-qtree| using the \verb|xetex-pstricks| package. For typesetting very large trees or a large number of trees, this may be the better option.}
+
+\section{Basics}
+
+To load the package in \LaTeX{}:
+\begin{Verbatim}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\end{Verbatim}
+%
+The simplest usage is identical to Qtree:
+\begin{center}
+\begin{SideBySideExample}
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.VP [.V sat ] 
+               [.PP [.P on ] 
+                    [.NP [.Det the ] [.N mat ] ] ] ] ]
+\end{SideBySideExample}
+\end{center}
+Subtrees are delimited by square brackets. A subtree's root label is
+joined by a dot (\verb|.|) to its opening bracket.\footnote{You can
+also write the label after the closing bracket instead of the opening
+bracket, or both, or neither. Please see the Qtree documentation for
+details.} As in Qtree, spaces are required after every (internal or
+leaf) node label. 
+
+\verb|\Tree| works inside or outside a
+\verb|tikzpicture| environment, but many of the features described 
+below require the explicit \verb|tikzpicture| environment.
+
+\goodbreak
+
+\section{Tree options} 
+
+Some options for standard TikZ trees work for \verb|\Tree| as
+well:
+\begin{itemize}
+\item \verb|level distance|: vertical distance between the anchors of a parent and its children
+\item \verb|sibling distance|: horizontal distance between the boundaries of sister subtrees (not the anchors of their roots, as in standard TikZ trees). Note that TikZ nodes already have some horizontal space around them (\verb|inner xsep|, by default \verb|0.3333em|), so even \verb|sibling distance=0pt| leaves some room.
+\end{itemize}
+These are set either by writing
+\verb|\tikzset{|\textit{option}\verb|=|\textit{value}\verb|}| or by
+writing \verb|[|\textit{option}\verb|=|\textit{value}\verb|]| after a
+\verb|\begin{tikzpicture}| or \verb|\begin{scope}|.\footnote{Allowing
+options after \verb|\Tree| would have made sense, but there would be
+no way to disambiguate the two uses of square brackets.} For example:
+
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{level distance=60pt}
+\Tree [.NP [.Adj tall ] [.N tree ] ]
+\end{tikzpicture}
+%
+\begin{tikzpicture}[sibling distance=72pt]
+\Tree [.NP [.Adj fat ] [.N tree ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+The \verb|grow=|\textit{direction}\/ and \verb|grow'=|\textit{direction}\/ options control the orientation of trees just as for standard TikZ trees. However, \textit{direction}\/ must be one of \verb|up|, \verb|down|, \verb|left|, or \verb|right|. The difference between \verb|grow| and \verb|grow'| is that \verb|grow| places children counterclockwise with respect to their parent and \verb|grow'| places them clockwise:
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}[grow'=down]
+\Tree [.NP [.Adj reverse ] [.N tree ] ]
+\end{tikzpicture}
+%
+\begin{tikzpicture}[grow'=up]
+\Tree [.NP [.Adj upside-down ] [.N tree ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\vspace{3ex}
+\begin{SideBySideExample}
+\begin{tikzpicture}[grow=left]
+\tikzset{level distance=60pt,sibling distance=18pt}
+\tikzset{execute at begin node=\strut}
+\Tree [.NP [.Adj sideways ] [.N tree ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+Note that in sideways trees, \verb|level distance| is horizontal and \verb|sibling distance| is vertical. Sideways trees do take a little extra adjusting to look right, since the defaults are geared towards vertically growing trees. The meaning of the option \verb|execute at begin node=\strut| is, before typesetting the label of every node, insert the command \verb|\strut|, which is an invisible box that maximizes the height and depth of the node.
+
+\section{Styles} 
+
+\subsection{Node styles}
+
+The following TikZ styles are automatically applied to tree nodes,
+providing a hook for you to change the appearance of nodes or particular kinds of nodes:
+\begin{itemize}
+\item \verb|every tree node| applies to every node (default: \verb|anchor=base|)
+\item \verb|every internal node| applies to every internal node
+\item \verb|every leaf node| applies to every leaf node
+\item \texttt{every level $n$ node} applies to every node at level $n$, where $n=0$ is the root
+\end{itemize}
+
+The options for nodes are all handled by TikZ and are
+described in detail in the TikZ documentation. For example, if you
+have a font named \verb|\ar| and want to set all the leaf labels in
+this font:
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{grow'=down}
+\tikzset{every leaf node/.style={font=\ar}}
+\Tree [.S [.NP القط ] 
+          [.VP [.V وجلس ] 
+               [.PP [.P على ] [.NP حصيرة ] ] ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+You can make the nodes in a sideways tree line up on their left edge using \verb|anchor=base west|:
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{grow'=right,level distance=32pt}
+\tikzset{execute at begin node=\strut}
+\tikzset{every tree node/.style={anchor=base west}}
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.VP [.V sat ] 
+               [.PP [.P on ] 
+                    [.NP [.Det the ] [.N mat ] ] ] ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+In Qtree, it was allowed to use a line break (\verb|\\|) inside a node. TikZ nodes by default don't allow this, but the \verb|align| option (in PGF/TikZ version 2.1 or later) enables it as a side effect:\footnote{Thanks to Alan Munn for figuring this out. Prior to PGF/TikZ version 2.1, the fix was to use the options \verb|text width=2em,text centered|.}
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{every tree node/.style={align=center,anchor=north}}
+\Tree [.S [.NP Det\\the N\\cat ]
+          [.VP V\\sat
+               [.PP P\\on
+                    [.NP Det\\the N\\mat ] ] ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+\subsection{Edge styles}
+
+The \verb|edge from parent| style applies to every edge (default value: \verb|draw|). By defining this style, you can change the appearance of all the edges in a tree. For example, if you want the edges to be a little darker:
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{edge from parent/.append style={very thick}}
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.VP [.V sat ] 
+               [.PP [.P on ] 
+                    [.NP [.Det the ] [.N mat ] ] ] ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+Note that we must say \verb|.append style| instead of just \verb|.style|, in order to retain the \verb|draw| option without which the edge will be invisible.
+As a more complex example, edges have an
+\verb|edge from parent path| option which lets you change the shape of
+the edge. Its value is a TikZ path expressed in terms of
+\verb|\tikzparentnode|, the parent node, and \verb|\tikzchildnode|,
+the child node.
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{edge from parent/.style=
+  {draw,
+   edge from parent path={(\tikzparentnode.south) 
+                          -- +(0,-8pt) 
+                          -| (\tikzchildnode)}}} 
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.VP [.V sat ] 
+               [.PP [.P on ] 
+                    [.NP [.Det the ] [.N mat ] ] ] ] ]
+\end{tikzpicture}                    
+\end{SideBySideExample}
+\end{center}
+
+\subsection{Node placement styles}
+
+The following styles aren't applied to nodes, but affect the placement of nodes. By defining these styles, you can change the options \verb|level distance| or \verb|sibling distance| for different parts of the tree.\footnote{Thanks to Andrew Stacey for helping with the implementation.}
+\begin{itemize}
+\item \texttt{level $n$} applies to the placement of level $n$ (relative to level $n-1$)
+\item \texttt{level $n$+} applies to level $n$ and below
+\item \verb|interior| applies to the placement of internal nodes (except the root)
+\item \verb|frontier| applies to the placement of leaves
+\end{itemize}
+
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{level 1/.style={level distance=36pt}}
+\tikzset{level 2/.style={level distance=32pt}}
+\tikzset{level 3+/.style={level distance=28pt}}
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.VP [.V sat ] 
+               [.PP [.P on ] 
+                    [.NP [.Det the ] [.N mat ] ] ] ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+In this context, you can also set the option \verb|distance from root|, which positions a level relative to the root instead of the parent level. This is particularly useful for aligning all the leaf nodes:
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\tikzset{frontier/.style={distance from root=150pt}}
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.VP [.V sat ] 
+               [.PP [.P on ] 
+                    [.NP [.Det the ] [.N mat ] ] ] ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+Unfortunately, the depth of the deepest leaf node is a global property of the tree and not easy to know during tree rendering, so you do have to specify the absolute depth of the leaf nodes. It will typically be an integer multiple of \verb|level distance|.
+
+\section{Embedding TikZ nodes}
+
+Inside a \verb|\Tree|, in place of a node label, you can use a TikZ
+\verb|\node| command.\footnote{\verb|\Tree| specifically watches out
+for the token \verb|\node|; do not use \verb|\path node| or other
+equivalents.}
+\begin{quote}
+\verb|\node [|\textit{options}\verb|] (|\textit{name}\verb|) {|\textit{label}\verb|};|
+\end{quote}
+Don't forget the terminating semicolon. The
+\verb|[|\textit{options}\verb|]|, which are optional, let you change
+the appearance of the node; for example, the \verb|draw| option draws
+a border around the node. The \verb|(|\textit{name}\verb|)|, which is
+also optional, can be used for drawing lines/arrows to/from the node.
+\begin{center}
+\begin{Example}
+\begin{tikzpicture}
+\Tree [.CP [.NP \node(wh){what}; ] 
+           [.C$'$ [.I did ] 
+                  [.\node[draw]{IP}; 
+                    [.NP [.Det the ] [.N cat ] ]
+                    [.VP [.V sit ] 
+                         [.PP [.P on ] 
+                              [.\node[draw]{NP}; 
+                                [.NP [.Det a ] [.N book ] ] 
+                                [.PP [.P about ] [.NP \node(t){$t$}; ] ] ] ] ] ] ] ]
+\draw[semithick,->] (t)..controls +(south west:5) and +(south:5)..(wh);
+\end{tikzpicture}
+\end{Example}
+\end{center}
+
+You can also refer to the whole subtree rooted at the node named \textit{name}\/ using \verb|\subtreeof{|\textit{name}\verb|}|:
+\begin{center}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\Tree [.S [.NP [.Det the ] [.N cat ] ] 
+          [.\node(site){VP}; [.V sat ] ] ]
+\begin{scope}[shift={(1in,0.5in)}]
+\Tree [.\node(root){VP}; VP$^\ast$
+                         [.PP [.P on ] 
+                              [.NP [.Det the ] [.N mat ] ] ] ]
+\end{scope}
+\draw[->](\subtreeof{root}.140)..
+          controls +(west:1) and +(east:1)..(site);
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+\noindent Another example for machine translation people:
+\begin{center}
+\fvset{formatcom=\javerbfont}
+\begin{SideBySideExample}
+\begin{tikzpicture}
+\begin{scope}[frontier/.style={distance from root=150pt}]
+\Tree [.S [.NP [.Det \node(e1){the}; ] 
+               [.N \node(e2){cat}; ] ] 
+          [.VP [.V \node(e3){sat}; ] 
+               [.PP [.P \node(e4){on}; ] 
+                    [.NP [.Det \node(e5){the}; ] 
+                         [.N \node(e6){mat}; ] ] ] ] ]
+\end{scope}                         
+\begin{scope}[xshift=9pt,yshift=-5in,grow'=up,
+              frontier/.style={distance from root=150pt}]
+\tikzset{every leaf node/.style={font=\ja}}
+\Tree [.S [.NP \node(j1){猫が}; ] 
+          [.VP [.PP [.NP [.NP \node(j2){マット}; ] 
+                         [.Part \node(j3){の}; ]
+                         [.NP \node(j4){上}; ] ] 
+                    [.P \node(j5){に}; ] ] 
+               [.V \node(j6){土}; ] ] ]
+\end{scope}
+\begin{scope}[dashed]
+\draw (e1)--(j1);
+\draw (e2)--(j1);
+\draw (e3)--(j6);
+\draw (e4)--(j4);
+\draw (e4)--(j5);
+\draw (e5)--(j2);
+\draw (e6)--(j2);
+\end{scope}
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+
+\section{Explicit edges}
+
+The edge from a parent to a child node is normally automatically drawn
+for you, but you can do it yourself with an \verb|\edge| command
+\emph{before}\/ the corresponding child node. It is similar to the
+TikZ \verb|edge from parent| command.\footnote{Except that a TikZ
+\texttt{edge from parent} comes after the child node. I thought it was
+more logical to put it before.}
+\begin{quote}
+\verb|\edge [|\textit{options}\verb|];|
+\end{quote}
+Again, don't forget the semicolon. The
+\verb|[|\textit{options}\verb|]|, which are optional, let you change
+the appearance of the edge, as described above.
+
+There is a predefined edge style \verb|roof| that draws a triangle-shaped edge over a node, like Qtree's \verb|\qroof|:
+\begin{center}
+\begin{Example}
+\begin{tikzpicture}[level distance=40pt]
+\Tree [.S [.NP [.N this ] ] 
+          [.VP [.V is ] 
+               [.NP \edge[roof]; {a noun phrase the complexity of which 
+                                  is too great for me to parse} ] ] ]
+\end{tikzpicture}
+\end{Example}
+\end{center}
+
+You can also add a label to the edge, using the following syntax:
+\begin{quote}
+\verb|\edge [|\textit{options}\verb|] node [|\textit{options}\verb|] {|\textit{label}\verb|};|
+\end{quote}
+Typically one will use the \verb|auto| option for edge labels, which
+places the label to the side of the edge.
+\begin{center}
+\begin{SideBySideExample}[xrightmargin=1.25in]
+\newcommand{\initial}[1]{\ensuremath{\alpha_{\textrm{\scriptsize #1}}}}
+\newcommand{\auxiliary}[1]{\ensuremath{\beta_{\textrm{\scriptsize #1}}}}
+\begin{tikzpicture}[level distance=36pt,sibling distance=12pt]
+\Tree [.\initial{sat} 
+        \edge node[auto=right]{1}; \initial{cat} 
+        \edge[dashed] node[auto=left]{2}; 
+        [.\auxiliary{on} 
+          \edge node[auto=left]{2}; \initial{mat} ] ]
+\end{tikzpicture}
+\end{SideBySideExample}
+\end{center}
+The fact that \verb|auto=left| draws a label on the right and
+\verb|auto=right| draws a label on the left makes sense if you think
+about the tree growing from the root to the leaves.
+
+\section{Qtree compatibility}
+
+For basic trees, \tikztree{} can be used as a drop-in replacement for Qtree, but most of Qtree's advanced features are either not accessed in the same way in \tikztree{} or not implemented at all. There is a package \verb|tikz-qtree-compat| which can be loaded to improve compatibility. Supported so far are:
+\begin{itemize}
+\item Superscripts and subscripts outside of math mode, and \verb|\automath|
+\item The \verb|\0|, \verb|\1|, and \verb|\2| commands, and \verb|\qtreeprimes|
+\item The \verb|\qroof| command
+\end{itemize}
+For unsupported commands, warning messages are printed, but your file should compile.
+
+\section*{Acknowledgements}
+This was all Dan Gildea's idea. Thanks to Alan Munn for his very helpful suggestions, and to Andrew Stacey for modifications.
+
+\end{document}

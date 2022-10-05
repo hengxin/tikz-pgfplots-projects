@@ -1,0 +1,328 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Documentation for the tikzmarmots package
+% A package to bring little marmots into tikz
+% Maintained by samcarter
+%
+% Project repository and bug tracker:
+% https://github.com/samcarter/tikzmarmots
+%
+% Released under the LaTeX Project Public License v1.3c or later
+% See http://www.latex-project.org/lppl.txt
+%
+% Version 1.0
+% Nov 8, 2018  
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[parskip=half]{scrartcl}
+
+% packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}	
+\usepackage[utf8]{inputenc}		
+\usepackage[english]{babel}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{tikzducks}
+\usetikzlibrary{ducks}
+\usepackage{tikzmarmots}
+\usetikzlibrary{marmots}
+\usepackage[most]{tcolorbox}
+\usepackage[paper=a4paper,margin=3cm]{geometry}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{scrlayer-scrpage} 
+\usepackage{marvosym}
+\usepackage{fontawesome}
+\usepackage[hang,flushmargin,bottom]{footmisc}
+\usepackage{imakeidx}
+\usepackage[colorlinks=true,breaklinks=true,urlcolor=duckblue,linkcolor=duckblue,citecolor=duckblue,filecolor=duckblue]{hyperref}
+
+% macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CTAN}{\textsc{CTAN}\xspace}
+\newcommand{\TikZ}{Ti\emph{k}Z\xspace}
+\newcommand{\tikzducks}{Ti\emph{k}Zducks\xspace}
+\newcommand{\tikzmarmots}{Ti\emph{k}Zmarmots\xspace}
+\newcommand{\miktex}{MiK\TeX\xspace}
+\newcommand{\texlive}{\TeX{}Live\xspace}
+
+% customisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{duckblue}{RGB}{0,70,140}
+\definecolor{marmotred}{RGB}{140,20,40}
+\addtokomafont{sectioning}{\color{marmotred}}
+\addtokomafont{date}{\normalsize}
+\addtokomafont{author}{\normalsize}
+\setlength{\footnotemargin}{0.7em}
+
+\lstdefinestyle{marmotstyle}{%
+	language={[latex]TeX},
+	tabsize=2,
+	breaklines,
+	basicstyle=\footnotesize\ttfamily,
+	commentstyle={\color{green!50!black}\slshape}, 
+	columns=fullflexible,
+	emphstyle=\color{orange!70!black},
+	emph=[1]{body,blush,whiskers,invisible,cake,crown,teeth,3D,shadow,askphil,scale,xshift,yshift},
+	texcsstyle=*\color{duckblue}\bfseries,
+	keywordstyle=\color{red!60!black}\bfseries,
+	morekeywords={tikzpicture,scope,patterns,calc,pgfinterruptboundingbox},
+	moretexcs={marmot,path,definecolor,scalebox,foreach,node,draw,PassOptionsToPackage,usetikzlibrary,selectcolormodel,colorlet,includegraphics,tikzset,shade,duck},
+	delim ={[s][\ttfamily\color{green!50!black}]{$}{$}},
+	moredelim=[is][\footnotesize\ttfamily\color{orange!70!black}]{|}{|},
+	index=[1][emph]
+}
+
+\tcbset{%
+	colframe=marmotred,
+	arc=2mm,
+	fonttitle=\bfseries,
+	sidebyside,
+	listing options={style=marmotstyle},
+	center lower,
+	righthand width=6.5cm,
+	bottom=0pt, 
+	top=0pt,
+	before lower={%
+		\setlength{\parskip}{0.5cm}%
+		\spaceskip=5\fontdimen2\font%
+	},
+}
+
+\lstset{style=marmotstyle}
+
+\setlength{\footheight}{45pt}
+
+\cfoot{%
+	\begin{tikzpicture}[scale=0.5] 
+		\marmot
+		\duck[invisible,signpost=\scalebox{0.6}{\thepage}]
+	\end{tikzpicture}
+} 
+\pagestyle{scrheadings}
+%\indexsetup{firstpagestyle=scrheadings}
+%\makeindex
+
+% meta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{The \texorpdfstring{\tikzmarmots}{tikzmarmots} package}
+\subtitle{using marmots in \TikZ}
+\author{%
+	\texorpdfstring{\texttt{samcarter} (alias 
+		\begin{tikzpicture}[scale=0.3,baseline=3pt]
+			\duck[body=yellow!50!brown!50!white,
+					longhair=red!50!brown, 
+					jacket=blue!50!black]
+		\end{tikzpicture})\\[0.8em]
+		\url{https://github.com/samcarter/tikzmarmots}\\
+		\url{https://www.ctan.org/pkg/tikzmarmots}
+	}{samcarter}}
+\date{Version 1.0 -- \today}
+
+\begin{document}
+\maketitle
+\thispagestyle{scrheadings}
+
+\begin{tcolorbox}[coltext=marmotred,width=.8\textwidth,center,	sidebyside=false,	bottom=10pt,top=10pt]
+The \tikzmarmots package was merged into the Ti\emph{k}Zlings package. To get an up-to-date version, please load the {\color{duckblue}\lstinline|tikzlings-marmots|} or the more general {\color{duckblue}\lstinline|tikzlings|} package instead.
+\end{tcolorbox}
+
+
+\section{Introduction}
+\label{intro}
+
+Inspired by the enthusiasms of the TeX.Stackexchange user \href{https://tex.stackexchange.com/users/121799/marmot}{@marmot} for beings of the same species, this little package can draw marmots using \TikZ.
+
+Unlike its older sibling, the \tikzducks package, this packages focuses on drawing the marmot itself. Additional accessories are not part of the package, but can be taken from other sources.
+
+This package is work in progress, therefore I would be happy to hear your feedback and ideas how to improve the package. The head version of the source code can be found on \url{github.com/samcarter/tikzmarmots}, including a bug tracker -- please make constructive use of it! 
+A more stable package version can be found on \CTAN (\url{www.ctan.org/pkg/tikzmarmots}) and is included in both \miktex and \texlive as \tikzmarmots. 
+If you seek any other assistance (not bug reports/feature requests), I suggest asking on \href{https://tex.stackexchange.com}{TeX.Stackexchange}.
+
+%\subsection{Acknowledgements}
+%
+%Without the friendly and helpful community of \href{https://tex.stackexchange.com/}{TeX.Stackexchange} this package would not exist. 
+%
+%%I would like to thank a few fellow users in particular:
+%%TODO marmot
+%%TODO ulrike
+
+\subsection{License}
+
+Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright}
+\texttt{samcarter}. Permission is granted to copy, distribute and\slash or modify this software under the terms of the LaTeX project public licence, version 1.3c or later \url{http://www.latex-project.org/lppl.txt}.
+
+The shown example marmots are purely fictional characters, any resemblance to real marmots or persons is purely coincidental and no copyright infringement is intended.
+
+\subsection{Dependencies}
+
+The \tikzmarmots package loads \TikZ, which in turn loads the \lstinline|xcolor| package (amongst others). If you require one of these packages to be loaded with some option, please consider loading it yourself before the \tikzmarmots package or use, e.g.
+
+\begin{lstlisting}[aboveskip=1.2em,morekeywords={xcolor,svgnames}]
+	\PassOptionsToPackage{svgnames}{xcolor}
+\end{lstlisting}
+
+\section{Usage}
+
+The basic usage is fairly simple, to draw a marmot:
+\begin{tcblisting}{title={Basic marmot}}
+\begin{tikzpicture}
+	\marmot
+\end{tikzpicture}
+\end{tcblisting}
+
+To customise this basic marmot, the package uses \lstinline|pgf| keys. 
+
+These keys can for example be used to change the marmot's colour via \lstinline|body=<colour name>|. 
+
+\begin{tcblisting}{title={Blue marmot}}
+\begin{tikzpicture}
+	\marmot[body=blue]
+\end{tikzpicture}
+\end{tcblisting}
+
+The colour of the belly and muzzle will use a lighter shade of the selected colour, while a darker shade is chosen for paws, nose and eyes.
+
+The key \lstinline|3D| will make the marmot 3-dimensional:
+
+\begin{tcblisting}{title={3D marmot}}
+\begin{tikzpicture}
+	\marmot[3D]
+\end{tikzpicture}
+\end{tcblisting}
+
+Keys can also be used to add whiskers to the marmot:
+
+\begin{tcblisting}{title={Whiskers}}
+\begin{tikzpicture}
+	\marmot[whiskers]
+\end{tikzpicture}
+\begin{tikzpicture}
+	\marmot[whiskers=blue]
+\end{tikzpicture}
+\end{tcblisting}
+
+Or to make it blush:
+
+\begin{tcblisting}{title={Blushing marmot}}
+\begin{tikzpicture}
+	\marmot[blush]
+\end{tikzpicture}
+\end{tcblisting}
+
+Some marmots even show their chisel teeth:
+
+\begin{tcblisting}{title={Chisel teeth}}
+\begin{tikzpicture}
+	\marmot[teeth]
+\end{tikzpicture}
+\end{tcblisting}
+
+The marmots also can cast a shadow:
+
+\begin{tcblisting}{title={Shadow}}
+\begin{tikzpicture}
+	\marmot[shadow]
+\end{tikzpicture}
+\end{tcblisting}
+
+This ability is important if you want to ask Punxsutawney Phil\footnote{\url{https://en.wikipedia.org/wiki/Punxsutawney_Phil}} on Groundhog Day how the weather is going to be. With a probability derived from the statistics of 120 Groundhog Days\footnote{\url{https://www.livescience.com/32974-punxsutawney-phil-weather-prediction-accuracy.html}} the option \lstinline|askphil| might or might not result in a shadow.
+
+\begin{tcblisting}{title={Ask Phil}}
+\begin{tikzpicture}
+	\marmot[askphil]
+\end{tikzpicture}
+\end{tcblisting}
+
+
+If the size of the marmots should be changed or shifted:
+
+\begin{tcblisting}{title={Scaled and shifted marmots}, righthand width=3cm}
+\begin{tikzpicture}[scale=0.6]
+	\marmot
+	\marmot[xshift=90pt, scale=.5, yshift=150pt,body=brown!80!gray]
+	\marmot[xshift=60pt, scale=.5, yshift=100pt,body=brown!80!yellow]
+	\marmot[xshift=80pt, scale=.5, yshift=50pt,body=brown!80!red]	
+\end{tikzpicture}
+\end{tcblisting}
+
+To make the usage easier for the \TikZ-savvy users, the marmots can also be used as \TikZ library. It can be loaded with \lstinline|\usetikzlibrary{marmots}|. In addition to the normal functionality of the \tikzmarmots package, the marmots are now also available as \lstinline|pic|. A short example:
+
+\begin{tcolorbox}[title={\TikZ library ``marmots''}]
+\begin{lstlisting}[morekeywords={marmots,duck,standalone,tikz,document}]
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{marmots}
+
+\begin{document}
+
+\begin{tikzpicture}
+\draw (0,0) pic[
+    marmot/body=blue,
+    marmot/blush,
+  ] {marmot};
+\draw (2,0) pic[
+    scale=1.4,
+  ] {marmot};
+\end{tikzpicture}
+
+\end{document}
+\end{lstlisting} 
+
+\tcblower
+\begin{tikzpicture}
+\draw (0,0) pic[
+    marmot/body=blue,
+    marmot/blush,
+  ] {marmot};
+\draw (2,0) pic[
+    scale=1.4,
+  ] {marmot};
+\end{tikzpicture}
+\end{tcolorbox}
+
+\section{Further customisation}
+
+The above list of available customisations does not sound very exhaustive, but there are basically infinite possibilities for further customisation, as the marmots are just shapes in a \TikZ picture -- all the heavy weapons of the \TikZ package are thus available for further customisation.
+
+\begin{tcblisting}{title={Adding things to the marmot}}
+\begin{tikzpicture}
+	\marmot
+	\fill[blue] (2,0) rectangle (1,1);
+\end{tikzpicture}
+\end{tcblisting}
+
+%\begin{tcblisting}{title={Monochrome marmot}}
+%\begin{tikzpicture}
+%	\selectcolormodel{gray}
+%	\marmot
+%\end{tikzpicture}
+%\end{tcblisting}
+
+\section{Re-using accessories from the \tikzducks package}
+
+As already said in the introduction, this package focuses on the marmots themselves and does not provide additional accessories. 
+However there is no need to despair! Many of the accessories from the \tikzducks package (\url{https://www.ctan.org/pkg/tikzducks}) can be re-used using the \lstinline|invisible| key which will only produce the desired item without a duck.
+
+The marmots are designed to have the same height as the ducks, so many items can be adopted without any modifications. One example:
+
+\addtocounter{footnote}{1}
+\begin{tcblisting}{title={Marmot Queen$^{\thefootnote}$}}
+%\usepackage{tikzducks}
+\begin{tikzpicture}
+	\marmot
+	\duck[invisible,crown]
+\end{tikzpicture}	
+\end{tcblisting}
+\footnotetext[\thefootnote]{The Marmot Queen is inspired by \href{http://www.ilregnodeifanes.it/inglese/summary.htm}{The Fanes' saga}}
+
+Unfortunately not all accessories will work. Some are entirely unsuitable (e.g. clothing which shape was specially designed for the ducks), others can be modified to fit:
+
+\begin{tcblisting}{title={Happy Birthday!}}
+%\usepackage{tikzducks}
+\begin{tikzpicture}
+	\marmot
+	\duck[invisible, cake=red!50!violet, scale=0.7, xshift=9, yshift=18]
+\end{tikzpicture}	
+\end{tcblisting}
+
+For a complete list of available accessories, please see the documentation of the \tikzducks package (\url{http://mirrors.ctan.org/graphics/pgf/contrib/tikzducks/tikzducks-doc.pdf}) 
+
+\end{document}

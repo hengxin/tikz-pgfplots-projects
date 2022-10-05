@@ -1,0 +1,38 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+\input{newcommands}
+
+\renewcommand{\va}[2]{\draw [->, thick] (#1) to (#2);}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzset{
+ process/.style = {rectangle, font = \huge, text width=6em, align = right},
+ put/.style = {rectangle, rounded corners,font =\Large, fill = blue!30, draw, text width=9.5em, text centered},
+ get/.style = {rectangle, rounded corners,font =\Large, fill = yellow!30, draw, text width=9.5em, text centered},
+ g/.style = {rectangle, font =\Large, rounded corners,draw, fill = yellow!30,text width=9em, text centered},
+ vis/.style = {rectangle, font = \Large}
+}
+  \node (p-c) [process] {$c:$};
+  \node (o) [get, right = 0.1cm of p-c] {$o=\get(k')$};
+  \node (g) [g, right = 4.0cm of o] {$g = \get(k)$};
+
+  \node (p-q) [process, below = 0.8cm of p-c] {$q \neq c:$};
+  \node (p'') [put, right = 0.1cm of p-q] {$p''=\pput(k',\_)$};
+
+  \node (p-j) [process, below = 0.8cm of p-q] {$j\neq c:$};
+  \node (p') [put, right = 0.1cm of p-j] {$p'=\pput(k,\_)$};
+
+  \node (p-i) [process, below = 0.8cm of p-j] {$i:$};
+  \node (p) [put, right = 0.1cm of p-i] {$p=\pput(k,\_)$};
+
+  \pva{o}{g};
+
+  \ar{p}{p'};
+  \ar{p'}{p''};
+
+  \rvb{p}{g};
+  \va{p''}{o};
+  \node [vis, below right = 0.15cm and 2cm of p-c] {$\Large{\rf},\Large{\vs},\Large{\arb}$};
+\end{tikzpicture}
+\end{document}

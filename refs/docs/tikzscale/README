@@ -1,0 +1,26 @@
+----------------------------------------------------------------
+tikzscale --- Absolute resizing of TikZ pictures and PGF plots without
+              scaling text
+E-mail: pat_h@web.de Released under the LaTeX Project
+Public License v1.3c or later See http://www.latex-project.org/lppl.txt
+----------------------------------------------------------------
+
+The tikzscale package extends the includegraphics command to support
+tikzpictures. It allows scaling of TikZ images and PGFPlots to a provided
+width or height without changing the text size.
+
+Usage: \usepackage{tikzscale}
+
+As an example write
+\includegraphics{myTikZFile.tikz}
+instead of
+\includegraphics{myJPEGFile.jpeg},
+with myTikZFile.tikz being the file name of a text file containing
+everything from \begin{tikzpicture} to \end{tikzpicture}. To actually
+do some scaling of the included TikZ file, give either an absolute width
+or an absolute height in the optional argument, e.g.
+\tikzscale@includetikz[width=0.5\linewidth]{myTikZFile.tikz}.
+If the file contains a plot created with the PGFPlots package, set both
+width and height via the optional argument, e.g.
+\tikzscale@includetikz[width=\linewidth,height=0.4\linewidth]{myPGFPlot.tikz}.
+

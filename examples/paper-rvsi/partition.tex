@@ -1,0 +1,42 @@
+%        File: partition.tex
+%     Created: Mon Jan 04 07:00 PM 2016 C
+% Last Change: Mon Jan 04 07:00 PM 2016 C
+%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, calc, backgrounds, fit, chains}
+
+\begin{document}
+
+\begin{tikzpicture}
+  
+\begin{scope}[start chain = partition placed {at = (\tikzchaincount*120:2.5)}, db/.style = {inner sep = 3pt}, every join/.style = {blue!80, line width = 3, bend right}]
+  % databases
+  \foreach \i in {1,2,3,1}
+    \node [on chain, db, join] {\includegraphics[scale = 0.20]{figs/db-logo.png}};
+  % partition text
+  \node (partition-text) [font = \Huge] at (0,0) {Partition};
+\end{scope}
+
+\begin{scope}[access/.style = {<->, orange, line width = 2}]
+  % two clients
+  \node (client-above) [below left = -1.00cm and 0.6cm of partition-1] {\includegraphics[scale = 0.25]{figs/client-pc-logo.png}};
+  \node (client-below) [below = 0.5cm of client-above] {\includegraphics[scale = 0.25]{figs/client-pc-logo.png}};
+
+  % access
+  \draw [access] (client-above) to (partition-1);
+  \draw [access] (client-below) to (partition-2);
+\end{scope}
+
+% background
+\begin{pgfonlayer}{background} % fill = lightgray!40
+  \node (box) [draw, fill = white, very thick, inner sep = 3pt, rectangle, 
+	fit = (client-above) (client-below) (partition-1) (partition-2) (partition-3)] {};
+\end{pgfonlayer}
+
+\end{tikzpicture}
+
+\end{document}
+
+

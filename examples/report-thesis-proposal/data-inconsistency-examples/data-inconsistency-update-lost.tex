@@ -1,0 +1,50 @@
+%        File: data-inconsistency-rmw.tex
+%     Created: Thu Oct 08 10:00 AM 2015 C
+% Last Change: Thu Oct 08 10:00 AM 2015 C
+%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, calc, backgrounds, fit}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{scope}
+    % phone
+    \node [] (phone) at (0,0) {\includegraphics[scale = 0.4]{figures/phone-icon.png}};
+    % tablet
+    \node (tablet) [below left = 4.0cm and 3.0cm of phone] {\includegraphics[scale = 
+    0.55]{figures/tablet-icon.jpg}};
+    % pc
+    \node (pc) [below right = 4.0cm and 3.0cm of phone] {\includegraphics[scale = 
+    0.60]{figures/pc-icon.png}};
+
+    % person at pc
+    \node (person-pc) [above left = -1.0cm and -2.0cm of pc] {\includegraphics[scale = 
+    0.30]{figures/person-icon.png}};
+  \end{scope}
+
+    % write from pc 
+    \begin{scope}[->, blue, line width = 6pt, font = \huge]
+      \draw [] (pc.west) to node [midway, sloped, above] {\textbf{1.} update file $f$} 
+      (tablet.east);
+      \draw [red, loosely dashed] (pc.north) to [out = 90, in = -20] node [midway, sloped, font = 
+      \Huge, scale = 2] {$\times$} (phone.east);
+      \draw (pc) to [loop, out = 60, in = -10, looseness = 3] node [midway, above, sloped] 
+      {\textbf{1.} update file $f$} (pc);
+    \end{scope}
+
+    % person at phone
+    \node (person-phone) [above left = -1.0cm and -2.0cm of phone] {\includegraphics[scale = 
+    0.30]{figures/person-icon.png}};
+
+    % read from phone
+    \begin{scope}[->, brown, line width = 6pt, font = \huge]
+      \draw (phone) to [loop, out = 180, in = -100, looseness = 3] node [midway, below, sloped] 
+      {\textbf{2.} read file $f$} (phone);   
+    \end{scope}
+
+    % update lost
+    \node (inconsistency) [font = \huge, right = of person-phone, red] {\bf Update Lost!};
+\end{tikzpicture}
+\end{document}

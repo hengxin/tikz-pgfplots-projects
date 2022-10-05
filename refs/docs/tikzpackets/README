@@ -1,0 +1,27 @@
+Package tikzPackets provide command for simple build network packets illustration with tikz.
+
+Usage example (UDP):
+
+\begin{tikzpicture}
+	\packetsInit
+	\packetsPrintBitScale{31}
+	
+	\packetsPutField{16}{Source Port}
+	\packetsPutField{16}{Destination Port}
+	\packetsEndLine{0}{}
+	
+	\packetsPutField{16}{Length}
+	\packetsPutField{16}{Checksum}
+	\packetsEndLine{32}{}
+	
+	\packetsPutField[protocolsField, minimum height = 1.5cm]{32}{Data}
+	\packetsEndLine{64}{}
+\end{tikzpicture}
+
+
+Version 1.0 (2020-07-13): first public release
+
+
+Copyright (C) 2020, Robert Ryszard Paciorek <rrp@opcode.eu.org>
+
+This is free software distributed under terms of The MIT License.

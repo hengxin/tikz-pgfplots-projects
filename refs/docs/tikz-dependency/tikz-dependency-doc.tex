@@ -1,0 +1,1684 @@
+% Copyright 2011 by Daniele Pighin
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Free Documentation License.
+%
+% See the file doc/generic/tikz-dependency/licenses/LICENSE for more details.
+
+\documentclass[a4paper]{ltxdoc}
+\def\pgfautoxrefs{1}
+
+\usepackage[a4paper,left=2.25cm,right=2.25cm,top=2.5cm,bottom=2.5cm,nohead]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{hyperref}
+\hypersetup{%
+        pdftitle={The tikz-dependency package v2.0},
+        pdfsubject={A latex package based on tikz to draw dependency graphs},
+        pdfauthor={Daniele Pighin},
+        pdfkeywords={dependency parses, latex, tikz, pgf},
+        colorlinks=true,        % use true to enable colors below:
+        linkcolor=blue,%red,
+        filecolor=blue,%magenta,
+        urlcolor=blue,%cyan,
+        citecolor=blue,
+        pdfborder=0 0 0,
+}
+\usepackage{tikz}
+\makeatletter
+\input{pgfmanual.code}
+\makeatother
+%\usepackage{pgfmanual}
+\usepackage{calc} % NEEDED by pgfmanual-en-macros
+\input{pgfmanual-en-macros}
+
+\usepackage{tikz-dependency}
+\usetikzlibrary{spy}
+%\usepackage{palatino}
+
+\newcommand{\pipeescape}{\catcode`\|=12}
+
+\newcommand{\cmdname}[1]{\texttt{\color{red!75!black}\detokenize{#1}}}
+
+\def\pkgname{\tikzname{}\texttt{-dependency}}
+
+\newcommand{\options}[1][key-value-pairs]{\opt{\oarg{#1}}}
+
+\newcommand{\note}[2]{
+   \begin{quote}
+   \textbf{#1}\par
+   #2
+   \end{quote}
+}
+           
+\title{The \pkgname{} package}
+\author{\normalsize Daniele Pighin\\\footnotesize{\href{mailto:daniele.pighin@gmail.com}{\texttt{daniele.pighin@gmail.com}}}\\\footnotesize{\url{http://danielepighin.net/cms}}}
+\date{Version 1.1, January 2012}
+
+\makeatletter
+\definecolor{graphicbackground}{rgb}{0.96,0.96,0.8}
+\def\tikzcd@bgcolor{graphicbackground}
+\makeatother
+
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0pt}
+
+\newcommand{\displayarrow}[2][]{\texttt{#2} & yelds \tikz[baseline=-2.5pt] \draw[#2-#2, line width=0.44pt, #1] (0,0) -- (1,0);}
+\newcommand{\displayarrowstyle}[2][]{\texttt{#2} & yelds \tikz[baseline=-2.5pt] \draw[/commutative diagrams/current arrows, #2, #1] (0,0) -- (0.4,0);}
+
+\begin{document}
+
+\maketitle
+
+If your work is in any way connected with linguistics or natural
+language processing, chances are high that the moment will come when you will have
+to draw a dependency graph:
+\begin{center}
+\resizebox{\linewidth}{!}{
+{\pipeescape%
+   \begin{dependency}[label style={font=\bfseries,fill=black,text=white}]
+      \tikzstyle{root}=[fill=yellow, text=black, font=\bfseries]
+      \tikzstyle{postag}=[font=\tiny]
+      \tikzset{arg/.style={rounded corners,inner sep=.4ex,top color=#1!60,draw=#1!60!black}}
+      \tikzset{rolelab/.style={inner sep=1ex,top color=#1!60,draw=#1!60!black,text=black}}
+      \begin{deptext}[column sep=.4cm, row sep=.5ex, row 1/.style = postag]
+         NN \& MD \& VB \& PRP\$ \& NN \& RBR \\
+         \pkgname \& will \& make \& your \& life \& easier \\
+      \end{deptext}
+      \deproot[label style=root]{3}{root}
+      \depedge{3}{1}{nsubj}
+      \depedge{3}{2}{aux}
+      \depedge{5}{4}{poss}
+      \depedge{3}{5}{dobj}
+      \depedge{3}{6}{advmod}
+      \wordgroup[arg=green]{2}{3}{3}{pred}
+      \wordgroup[arg=red]{2}{1}{1}{a0}
+      \wordgroup[arg=blue]{2}{4}{6}{a1}
+      \groupedge[edge below,red!60!black,label style={rolelab=red}]{pred}{a0}{ARG0}{5ex}
+      \groupedge[edge below,blue!60!black,label style={rolelab=blue}]{pred}{a1}{ARG1}{5ex}
+   \end{dependency}%
+} % pipeescape
+\quad
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+      A \& hearing \& is \& scheduled \& on \& the \& issue \& today \& . \\
+   \end{deptext}
+      \deproot{3}{ROOT}
+      \depedge{2}{1}{ATT}
+      \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+      \depedge{3}{2}{SBJ}
+      \depedge{3}{9}{PU}
+      \depedge{3}{4}{VC}
+      \depedge{4}{8}{TMP}
+      \depedge{5}{7}{PC}
+      \depedge[arc angle=50]{7}{6}{ATT}
+   \end{dependency}
+} % resizebox
+\end{center}
+
+\begin{center}
+\resizebox{\linewidth}{!}{%
+\depstyle{inner bubble}{draw=gray!80, minimum height=20pt, rounded corners=8pt, inner sep=2pt, top color=gray!40, bottom color=white}
+\depstyle{outer bubble}{draw=gray!80, minimum height=26pt, rounded corners=10pt, inner sep=5pt, top color=white, bottom color=gray!40}
+\depstyle{ungrammatical}{edge below, edge style = {ultra thick, red}, label style = {below, text=red}, text only label}
+\begin{dependency}[hide label, arc edge,
+      edge vertical padding=-2pt,
+      group style=outer bubble]
+   \begin{deptext}[column sep=1.4em]
+      a \& student \& whose \& mother \& and \& his \& father \& peter \& knows \\
+   \end{deptext}
+   \wordgroup{1}{3}{7}{chubby}
+   \wordgroup{1}{1}{2}{first} \depedge{2}{1}{}
+   \wordgroup[inner bubble]{1}{3}{4}{second} \depedge{4}{3}{}
+   \wordgroup[inner bubble]{1}{6}{7}{third} \depedge{7}{6}{}
+   \wordgroup{1}{8}{8}{fourth}
+   \wordgroup{1}{9}{9}{fifth}
+   \groupedge{fifth}{fourth}{}{0}
+   \groupedge[ungrammatical]{first}{second}{ungrammatical}{.5cm}
+   \groupedge[edge above]{second}{fifth}{}{1.5cm}
+   \groupedge[edge above]{fifth}{chubby}{}{1cm}
+\end{dependency}%
+\quad%
+\begin{dependency}[edge style={green!60!black,very thick}, 
+   label style={fill=blue!60,font=\bfseries,text=white}]
+   \tikzstyle{POS}=[font=\footnotesize\bfseries,text=blue!60!black]
+   \tikzstyle{word}=[draw=blue!60!black, shade, text=black,
+                     rotate=45, anchor=north east, inner sep=1ex,
+                     font=\normalsize, top color=blue!60, rounded corners]
+   \begin{deptext}[column sep=.5cm, row sep=0, nodes={POS}]
+       PRP\$ \&  NN \&  RB \&[.5cm] VBZ \&  VBG \&  NN \\
+       \node [word] {My}; \& 
+       \node [word] {dog}; \& 
+       \node [word] {also}; \& 
+       \node [word] {likes}; \& 
+       \node [word] {eating}; \& 
+       \node [word] {sausage}; \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[edge style={blue!60!black,ultra thick},
+      label style={fill=green!60,font=\bfseries,text=black, rotate=10}]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}%
+} %resizebox
+\end{center}
+
+\tikzname{} already has all the needed facilities to draw and style a dependency
+graph, but diving into the documentation just to understand how to draw one or two 
+trees may turn out to be rather overwhelming.
+
+\pkgname{} is pretty flexible, and it can easily be used to draw quite complex graphs around sequences
+of tokens, not necessarily related to dependency parsing or to language, as shown in this useless toy example:
+
+\begin{center}
+{\pipeescape
+\begin{dependency}
+   \tikzstyle{default}=[fill=white, draw=black, text = blue, solid]
+   \tikzstyle{pinky}=[fill=pink, draw=pink!60!black, text = black, solid]
+   \tikzstyle{wasp}=[fill=black, draw=orange, text = yellow, solid]
+   \tikzstyle{cooltext}=[draw=#1!60!black, thick, shade, top color=#1!60, bottom color=white, rounded corners = 2pt]
+   \depkeys{label style=default, edge below, font=\footnotesize}
+   \begin{deptext}[column sep = 5pt, nodes={cooltext=orange}]
+      You \&[.3cm] can \&[.8cm] |[cooltext=blue]| easily \& exaggerate \& if \& you \& feel \& like \&[1cm] doing \& so \\
+   \end{deptext}
+   \depedge[hide label, dotted]{1}{2}{}
+   \depedge{1}{3}{link1}
+   \depedge[edge unit distance=1.25ex]{1}{10}{link2}
+   \depedge[edge above, label style={pinky}]{3}{2}{link3}
+   \depedge[edge above]{8}{6}{link4}
+   \depedge[edge unit distance=5ex, edge above, dotted]{8}{6}{or this?}
+   \depedge[label style={inner sep=1.5ex, scale=1.1}]{8}{9}{$\frac{e^{f(x)}}{g(x)}$}
+   \depedge[edge unit distance=4ex, label style={wasp}]{8}{10}{link6}
+   \depedge{5}{8}{link7}
+   \node (comment) [above of = \wordref{1}{1}] {Look at this one!};
+   \draw [->,out=-90,in=135] (comment) to (\wordref{1}{2});
+\end{dependency}
+   }
+\end{center}
+
+Hopefully, this package will make your life a little bit easier, and allow you to draw a
+dependency graph without too much \tikzname{} prior knowledge.
+It will also allow you to draw cute graphs, which won't increase your impact
+factor but may help making your papers look more pleasant and elegant.
+
+\thispagestyle{empty}
+
+\newpage
+
+\tableofcontents
+
+\thispagestyle{empty}
+
+\newpage
+
+\section{Installation}\label{sec:installation}
+
+The simplest and fastest way to get things working is to copy the style file 
+|tikz-dependency.sty| in the root directory of your latex project. 
+
+Alternatively, you can install it as you would install any other \LaTeX\ package, by copying it in some directory searched by \LaTeX{} and running |texhash|. 
+The |texmf| directory under your home directory is most likely one of such directories (even though there are chances that it does not exist).
+If there is no |texmf| directory under your home, than create it:
+\begin{codeexample}[code only]
+$ cd ~
+$ mkdir -p texmf
+\end{codeexample}
+
+Extract the \pkgname{} under this directory:
+\begin{codeexample}[code only]
+$ cd texmf
+$ tar xvzf /path/to/tikz-dependency.tar.gz
+\end{codeexample}
+
+Run |texhash| to let \LaTeX{} know about the newly installed package:
+\begin{codeexample}[code only]
+$ texhash texmf
+\end{codeexample}
+That should do it. Refer to \LaTeX\ documentation for more details or in case of non-standard \LaTeX{} installations.
+
+Please, note that PGF/\tikzname{} version 2.10 is required for \pkgname{} to work as expected.
+
+If \tikzname{} is not installed on your system, you can easily install it in the same way. 
+Visit \url{http://sourceforge.net/projects/pgf/} with your favorite browser, download the latest version of the package and uncompress in some of the directories searched by \LaTeX{}. The |texmf| directory under your home directory should be a good place to start:
+\begin{codeexample}[code only]
+$ cd ~
+$ unzip /path/to/pgf_version.zip -d texmf
+\end{codeexample}
+Run |texhash|:
+\begin{codeexample}[code only]
+$ texhash texmf
+\end{codeexample}
+Everything should be fine now. For more detailed instructions on how to install \tikzname{}, please refer to its manual at \url{http://ftp.gui.uva.es/sites/ctan.org/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}.
+
+To use \pkgname{}, the first thing that you will need to do is to require it in your preamble:
+\begin{codeexample}[code only]
+\usepackage{tikz-dependency}
+\end{codeexample}
+\pkgname{} will automatically load \tikzname{} and its other requirements.
+
+
+\section{A step-by-step introduction}\label{sec:stepbystep}
+
+In this section you will see how simple it is to draw a dependency graph. We will go throw all the required steps one by one, from the creation of a suitable environment, to the actual drawing of the graph, to the optional steps that can make your graph look nicer.
+
+We will start by trying to reproduce the following example:
+
+\begin{center}
+      \begin{dependency}
+         \begin{deptext}[column sep=0.2cm]
+            My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \\
+         \end{deptext}
+         \deproot{4}{root}
+         \depedge{2}{1}{poss}
+         \depedge{4}{2}{nsubj}
+         \depedge{4}{3}{advmod}
+         \depedge{4}{5}{xcomp}
+         \depedge{5}{6}{dobj}
+      \end{dependency}
+\end{center}
+
+But first let's agree on some terminology. I will call \textbf{words}\index{terminology!word} the tokens of the sentence, and \textbf{dependencies}\index{terminology!dependency} the relations between words. A dependency actually consists of two entities: the \textbf{edge}\index{terminology!edge} between the two words and its \textbf{label}\index{terminology!label}, which is the type of the relation.
+
+\subsection{An environment to draw dependency graphs}
+
+The first step will be to create a suitable environment to draw your dependency graphs.
+
+\begin{environment}{{dependency}\options}
+   All the commands and configuration keys that you will see in this document are available within a |dependency| environment. Since it is an overloaded version of |tikzpicture|, all the things that you would do within a |tikzpicture| environment (such as drawing paths, edges, nodes, whatever) you can also do within a |dependency|. At the moment, the only reason why you'd rather use a |dependency| environment is because you can pass it some optional configuration keys (i.e., \options) that can affect the style of the whole dependency graph. The documentation of these configuration keys is scattered around the documentation, though many of them are described in Section~\ref{sec:styling}.
+\end{environment}
+
+So, to draw a new dependency tree you will generally start by writing something like this:
+
+\begin{codeexample}[]
+\begin{dependency}
+   % The code to actually draw the 
+   % dependency graph will go here
+\end{dependency}
+\end{codeexample}
+
+At this stage it looks pretty empty, so let's get started and fill it up with some contents.
+
+\subsection{Writing the sentence}
+
+\begin{environment}{{deptext}\options}
+   The |deptext| environment is used to lay out the words of the parsed sentence.
+
+   Within |deptext|, you will write a sentence separating each word with \cmdname{\&}\index{\texttt{\textbackslash\&}}\index{word separator}, similarly to what you would do in a |tabular| environment. Please, not that in this
+   case the separator is actually a \LaTeX\ command (i.e., a backslash followed by an ampersand), and
+   not just a simple ampersand. To terminate the sentence, add the command \cmdname{\\}\index{\texttt{\textbackslash\textbackslash}}\index{line separator} (i.e., two consecutive backslashes) after the last word, just as you would do to end a row in a table. The \options\ can bee used to change the way the sentence looks, and more details about it are coming soon.
+\end{environment}
+
+After adding the |deptext| environment with the text of our example sentence, the incomplete dependency graph would look like this:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+\end{dependency}
+\end{codeexample}
+
+For the \tikzname{}-savvy user, |deptext| is just a wrapper around \tikzname{}'s own matrix environment. The matrix is a matrix of nodes, with nodes in empty cells and some default styling. All the \options\ passed to the |deptext| are first parsed by \pkgname, then handed to the underlying |matrix|. If you know what you are doing and you want more control on the final result, you can have it.
+
+\subsection{Adding dependencies}\label{sec:adding-dependencies}
+
+\begin{command}{\depedge\options\marg{from-word}\marg{to-word}\marg{label}}
+
+This command is used to add dependencies between words. The \options\ argument is optional, and it can be used for styling the edge and its label (again, we will come to that part shortly). The three
+mandatory arguments define the origin and destination of the dependency edge, and the label of the
+dependency. The arguments \marg{from-word} and \marg{to-word} are the offsets of the words to be linked, counting from 1. \marg{label} is just any string, to be used as a label for the edge. 
+|\depedge| commands should be issued \emph{after} closing the |deptext| environment.
+\end{command}
+
+To draw an edge between the words \emph{eating} and \emph{sausage} in the example, you would set \marg{from-word} to 5, \marg{to-word} to 6 and \marg{label} to \emph{dobj}. After adding this first edge, the example looks as follows:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+By repeating this operation for all the dependencies in the sentence, we end up with a first complete version
+of the dependency tree:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+As you can see, \pkgname{} automatically does some basic routing of the edges of the graph, by drawing
+dependency edges higher or lower depending on how far apart the two words are. The graph looks decent at
+this stage, but it looks a little bit cramped and it could definitely use some more space between the words.
+
+\subsection{Getting word spacing right}
+
+You can either add some space between all words, or you can add some space between two specific words. Let's see how it is done.
+
+\subsubsection{Setting the space between every two words}
+
+When I first introduced the |deptext| environment, I said in passing that it can take some optional arguments. Since |deptext| is a wrapper around \tikzname{}'s own |matrix|, if you know some \tikzname{} you can pass to |deptext| any key-value pairs that |matrix| would understand. If you have absolutely no idea of how optional parameters (key-value configuration options) work in \tikzname{}, you are warmly invited to take a look at Appendix~\ref{sec:tikz}. If you do not understand what is going on, you will be able to copy the example but your ability to exploit the flexibility of the package will be largely impaired.
+
+As far as we are concerned here, what we want to discuss is the |/tikz/column sep| configuration key, which can be used to add more space between all the words in the sentence. 
+
+In this documentation, I will always use the fully qualified name of a key when documenting it (see, for example, the description of |/tikz/column sep| immediately below. Anyway, you are not required to use the fully qualified name of keys when using them, and using their base name (e.g., |column sep|) is sufficient. In fact, in the examples I will generally use the shorter form. 
+
+\begin{key}{/tikz/column sep=\meta{length} (default 0cm)}
+If you want to add, say, 0.2cm between every two words, you can do it so by passing |column sep=0.2cm| as the optional argument of the |deptext| environment.
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+It looks better already, but the fact that some dependency labels are longer than the horizontal segment of the edge doesn't look to nice. So, we could increase the space between all the words, for example to 0.7cm:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.7cm]
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\end{key}
+
+Now the labels are fine, but the words are a little bit too far apart, at least for my taste. So I would rather go back to |/tikz/column sep=0.2|, and find a more precise way of spacing only the problematic word pairs. In this case, they are adjacent words connected by a dependency with a long label, i.e., \emph{My/dog}, \emph{also/likes} and \emph{likes/eating}.
+
+\subsubsection{Spacing word individually}
+
+Additional space between two words can be added by using the optional argument of the \cmdname{\&} command that we used to separate words. For example, writing \cmdname{\&}|[0.5cm]| will add 0.5cm to the default word spacing set with via the |column sep| option. If we take care of the three problematic pairs individually, we can obtain something like this:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\subsection{Adding a root node}
+
+If you want to add a \index{root node} to the dependency graph, you can do so by means of the |\deproot| command.
+
+\begin{command}{\deproot\options\marg{root-offset}\marg{label}}
+   It is basically a variant of |\depedge|. Instead of connecting two words, it will create a node labeled \meta{label} just above the word having offset \meta{root-offset}, and an arrow between them. In our example, the root word is the verb \emph{likes}, which occupies the fourth position:
+\end{command}
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \deproot{4}{root}
+\end{dependency}
+\end{codeexample}
+
+This completes the crash course on the basics of dependency graph drawing. The next sections will tell you how to control edge positioning, how to build more complicated graphs with several layers of text, how to style the graphs to your liking and how to include your graphs in larger pictures.
+
+\section{Multiple layers of text}
+
+When drawing a dependency graph it is common to have a layer of part-of-speech (POS) tags just above the words. Achieving this with \pkgname{} is pretty straightforward. Since the |deptext| environment is already a matrix, all you have to do is to add another row of text to the matrix:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+In this case, we have added the POS tags on top of the words. Of course, we could have also added them below:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \& sausage \\
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{key}{/tikz/row sep=\meta{length} (default 0cm)}
+   Similarly to how you can increase the space between columns in a matrix, you can also increase inter-row spacing. For example, to add 0.5ex between every two rows you can add |row sep=0.5ex| to the optional argument of the |deptext| environment:
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.7cm, row sep=.5ex]
+      My \& dog \& also \& likes \& eating\\
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG\\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \qquad
+\end{dependency}
+\quad
+\begin{dependency}
+   \begin{deptext}[column sep=.7cm, row sep=2ex]
+      My \& dog \& also \& likes \& eating\\
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG\\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+\section{More control over edges}
+
+In Section~\ref{sec:adding-dependencies} I hinted to the fact that the height of the horizontal segment of a dependency edge is proportional to the distance between the linked words. As you may have already guessed, this can be a problem for \index{long dependencies}. Consider the following example, in which I added some more words and a long dependency:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \& and \& more \& words \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \deproot{4}{root}
+   \depedge{9}{1}{rather-long}
+\end{dependency}
+\end{codeexample}
+
+To decide how high a dependency should be drawn, \pkgname{} uses the formula $s\vert x-y \vert$, where $x$ and $y$ are the offsets of the two words, and $s$ is the value of the optional parameter |/depgraph/edge unit distance|.
+
+\begin{key}{/depgraph/edge unit distance=\meta{length} (default 3ex)}
+
+   This key represents the distance of the horizontal segment of the edge between two adjacent words. That is, if two words are 5 positions apart, the distance of the edge will be 5 times the value of |/depgraph/edge unit distance|.  Whenever you draw a edge with |\depedge| you can override this value as part of the optional argument of the command. For example, by changing its value in the previous and setting it to |1.5ex| it is possible to halve the total height of the problematic edge:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \& and \& more \& words \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \deproot{4}{root}
+   \depedge[edge unit distance=1.5ex]{9}{1}{rather-long}
+\end{dependency}
+\end{codeexample}
+
+|/depgraph/edge unit distance| can also be used to tune the distance of the root node\index{root node!distance} from the sentence. By default, the root node is set at a distance equal to 4 times the value of the parameter. By changing its value you can bring it closer of further:
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] \dots \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \deproot[edge unit distance=4ex]{4}{root}
+\end{dependency} 
+\quad
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] \dots \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \deproot[edge unit distance=2ex]{4}{root}
+\end{dependency}
+\end{codeexample}
+
+\end{key}
+
+\begin{key}{/depgraph/edge height=\meta{length} (default 0pt)}
+
+   \textit{[New in version 1.2]}
+   As an alternative, |edge height| allows you to set explicitly the height of an edge.
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \& and \& more \& words \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \deproot{4}{root}
+   \depedge[edge height=12ex]{9}{1}{rather-long}
+\end{dependency}
+\end{codeexample}
+
+Setting |edge height| overrides the automatic calculation of the edge height. If you set |edge height| at the |dependency| level, all edges will be drawn at the same height, e.g.:
+
+\begin{codeexample}[]
+\begin{dependency}[edge height=2cm]
+   \begin{deptext}[column sep=0.2cm]
+      My \&[.5cm] dog \& also \&[.7cm] likes \&[.4cm] eating \& sausage \& and \& more \& words \\
+   \end{deptext}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \deproot{4}{root}
+\end{dependency}
+\end{codeexample}
+
+\noindent so maybe this is something that you will want to do only in very special cases.
+
+\end{key}
+
+At this point, you may be wondering: why are we always drawing dependencies above the text? Indeed, turning links around is not only possible, but also quite easy, and the next key-value pairs allow you to control this behaviour.
+
+\begin{keylist}{/depgraph/edge above=\meta{boolean} (default true),/depgraph/edge below=\meta{boolean} (default false)}
+   These two keys control the position of the links, which can be drawn either above or below the layer(s) of text. You can pass any of them as part of the optional arguments of the |dependency| environment, and change the position of all the links in the graph at once. Writing the name of the key is sufficient, so writing |edge below=true| or just |edge below| produces the same result:
+\begin{codeexample}[]
+\begin{dependency}[edge below]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \& sausage \\
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+|/depgraph/edge below| and |/depgraph/edge above| can also be used to control the positioning of individual edges. In this case, you won't pass the keys to the |dependency| environment, but instead to a specific |\depedge| or |\deproot| whose behaviour you want to modify.
+Say that you wanted all the edges to be drawn below, but the \emph{root} and \emph{poss} edges should be on top. You can pass |/depgraph/edge below| to |dependency|, and |/depgraph/edge above| to the two |\depedge|s to be placed above:
+\begin{codeexample}[]
+\begin{dependency}[edge below]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \& sausage \\
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+   \end{deptext}
+   \deproot[edge above]{4}{root}
+   \depedge[edge above]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+\end{keylist}
+
+Other than |/depgraph/edge unit distance|, three more parameters can affect the way edges are drawn. As shown in Figure\ref{fig:edgedrawingparameters}, they control several aspects related to the spacing among edges and between edges and text, plus the inclination of the non-horizontal segments of the edge. All these properties can be set both at the |dependency| level (which will affect all the edges in the graph) or at the |\depedge| level, which will only affect individual links.
+
+\begin{figure}
+\begin{center}
+\def\zw{10cm}
+\def\zh{5cm}
+\def\zx{3cm}
+\def\zy{-3.5cm}
+\begin{dependency}[spy using overlays={magnification=5, width=\zw, height=\zh}]
+   \tikzset{postag/.style = {font=\tiny}}
+   \begin{deptext}[column sep=.5cm, row sep=.1em, row 1/.style = postag]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss} 
+   \depedge{4}{2}{nsubj} 
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \spy [draw=green, pink!80!black, connect spies] 
+      on ($(\wordref{1}{4}.north) + (0,1ex)$) 
+      in node [draw] at (\zx,\zy);
+   \node (bl) at ($(\zx,\zy) - .5*(\zw,\zh)$) {};
+   \node (tr) at ($(\zx,\zy) + .5*(\zw,\zh)$) {};
+   \draw[step=.2cm, help lines, pink] (bl) grid (tr);
+   \draw[step=1cm, pink] (bl) grid (tr);
+   \draw [blue, thick, |-|] ($(bl)+(4.26,1.5)$) 
+      -- node [below left,font=\bfseries\ttfamily\small] {edge horizontal padding} ++(.75,0);
+   \draw [blue, thick, |-|] ($(bl)+(5.7,4.1)$) 
+      -- node [above,font=\bfseries\ttfamily\small] {edge slant} ++(.6,0);
+   \draw [blue, thick, dotted] ($(bl)+(5.7,1.8)$) -- ++(0,2.3);
+   \draw [blue, thick, |-|] ($(bl)+(6.1,1.7)$) 
+      -- node [right,font=\bfseries\ttfamily\small] {edge vertical padding} ++(0,-.7);
+\end{dependency} 
+\end{center}
+\caption{Edge-drawing parameters.}\label{fig:edgedrawingparameters}
+\end{figure}
+
+\begin{key}{/depgraph/edge slant=\meta{length} (default 3pt)}
+   |/depgraph/edge slant| controls the slant of the diagonal segments in a dependency edge. As shown in Figure~\ref{fig:edgedrawingparameters}, what it actually controls is the horizontal offset between the initial (final) of the edge and its first (second) corner. By default it is set to |3pt|, which makes the segments just slightly sloped. By setting it to |0|, you can make the lateral segments completely vertical; by increasing its value you can make the edges look less slender.
+\begin{codeexample}[]
+\begin{dependency}[edge slant=0] %edge slant=0
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\quad
+\begin{dependency}[edge slant=10pt] %edge slant=10pt
+   \begin{deptext}[column sep=.3cm]
+      My \&[.4cm] dog \& also \&[.7cm] likes \&[.5cm] eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+
+\begin{key}{/depgraph/edge horizontal padding=\meta{length} (default 4pt)}
+   \pkgname{} employs a very simple strategy to avoid edges outgoing from and incoming into a word to start/terminate on the same spot, thus making it easier to understand the direction of a dependency. The algorithm is very simple: all incoming links arrive in the middle of a word; all outgoing links heading left leave the node from a point which is a little bit to the left; all those heading right leave from a spot a little bit to the right. |/depgraph/edge horizontal padding| is the value of this ``little bit''. By setting it to |0|, all the edges will come and go from the same spot in the middle of the word. By increasing its value, the incoming and outgoing edges on a word will look more apart.
+\begin{codeexample}[]
+\begin{dependency}[edge horizontal padding=0] %edge horizontal padding=0
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\quad
+\begin{dependency}[edge horizontal padding=10pt] %edge horizontal padding=10pt
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \&[.2cm] likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+\begin{key}{/depgraph/edge vertical padding=\meta{length} (default 0ex)}
+   |/depgraph/edge vertical padding| is the extra distance between a word and incoming/outgoing edges. By increasing (decreasing) its value, you can send the edges further (bring them closer) to the text.
+\begin{codeexample}[]
+\begin{dependency}[edge vertical padding=-.5ex] %edge vertical padding=-.5ex
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\quad
+\begin{dependency}[edge vertical padding=1ex] %edge horizontal padding=1ex
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \&[.2cm] likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+It may be worth repeating that even though you will generally want to set this properties at the |dependency| level, you can very well set them individually for each edge. And of course, you can combine them with all the properties that we saw before (e.g., |/depgraph/edge below|):
+\begin{codeexample}[]
+\begin{dependency}[edge vertical padding=.5ex]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \&[.3cm] likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[edge vertical padding=0]{2}{1}{poss}
+   \depedge[edge below, edge vertical padding=.3cm]{4}{2}{nsubj}
+   \depedge[edge horizontal padding=10pt]{4}{3}{advmod}
+   \depedge[edge slant=0]{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+
+\begin{keylist}[/depgraph]{arc edge=\meta{boolean} (default false),segmented edge=\meta{boolean} (default true)}
+   This key allows you to switch between the default, fancier edge shape (|/depgraph/segmented edge|) and the traditional arc-shaped edges used in dependency parsing literature. Can be used either within |dependency| (affect all the edges in the graph) or individual |\depedge| commands. Local overrides are also possible (as shown in the rightmost example).
+\begin{codeexample}[]
+\begin{dependency}[arc edge]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\quad
+\begin{dependency}[segmented edge]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \&[.2cm] likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge[arc edge]{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{keylist}
+
+\begin{key}{/depgraph/arc angle=\meta{decimal} (default 60)}
+   When using |/depgraph/arc edge|, this key controls the angle with which edges enter and exit the nodes. It has no effect when the edge is drawn using |/depgraph/segmented edge|.
+\begin{codeexample}[]
+\begin{dependency}[arc edge, arc angle=80]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\quad
+\begin{dependency}[arc edge, arc angle = 40] 
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \&[.2cm] likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+\begin{key}{/depgraph/text only label=\meta{boolean} (default false)}
+   At least in my opinion, heavily drawn and filled labels don't look very well with |arc edge|. This flag allows you to show only the text of the label, without drawing the node around it. To prevent the label to be drawn just over the edge line, you may want to add either |above| or |below| to the |label style|, as in this example:
+\begin{codeexample}[]
+   \begin{dependency}[arc edge, arc angle=80, text only label, label style={above}]
+   \begin{deptext}[column sep=.7cm]
+      My \& dog \& also \& likes \& eating \\
+      PRP\$ \& NN \& RB \& VBZ \& VBG \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge[label style={below}]{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+\begin{keylist}[/depgraph]{edge start offset x=\meta{length} (default 0),edge end offset x=\meta{length} (default 0)}
+   When using arc edges, some edges may overlap as in the following example:
+\begin{codeexample}[]
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+      A \& hearing \& is \& scheduled \& on \& the \& issue \& today \& . \\
+   \end{deptext}
+   \deproot{3}{ROOT}
+   \depedge{2}{1}{ATT}
+   \depedge{2}{5}{ATT}
+   \depedge{3}{2}{SBJ}
+   \depedge{3}{9}{PU}
+   \depedge{3}{4}{VC}
+   \depedge{4}{8}{TMP}
+   \depedge{5}{7}{PC}
+   \depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+\end{codeexample}
+
+These two keys allow you to shift the start/end point of the edge horizontally by the specified amount, so as to untangle the graph:
+
+\begin{codeexample}[]
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+      A \& hearing \& is \& scheduled \& on \& the \& issue \& today \& . \\
+   \end{deptext}
+   \deproot{3}{ROOT}
+   \depedge{2}{1}{ATT}
+   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+   \depedge{3}{2}{SBJ}
+   \depedge{3}{9}{PU}
+   \depedge{3}{4}{VC}
+   \depedge{4}{8}{TMP}
+   \depedge{5}{7}{PC}
+   \depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+\end{codeexample}
+
+\end{keylist}
+
+\section{Node groups and group linking}
+
+Another thing that you may want to do is to annotate relations between groups of nodes. I added this functionality thinking about semantic parsing, so that it would be possible to annotate on the same graph the syntactic and semantic layers of a sentence. You can think of many other ways of exploiting the functionality and use it for your own specific needs. Two new commands can be used to define word groups and to connect them.
+
+\begin{command}{\wordgroup\options\marg{row-offset}\marg{word-offset-beg}\marg{word-offset-end}\marg{gid}}
+
+   This command creates a group spanning the words in the \marg{row-offset}-th row of the matrix from position \marg{word-offset-beg} to position \marg{word-offset-end}. \marg{gid} is a unique identifier for the group, that will be used to connect groups. From \tikzname{}' point of view, it is just the name of the node enclosing the group, so you can directly use it as you would use any other node. 
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   % group on 2nd row, from word 4 to word 4, labeled "pred"
+   \wordgroup{2}{4}{4}{pred} 
+   % group on 2nd row, from word 1 to word 2, labeled "a0"
+   \wordgroup{2}{1}{2}{a0}
+   % group on 2nd row, from word 5 to word 6, labeled "a1"
+   \wordgroup{2}{5}{6}{a1}
+\end{dependency}
+\end{codeexample}
+\end{command}
+
+\begin{command}{\groupedge\options\marg{from-gid}\marg{to-gid}\marg{label}\marg{height}}
+
+   This command draws an edge with label \marg{label} from the group identified with \marg{from-gid} to the group identified \marg{to-grid}. The horizontal segment of the edge will be \marg{height} distant from the words. Just as |\depedge|, also |\groupedge| honors the global edge positioning set via |dependency|. Also in this case, you can use the keys |/depgraph/edge below| and |/depgraph/edge above| to override the directive locally. More generally, all the key-value pairs that can be passed to |\depedge| (e.g., |edge slant|) can also be used with |\groupedge|. The two macros actually do the same thing, with the difference that |\depedge| automatically calculates a default height for the edge based on the word-distance between its endpoints.
+\begin{codeexample}[]
+   \begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \wordgroup{2}{4}{4}{pred} 
+   \wordgroup{2}{1}{2}{a0}
+   \wordgroup{2}{5}{6}{a1}
+   \groupedge[edge below]{pred}{a0}{ARG0}{4ex} % pred -> a0 (ARG0, 4ex)
+   \groupedge[edge below]{pred}{a1}{ARG1}{6ex} % pred -> a1 (ARG1, 6ex)
+\end{dependency}
+\end{codeexample}
+\end{command}
+
+\section{Styling text, edges and labels}\label{sec:styling}
+
+This section covers the ways in which you can customize the look of the building blocks of the dependency graph: words, groups, edges and edge labels. Styling requires some basic knowledge of \tikzname{} styling facilities. For those who really don't want to read to read the glorious manual of \tikzname{}\footnote{\url{http://ftp.gui.uva.es/sites/ctan.org/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}} (you really should, for your own sake), in Appendix~\ref{sec:tikz} I do my best to try to summarize a minimum of information that should be enough to get you started.
+
+\subsection{Using themes}
+
+\index{themes}\index{theming}The simplest way to change the look and feel of your dependency graphs is to use a pre-defined \emph{theme}. 
+
+\begin{key}{/depgraph/theme=\meta{theme name} (default default)}
+   By passing this option to |dependency|, you can completely change the appearence of the graphs. At the moment of writing, the following five themes have been defined: |default|, |simple|, |night|, |brazil|, |grassy|, |iron|, |copper|. They look like this:
+
+\begin{codeexample}[]
+\begin{dependency}[theme=default]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{codeexample}[]
+\begin{dependency}[theme=simple]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{codeexample}[]
+\begin{dependency}[theme=night]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{codeexample}[]
+\begin{dependency}[theme=brazil]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{codeexample}[]
+\begin{dependency}[theme=grassy]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{codeexample}[]
+\begin{dependency}[theme=iron]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\begin{codeexample}[]
+\begin{dependency}[theme=copper]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+\end{key}
+
+\begin{keylist}[/depgraph]{edge theme=\meta{theme name} (default default),label theme=\meta{theme name} (default default),text theme=\meta{theme name} (default default)}
+   Each of the aforementioned themes is actually a combination of three themes with the same name: one for edges, one for edge labels and one for the sentence text. These three themes can also be applied independently. So, for example, you could apply the |iron| theme globally and then use |copper| to draw the labels:
+\begin{codeexample}[]
+\begin{dependency}[theme=iron, label theme=copper]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+\end{keylist}
+
+Edges and labels can be styled locally, by passing the desired |theme|, |label theme| or |edge theme| to specific edges. In the following example, I will use |iron| as the base |theme|, globally overriding the |label theme| with |copper| and using |grassy| as the |theme| and |label theme| two special edges:
+\begin{codeexample}[]
+\begin{dependency}[theme=iron, label theme=copper]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[theme=grassy]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge[label theme=grassy]{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+\subsection{Styling elements individually}
+
+\begin{keylist}{/depgraph/hide label=\meta{boolean} (default false),/depgraph/show label=\meta{boolean} (default true)}
+   By default, all labels are visible. Add |hide label| to the \options{} of    |\depedge| or |\groupedge| to prevent the bounding box and the text of the label to be drawn.
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge[hide label]{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+If added to the options of |dependency|, all the labels will be suppressed. Local overriding is still possible by adding the |/depgraph/show label| key:
+\begin{codeexample}[]
+\begin{dependency}[hide label]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge[show label]{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+Please, note that the labels are still there, only they are transparent.
+\end{keylist}
+
+
+\begin{stylekey}{/depgraph/edge style=\meta{style} (default \{\})}
+    This style is applied to all the edges drawn by \pkgname{}. By setting its value you can alter the appearance of the dependency edges. The default style applied to every edge is:
+\begin{codeexample}[code only]
+\pgfkeys{%
+   /depgraph/reserved/edge style/.style = {%
+      ->, >=stealth, %arrow properties
+      black, solid, line cap=round, %line properties
+      rounded corners=2, %make corners round
+   },%
+}
+\end{codeexample}
+By setting |edge style| at the |dependency| level, all the edges in the graph are affected:
+\begin{codeexample}[]
+\begin{dependency}[edge style={red,densely dotted}]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+As always, local settings at the edge level take precedence over global settings:
+\begin{codeexample}[]
+\begin{dependency}[edge style={green!60!black,very thick}]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[edge style={blue!60!black,ultra thick}]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/depgraph/label style=\meta{style} (default \{\})}
+   The default style applied to every label is the following:
+\begin{codeexample}[code only]
+\pgfkeys{%
+   /depgraph/reserved/label style/.style = {%
+      draw, solid, black, %the outline of the label
+      scale=.7, %scale down the text, to make it smaller than the sentence text
+      text=black, %color of the text
+      text height=1.5ex, %needed to center text vertically
+      text depth=0.25ex, %needed to center text vertically
+      inner sep=.5ex, %padding between the text and the border of the node
+      fill=white, %background color
+      outer sep=0pt, 
+      rounded corners=2pt, 
+      anchor=mid,
+   },%
+}
+\end{codeexample}
+The look of labels can be changed by defining the |label style| style, either locally to each edge or globally:
+\begin{codeexample}[]
+\begin{dependency}[edge style={green!60!black,very thick}, 
+   label style={fill=yellow!60,font=\bfseries,thick}]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[edge style={blue!60!black,ultra thick},
+      label style={fill=green!60,font=\bfseries,text=black}]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+\end{stylekey}
+
+\begin{stylekey}{/depgraph/group style=\meta{style} (default \{\})}
+   By default, when you create a group you will only see a box with rounded corners around the selected words:
+\begin{codeexample}[]
+   \begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \wordgroup{2}{1}{2}{a0}
+   \wordgroup{2}{5}{6}{a1}
+\end{dependency}
+\end{codeexample}
+The |group style| property allows you to redefine this style according to your taste and needs:
+\begin{codeexample}[]
+   \begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.5ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \wordgroup[group style={fill=orange!40, draw=brown, inner sep=.6ex}]{2}{1}{2}{a0}
+\end{dependency}
+\end{codeexample}
+Please, keep in mind that a group is just a box drawn \emph{underneath} the word nodes. They have no text themselves, as the text that they surround is actually the text of some word node. Therefore, you cannot use |group style| to change in any way the rendering of the words they group.
+\end{stylekey}
+
+\begin{stylekey}{/tikz/nodes=\meta{style} (default \{\})}
+      This is an \tikzname{} style key used to render the nodes within a given scope. By using it within a |deptext|, you can assign a style to all the nodes in the matrix, i.e. the words in the sentence:
+\begin{codeexample}[]
+\begin{dependency}[edge style={green!60!black,very thick}, 
+      label style={fill=blue!60,font=\bfseries,text=white}]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex,
+         nodes={draw=red!80!black, shade, top color=red!60, rounded corners}]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[edge style={blue!60!black,ultra thick},
+      label style={fill=green!60,font=\bfseries,text=black}]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+The style can be overridden on a per-node basis, by using a special syntax understood by matrix that allows to set style properties of each node individually. To to so, you need to add \cmdname{|[}|<style>|\cmdname{]|} before every word that you want to restyle, where \meta{style} is a style definition. The following example shows how you would apply a different style to all the nodes in the second row:
+{\pipeescape
+\begin{codeexample}[]
+\begin{dependency}[edge style={green!60!black,very thick}, 
+   label style={fill=blue!60,font=\bfseries,text=white}]
+   \tikzstyle{POS}=[font=\footnotesize\bfseries,text=blue!60!black]
+   \tikzstyle{word}=[draw=blue!60!black, shade, text=black,
+                     rotate=45, anchor=north east, inner sep=1ex,
+                     font=\normalsize, top color=blue!60, rounded corners]
+   \begin{deptext}[column sep=.5cm, row sep=0, nodes={POS}]
+       PRP\$ \&  NN \&  RB \&[.5cm] VBZ \&  VBG \&  NN \\
+       |[word]| My \& |[word]| dog \& |[word]| also \& 
+       |[word]| likes \& |[word]| eating \& |[word]| sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge[edge style={blue!60!black,ultra thick},
+      label style={fill=green!60,font=\bfseries,text=black, rotate=10}]{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+}
+When using this syntax, you should always consider that the |nodes| style is in any case applied to \emph{every node} in the |matrix|, then the style specified for each node (if any) is appended. This fact has the subtle implication that all the nodes inherit all the properties set via |nodes|, and per-node styles must explicitly overwrite all the properties that they don't need to use. As a rule of thumb, you should use |nodes| to set properties that all the nodes will share, and then use per-node options to add or override options.
+\end{stylekey}
+
+\subsection{Defining your own styles}
+
+\begin{command}{\depstyle\marg{style-name}\marg{style-definition}}
+   
+   Defining your own styles is a convenient way of using a consistent look for all your graphs across a document, at the same time avoiding a lot of unnecessary typing. |\depstyle| is a wrapper around |\tikzset| (see Section~\ref{sec:tikz}) with the advantage that you do not have to prepend |/depgraph| to all the styling keys that are defined by \pkgname{}. |\depstyle| automatically forwards to \tikzname{} all the keys that it does not how to handle.
+
+   In the following example I will define and use two styles. The first style results in thick blue edges, labels with a thick red outline, blue text and white background; the second style also uses a predefined themes.
+
+\begin{codeexample}[]
+\depstyle{red and blue}{edge style = {thick, blue},
+   label style = {thick, draw=red, text=blue, fill=white}}
+\depstyle{collage}{edge theme = grassy, label style={draw=orange,trapezium}}
+\begin{dependency}[red and blue]
+   \begin{deptext}[column sep=.5cm, row sep=.5ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \&[.2cm] VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge[collage]{4}{5}{xcomp}
+   \depedge[collage]{5}{6}{dobj}
+\end{dependency}
+\end{codeexample}
+
+Note how the labels in the style |collage| inherit the background and the text color of |red and blue| labels. This happens because the |red and blue| style is applied at the |dependency| level, meaning that it is applied to all the labels. Then, the |collage| style is applied to the labels of the last two edges. Since this style only overrides the color of the outline (|draw|), all the other properties are inherited from |red and blue|.
+\end{command}
+
+\section{Interaction with \tikzname{}}
+
+Some function make it possible to reference the nodes in the graph so that it is easier to extend the graph with \tikzname{} drawing capabilities. Understanding what is going on here requires at least some basic knowledge of how to draw nodes and paths in \tikzname{}.
+
+\begin{command}{\matrixref}
+   Returns a reference to the |\matrix| used to lay out the sentence. You can use it to position other elements in the picture relative to it.
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \foreach \a/\pos in {south/below of,north/above of,east/right of,west/left of} {
+      \node (tmp) at (\matrixref.\a) [draw, circle, fill=red, inner sep=1pt] {};
+      \node (tmp2) [\pos = tmp] {\a} -- (tmp);
+      \draw [->] (tmp2) -- (tmp);
+   };
+\end{dependency}
+\end{codeexample}
+
+\end{command}
+
+\begin{command}{\wordref\marg{row-offset}\marg{word-offset}}
+
+   Returns the reference to the matrix node in row \marg{row-offset} and column \marg{word-offset}.
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \node (silly1) [above right of = \wordref{1}{6}, xshift = 2cm] {Top right};
+   \node (silly2) [below left of = \wordref{2}{1}, xshift = -2cm] {Bottom left};
+   \draw [->, very thick, red] (silly1) -- (\wordref{1}{6});
+   \draw [->, very thick, red] (silly2) -- (\wordref{2}{1});
+\end{dependency}
+\end{codeexample}
+\end{command}
+
+\begin{command}{\rootref}
+   Returns a reference to the node holding the root label.
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root}
+   \depedge{2}{1}{poss}
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod}
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj}
+   \node (silly) [above right of = \rootref, xshift = 3cm] {This is the root node!};
+   \draw [->, very thick, red] (silly) -- (\rootref);
+   \draw [thick, blue] (\rootref)--(\wordref{1}{2})--(\wordref{2}{6})--(\rootref);
+\end{dependency}
+\end{codeexample}
+
+\end{command}
+
+\begin{commandlist}{\storelabelnode\marg{macro},\storefirstcorner\marg{macro},\storesecondcorner\marg{macro}}
+   After adding a new edge with |\depedge| or |\groupedge|, three commands allow you to store the name of the nodes used to draw the label end the corners of the dependency edge. |\storelabelnode| can be used to store the name of the label in the macro \meta{macro}. You can then use \meta{macro} just as you would use any node, to draw something involving the label node. |\storefirstcorner| and |\storesecondcorner| work exactly in the same way, but they hold they point to the nodes holding the coordinates of the edge corners.
+
+\begin{codeexample}[]
+\begin{dependency}
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \& VBG \& NN \\
+      My \& dog \& also \& likes \& eating \& sausage \\
+   \end{deptext}
+   \deproot{4}{root} 
+   \depedge{2}{1}{poss} 
+   \storelabelnode\firstlab
+   \storefirstcorner\firstcorner
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod} 
+   \depedge{4}{5}{xcomp}
+   \depedge{5}{6}{dobj} 
+   \storelabelnode\secondlab
+   \storesecondcorner\secondcorner
+   \draw [<->,out=90,in=-90, thick, red] (\firstlab) to 
+      node [fill=red, text=white, font=\bfseries, above, near start, sloped] 
+      {labels!} (\secondlab);
+   \draw [<->, out=-90,in=90, thick, blue!60] (\firstcorner) to 
+      node [fill=blue!60, text=white, font=\bfseries, above, near end, sloped] 
+      {edge corners!} (\secondcorner);
+\end{dependency}
+\end{codeexample}
+\end{commandlist}
+
+\section{Answers to frequent or interesting questions}
+
+This section shows practical examples of how to achieve specific results with \pkgname{} that may not seem that obvious.
+
+\subsection{How do I change the shape of label nodes?}
+
+By default, \pkgname{} uses \tikzname{}'s |rounded corners| shape to draw the labels, but you can use every shape that you want. By default, \tikzname{} defines the |rectangle|, |rounded corners| and |circle| shapes. More shapes are available via the |shapes| library, which \pkgname{} already loads for you. As always, for more information you can refer to \tikzname{} manual.
+
+To change the shape of labels, you simply add the shape name to, |edge style|, as in the following examples:
+
+\begin{codeexample}[]
+\begin{dependency}[label style = {circle}]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \\
+      My \& dog \& also \& likes \& \dots \\
+   \end{deptext}
+   \deproot{4}{root} 
+   \depedge{2}{1}{poss} 
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod} 
+\end{dependency}
+\qquad
+\begin{dependency}[label style = {trapezium}]
+   \begin{deptext}[column sep=.5cm, row sep=.1ex]
+      PRP\$ \& NN \& RB \&[.5cm] VBZ \\
+      My \& dog \& also \& likes \& \dots \\
+   \end{deptext}
+   \deproot[label style = {star}]{4}{root} 
+   \depedge{2}{1}{poss} 
+   \depedge{4}{2}{nsubj}
+   \depedge{4}{3}{advmod} 
+\end{dependency}
+\end{codeexample}
+
+\subsection{How do I draw bubble parses?}
+
+Until a user of \pkgname{} asked me how to draw them, I was not even aware that these things existed. Anyway, it turns out that is quite simple to draw bubble parses with \pkgname{}, and that |\wordgroup| is basically all you need.
+
+Until I or someone else writes some facilities to explicitly support these beauties, you will have to take care of the details explicitly. What you have to do is:
+\begin{itemize}
+   \item use |\wordgroup| to create bubbles;
+   \item use |inner sep| and |minimum height| with |group style| to create bubbles of the desired size;
+   \item increase the values of |inner sep| and |minimum height| for more external bubbles;
+   \item use |\groupedge| to create edges between bubbles.
+\end{itemize}
+\noindent The follow example should give you a good starting point:
+
+\begin{codeexample}[]
+\depstyle{inner bubble}{draw=gray!80, minimum height=20pt, rounded corners=8pt, 
+   inner sep=2pt, top color=gray!40, bottom color=white}
+\depstyle{outer bubble}{draw=gray!80, minimum height=26pt, rounded corners=10pt, 
+   inner sep=5pt, top color=white, bottom color=gray!40}
+\depstyle{ungrammatical}{edge below, edge style = {ultra thick, red}, 
+   label style = {below, text=red}, text only label}
+\begin{dependency}[hide label, arc edge,
+      edge vertical padding=-2pt,
+      group style=outer bubble]
+   \begin{deptext}[column sep=1.4em]
+      a \& student \& whose \& mother \& and \& his \& father \& peter \& knows \\
+   \end{deptext}
+   \wordgroup{1}{3}{7}{chubby}
+   \wordgroup{1}{1}{2}{first} \depedge{2}{1}{}
+   \wordgroup[inner bubble]{1}{3}{4}{second} \depedge{4}{3}{}
+   \wordgroup[inner bubble]{1}{6}{7}{third} \depedge{7}{6}{}
+   \wordgroup{1}{8}{8}{fourth}
+   \wordgroup{1}{9}{9}{fifth}
+   \groupedge{fifth}{fourth}{}{0}
+   \groupedge[ungrammatical]{first}{second}{ungrammatical}{.5cm}
+   \groupedge[edge above]{second}{fifth}{}{1.5cm}
+   \groupedge[edge above]{fifth}{chubby}{}{1cm}
+\end{dependency}%
+\end{codeexample}
+
+When using |fill| or |shade| with |\wordgroup|, as in the example, be aware of the fact that the nodes are drawn in the order that you write them down. For this reason, larger bubbles should always be drawn first, and the contained bubbles afterwards. Otherwise, the inner bubbles will be covered by the outer one.
+
+\appendix
+
+\section{\tikzname{} crash course} \label{sec:tikz}
+
+\textbf{Disclaimer.} \textit{I am making a lot of rough simplifications here to make it possible to explain everything in as little space as possible. I really invite you to read the full version of the manual, if you haven't already. It is the only way to really appreciate the elegance and the full potential of \tikzname{}.}
+
+\vspace{1cm}
+
+PGF/\tikzname{} is a set of lower/higher level macros that allow you to draw extremely refined and sophisticated graphics directly in \LaTeX{}. If you don't know anything about it, then you are really missing on something, and you should run and check the manual\footnote{\url{http://ftp.gui.uva.es/sites/ctan.org/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}}. I am repeating myself, but you really should.
+
+\subsection{\texttt{\textbackslash pgfkeys} and \texttt{\textbackslash tikzset}}
+
+\index{key!key-value pairs}
+\tikzname{} is basically built on top of |pgfkeys|, which is a very flexible and sophisticated system to store key-value pairs. \tikzname{} (and derived packages such as \pkgname{}) use this system for setting local or global variables, and to pass optional arguments to commands (macros) that can take a large number of configuration option. 
+
+The definition of virtually all \tikzname{} macros follows the template:
+
+\cmdname\somecommand\options\marg{first}\dots\marg{last}
+
+The first argument, optional, is a set of key-value pairs that can be used to set a bunch of options. It is thus possible to reduce to a minimum the number of mandatory arguments \marg{first}\dots\marg{last}, and keep a macro's interface lighter and simpler to use. A command first parses the key-value pairs, then do what it has to do based on the updated state of these variables.
+
+Key names and values can contain spaces, values can be assigned via the |=| sign and commas can be used to separate assignments. Curly braces can be used for grouping values. So, for example, the assignment |variable one = {a, b}, vartwo = c| would result in the set |{a, b}| being assigned to |variable one| and |c| to |vartwo|.
+
+The function which is responsible for parsing key-value pairs is |\pgfkeys|:
+
+\begin{command}{\pgfkeys\marg{keys}}
+   The |\pgfkeys| command parses a string containing a sequence of keys and stores their value, e.g.:
+\begin{codeexample}[code only]
+   \pgfkeys{a=1, b=2, c={d=3,e=4}}
+\end{codeexample}
+In this case, the value of the key |a| is set to |a| and |b| to 2. |c| contains two keys, |d| and |e|, whose values are |3| and |4|, respectively. How this values can be accessed is of no interest for the scope of this document. We only want to be able to set those keys. Please, note that you can only set the values for keys that already exist. How a key can be created is also of no interest for us, as we only want to be able to change the values of existing keys.
+\end{command}
+
+Keys can be arranged hierarchically, as in a directory structure. This property allows every sub-package to define its own protected space of keys, making it less likely to cause interaction problems. All \tikzname{} keys are stored under the root key |/tikz/|. So, for example, |/tikz/fill=blue| assigns the value |blue| to the |fill| key within the namespace |/tikz/|. \pkgname{} defines its own namespace, which is |/depgraph/|, and defines its own subset of keys that interact with \tikzname{}' own. 
+
+As a convenience function, \tikzname{} also defines the following macro:
+
+\begin{command}{\tikzset\marg{keys}}
+   |\tikzset| is just a wrapper around |\pgfkeys|, that prefixes all keys with |/tikz/|. The two following instructions are (for us) equivalent:
+\begin{codeexample}[code only]
+   \pgfkeys{/tikz/text=red, /tikz/fill=white}
+   \tikzset{text=red, fill=white}
+\end{codeexample}
+\end{command}
+
+Some keys only have a name\index{key!without a value} and no value. Without going into details, it won't hurt to know that such keys are either \emph{binary}\index{key!binary} flags or one of a set of alternative options (\emph{choice} keys)\index{key!choice}, so that activating one automatically deactivates the other alternatives in the set.
+
+Conveniently, |\pgfkeys| also define an inheritance mechanism that allows sub-packages to consume the keys that they can understand, and then pass on to \tikzname{} all the keys that haven't been handled. This fact also makes it possible for a user to specify a key without using its fully qualified name. When introducing a key for the first time, I generally use its fully qualified name, just to make it clear where it belongs. In the examples, though, I generally prefer to use a more compact notation and only use the ``base name'' of the keys.
+
+\subsection{Basic styling notions}
+
+A style is a set of key-value pairs (we have seen many already in the previous pages) that define the properties of some graphical object. As an example, |{draw=red, thick}| is a style (we will soon come to the meaning of these properties).
+
+The simplest way to define a new style is with the |\tikzstyle| command:
+
+\begin{command}{\tikzstyle\marg{name}=\options}
+   \index{style!define new}
+   Here, \marg{name} is just an identifier for your style (such as |my style|, or |very cool|, whatever). \options{} is a sequence of comma separated key-value pairs, e.g.:
+\begin{codeexample}[code only]
+   \tikzstyle{my cool style} = [draw=black, fill=red]
+\end{codeexample}
+\index{style!update definition}
+Once a style is defined, you can ``add'' things to the style in at least two ways:
+\begin{itemize}
+   \item By using the same syntax as before, but adding a |+| between \marg{name} and the |=| sign, e.g.,:
+\begin{codeexample}[code only]
+   % before: my cool style = {draw=black, fill=red}
+   \tikzstyle{my cool style} += [thick]
+   % after: my cool style = {draw=black, fill=red, thick}
+\end{codeexample}
+   \item By setting (via |\tikzset|) the special sub-property |.append style| of an already existent style, e.g.:
+\begin{codeexample}[code only]
+   % before: my cool style = {draw=black, fill=red, thick}
+   \tikzset{my cool style/.append style = {dotted}}
+   % after: my cool style = {draw=black, fill=red, thick, dotted}
+\end{codeexample}
+\end{itemize}
+\end{command}
+
+A dependency graph is built using two \tikzname{} primitives: \emph{nodes}\index{node} and \emph{paths}\index{path}. Dependency edges are paths. Edge labels and words in the sentence are nodes containing text. Word groups are also nodes, which are drawn on the layer \emph{underneath} the word nodes. They have no text themselves, as the text that they surround is actually the text of some word node.
+
+Nodes have an \emph{outline}\index{outline} (i.e., a contour) and an \emph{area}\index{area} (the space inside the contour), and (generally) contain some text. All these properties can be styled independently, and the styling can be done either globally (in a way that affects all the graphics within a given scope) or locally (i.e., for each node individually). The same applies to paths, even though in this case you only have the outline to play with.
+
+Let's briefly dive through the most relevant key-value pairs that can be used to configure these properties. My purpose here is just to provide a compact reference to understand the examples in the documentation.
+
+\subsubsection{Outline properties}
+These describe the properties of lines. They apply to edges and to the contour of nodes (such as labels and words in the sentence)
+\begin{key}{/tikz/draw=\meta{color-spec}}
+   This key tells tikz to actually draw the outline of a shape with the given color. If draw is not set, then the outline is not drawn. By default, outlines are not drawn. \meta{color-spec} can be a color name, such as |red|, |green| or |blue|, or a more complicated expression, such as |red!60!black|, which means ``make a new color made of red for 60\% of red, of black for the rest''. Colors can be specified in many other ways, which we won't cover here.
+
+\end{key}
+\begin{keylist}[/tikz]{circle,ellipse,rectangle}
+   Selecting one of this properties allows you to use a different shape to draw a node. When |draw| is selected, by default the node will be drawn as a |rectangle|.
+\end{keylist}
+\begin{key}{/tikz/rounded corners=\meta{length}}
+   This property allows you to make corners round. The value that you assign to it is the amount of roundness.
+\end{key}
+\begin{keylist}[/tikz]{very thin,thin,thick,very thick}
+   Can be used to set the width of a line. |thin| is the default value (corresponding to |0.4pt|).
+\end{keylist}
+\begin{keylist}[/tikz]{solid,dotted,loosely dotted,densely dotted,dashed,loosely dashed,densely dashed}
+Set the kind of line to be used to draw the outline. |solid| is the default (i.e. a continuous line).
+\end{keylist}
+
+\subsubsection{Area properties}
+These describe the properties of areas. They apply to the background of nodes (such as labels, words in the sentence and word groups).
+\begin{key}{/tikz/fill=\meta{color-spec}}
+   This key tells tikz to fill the inside of a shape (or a node) with a solid color. Color specification is the same as for |/tikz/draw|.
+\end{key}
+\begin{key}{/tikz/shade}
+   Instead of filling the area with a solid color, fill it with a gradient.
+\end{key}
+\begin{keylist}[/tikz]{top color=\meta{color-spec},bottom color=\meta{color-spec},left color=\meta{color-spec},right color=\meta{color-spec}}
+   Use these two keys to set up either a vertical or an horizontal gradient. Setting any of these properties automatically activates |shade|.
+\end{keylist}
+\begin{key}{/tikz/inner sep=\meta{length}}
+   This parameter controls the distance between the outline of a node and its contents (e.g., the text inside the node).
+\end{key}
+\begin{keylist}[/tikz]{minimum height=\meta{length},minimum width=\meta{length}}
+   By default, the size of a node is determined based on its content, i.e., it is just as big as to fit what's inside (plus padding and spacing, e.g., |inner sep|). By setting these keys, you can force a node to be at least as tall and/or wide as requested.
+\end{keylist}
+
+\subsubsection{Text properties}
+These describe the properties of text boxes. They apply to the text of the sentence (the rows if the |matrix| wrapped by |deptext|) and to labels.
+\begin{key}{/tikz/text=\meta{color}}
+   This key sets the color to be used to render the text.
+\end{key}
+\begin{key}{/tikz/font=\meta{fontmacros}}
+   Set the font size/family/series/shape to be user to render the text. Every combination of these standard \LaTeX{} macros is a valid value for \meta{fontmacros}:
+   |\normalsize|,
+   |\small|,
+   |\footnotesize|,
+   |\tiny|,
+   |\large|,
+   |\huge|,
+   |\rmfamily|,
+   |\ttfamily|,
+   |\sffamily|,
+   |\mdseries|,
+   |\bfseries|,
+   |\upshape|,
+   |\itshape|,
+   |\scshape|,
+   |\slshape|.
+\end{key}
+
+\printindex
+
+\end{document}

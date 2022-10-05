@@ -1,0 +1,806 @@
+%!TEX TS-program = pdflatexmk
+
+% Copyright (c) 2018 - 2022, Martin Scheidt (ISC license)
+% Permission to use, copy, modify, and/or distribute this file for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+\documentclass[a4paper,landscape]{article}
+
+\usepackage[margin=0pt]{geometry}
+\pagestyle{empty}
+
+\usepackage{tikz-trackschematic-documentation}
+\externaldocument{.tex/manual}
+
+\lstset{%
+  language         = TeX,%
+  basicstyle       = \bfseries\scriptsize\ttfamily,%
+  keywordstyle     = \bfseries\color{black},%
+  commentstyle     = \itshape\color{green},%
+  backgroundcolor  = \color{white},%
+  showstringspaces = false,%
+  columns          = fullflexible,%
+  breaklines       = true,%
+  frame            = none,%
+}%
+
+\begin{document}
+
+  \title{Snippets}\author{}
+  \date{Version \vhCurrentVersion~ from \vhCurrentDate}
+
+  \maketitle
+  \centering
+
+\begin{longtable}{|r|l|c|l|c|}
+\hline 
+No. & Name & Clip & Code & Manual reference\\
+\endhead
+
+%%%%%%%%%%%%%%%%
+%%% topology %%%
+%%%%%%%%%%%%%%%%
+
+\hline
+\No & main track &
+\symbol{main_track.tikz} & \code{main_track.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:maintrack} p. \pageref{sym:maintrack}} \\
+
+\hline
+\No & main line (double track) &
+\symbol{main_line.tikz} & \code{main_line.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:maintrack} p. \pageref{sym:maintrack}} \\
+
+\hline
+\No & secondary track &
+\symbol{secondary_track.tikz} & \code{secondary_track.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:secondarytrack} p. \pageref{sym:secondarytrack}} \\
+
+\hline
+\No & track number &
+\symbol{track_number.tikz} & \code{track_number.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:tracklabel} p. \pageref{sym:tracklabel}} \\
+
+\hline
+\No & bufferstop (forward) &
+\symbol{bufferstop_forward.tikz} & \code{bufferstop_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:bufferstop} p. \pageref{sym:bufferstop}} \\
+
+\hline
+\No & bufferstop (backward) &
+\symbol{bufferstop_backward.tikz} & \code{bufferstop_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:bufferstop} p. \pageref{sym:bufferstop}} \\
+
+\hline
+\No & friction bufferstop (forward) &
+\symbol{friction_bufferstop_forward.tikz} & \code{friction_bufferstop_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:bufferstop} p. \pageref{sym:bufferstop}} \\
+
+\hline
+\No & friction bufferstop (backward) &
+\symbol{friction_bufferstop_backward.tikz} & \code{friction_bufferstop_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:bufferstop} p. \pageref{sym:bufferstop}} \\
+
+\hline
+\No & track closure &
+\symbol{track_closure.tikz} & \code{track_closure.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:trackclosure} p. \pageref{sym:trackclosure}} \\
+
+%% turnouts %%%
+
+\hline
+\No & turnout left (forward) &
+\symbol{turnout_left_forward.tikz} & \code{turnout_left_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & turnout left (backward) &
+\symbol{turnout_left_backward.tikz} & \code{turnout_left_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & turnout right (forward) &
+\symbol{turnout_right_forward.tikz} & \code{turnout_right_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & turnout right (backward) &
+\symbol{turnout_right_backward.tikz} & \code{turnout_right_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (forward)\\with fouling point indicator} &
+\symbol{turnout_with_fouling_left_forward.tikz} & \code{turnout_with_fouling_left_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (backward)\\with fouling point indicator} &
+\symbol{turnout_with_fouling_left_backward.tikz} & \code{turnout_with_fouling_left_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (forward)\\with fouling point indicator} &
+\symbol{turnout_with_fouling_right_forward.tikz} & \code{turnout_with_fouling_right_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (backward)\\with fouling point indicator} &
+\symbol{turnout_with_fouling_right_backward.tikz} & \code{turnout_with_fouling_right_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (forward)\\with points in right position} &
+\symbol{turnout_left_forward_right_position.tikz} & \code{turnout_left_forward_right_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (forward)\\with points in left position} &
+\symbol{turnout_left_forward_left_position.tikz} & \code{turnout_left_forward_left_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (forward)\\with moving points} &
+\symbol{turnout_left_forward_moving_points.tikz} & \code{turnout_left_forward_moving_points.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (backward)\\with points in right position} &
+\symbol{turnout_left_backward_right_position.tikz} & \code{turnout_left_backward_right_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (backward)\\with points in left position} &
+\symbol{turnout_left_backward_left_position.tikz} & \code{turnout_left_backward_left_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (backward)\\with moving points} &
+\symbol{turnout_left_backward_moving_points.tikz} & \code{turnout_left_backward_moving_points.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (forward)\\with points in right position} &
+\symbol{turnout_right_forward_right_position.tikz} & \code{turnout_right_forward_right_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (forward)\\with points in left position} &
+\symbol{turnout_right_forward_left_position.tikz} & \code{turnout_right_forward_left_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (forward)\\with moving points} &
+\symbol{turnout_right_forward_moving_points.tikz} & \code{turnout_right_forward_moving_points.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (backward)\\with points in right position} &
+\symbol{turnout_right_backward_right_position.tikz} & \code{turnout_right_backward_right_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (backward)\\with points in left position} &
+\symbol{turnout_right_backward_left_position.tikz} & \code{turnout_right_backward_left_position.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (backward)\\with moving points} &
+\symbol{turnout_right_backward_moving_points.tikz} & \code{turnout_right_backward_moving_points.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (forward)\\operated manually} &
+\symbol{turnout_left_forward_manually.tikz} & \code{turnout_left_forward_manually.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (forward)\\operated manually} &
+\symbol{turnout_right_forward_manually.tikz} & \code{turnout_right_forward_manually.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout left (backward)\\operated manually} &
+\symbol{turnout_left_backward_manually.tikz} & \code{turnout_left_backward_manually.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & \parbox[c]{5cm}{turnout right (backward)\\operated manually} &
+\symbol{turnout_right_backward_manually.tikz} & \code{turnout_right_backward_manually.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:turnouts} p. \pageref{sym:turnouts}} \\
+
+\hline
+\No & double-slip turnout left &
+\symbol{double-slip_turnout_left.tikz} & \code{double-slip_turnout_left.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:slipturnout} p. \pageref{sym:slipturnout}} \\
+
+\hline
+\No & double-slip turnout right &
+\symbol{double-slip_turnout_right.tikz} &\code{double-slip_turnout_right.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:slipturnout} p. \pageref{sym:slipturnout}} \\
+
+\hline
+\No & diamond crossing left&
+\symbol{diamond_crossing_left.tikz} & \code{diamond_crossing_left.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:diamondcrossing} p. \pageref{sym:diamondcrossing}} \\
+
+\hline
+\No & diamond crossing right &
+\symbol{diamond_crossing_right.tikz} & \code{diamond_crossing_right.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:diamondcrossing} p. \pageref{sym:diamondcrossing}} \\
+
+\hline
+\No & derailer left (forward) &
+\symbol{derailer_left_forward.tikz} & \code{derailer_left_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:derailer} p. \pageref{sym:derailer}} \\
+
+\hline
+\No & derailer left (backward) &
+\symbol{derailer_left_backward.tikz} & \code{derailer_left_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:derailer} p. \pageref{sym:derailer}} \\
+
+\hline
+\No & derailer right (forward) &
+\symbol{derailer_right_forward.tikz} & \code{derailer_right_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:derailer} p. \pageref{sym:derailer}} \\
+
+\hline
+\No & derailer right (backward) &
+\symbol{derailer_right_backward.tikz} & \code{derailer_right_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{topology} \\ Section \ref{sym:derailer} p. \pageref{sym:derailer}} \\
+
+%%%%%%%%%%%%%%%%
+%%% vehicles %%%
+%%%%%%%%%%%%%%%%
+
+\hline
+\No & vehicles (parked) &
+\symbol{parked_vehicles.tikz} & \code{parked_vehicles.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:parkedvehicles} p. \pageref{sym:parkedvehicles}} \\
+
+\hline
+\No & vehicles with label (parked) &
+\symbol{parked_vehicles_with_label.tikz} & \code{parked_vehicles_with_label.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:parkedvehicles} p. \pageref{sym:parkedvehicles}} \\
+
+\hline
+\No & vehicle (parked) &
+\symbol{parked_vehicle.tikz} & \code{parked_vehicle.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:parkedvehicles} p. \pageref{sym:parkedvehicles}} \\
+
+\hline
+\No & \parbox[c]{4cm}{train in shunting mode\\(direction forward)} &
+\symbol{train_shunt_mode_forward.tikz} & \code{train_shunt_mode_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trainshunting} p. \pageref{sym:trainshunting}} \\
+
+\hline
+\No & \parbox[c]{4cm}{train in shunting mode\\(direction backward)} &
+\symbol{train_shunt_mode_backward.tikz} & \code{train_shunt_mode_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trainshunting} p. \pageref{sym:trainshunting}} \\
+
+\hline
+\No & train shunting (forward) &
+\symbol{train_shunting_forward.tikz} & \code{train_shunting_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trainshunting} p. \pageref{sym:trainshunting}} \\
+
+\hline
+\No & train shunting (backward) &
+\symbol{train_shunting_backward.tikz} & \code{train_shunting_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trainshunting} p. \pageref{sym:trainshunting}} \\
+
+\hline
+\No & train (direction forward) &
+\symbol{train_direction_forward.tikz} & \code{train_direction_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train (direction backward) &
+\symbol{train_direction_backward.tikz} & \code{train_direction_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train moving (forward) &
+\symbol{train_moving_forward.tikz} & \code{train_moving_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train moving (backward) &
+\symbol{train_moving_backward.tikz} & \code{train_moving_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train moving slow (forward) &
+\symbol{train_moving_slow_forward.tikz} & \code{train_moving_slow_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train moving slow (backward) &
+\symbol{train_moving_slow_backward.tikz} & \code{train_moving_slow_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train moving fast (forward) &
+\symbol{train_moving_fast_forward.tikz} & \code{train_moving_fast_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train moving fast (backward) &
+\symbol{train_moving_fast_backward.tikz} & \code{train_moving_fast_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train ghost (direction forward) &
+\symbol{train_ghost_direction_forward.tikz} & \code{train_ghost_direction_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train ghost (direction backward) &
+\symbol{train_ghost_direction_backward.tikz} & \code{train_ghost_direction_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & \parbox[c]{4cm}{train operated automatic\\(direction forward)} &
+\symbol{train_drive_automatic.tikz} & \code{train_drive_automatic.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & \parbox[c]{4cm}{train operated by human\\(direction forward)} &
+\symbol{train_drive_human.tikz} & \code{train_drive_human.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+\hline
+\No & train running over a junction&
+\symbol{bend_train.tikz} & \code{bend_train.tikz} &
+\parbox[c]{4cm}{\centering\texttt{vehicles} \\ Section \ref{sym:trains} p. \pageref{sym:trains}} \\
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% trafficcontrol %%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\hline
+\No & distant signal (forward) &
+\symbol{distant_signal_forward.tikz} & \code{distant_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:distantsignal} p. \pageref{sym:distantsignal}} \\
+
+\hline
+\No & \parbox[c]{4cm}{distant signal\\with speed indicator} &
+\symbol{distant_speed_signal_forward.tikz} & \code{distant_speed_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:distantsignal} p. \pageref{sym:distantsignal}} \\
+
+\hline
+\No & distant signal (backward) &
+\symbol{distant_signal_backward.tikz} & \code{distant_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:distantsignal} p. \pageref{sym:distantsignal}} \\
+
+\hline
+\No & \parbox[c]{4cm}{distant signal\\with speed indicator} &
+\symbol{distant_speed_signal_backward.tikz} & \code{distant_speed_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:distantsignal} p. \pageref{sym:distantsignal}} \\
+
+\hline
+\No & speed signal (forward) &
+\symbol{speed_signal_forward.tikz} & \code{speed_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:speedsignal} p. \pageref{sym:speedsignal}} \\
+
+\hline
+\No & speed signal (backward) &
+\symbol{speed_signal_backward.tikz} & \code{speed_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:speedsignal} p. \pageref{sym:speedsignal}} \\
+
+\hline
+\No & block signal (forward) &
+\symbol{block_signal_forward.tikz} & \code{block_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:blocksignal} p. \pageref{sym:blocksignal}} \\
+
+\hline
+\No & block signal (backward) &
+\symbol{block_signal_backward.tikz} & \code{block_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:blocksignal} p. \pageref{sym:blocksignal}} \\
+
+\hline
+\No & route signal (forward) &
+\symbol{route_signal_forward.tikz} & \code{route_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:routesignal} p. \pageref{sym:routesignal}} \\
+
+\hline
+\No & route signal (backward) &
+\symbol{route_signal_backward.tikz} & \code{route_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:routesignal} p. \pageref{sym:routesignal}} \\
+
+\hline
+\No & \parbox[c]{4cm}{combined signal\\(distant, block and route signal)} &
+\symbol{combined_signal_forward.tikz} & \code{combined_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:signals} p. \pageref{sym:signals}} \\
+
+\hline
+\No & shunt signal (forward) &
+\symbol{shunt_signal_forward.tikz} & \code{shunt_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:shuntsignal} p. \pageref{sym:shuntsignal}} \\
+
+\hline
+\No & shunt signal (backward) &
+\symbol{shunt_signal_backward.tikz} & \code{shunt_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:shuntsignal} p. \pageref{sym:shuntsignal}} \\
+
+\hline
+\No & shunt signal locked (forward) &
+\symbol{shunt_signal_forward_locked.tikz} & \code{shunt_signal_forward_locked.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:shuntsignal} p. \pageref{sym:shuntsignal}} \\
+
+\hline
+\No & shunt signal locked (backward) &
+\symbol{shunt_signal_backward_locked.tikz} & \code{shunt_signal_backward_locked.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:shuntsignal} p. \pageref{sym:shuntsignal}} \\
+
+\hline
+\No & block and shunt signal (forward) &
+\symbol{block_signal_with_shunt_signal_forward.tikz} & \code{block_signal_with_shunt_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:signals} p. \pageref{sym:signals}} \\
+
+\hline
+\No & block and shunt signal (backward) &
+\symbol{block_signal_with_shunt_signal_backward.tikz} & \code{block_signal_with_shunt_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:signals} p. \pageref{sym:signals}} \\
+
+\hline
+\No & route and shunt signal (forward) &
+\symbol{route_signal_with_shunt_signal_forward.tikz} & \code{route_signal_with_shunt_signal_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:signals} p. \pageref{sym:signals}} \\
+
+\hline
+\No & route and shunt signal (backward) &
+\symbol{route_signal_with_shunt_signal_backward.tikz} & \code{route_signal_with_shunt_signal_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:signals} p. \pageref{sym:signals}} \\
+
+\hline
+\No & shunt limit (forward) &
+\symbol{shunt_limit_forward.tikz} & \code{shunt_limit_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:shuntlimit} p. \pageref{sym:shuntlimit}} \\
+
+\hline
+\No & shunt limit (backward) &
+\symbol{shunt_limit_backward.tikz} & \code{shunt_limit_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:shuntlimit} p. \pageref{sym:shuntlimit}} \\
+
+\hline
+\No & train berth sign (forward) &
+\symbol{train_berth_sign_forward.tikz} & \code{train_berth_sign_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:berthsign} p. \pageref{sym:berthsign}} \\
+
+\hline
+\No & train berth sign (backward) &
+\symbol{train_berth_sign_backward.tikz} & \code{train_berth_sign_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:berthsign} p. \pageref{sym:berthsign}} \\
+
+\hline
+\No & train berth &
+\symbol{train_berth.tikz} & \code{train_berth.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:berthsign} p. \pageref{sym:berthsign} \\ \& \\ \texttt{measures} \\ Section \ref{sym:trainberth} p. \pageref{sym:trainberth}} \\
+
+%% locations %%
+
+\hline
+\No & view point (forward) &
+\symbol{view_point_forward.tikz} & \code{view_point_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:viewpoint} p. \pageref{sym:viewpoint}} \\
+
+\hline
+\No & view point (backward) &
+\symbol{view_point_backward.tikz} & \code{view_point_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:viewpoint} p. \pageref{sym:viewpoint}} \\
+
+\hline
+\No & braking point (forward) &
+\symbol{braking_point_forward.tikz} & \code{braking_point_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:brakingpoint} p. \pageref{sym:brakingpoint}} \\
+
+\hline
+\No & braking point (backward) &
+\symbol{braking_point_backward.tikz} & \code{braking_point_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:brakingpoint} p. \pageref{sym:brakingpoint}} \\
+
+\hline
+\No & end of movement authority (forward) &
+\symbol{end_of_movement_authority_forward.tikz} & \code{end_of_movement_authority_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:endofauthority} p. \pageref{sym:endofauthority}} \\
+
+\hline
+\No & end of movement authority (backward) &
+\symbol{end_of_movement_authority_backward.tikz} & \code{end_of_movement_authority_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:endofauthority} p. \pageref{sym:endofauthority}} \\
+
+\hline
+\No & danger point (forward) &
+\symbol{danger_point_forward.tikz} & \code{danger_point_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:dangerpoint} p. \pageref{sym:dangerpoint}} \\
+
+\hline
+\No & danger point (backward) &
+\symbol{danger_point_backward.tikz} & \code{danger_point_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:dangerpoint} p. \pageref{sym:dangerpoint}} \\
+
+%% clearing points %%
+
+\hline
+\No & clearing point &
+\symbol{clearing_point.tikz} & \code{clearing_point.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:clearingpoint} p. \pageref{sym:clearingpoint}} \\
+
+\hline
+\No & block clearing point (forward) &
+\symbol{block_clearing_point_forward.tikz} & \code{block_clearing_point_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:blockclearingpoint} p. \pageref{sym:blockclearingpoint}} \\
+
+\hline
+\No & block clearing point (backward) &
+\symbol{block_clearing_point_backward.tikz} & \code{block_clearing_point_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:blockclearingpoint} p. \pageref{sym:blockclearingpoint}} \\
+
+\hline
+\No & route clearing point (forward) &
+\symbol{route_clearing_point_forward.tikz} & \code{route_clearing_point_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:routeclearingpoint} p. \pageref{sym:routeclearingpoint}} \\
+
+\hline
+\No & route clearing point (backward) &
+\symbol{route_clearing_point_backward.tikz} & \code{route_clearing_point_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:routeclearingpoint} p. \pageref{sym:routeclearingpoint}} \\
+
+%% routes %%
+
+\hline
+\No & route (forward \& backward) &
+\symbol{route.tikz} & \code{route.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:route} p. \pageref{sym:route}} \\
+
+\hline
+\No & direction control&
+\symbol{direction_control.tikz} & \code{direction_control.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:directioncontrol} p. \pageref{sym:directioncontrol}} \\
+
+\hline
+\No & \parbox[c]{5cm}{direction control\\granted forward} &
+\symbol{direction_control_forward.tikz} & \code{direction_control_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:directioncontrol} p. \pageref{sym:directioncontrol}} \\
+
+\hline
+\No & \parbox[c]{5cm}{direction control\\granted backward} &
+\symbol{direction_control_backward.tikz} & \code{direction_control_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:directioncontrol} p. \pageref{sym:directioncontrol}} \\
+
+%% transmitter %%
+
+\hline
+\No & balise (forward \& backward) &
+\symbol{balises.tikz} & \code{balises.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:balise} p. \pageref{sym:balise}} \\
+
+\hline
+\No & \parbox[c]{5cm}{balise (forward)\\with signal} &
+\symbol{balise_forward_with_signal.tikz} & \code{balise_forward_with_signal.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:balise} p. \pageref{sym:balise} \\ \& \\ Section \ref{sym:routesignal} p. \pageref{sym:routesignal}} \\
+
+\hline
+\No & \parbox[c]{5cm}{balise (forward \& backward)\\ switched} &
+\symbol{balise_switched.tikz} & \code{balise_switched.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:balise} p. \pageref{sym:balise}} \\
+
+\hline
+\No & \parbox[c]{5cm}{individual balises\\ (forward \& backward)} &
+\symbol{individual_balises.tikz} & \code{individual_balises.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:balise} p. \pageref{sym:balise}} \\
+
+\hline
+\No & \parbox[c]{5cm}{individual balises\\ (forward \& backward) mixed} &
+\symbol{individual_balises_mixed.tikz} & \code{individual_balises_mixed.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:balise} p. \pageref{sym:balise}} \\
+
+\hline
+\No & track loop &
+\symbol{trackloop.tikz} & \code{trackloop.tikz} &
+\parbox[c]{4cm}{\centering\texttt{trafficcontrol} \\ Section \ref{sym:loop} p. \pageref{sym:loop}} \\
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% constructions %%%
+%%%%%%%%%%%%%%%%%%%%%
+
+\hline
+\No & platform (left) &
+\symbol{platform_left.tikz} & \code{platform_left.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:platform} p. \pageref{sym:platform}} \\
+
+\hline
+\No & platform (right) &
+\symbol{platform_right.tikz} & \code{platform_right.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:platform} p. \pageref{sym:platform}} \\
+
+\hline
+\No & platform (middle) &
+\symbol{platform_middle.tikz} & \code{platform_middle.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:platform} p. \pageref{sym:platform}} \\
+
+\hline
+\No & level crossing (single track) &
+\symbol{level_crossing_single.tikz} & \code{level_crossing_single.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:levelcrossing} p. \pageref{sym:levelcrossing}} \\
+
+\hline
+\No & \parbox[c]{5cm}{level crossing (secondary track)\\without barrier} &
+\symbol{level_crossing_without_barrier.tikz} & \code{level_crossing_without_barrier.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:levelcrossing} p. \pageref{sym:levelcrossing}} \\
+
+\hline
+\No & level crossing (double track) &
+\symbol{level_crossing_double.tikz} & \code{level_crossing_double.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:levelcrossing} p. \pageref{sym:levelcrossing}} \\
+
+\hline
+\No & \parbox[c]{5cm}{level crossing (double track)\\with full closure} &
+\symbol{level_crossing_double_full_closure.tikz} & \code{level_crossing_double_full_closure.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:levelcrossing} p. \pageref{sym:levelcrossing}} \\
+
+\hline
+\No & bridge &
+\symbol{bridge.tikz} & \code{bridge.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:bridge} p. \pageref{sym:bridge}} \\
+
+\hline
+\No & \parbox[c]{5cm}{bridge\\with track beneath} &
+\symbol{bridge_track_beneath.tikz} & \code{bridge_track_beneath.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:bridge} p. \pageref{sym:bridge}} \\
+
+\hline
+\No & interlocking&
+\symbol{interlocking.tikz} & \code{interlocking.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:interlocking} p. \pageref{sym:interlocking}} \\
+
+\hline
+\No & hump&
+\symbol{hump.tikz} & \code{hump.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:hump} p. \pageref{sym:hump}} \\
+
+\hline
+\No & pylons (right)&
+\symbol{pylons_right.tikz} & \code{pylons_right.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:pylon} p. \pageref{sym:pylon}} \\
+
+\hline
+\No & pylons (left)&
+\symbol{pylons_left.tikz} & \code{pylons_left.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:pylon} p. \pageref{sym:pylon}} \\
+
+\hline
+\No & pylons (both sides)&
+\symbol{pylons_both.tikz} & \code{pylons_both.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:pylon} p. \pageref{sym:pylon}} \\
+
+\hline
+\No & pylons (middle)&
+\symbol{pylons_middle.tikz} & \code{pylons_middle.tikz} &
+\parbox[c]{4cm}{\centering\texttt{constructions} \\ Section \ref{sym:pylon} p. \pageref{sym:pylon}} \\
+
+%%%%%%%%%%%%%%%%%
+%%% electrics %%%
+%%%%%%%%%%%%%%%%%
+
+\hline
+\No & distant power off (forward)&
+\symbol{distant_power_off_forward.tikz} & \code{distant_power_off_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:distantpoweroff} p. \pageref{sym:distantpoweroff}} \\
+
+\hline
+\No & distant power off (backward)&
+\symbol{distant_power_off_backward.tikz} & \code{distant_power_off_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:distantpoweroff} p. \pageref{sym:distantpoweroff}} \\
+
+\hline
+\No & power off (forward)&
+\symbol{power_off_forward.tikz} & \code{power_off_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:poweroff} p. \pageref{sym:poweroff}} \\
+
+\hline
+\No & power off (backward)&
+\symbol{power_off_backward.tikz} & \code{power_off_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:poweroff} p. \pageref{sym:poweroff}} \\
+
+\hline
+\No & power on (forward)&
+\symbol{power_on_forward.tikz} & \code{power_on_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:poweron} p. \pageref{sym:poweron}} \\
+
+\hline
+\No & power on (backward)&
+\symbol{power_on_backward.tikz} & \code{power_on_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:poweron} p. \pageref{sym:poweron}} \\
+
+\hline
+\No & distant pantograph down (forward)&
+\symbol{distant_pantograph_down_forward.tikz} & \code{distant_pantograph_down_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:distantpantographdown} p. \pageref{sym:distantpantographdown}} \\
+
+\hline
+\No & distant pantograph down (backward)&
+\symbol{distant_pantograph_down_backward.tikz} & \code{distant_pantograph_down_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:distantpantographdown} p. \pageref{sym:distantpantographdown}} \\
+
+\hline
+\No & pantograph down (forward)&
+\symbol{pantograph_down_forward.tikz} & \code{pantograph_down_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:pantographdown} p. \pageref{sym:pantographdown}} \\
+
+\hline
+\No & pantograph down (backward)&
+\symbol{pantograph_down_backward.tikz} & \code{pantograph_down_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:pantographdown} p. \pageref{sym:pantographdown}} \\
+
+\hline
+\No & pantograph up (forward)&
+\symbol{pantograph_up_forward.tikz} & \code{pantograph_up_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:pantographup} p. \pageref{sym:pantographup}} \\
+
+\hline
+\No & pantograph up (backward)&
+\symbol{pantograph_up_backward.tikz} & \code{pantograph_up_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:pantographup} p. \pageref{sym:pantographup}} \\
+
+\hline
+\No & wire limit (forward)&
+\symbol{wire_limit_forward.tikz} & \code{wire_limit_forward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:wirelimit} p. \pageref{sym:wirelimit}} \\
+
+\hline
+\No & wire limit (backward)&
+\symbol{wire_limit_backward.tikz} & \code{wire_limit_backward.tikz} &
+\parbox[c]{4cm}{\centering\texttt{electrics} \\ Section \ref{sym:wirelimit} p. \pageref{sym:wirelimit}} \\
+
+%%%%%%%%%%%%%%%%
+%%% measures %%%
+%%%%%%%%%%%%%%%%
+
+\hline
+\No & track distance (in \si{\metre}) &
+\symbol{track_distance.tikz} & \code{track_distance.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:trackdistance} p. \pageref{sym:trackdistance}} \\
+
+\hline
+\No & train berth shape &
+\symbol{train_berth_shape.tikz} & \code{train_berth_shape.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:trainberth} p. \pageref{sym:trainberth}} \\
+
+\hline
+\No & train berth shape bidirectional &
+\symbol{train_berth_shape_bidirectional.tikz} & \code{train_berth_shape_bidirectional.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:trainberth} p. \pageref{sym:trainberth}} \\
+
+\hline
+\No & train berth with special shape &
+\symbol{train_berth_shape_special.tikz} & \code{train_berth_shape_special.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:trainberth} p. \pageref{sym:trainberth}} \\
+
+\hline
+\No & measure line &
+\symbol{measure_line.tikz} & \code{measure_line.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:measureline} p. \pageref{sym:measureline}} \\
+
+\hline
+\No & hectometer (in \si{\kilo\metre}) &
+\symbol{hectometer.tikz} & \code{hectometer.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:hectometer} p. \pageref{sym:hectometer}} \\
+
+\hline
+\No & measure line with hectometer (in \si{\kilo\metre}) &
+\symbol{measure_line_with_hectometer.tikz} & \code{measure_line_with_hectometer.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:hectometer} p. \pageref{sym:hectometer}} \\
+
+\hline
+\No & track marking &
+\symbol{track_marking.tikz} & \code{track_marking.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:trackmarking} p. \pageref{sym:trackmarking}} \\
+
+\hline
+\No & track marking with turnout&
+\symbol{track_marking_with_turnout.tikz} & \code{track_marking_with_turnout.tikz} &
+\parbox[c]{4cm}{\centering\texttt{measures} \\ Section \ref{sym:trackmarking} p. \pageref{sym:trackmarking}} \\
+
+\hline
+\end{longtable}
+\input{versionhistory.tex}
+\end{document}

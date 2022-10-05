@@ -1,0 +1,18 @@
+% file: 3-6-graph-decomposition/dfs-undirected.tex
+
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[vertex/.style = {draw, circle, minimum size = 8pt},
+  node distance = 2.0cm and 1.5cm,
+  every edge/.style = {draw, thick}]
+  \node (u) [vertex] {$u$};
+  \node (x) [vertex, below left = of u] {$x$};
+  \node (v) [vertex, below right = of u] {$v$};
+
+  \path (u) edge node[above, sloped] {$1.$ tree edge} (x)
+	(x) edge node[below, sloped] {$2.$ tree edge}(v)
+	(v) edge node[above, sloped] {$3.$ \textcolor{red}{???}}(u);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[po/.style = {thick}]
+  \node (a) {A:};
+  \node (lib-a) [right = of a, label = above: lib] {\includegraphics[scale = 0.15]{figs/lib-updated-red.png}};
+  \node (app-a) [right = of lib-a, label = above: app] {\includegraphics[scale = 0.05]{figs/app-icon.png}};
+
+  \draw[po] (lib-a) to ++(-1,0);
+  \draw[po] (lib-a) to (app-a);
+  \draw[po, >=Stealth, ->] (app-a) to ++(1,0);
+
+  \begin{scope}
+	\node (b) at (0, -2.0) {B:};
+	\node (app-b) [right = 3.5cm of b, label = below: app] {\includegraphics[scale = 0.05]{figs/app-icon.png}};
+	\node (lib-b) [right = of app-b, label = below: lib] {\includegraphics[scale = 0.15]{figs/lib-updated-red.png}};
+	\node (err) at (app-b) {\textcolor{red}{Compile Error!}};
+
+	\draw[po] (app-b) to ++(-3,0);
+	\draw[po] (app-b) to (lib-b);
+	\draw[po, >=Stealth, ->] (lib-b) to ++(1,0);
+  \end{scope}
+
+  \begin{scope}[prop/.style = {>=Stealth, ->, dashed, thick}]
+	\draw [prop, blue] (app-a) to (app-b);
+	\draw [prop, red] (lib-a) to (lib-b);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

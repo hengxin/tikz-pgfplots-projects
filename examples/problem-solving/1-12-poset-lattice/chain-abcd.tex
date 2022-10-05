@@ -1,0 +1,14 @@
+% chain-abcd.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning, chains}
+
+\begin{document}
+\begin{tikzpicture}[start chain = going above, every join/.style = {draw, thick, blue}]
+  \node [on chain, join] {$a$};
+  \node [on chain, join] {$b$};
+  \node [on chain, join] {$c$};
+  \node [on chain, join] {$d$};
+\end{tikzpicture}
+\end{document}

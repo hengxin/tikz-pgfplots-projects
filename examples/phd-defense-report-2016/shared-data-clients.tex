@@ -1,0 +1,25 @@
+%        File: shared-data-clients.tex
+%     Created: July 17, 2016
+%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, shapes.symbols, backgrounds, fit, arrows.meta, calc, chains}
+
+\begin{document}
+\begin{tikzpicture}[access/.style = {> = stealth, <->, line width = 3pt, blue!50}]
+
+  % shared data
+  \node[] (folder) {\includegraphics[scale = 0.05]{figs/folder-circle-icon.png}};   
+
+  % clients
+  \begin{scope}[start chain = circle placed {at = (\tikzchaincount * 60 : 5.0)}]
+	\foreach \i in {0, 1, ..., 5} {
+	  \node[on chain] (\i) {\includegraphics[scale = 0.40]{figs/client-pc-logo.png}};
+	  \draw[access] (\i) to (folder);
+	}
+  \end{scope}
+\end{tikzpicture}
+\end{document}
+
+

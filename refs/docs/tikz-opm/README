@@ -1,0 +1,12 @@
+[[tikz-opm]]
+tikz-opm
+--------
+
+A tikz library for OPM diagrams.
+
+
+See tikz-opm.pdf for how to use it.
+
+The git repo for tikz-opm is at
+  git@github.com:lehoff/tikz-opm.git
+feel free to fork and send pull requests.

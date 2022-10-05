@@ -1,0 +1,124 @@
+%% symbol library for TikZ track schematics
+%
+% Copyright (c) 2018 - 2022, Martin Scheidt (ISC license)
+
+% Permission to use, copy, modify, and/or distribute this file for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+\ProvidesPackage{tikz-trackschematic-documentation}[2020-12-30 Documentation Package for the tikz-trackschematic library]
+
+% ---[   HTML  ]---
+\usepackage{iftex}
+\usepackage[
+  HomeHTMLFilename=index,     % Filename of the homepage.
+  % IndexLanguage=english,      % Language for xindy index, glossary.
+  latexmk                    % Use latexmk to compile.
+]{lwarp}
+% --------[  Coding and Language  ]----------
+\ifPDFTeX
+  \RequirePackage{scrhack,marginnote}
+  \RequirePackage[utf8]{inputenc}
+  \RequirePackage[T1]{fontenc}
+\fi
+\RequirePackage[main=english]{babel}
+% --------[   revision history    ]----------
+\RequirePackage[tocentry]{vhistory}
+% --------[ Layout  ]-----------
+\ifPDFTeX
+  \pretolerance=8000
+  \tolerance=9500
+  \hbadness=8000
+  \vbadness=10000
+  \displaywidowpenalty=10000
+  \clubpenalty=10000
+  \widowpenalty=10000
+  \RequirePackage{lmodern,microtype,mathptmx,courier}
+  \RequirePackage[scaled=0.92]{helvet}
+  \RequirePackage[%
+    automark,%
+    headsepline,%
+    draft=false,%
+  ]{scrlayer-scrpage}%
+  \pagestyle{scrheadings}
+\fi
+\RequirePackage{multicol}
+% ----------[ display ]-----------
+\RequirePackage[prefix=]{xcolor-solarized}
+\RequirePackage[inline]{enumitem}
+
+\RequirePackage[final]{listings}
+\lstdefinelanguage{tikz}{%
+  keywordsprefix = \\,
+  alsoletter     = \\,%
+  morekeywords   = {},%
+  sensitive      = true,%
+  morecomment    = [l]\%,%
+  morestring=[s][\bfseries\color{magenta}]{\[}{\]},%
+  morestring=[s][\bfseries\color{violet}]{\{}{\}},%
+  morestring=[s][\bfseries\color{violet}]{(}{)},%
+}[keywords,comments,strings]%
+
+\lstset{%
+  language         = tikz,%
+  basicstyle       = \scriptsize\ttfamily,%
+  keywordstyle     = \bfseries\color{blue},%
+  commentstyle     = \itshape\color{green},%
+  backgroundcolor  = \color{base3},%
+  showstringspaces = false,%
+  columns          = fullflexible,%
+  breaklines       = true,%
+  frame            = single,%
+}%
+
+\RequirePackage{longtable,tikz,adjustbox,rotating}
+\RequirePackage{siunitx}[=v2]
+% \sisetup{
+%   text-family-to-math = true,
+%   text-series-to-math = true
+% }
+
+\IfFileExists{tikz-trackschematic-dev.sty}{%
+  \RequirePackage[dev]{tikz-trackschematic}%
+}{%
+  \RequirePackage{tikz-trackschematic}%
+}%
+% -----------[ linking ]----------------
+\RequirePackage{xr-hyper}
+\RequirePackage[%
+  % pdftex,%
+  % pdfpagelabels, % modify PDF page labels
+  hyperindex,%
+  hyperfigures,%
+  bookmarksopen,%
+  bookmarksnumbered,%
+  draft=false,%
+  pageanchor=true, % Determines whether every page is given an implicit anchor at the top left corner
+  %pagebackref, % Adds backlink text to the end of each item in the bibliography, as a list of page numbers
+  %linktocpage, % make page number, not text, be link on TOC, LOF and LOT
+  breaklinks=true, % allow links to break over lines by making links over multiple lines into PDF links to the same target
+  colorlinks=true, % Colors the text of links and anchors
+  linkcolor=base01, % Color for normal internal links
+  urlcolor=blue, % Color for web links
+]{hyperref} % PDF with a linked TableOfContent
+\RequirePackage{url}
+
+
+% -----------[ special commands ]----------------
+\renewcommand{\symbol}[2][1.0]{%
+  \adjustbox{valign=c}{\begin{tikzpicture}[scale=#1]%
+    \input{./snippets/#2}%
+    \path (-0.1,-1.1) rectangle (6.1,1.1); % background rectangle to unify every cell containing a symbol
+  \end{tikzpicture}}%
+}%
+
+\newcommand{\code}[1]{\lstinputlisting[firstline=7]{./snippets/#1}}%
+
+\newcounter{symbolNo}%
+\def\No{\stepcounter{symbolNo}\arabic{symbolNo}}%
+
+\newcommand{\symboldescription}[1]{\paragraph*{#1}\marginnote{\tikz{\fill (-0.4,0.15)--(-0.4,-0.15)--(0,0)--cycle;}}\mbox{}\\}%
+
+\setlength{\parindent}{0cm}
+\reversemarginpar
+%%%%%%%%%%%%%%%
+\endinput%
+%

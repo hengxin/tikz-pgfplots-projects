@@ -1,0 +1,18 @@
+% lwt.tex
+
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 2.0cm and 2.0cm,
+  work/.style = {draw, rectangle, inner sep = 6pt, font = \large}]
+
+  \node[work] (protocol) {Protocols};
+  \node[work, right = of protocol] (impl) {Implementations};
+
+  \draw[<->] (protocol) to node[above]{MBT} (impl);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,34 @@
+%        File: master-slave.tex
+%     Created: Mon Jan 04 03:00 PM 2016 C
+% Last Change: Mon Jan 04 03:00 PM 2016 C
+%
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes, calc, backgrounds, fit}
+
+\begin{document}
+\begin{tikzpicture}[rep/.style = {>=Stealth, ->, dashed, line width = 4pt, brown}, 
+            access/.style = {>=Stealth, <->, orange, line width = 2pt}]
+  % the master
+  \node (master) [outer sep = 0pt] {\includegraphics[scale = 0.30]{figs/db-logo.png}};
+  \node (master-txt) [font = \Huge, above = 0.10cm of master]  {Master};
+
+  % two slaves
+  \node (slave-left) [outer sep = 0pt, below left = 3.0cm and 1.5cm of master, label = {[font = \Huge] above : {Slave}}]  {\includegraphics[scale = 0.20]{figs/db-logo.png}}; 
+  \node (slave-right) [outer sep = 0pt, below right = 3.0cm and 1.5cm of master, label = {[font = \Huge] above : {Slave}}]  {\includegraphics[scale = 0.20]{figs/db-logo.png}}; 
+
+  % background
+  \begin{pgfonlayer}{background}
+	% master to slaves
+	\draw [rep] (master) to (slave-left);
+	\draw [rep] (master) to (slave-right);
+
+	\node (box) [draw, dash pattern = on 20pt off 10pt, very thick, inner sep = 5pt, rectangle, rounded corners,
+		fit = (master) (master-txt) (slave-left) (slave-right),
+	  font = \Huge, align = center] {$\;$\\[5pt]Replication};
+  \end{pgfonlayer}
+\end{tikzpicture}
+\end{document}
+
+

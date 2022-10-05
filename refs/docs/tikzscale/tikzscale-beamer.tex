@@ -1,0 +1,56 @@
+\documentclass{beamer}
+
+\usepackage{tikz}
+\usepackage{tikzscale}
+
+\begin{document}
+
+	\begin{frame}
+		\frametitle{\textbackslash only}
+		\framesubtitle{\alt<2>{shown}{hidden}}
+		\includegraphics[width=0.4\linewidth]{only.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash visible}
+		\framesubtitle{\alt<2>{shown}{hidden}}
+		\includegraphics[width=0.4\linewidth]{visible.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash invisible}
+		\framesubtitle{\alt<2>{shown}{hidden}}
+		\includegraphics[width=0.4\linewidth]{invisible.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash alt}
+		\framesubtitle{variant \alt<2>{2}{1}}
+		\includegraphics[width=0.4\linewidth]{alt.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash onslide}
+		\framesubtitle{\alt<2>{shown}{hidden}}
+		\includegraphics[width=0.4\linewidth]{onslide.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash uncover}
+		\framesubtitle{\alt<2>{shown}{hidden}}
+		\includegraphics[width=0.4\linewidth]{uncover.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash temporal}
+		\framesubtitle{\temporal<2>{before}{now}{after}}
+		\includegraphics[width=0.4\linewidth]{temporal.tikz}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{\textbackslash pause}
+		\framesubtitle{\alt<2->{shown}{hidden}}
+		\includegraphics[width=0.4\linewidth]{pause.tikz}
+	\end{frame}
+
+\end{document}

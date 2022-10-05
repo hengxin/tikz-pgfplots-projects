@@ -1,0 +1,33 @@
+\documentclass{standalone}
+
+\usepackage{xeCJK}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{arrows.meta, backgrounds}
+
+\begin{document}
+\tdplotsetmaincoords{60}{135}
+
+\begin{tikzpicture}[framed, background rectangle/.style = {draw = teal}, scale=2, tdplot_main_coords, font = \scriptsize]
+
+\coordinate (O) at (0,0,0);
+\coordinate (x) at (1,0,0);
+\coordinate (y) at (0,1,0);
+\coordinate (z) at (0,0,1);
+
+\draw[thick, >=Stealth, ->] (O) to node[sloped, below, near end, align = center] {Mechanism\\{\tiny (机制: \textcolor{red}{Tunable})}} (x);
+\draw[thick, >=Stealth, ->] (O) to node[anchor = north, sloped, below, near end, align = center] {Measurement\\{\tiny (度量: 怎么样)}} (y);
+\draw[thick, >=Stealth, ->] (O) to (z) node[anchor = south, align = center] {Semantics\\{\tiny (模型: \textcolor{red}{Snapshot Isolation})}};
+
+\coordinate (xz) at (1,0,1);
+\coordinate (yz) at (0,1,1);
+
+\draw[canvas is xz plane at y = 0, transform shape, draw = blue, fill = blue!50, opacity = 0.5] (xz) rectangle (O);
+\node[canvas is xz plane at y = 0, align = center] at (0.5,0,0.5) {\reflectbox{多样化,}\\\reflectbox{可调节}\\\reflectbox{(\textcolor{red}{RVSI})}};
+
+\draw[canvas is yz plane at x = 0, transform shape, draw = brown, fill = brown!50, opacity = 0.5] (yz) rectangle (O);
+\node[canvas is yz plane at x = 0, align = center] at (0,0.5,0.5) {精细化,\\可度量};
+
+\node[font = \normalsize, rotate = -90, teal] at (0,1.4,1.) {\textsc{Transaction}};
+\end{tikzpicture}
+\end{document}

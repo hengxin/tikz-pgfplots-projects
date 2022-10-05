@@ -1,0 +1,71 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\pgfplotstableread{log-rwRatio-0.5.dat}{\rww}  % #r/#w = 1 : 2
+
+\begin{tikzpicture}[vc/.style = {red, mark = #1},
+	wcf/.style = {densely dashed, blue, mark options = {solid}, mark = #1}]
+  \begin{axis}[
+	  title = ,
+	  xlabel = {MPL},
+	  ylabel = {Transaction abort rates},
+	  xtick = data,
+	  ymin = 0,
+	  ytick = {0, 0.1, 0.2, 0.3},
+	  grid = major,
+	  minor y tick num = 1,
+	legend entries = {
+	    vc$(1,0,0)$ \\
+	    vc$(1,0,2)$ \\
+		vc$(1,1,0)$ \\
+		vc$(2,0,0)$ \\
+		vc$(2,1,2)$ \\
+		vc$(2,2,1)$ \\
+	    wcf$(1,0,0)$ \\
+	    wcf$(1,0,2)$ \\
+		wcf$(1,1,0)$ \\
+		wcf$(2,0,0)$ \\
+		wcf$(2,1,2)$ \\
+		wcf$(2,2,1)$ \\
+	  },
+	  legend pos = outer north east,
+	legend style = {
+	  legend columns = 6,
+	  cells = {anchor = west},
+	  font = \footnotesize,
+	  transpose legend,
+	},
+  ]
+
+	\addplot[vc = {otimes}] table[x = mpl, y = vc100] {\rww};
+	\addplot[vc = {x}] table[x = mpl, y = vc102] {\rww};
+	\addplot[vc = {triangle}] table[x = mpl, y = vc110] {\rww};
+	\addplot[vc = {square}] table[x = mpl, y = vc200] {\rww};
+	\addplot[vc = {o}] table[x = mpl, y = vc212] {\rww};
+	\addplot[vc = {diamond}] table[x = mpl, y = vc221] {\rww};
+
+	\addplot[wcf = {otimes}] table[x = mpl, y = wcf100] {\rww};
+	\addplot[wcf = {x}] table[x = mpl, y = wcf102] {\rww};
+	\addplot[wcf = {triangle}] table[x = mpl, y = wcf110] {\rww};
+	\addplot[wcf = {square}] table[x = mpl, y = wcf200] {\rww};
+	\addplot[wcf = {o}] table[x = mpl, y = wcf212] {\rww};
+	\addplot[wcf = {diamond}] table[x = mpl, y = wcf221] {\rww};
+
+	% TODO: using relative position
+	\node[draw, thick, violet] at (220, 130) {vc($\ast,\ast,\ast$)};
+	\node[draw, thick, violet] at (220, 270) {wcf($\ast,\ast,\ast$)};
+  \end{axis}
+\end{tikzpicture}
+\end{document}
+
+	% cycle list = {%
+	%   {blue, mark = *},
+	%   {red, mark = square*},
+	%   {brown, mark = triangle*},
+	%   {teal, mark = pentagon*},
+	%   {orange, mark = diamond*},
+	%   {olive, mark = x},
+	%   {violet, mark = o}
+	% },
