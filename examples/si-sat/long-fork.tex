@@ -1,0 +1,43 @@
+% long-fork.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\renewcommand{\keyxvar}{\textcolor{cyan}{\mathit{x}}}
+\renewcommand{\keyyvar}{\textcolor{brown}{\mathit{y}}}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.8cm and 1.5cm,
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = left : $T_{0}$] (t0)
+    {$\writeevent(\keyxvar, 0) \; \writeevent(\keyyvar, 0)$};
+
+  \node[txn, label = left : $T_{1}$, above = of t0] (t1)
+    {$\writeevent(\keyxvar, 1)$};
+  \node[txn, label = left : $T_{2}$, below = of t0] (t2)
+    {$\writeevent(\keyyvar, 1)$};
+
+  \node[txn, right = of t1, label = above : $T_{3}$] (t3)
+    {$\readevent(\keyxvar, 1) \; \readevent(\keyyvar, 0)$};
+  \node[txn, right = of t2, label = below : $T_{4}$] (t4)
+    {$\readevent(\keyxvar, 0) \; \readevent(\keyyvar, 1)$};
+
+  % t0 WR(y) t3
+  \draw[wr] (t0) to node[above, sloped]{$\WR(\keyyvar)$} (t3);
+  % t0 WR(x) t4
+  \draw[wr] (t0) to node[above, sloped]{$\WR(\keyxvar)$} (t4);
+  % t1 WR(x) t3
+  \draw[wr] (t1) to node[above]{$\WR(\keyxvar)$} (t3);
+  % t2 WR(y) t4
+  \draw[wr] (t2) to node[below]{$\WR(\keyyvar)$} (t4);
+\end{tikzpicture}
+\end{document}
