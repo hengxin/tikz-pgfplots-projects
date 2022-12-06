@@ -21,7 +21,7 @@
   \node[txn, label = left : $T_{0}$] (t0)
     {$\writeevent(\keyxvar, 0) \; \writeevent(\keyyvar, 0)$};
   \node[txn, label = right : $T_{5}$, right = 2.50cm of t0] (t5)
-    {$\writeevent(\keyyvar, 2)$};
+    {$\writeevent(\keyxvar, 2)$};
 
   \node[txn, label = above : $T_{1}$, above right = 1.00cm and -1.00cm of t0] (t1)
     {$\writeevent(\keyxvar, 1)$};
