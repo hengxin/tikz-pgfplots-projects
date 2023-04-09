@@ -1,0 +1,33 @@
+% bp-aborted-read.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 2pt},
+    txn crossed out/.style = {
+      txn,
+      append after command = {
+        node[fit = (\tikzlastnode), draw = red, thick,
+             inner sep=-\pgflinewidth, cross out]{}
+      }
+    }
+  }
+
+  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
+  \node[txn crossed out, above = 1.00cm of t, lightgray]
+    (tprime) {$\cdots \writeevent(x, v) \cdots$};
+  \node[left = 0.1pt of tprime]{$t'$};
+
+  \draw[wr, lightgray] (tprime.south) to node[]{$\WR(\keyxvar)$} (t.north);
+\end{tikzpicture}
+\end{document}
