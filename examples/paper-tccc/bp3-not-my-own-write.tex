@@ -1,0 +1,33 @@
+% bp3-not-my-own-write.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 2pt},
+    txn crossed out/.style = {
+      txn,
+      append after command = {
+        node[fit = (\tikzlastnode), draw = red, thick,
+             inner sep=-\pgflinewidth, cross out]{}
+      }
+    }
+  }
+
+  \node[txn, label = left : $t:$] (t) {$\cdots \readevent(\keyxvar, \vvar) \cdots$};
+  \node[txn crossed out, above right = 1.20cm and -1.00cm of t]
+    (tprime) {$\cdots \writeevent(\keyxvar, \vvar) \cdots$};
+  \node[left = 0.02cm of tprime] (txnlbl) {$t':$};
+
+  \draw[wr, lightgray] (tprime.south) to node[above = -0.10cm, sloped]{$\WR(\keyxvar)$} (t.north);
+\end{tikzpicture}
+\end{document}
