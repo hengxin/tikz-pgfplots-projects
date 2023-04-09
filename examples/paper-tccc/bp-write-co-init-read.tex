@@ -1,0 +1,22 @@
+% bp-write-co-init-read.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  co/.style = {->, thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = above : $t$] (t) {$\cdots \readevent(x, \bot) \cdots$};
+  \node[txn, left = 1.00cm of t, label = above : {$t'$}]
+    (tprime) {$\cdots \writeevent(x, v') \cdots$};
+
+  \draw[co] (tprime) to node[above]{$\CO$} (t);
+\end{tikzpicture}
+\end{document}
