@@ -16,23 +16,20 @@
     sowr/.style = {->, thick},
     co/.style = {->, thick},
     txn/.style = {rectangle, draw, inner sep = 2pt},
-    txn crossed out/.style = {
-      txn,
-      append after command = {
-        node[fit = (\tikzlastnode), draw = red, thick,
-             inner sep=-\pgflinewidth, cross out]{}
-      }
-    }
   }
 
-  % t1
-  \node[txn, label = above : $t_1$] (t1) {$\cdots$};
-  % t2
-  \node[txn, right = 2.00cm of t1, label = above : $t_2$] (t2) {$\cdots$};
+  \node[txn, label = left : $t$] (t) {$\cdots$};
+  \draw[co] (t) [out = 30, in = 150, looseness = 5]
+    to node[above] {$\CO$} (t);
 
-  % t1 -so/wr- t2
-  \draw[sowr] (t1) to node[above]{$\SO\mid\WR$} (t2);
-  % t2 -co- t1
-  \draw[co, bend left = 45] (t2) to node[above]{$\CO$} (t1);
+  % % t1
+  % \node[txn, label = above : $t_1$] (t1) {$\cdots$};
+  % % t2
+  % \node[txn, right = 2.00cm of t1, label = above : $t_2$] (t2) {$\cdots$};
+
+  % % t1 -so/wr- t2
+  % \draw[sowr] (t1) to node[above]{$\SO\mid\WR$} (t2);
+  % % t2 -co- t1
+  % \draw[co, bend left = 45] (t2) to node[above]{$\CO$} (t1);
 \end{tikzpicture}
 \end{document}
