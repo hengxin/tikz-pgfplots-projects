@@ -1,0 +1,42 @@
+% cex-antidote.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  co/.style = {->, thick},
+  vo/.style = {->, thick},
+  txn/.style = {draw, inner sep = 2pt}]
+  \def\radius{2.0cm}
+
+  \foreach \index/\label/\pos/\ops in {
+      1/0/right/{\readevent(0, 62)},
+      2/7/right/?,
+      3/20/left/?,
+      4/27/left/?,
+      5/32/left/?,
+      6/39/right/{\writeevent(0, 62)}} {
+    \node[txn, label = \pos : $t_{\label}$]
+      (t\label) at ({60 * (1- \index)}:\radius) {$\ops$};
+  }
+
+  % t0-SO-t7
+  \draw[so] (t0) to node[sloped, above]{$\SO$} (t7);
+  % t7-WR-t20
+  \draw[wr] (t7) to node[sloped, above]{$\WR(?)$} (t20);
+  % t20-SO-t27
+  \draw[so] (t20) to node[sloped, above]{$\SO$} (t27);
+  % t27-WR-t32
+  \draw[wr] (t27) to node[sloped, below]{$\WR(?)$} (t32);
+  % t32-SO-t39
+  \draw[so] (t32) to node[sloped, below]{$\SO$} (t39);
+  % t39-WR-t0
+  \draw[wr] (t39) to node[sloped, below]{$\WR(0)$} (t0);
+\end{tikzpicture}
+\end{document}

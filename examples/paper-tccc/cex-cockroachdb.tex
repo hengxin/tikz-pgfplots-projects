@@ -1,4 +1,4 @@
-% bp-cyclic-co.tex
+% cex-cockroachdb.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -9,7 +9,6 @@
 
 \begin{document}
 \begin{tikzpicture}
-
   \tikzset{
     so/.style = {->, thick},
     wr/.style = {->, thick},
@@ -22,14 +21,16 @@
   % \draw[co] (t) [out = 30, in = 150, looseness = 5]
   %   to node[above] {$\CO$} (t);
 
-  % t1
-  \node[txn, label = above : $t_1$] (t1) {$\cdots$};
-  % t2
-  \node[txn, right = 2.00cm of t1, label = above : $t_2$] (t2) {$\cdots$};
+  % t0
+  \node[txn, label = above : $t_0$]
+	  (t0) {$\writeevent(8, 1) \quad \readevent(4, 48)$};
+  % t16
+  \node[txn, left = 2.00cm of t0, label = above : $t_{16}$]
+	  (t16) {$\writeevent(4, 48) \quad \writeevent(8, 51)$};
 
-  % t1 -co- t2
-  \draw[co] (t1) to node[above]{$\CO$} (t2);
-  % t2 -co- t1
-  \draw[co, bend left = 45] (t2) to node[above]{$\CO$} (t1);
+  % t16 -wr- t0
+  \draw[wr] (t16) to node[above]{$\WR(4)$} (t0);
+  % t0 -co- t16
+  \draw[co, bend left = 45] (t0) to node[above]{$\CO$} (t16);
 \end{tikzpicture}
 \end{document}
