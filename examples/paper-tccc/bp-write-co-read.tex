@@ -28,7 +28,7 @@
   % t1-CO-t2
   \draw[co, bend left] (t1) to node[left]{$\CO$} (t2);
   % t2-CO-t3
-  \draw[co, bend left] (t2.east) to node[right = 0.10cm]{$\CO$} (t3);
+  \draw[co] (t2.east) to node[sloped, above]{$\CO$} (t3.north);
 
   % t2-VO-t1
   \draw[vo, dashed, red, bend left] (t2) to node[right]{$\VO$} (t1);

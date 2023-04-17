@@ -14,6 +14,7 @@
     wr/.style = {->, thick},
     sowr/.style = {->, thick},
     co/.style = {->, thick},
+    vo/.style = {->, thick},
     txn/.style = {rectangle, draw, inner sep = 2pt},
   }
 
@@ -21,16 +22,23 @@
   % \draw[co] (t) [out = 30, in = 150, looseness = 5]
   %   to node[above] {$\CO$} (t);
 
-  % t0
-  \node[txn, label = above : $t_0$]
-	  (t0) {$\writeevent(8, 1) \quad \readevent(4, 48)$};
+  % t1
+  \node[txn, label = below : $t_{1}$]
+    (t1) {$\readevent(8, 51)$};
   % t16
-  \node[txn, left = 2.00cm of t0, label = above : $t_{16}$]
+  \node[txn, left = 1.50cm of t1, label = below : $t_{16}$]
 	  (t16) {$\writeevent(4, 48) \quad \writeevent(8, 51)$};
+  % t0
+  \node[txn, above = 1.50cm of t16, label = above : $t_0$]
+	  (t0) {$\writeevent(8, 1) \quad \readevent(4, 48)$};
 
+  % t0 -so- t1
+  \draw[so] (t0.east) to node[sloped, above]{$\SO$} (t1.north);
+  % t16 -wr- t1
+  \draw[wr] (t16) to node[above]{$\WR(8)$} (t1);
   % t16 -wr- t0
-  \draw[wr] (t16) to node[above]{$\WR(4)$} (t0);
-  % t0 -co- t16
-  \draw[co, bend left = 45] (t0) to node[above]{$\CO$} (t16);
+  \draw[wr, bend left = 45] (t16) to node[left]{$\WR(4)$} (t0);
+  % t0 -vo- t16
+  \draw[vo, red, dashed, bend left = 45] (t0) to node[right]{$\VO$} (t16);
 \end{tikzpicture}
 \end{document}
