@@ -1,0 +1,48 @@
+% pruning-rw-either.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\renewcommand{\keyxvar}{\textcolor{cyan}{\mathit{x}}}
+\renewcommand{\keyyvar}{\textcolor{brown}{\mathit{y}}}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 2.0cm,
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = above : $T_{1}$] (t1) {$\writeevent(\keyxvar, 1) \;\; \writeevent(\keyyvar, 1)$};
+  \node[txn, label = above : $T_{2}$, right = of t1] (t2) {$\readevent(\keyyvar, 1) \;\; \writeevent(\keyxvar, 2)$};
+
+  \node[txn, below = of t1, label = below: $T_{3}$] (t3) {$\writeevent(\keyyvar, 2)$};
+  \node[txn, below = of t2, label = below : $T_{4}$] (t4) {$\readevent(\keyxvar, 1) \;\; \readevent(\keyyvar, 2)$};
+
+  % t1 WR(y) t2
+  \draw[wr, bend left = 15] (t1) to node[above]{$\WR(\keyyvar)$} (t2);
+  % t1 SO t2
+  \draw[so] (t1) to node[above]{$\SO$} (t2);
+  % t3 WR(y) t4
+  \draw[wr] (t3) to node[below]{$\WR(\keyyvar)$} (t4);
+  % t1 WR(x) t4
+  \draw[wr] (t1.200) to node[sloped, below]{$\WR(\keyxvar)$} (t4);
+
+  % t1 WW(x) t2
+  \draw[ww, bend left = 30] (t1.160) to node[sloped, above]{$\WW(\keyxvar)$} (t2.15);
+  % t4 RW(x) t2
+  \draw[rw] (t4.160) to node[sloped, below]{$\RW(\keyxvar)$} (t2.-15);
+
+  % t3 WW(y) t1
+  \draw[ww] (t3) to node[sloped, above]{$\WW(\keyyvar)$}
+            node[pos = 0.50]{\Large\no} (t1.-15);
+  % t4 RW(y) t1
+  \draw[rw] (t4.10) to node[sloped, above]{$\RW(\keyyvar)$}
+            node[pos = 0.50]{\Large\no} (t1.-10);
+\end{tikzpicture}
+\end{document}
