@@ -27,10 +27,10 @@
     (t1) {$\cdots \readevent(8, 51) \cdots$};
   % t16
   \node[txn, left = 1.50cm of t1, label = below : $t_{16}$]
-	  (t16) {$\cdots \writeevent(4, 48) \quad \writeevent(8, 51) \cdots$};
+	  (t16) {$\cdots \writeevent(4, 48) \cdots \writeevent(8, 51) \cdots$};
   % t0
   \node[txn, above = 1.50cm of t16, label = above : $t_0$]
-	  (t0) {$\cdots \writeevent(8, 1) \quad \readevent(4, 48) \cdots$};
+	  (t0) {$\cdots \writeevent(8, 1) \cdots \readevent(4, 48) \cdots$};
 
   % t0 -so- t1
   \draw[so] (t0.east) to node[sloped, above]{$\SO$} (t1.north);
