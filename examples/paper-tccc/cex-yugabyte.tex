@@ -15,16 +15,16 @@
   txn/.style = {draw, inner sep = 2pt}]
 
   % t6: R(13, 21)
-  \node[txn, label = above : $t_6$] (t6) {$\cdots \readevent(13, 21) \cdots$};
+  \node[txn, label = above : $t_6$] (t6) {$\readevent(13, 21)$};
   % t7: W(10, 3)
-  \node[txn, right = 1.00cm of t6, label = above : $t_7$]
-    (t7) {$\cdots \writeevent(10, 3) \cdots$};
+  \node[txn, right = 0.80cm of t6, label = above : $t_7$]
+    (t7) {$\writeevent(10, 3)$};
   % t9: R(10, 26)
-  \node[txn, right = 1.00cm of t7, label = above : $t_9$]
-    (t9) {$\cdots \readevent(10, 26) \cdots$};
+  \node[txn, right = 0.80cm of t7, label = above : $t_9$]
+    (t9) {$\readevent(10, 26)$};
 	% t15: W(13, 21) W(10, 26)
-  \node[txn, below = 1.50cm of t7, label = below : $t_{15}$]
-    (t15) {$\cdots \writeevent(13, 21) \cdots \writeevent(10, 26) \cdots$};
+  \node[txn, below = 1.20cm of t7, label = below : $t_{15}$]
+    (t15) {$\writeevent(13, 21) \; \writeevent(10, 26)$};
 
   % t6-SO-t7
   \draw[so] (t6) to node[above]{$\SO$} (t7);
@@ -37,9 +37,9 @@
   \draw[wr] (t15.east) to node[sloped, below]{$\WR(10)$} (t9);
 
 	% t15-CO-t7
-  \draw[co, bend left = 60] (t15) to node[left]{$\CO$} (t7);
+  \draw[co, bend left = 45] (t15) to node[left]{$\CO$} (t7);
 
   % t7-VO-t15
-  \draw[vo, dashed, red, bend left = 60] (t7) to node[right]{$\VO$} (t15);
+  \draw[vo, dashed, red, bend left = 45] (t7) to node[right]{$\VO$} (t15);
 \end{tikzpicture}
 \end{document}

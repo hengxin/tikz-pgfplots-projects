@@ -24,13 +24,13 @@
 
   % t1
   \node[txn, label = below : $t_{1}$]
-    (t1) {$\cdots \readevent(8, 51) \cdots$};
+    (t1) {$\readevent(8, 51)$};
   % t16
-  \node[txn, left = 1.50cm of t1, label = below : $t_{16}$]
-	  (t16) {$\cdots \writeevent(4, 48) \cdots \writeevent(8, 51) \cdots$};
+  \node[txn, left = 1.20cm of t1, label = below : $t_{16}$]
+	  (t16) {$\writeevent(4, 48) \; \writeevent(8, 51)$};
   % t0
-  \node[txn, above = 1.50cm of t16, label = above : $t_0$]
-	  (t0) {$\cdots \writeevent(8, 1) \cdots \readevent(4, 48) \cdots$};
+  \node[txn, above = 1.00cm of t16, label = above : $t_0$]
+	  (t0) {$\writeevent(8, 1) \; \readevent(4, 48)$};
 
   % t0 -so- t1
   \draw[so] (t0.east) to node[sloped, above]{$\SO$} (t1.north);

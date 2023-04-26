@@ -23,16 +23,16 @@
   }
 
   % t393: R(x, v) R(x, v')
-  \node[txn, label = left : $t_{393}$]
-    (t393) {$\cdots \readevent(0, 33324) \cdots \readevent(0, 3328) \cdots$};
+  \node[txn, label = above : $t_{393}$]
+    (t393) {$\readevent(0, 33324) \; \readevent(0, 3328)$};
   % t898: W(x, v)
-  \node[txn, above left = 1.20cm and -1.80cm of t393, label = left : $t_{898}$]
-    (t898) {$\cdots \writeevent(0, 33324) \cdots$};
+  \node[txn, above left = 1.20cm and -1.60cm of t393, label = above : $t_{898}$]
+    (t898) {$\writeevent(0, 33324)$};
   % t297: W(x, v')
-  \node[txn, above right = 1.20cm and -1.80cm of t393, label = left : $t_{297}$]
-    (t297) {$\cdots \writeevent(0, 3328) \cdots$};
+  \node[txn, above right = 1.20cm and -1.60cm of t393, label = above : $t_{297}$]
+    (t297) {$\writeevent(0, 3328)$};
 
-  \draw[wr] (t898.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t393.160);
-  \draw[wr] (t297.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t393.20);
+  \draw[wr] (t898.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t393.165);
+  \draw[wr] (t297.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t393.15);
 \end{tikzpicture}
 \end{document}

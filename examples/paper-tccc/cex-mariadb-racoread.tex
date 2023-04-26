@@ -1,0 +1,37 @@
+% cex-mariadb-racoread.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  co/.style = {->, thick},
+  vo/.style = {->, thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  % t393: R(4, 3285), R(0, 3328)
+  \node[txn, label = below : $t_{393}$]
+    (t393) {$\readevent(4, 3285) \; \readevent(0, 3328)$};
+  % t295: W(4, 3285)
+  \node[txn, left = 1.00cm of t393, label = below : $t_{295}$]
+    (t295) {$\writeevent(4, 3285)$};
+  % t297: W(0, 3328), W(4, 3335)
+  \node[txn, above = 1.20cm of t295, label = above : $t_{297}$]
+    (t297) {$\writeevent(0, 3328) \; \writeevent(4, 3335)$};
+
+  % t295-WR4-t393
+  \draw[wr] (t295) to node[below]{$\WR(4)$} (t393);
+  % t295-SO-t297
+  \draw[so, bend left] (t295) to node[left]{$\SO$} (t297);
+  % t297-WR0-t393
+  \draw[wr] (t297.east) to node[sloped, above]{$\WR(0)$} (t393.north);
+
+  % t297-VO-t295
+  \draw[vo, dashed, red, bend left] (t297) to node[right]{$\VO$} (t295);
+\end{tikzpicture}
+\end{document}

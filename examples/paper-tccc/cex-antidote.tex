@@ -15,12 +15,12 @@
   txn/.style = {draw, inner sep = 2pt}]
   \def\radius{5cm}
 
-  \node[txn, label = above : $t_{0}$] (t0) {$\cdots \readevent(0, 62) \cdots$};
-  \node[txn, label = above : $t_{7}$, right = of t0] (t7) {$\cdots \writeevent(3, 38) \cdots$};
-  \node[txn, label = above : $t_{20}$, below left = 1.20cm and 0.10cm of t7] (t20) {$\cdots \readevent(3, 38) \cdots$};
-  \node[txn, label = above : $t_{27}$, right = of t20] (t27) {$\cdots \writeevent(2, 28) \cdots$};
-  \node[txn, label = above : $t_{32}$, below left = 1.20cm and 0.10cm of t27] (t32) {$\cdots \readevent(2, 38) \cdots$};
-  \node[txn, label = above : $t_{39}$, right = of t32] (t39) {$\cdots \writeevent(0, 62) \cdots$};
+  \node[txn, label = above : $t_{0}$] (t0) {$\readevent(0, 62)$};
+  \node[txn, label = above : $t_{7}$, right = of t0] (t7) {$\writeevent(3, 38)$};
+  \node[txn, label = above : $t_{20}$, below left = 1.20cm and 0.10cm of t7] (t20) {$\readevent(3, 38)$};
+  \node[txn, label = above : $t_{27}$, right = of t20] (t27) {$\writeevent(2, 28)$};
+  \node[txn, label = above : $t_{32}$, below left = 1.20cm and 0.10cm of t27] (t32) {$\readevent(2, 38)$};
+  \node[txn, label = above : $t_{39}$, right = of t32] (t39) {$\writeevent(0, 62)$};
 
   % \foreach \index/\label/\pos/\ops in {
   %     1/0/right/{\cdots \readevent(0, 62) \cdots},
