@@ -13,10 +13,10 @@
   co/.style = {->, thick},
   txn/.style = {draw, inner sep = 2pt}]
 
-  \node[txn, label = above : $t$] (t) {$\cdots \readevent(x, \bot_{x}) \cdots$};
-  \node[txn, left = 1.00cm of t, label = above : {$t'$}]
+  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, \bot_{x}) \cdots$};
+  \node[txn, above = 1.00cm of t, label = left : {$t'$}]
     (tprime) {$\cdots \writeevent(x, v') \cdots$};
 
-  \draw[co] (tprime) to node[above]{$\CO$} (t);
+  \draw[co] (tprime) to node[left]{$\CO$} (t);
 \end{tikzpicture}
 \end{document}

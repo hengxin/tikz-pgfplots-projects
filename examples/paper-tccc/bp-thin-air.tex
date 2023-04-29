@@ -12,10 +12,10 @@
   wr/.style = {->, thick},
   txn/.style = {draw, inner sep = 2pt}]
 
-  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
-  \node[txn, above = 1.00cm of t, lightgray, label = left : \textcolor{lightgray}{$t'$}]
+  \node[txn, label = above : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
+  \node[txn, left = 1.20cm of t, lightgray, label = above : \textcolor{lightgray}{$t'$}]
     (tprime) {$\cdots \writeevent(x, v) \cdots$};
 
-  \draw[wr, lightgray] (tprime.south) to node[]{$\WR(\keyxvar)$} (t.north);
+  \draw[wr, lightgray] (tprime) to node[above]{$\WR(x)$} (t);
 \end{tikzpicture}
 \end{document}

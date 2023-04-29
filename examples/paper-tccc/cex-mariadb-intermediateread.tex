@@ -1,4 +1,4 @@
-% bp-aborted-read.tex
+% cex-mariadb-intermediateread.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -23,10 +23,12 @@
     }
   }
 
-  \node[txn, label = above : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
-  \node[label = above : $t'$, txn crossed out, left = 1.20cm of t]
-    (tprime) {$\cdots \writeevent(x, v) \cdots$};
+  % t393: R(0, 3328)
+  \node[txn, label = left : $t_{393}$] (t393) {$\readevent(0, 3328)$};
+  % t297: W(0, 3328), W(0, 3332)
+  \node[txn, above = 1.20cm of t393, label = left : $t_{297}$]
+    (t297) {$\writeevent(0, 3328) \; \writeevent(0, 3332)$};
 
-  \draw[wr, lightgray] (tprime) to node[above]{$\WR(x)$} (t);
+  \draw[wr] (t297.-165) to node[above = -0.10cm, sloped]{$\WR(0)$} (t393.north);
 \end{tikzpicture}
 \end{document}

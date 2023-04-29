@@ -23,10 +23,10 @@
     }
   }
 
-  \node[txn, label = left : $t$] (t) {$\cdots \readevent(\keyxvar, \vvar) \cdots$};
+  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
   \node[txn, above = 1.20cm of t, label = left : $t'$]
-    (tprime) {$\cdots \writeevent(x, v) \cdots \writeevent(\keyxvar, \vprimevar) \cdots$};
+    (tprime) {$\cdots \writeevent(x, v) \cdots \writeevent(x, v') \cdots$};
 
-  \draw[wr] (tprime.-165) to node[above = -0.10cm, sloped]{$\WR(\keyxvar)$} (t.north);
+  \draw[wr] (tprime.-165) to node[above = -0.10cm, sloped]{$\WR(x)$} (t.north);
 \end{tikzpicture}
 \end{document}
