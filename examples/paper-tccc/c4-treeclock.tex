@@ -1,0 +1,56 @@
+% c4-treeclock.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  co/.style = {->, thick},
+  vo/.style = {->, thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  % t1: W(x, 1)
+  \node[txn, label = above : $t_{1}$]
+		(t1) {$\writeevent(x, 1)$};
+  % t2: R(x, 1) W(y, 1)
+  \node[txn, below = of t1, label = below : $t_{2}$]
+    (t2) {$\readevent(x, 1)\;\writeevent(y, 1)$};
+  % t3: R(x, 1) W(z, 1)
+  \node[txn, right = 1.50cm of t1, label = above : $t_{3}$]
+    (t3) {$\readevent(x, 1)\;\writeevent(z, 1)$};
+	% t4: R(z, 1) W(z, 2)
+  \node[txn, below = of t3, label = right : $t_{4}$]
+    (t4) {$\readevent(z, 1)\;\writeevent(z, 2)$};
+	% t5: R(z, 2)
+  \node[txn, below = of t4, label = below : $t_{5}$]
+    (t5) {$\readevent(z, 2)$};
+	% t6: R(z, 6)
+  \node[txn, right = of t5, label = below : $t_{6}$]
+    (t6) {$\readevent(z, 6)$};
+
+	% session s1
+	\node[left = 0.60cm of t1] (s1) {$s_{1}:$};
+	\node[below = of s1] (s2) {$s_{2}:$};
+	\node[below = of s2] (s3) {$s_{3}:$};
+
+  % t1-SO-t4
+  \draw[so] (t1) to node[above]{$\SO$} node[below]{$\WR(x)$} (t3);
+	% t2-SO-t4
+  \draw[so] (t2) to node[above]{$\SO$} (t4);
+	% t5-SO-t6
+  \draw[so] (t5) to node[above]{$\SO$} (t6);
+
+	% t1-t2-t6
+	\draw[wr] (t1) to node[left] {$\WR(x)$} (t2);
+	\draw[->, thick, blue, dashed] (t2.south) to node[] {} (t6.north);
+
+	% t3-t4-t5
+	\draw[wr] (t3) to node[right] {$\WR(z)$} (t4);
+	\draw[wr] (t4) to node[right] {$\WR(z)$} (t5);
+\end{tikzpicture}
+\end{document}
