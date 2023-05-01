@@ -1,0 +1,51 @@
+% cex-yugabyte-bpravoread.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  co/.style = {->, thick},
+  vo/.style = {->, thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  % t6: R(13, 21) W(15, 3)
+  \node[txn, label = below : $t_6$]
+	  (t6) {$\readevent(13, 21)\;\writeevent(15, 3)$};
+  % t7: R(15, 2)
+  \node[txn, right = 0.60cm of t6, label = below : $t_7$]
+    (t7) {$\readevent(15, 2)$};
+  % t17: R(18, 34) R(19, 1)
+  \node[txn, right = 0.50cm of t7, label = below : $t_{17}$]
+    (t17) {$\readevent(18, 34)\;\readevent(19, 1)$};
+
+	% t15: W(18, 34) W(13, 21)
+  \node[txn, below = 2.00cm of t7, label = below : $t_{15}$]
+    (t15) {$\writeevent(18, 34) \; \writeevent(13, 21)$};
+
+	% t5: W(19, 1) W(18, 2) W(15, 2)
+  \node[txn, above = 2.00cm of t7, label = above : $t_{5}$]
+    (t5) {$\writeevent(19, 1) \; \writeevent(18, 2)\; \writeevent(15, 2)$};
+
+  % t6-SO-t7
+  \draw[so] (t6) to node[above]{$\SO$} (t7);
+	% t15-WR(13)-t6
+  \draw[wr] (t15) to node[sloped, above]{$\WR(13)$} (t6);
+	% t15-WR(18)-t17
+  \draw[wr] (t15) to node[sloped, above]{$\WR(18)$} (t17);
+
+	% t5-WR(19)-t17
+  \draw[wr] (t5) to node[sloped, above]{$\WR(19)$} (t17);
+	% t5-WR(15)-t7
+  \draw[wr] (t5) to node[sloped, above]{$\WR(15)$} (t7);
+
+	% t6-CO-t5
+  \draw[vo, dashed, red] (t6) to node[sloped, above]{$\VO$} (t5);
+\end{tikzpicture}
+\end{document}
+

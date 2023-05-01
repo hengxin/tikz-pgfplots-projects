@@ -1,0 +1,21 @@
+% table-cell-labels.tex
+
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\begin{document}
+\begin{table}[t]
+  \centering
+  \label{table:label-in-cell}
+  \begin{tabular}{|c|c|}
+  \hline
+  (a) \label{cell:a} & aaa \\ \hline
+  (b) \label{cell:b} & bbb (Cell \ref{cell:a} [\textcolor{red}{What I want: Cell (a)}]) \\ \hline
+  \end{tabular}
+\end{table}
+
+  refs to table cells: Cell \label{cell:a} and Cell \label{cell:b}
+
+  \textcolor{red}{What I want: Cell (a) and Cell (b)}
+\end{document}
