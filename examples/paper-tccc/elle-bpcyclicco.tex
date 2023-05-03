@@ -1,0 +1,40 @@
+% elle-bpcyclicco.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    sowr/.style = {->, thick},
+    co/.style = {->, thick},
+    vo/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 2pt},
+  }
+
+  % \node[txn, label = left : $t$] (t) {$\cdots$};
+  % \draw[co] (t) [out = 30, in = 150, looseness = 5]
+  %   to node[above] {$\CO$} (t);
+
+  % t3
+  \node[txn, label = below : $t_3$] (t3) {$\readevent(0, 0)\;\writeevent(1, 0)$};
+  % t1
+  \node[txn, label = above : $t_1$, above left = 1.50cm and 0.50cm of t3] (t1) {$\readevent(1, 0)$};
+  % t2
+  \node[txn, label = above : $t_2$, above right = 1.50cm and 0.50cm of t3] (t2) {$\writeevent(0, 0)$};
+
+  % t1-so-t2
+  \draw[so] (t1) to node[sloped, above]{$\SO$} (t2);
+  % t3-wr-t1
+  \draw[wr] (t3) to node[sloped, below]{$\WR(1)$} (t1);
+  % t2-wr-t3
+  \draw[wr] (t2) to node[sloped, below]{$\WR(0)$} (t3);
+\end{tikzpicture}
+\end{document}
