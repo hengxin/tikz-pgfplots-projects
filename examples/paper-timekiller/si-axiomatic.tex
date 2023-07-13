@@ -1,0 +1,48 @@
+% si-aximatic.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.8cm and 1.5cm,
+  so/.style = {->, thick},
+  vis/.style = {blue, ->, thick},
+  ar/.style = {brown, ->, thick},
+	start/.style = {blue, dashed, thick},
+	commit/.style = {brown, dotted, very thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = above : $T_{1}$] (t1)
+    {$\quad \writeevent(x, 1) \; \writeevent(y, 2)\quad$};
+	\startcommittime{t1}{0.50cm}
+
+  \node[txn, label = above : $T_{2}$, below right = 0.80cm and -1.00cm of t1] (t2)
+    {$\qquad \readevent(x, 0)\qquad$};
+	\startcommittime{t2}{0.50cm}
+  \node[txn, label = above : $T_{0}$, below left = 0.80cm and 0.50cm of t1] (t0)
+    {$\quad \writeevent(x, 0)\;\writeevent(y, 0) \quad$};
+	\startcommittime{t0}{0.50cm}
+
+  \node[txn, label = above : $T_{3}$, below right = 0.80cm and -0.50cm of t2] (t3)
+    {$\qquad \readevent(y, 2) \qquad$};
+	\startcommittime{t3}{0.50cm}
+
+  % t0 ->vis t1
+  \draw[vis] (t0.north) to node[sloped, above] {$\vis$} (t1.west);
+  % t0 ->vis t2
+  \draw[vis] (t0) to node[above] {$\vis$} (t2);
+  % t0 ->vis t3
+  \draw[vis] (t0.south) to node[above] {$\vis$} (t3.west);
+  % t1 ->vis t3
+  \draw[vis, bend left] (t1.east) to node[sloped, above] {$\vis$} (t3.20);
+
+  % t0 ->ar t1 ->ar t2 ->ar t3
+  \draw[ar] (t0) to node[sloped, above] {$\ar$} (t1);
+  \draw[ar] (t1) to node[sloped, above] {$\ar$} (t2);
+  \draw[ar] (t2) to node[sloped, above] {$\ar$} (t3);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,35 @@
+% si-op.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.8cm and 1.5cm,
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+	start/.style = {blue, dashed, thick},
+	commit/.style = {brown, dotted, very thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = above : $T_{1}$] (t1)
+    {$\quad \writeevent(x, 1) \; \writeevent(y, 2)\quad$};
+	\startcommittime{t1}{0.50cm}
+
+  \node[txn, label = above : $T_{2}$, below right = 0.80cm and -1.00cm of t1] (t2)
+    {$\qquad \readevent(x, 0)\qquad$};
+	\startcommittime{t2}{0.50cm}
+  \node[txn, label = above : $T_{0}$, below left = 0.80cm and 0.50cm of t1] (t0)
+    {$\quad \writeevent(x, 0)\;\writeevent(y, 0) \quad$};
+	\startcommittime{t0}{0.50cm}
+
+  \node[txn, label = above : $T_{3}$, below right = 0.80cm and -0.50cm of t2] (t3)
+    {$\qquad \readevent(y, 2) \qquad$};
+	\startcommittime{t3}{0.50cm}
+\end{tikzpicture}
+\end{document}
