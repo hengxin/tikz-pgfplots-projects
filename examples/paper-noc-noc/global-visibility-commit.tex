@@ -7,6 +7,8 @@
 \usetikzlibrary{calc, shapes, positioning,
   arrows.meta, decorations.pathmorphing}
 
+\newcommand{\length}{6}
+
 \begin{document}
 \begin{tikzpicture}[
   msg/.style = {->, thick},
@@ -15,9 +17,9 @@
 
   % c1
   \coordinate (c1-start) at (0,0);
-  \coordinate (c1-end) at (10,0);
+  \coordinate (c1-end) at (\length,0);
   \draw[client] (c1-start) to (c1-end);
-  \node[left = 0.50cm of c1-start] (c1) {$C_{1}$:};
+  \node[left = 0.20cm of c1-start] (c1) {$C_{1}$:};
 
   \node (c1-10) at ($(c1-start)!0.10!(c1-end)$) {};
   \node (c1-50) at ($(c1-start)!0.50!(c1-end)$) {};
@@ -31,9 +33,9 @@
 
   % s
   \coordinate (s-start) at (0, -2);
-  \coordinate (s-end) at (10, -2);
+  \coordinate (s-end) at (\length, -2);
   \draw[client] (s-start) to (s-end);
-  \node[left = 0.50cm of s-start] (s) {$S$:};
+  \node[left = 0.20cm of s-start] (s) {$S$:};
 
   \node (s-30) at ($(s-start)!0.30!(s-end)$) {};
   \node (s-60) at ($(s-start)!0.60!(s-end)$) {};
@@ -45,17 +47,17 @@
 
   % c2
   \coordinate (c2-start) at (0, -4);
-  \coordinate (c2-end) at (10, -4);
+  \coordinate (c2-end) at (\length, -4);
   \draw[client] (c2-start) to (c2-end);
-  \node[left = 0.50cm of c2-start] (c2) {$C_{2}$:};
+  \node[left = 0.20cm of c2-start] (c2) {$C_{2}$:};
 
   \node (c2-40) at ($(c2-start)!0.40!(c2-end)$) {};
   \node (c2-80) at ($(c2-start)!0.80!(c2-end)$) {};
 
   \node[txn, above = 0.25cm of c2-40] (t2) {$T_{2}$};
 
-  \draw[fill=green] (c2-40) circle [radius=2pt] node[above] {};
-  \draw[fill=green] (c2-80) circle [radius=2pt] node[above] {};
+  \draw[fill=orange] (c2-40) circle [radius=2pt] node[above] {};
+  \draw[fill=orange] (c2-80) circle [radius=2pt] node[above] {};
 
   \coordinate (above) at ($(c1-50) + (0, 1.0cm)$);
   \coordinate (below) at ($(c1-50) + (0, -2.5cm)$);
@@ -64,11 +66,11 @@
   % c1 <-> s
   \draw[msg, blue] (c1-10) to (s-30);
   \draw[msg, blue] (s-30) to (c1-50);
-  \draw[msg, blue] (c1-50) to (s-70);
-  \draw[msg, blue] (s-70) to node[sloped, below] {commit} (c1-90);
+  \draw[msg, blue] (c1-50) to node[sloped, above] {commit} (s-70);
+  \draw[msg, blue] (s-70) to (c1-90);
 
   % c2 <-> s
-  \draw[msg, green] (c2-40) to (s-60);
-  \draw[msg, green] (s-60) to (c2-80);
+  \draw[msg, orange] (c2-40) to (s-60);
+  \draw[msg, orange] (s-60) to (c2-80);
 \end{tikzpicture}
 \end{document}
