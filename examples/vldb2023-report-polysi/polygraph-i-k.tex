@@ -1,0 +1,24 @@
+% polygraph-i-k.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = below: $T_{k}$] (tk) {$\writeevent(\keyxvar, 2)$};
+  \node[txn, above left = of tk, label = above : $T_{i}$] (ti) {$\writeevent(\keyxvar, 1)$};
+  \node[txn, above right = of tk, label = above : $T_{j}$] (tj) {$\readevent(\keyxvar, 1)$};
+
+  \draw[wr] (ti) to node[above]{$\WR(\keyxvar)$} (tj);
+  \draw[ww] (ti) to node[sloped, below]{$\WW(\keyxvar)$} (tk);
+  \draw[rw] (tj) to node[sloped, below]{$\RW(\keyxvar)$} (tk);
+\end{tikzpicture}
+\end{document}

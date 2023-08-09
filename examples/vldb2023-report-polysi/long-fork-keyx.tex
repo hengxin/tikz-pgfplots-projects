@@ -1,0 +1,69 @@
+% long-fork-keyx-2more.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.8cm and 1.5cm,
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = left : $T_{0}$] (t0)
+    {$\writeevent(\keyxvar, 0) \; \writeevent(\keyyvar, 0)$};
+  \node[txn, label = right : $T_{5}$, right = 2.50cm of t0] (t5)
+    {$\writeevent(\keyxvar, 2)$};
+
+  \node[txn, label = above : $T_{1}$, above right = 1.00cm and -1.00cm of t0] (t1)
+    {$\writeevent(\keyxvar, 1)$};
+  \node[txn, label = below : $T_{2}$, below right = 1.00cm and -1.00cm of t0] (t2)
+    {$\writeevent(\keyyvar, 1)$};
+
+  \node[txn, right = of t1, label = above : $T_{3}$] (t3)
+    {$\readevent(\keyxvar, 1) \; \readevent(\keyyvar, 0)$};
+  \node[txn, right = of t2, label = below : $T_{4}$] (t4)
+    {$\readevent(\keyxvar, 0) \; \readevent(\keyyvar, 1)$};
+
+  % t0 WR(y) t3
+  \draw[wr] (t0.east) to node[below, sloped, very near end]{$\WR(\keyyvar)$} (t3.-20);
+  % t0 WR(x) t4
+  \draw[wr] (t0.east) to node[above, sloped, very near end]{$\WR(\keyxvar)$} (t4.20);
+  % t0 SO t5
+  \draw[so] (t0.east) to node[above, sloped, near end]{$\SO$} (t5);
+
+  % yes: t0 WW(x) t5
+  \draw[ww, bend right = 20] (t0) to node[below, sloped]{$\WW(\keyxvar)$} (t5);
+  % \draw[ww, bend right = 20] (t0) to node[below, sloped]{\Large\yes} (t5);
+  % yes: t4 RW(x) t5
+  \draw[rw] (t4.160) to node[above = -5pt, sloped]{$\RW(\keyxvar)$}
+    % node[] {\Large\yes}
+    (t5);
+  % % no: t5 WW(x) t0
+  % \draw[ww, bend right = 20] (t5) to node[above, sloped]{$\WW(\keyxvar)$} (t0);
+  % \draw[ww, bend right = 20] (t5) to node[above, sloped]{\Large\no} (t0);
+
+  % t1 WR(x) t3
+  \draw[wr] (t1) to node[above]{$\WR(\keyxvar)$} (t3);
+  % t2 WR(y) t4
+  \draw[wr] (t2) to node[below]{$\WR(\keyyvar)$} (t4);
+
+  % t1 WW(x) t0
+  \draw[ww] (t1) to node[pos = 0.30, below] {$\WW(\keyxvar)$}
+    node[pos = 0.40]{\Large\no} (t0);
+  % t3 RW(x) t0
+  \draw[rw] (t3) to node[pos = 0.40, above, sloped] {$\RW(\keyxvar)$}
+    node[pos = 0.40]{\Large\no} (t0.15);
+  % t0 WW(x) t1
+  \draw[ww] (t0.150) to node[above, sloped] {$\WW(\keyxvar)$}
+    node[pos = 0.50]{\Large\yes} (t1.west);
+  % t4 RW(x) t1
+  \draw[rw] (t4.160) to node[above, sloped] {$\RW(\keyxvar)$}
+    node[above]{\Large\yes} (t1.south);
+\end{tikzpicture}
+\end{document}

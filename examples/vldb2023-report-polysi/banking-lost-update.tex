@@ -1,0 +1,32 @@
+% lost-update.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.5cm and 1.5cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T_{0}$] (t) {$\writeevent(\acct, 0)$};
+
+  % \uncover<2->{
+  \node[txn, label = above : $T_{A}$, above right = of t] (t-alice)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 50)$};
+  % }
+  % \uncover<3->{
+  \node[txn, label = below : $T_{B}$, below right = of t] (t-bob)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 25)$};
+  % }
+
+  % \uncover<4->{
+    \node[txn, label = above : $T'_{A}$, right = 5.0cm of t] (t-alice-read) {$\readevent(\acct, 25)$};
+  % }
+\end{tikzpicture}
+\end{document}

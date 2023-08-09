@@ -1,0 +1,33 @@
+% pruning.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 2.0cm,
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = above : $T_{1}$] (t1) {$\writeevent(\keyxvar, 1) \quad \writeevent(\keyyvar, 1)$};
+  \node[txn, label = above : $T_{2}$, right = of t1] (t2) {$\readevent(\keyyvar, 1) \quad \writeevent(\keyxvar, 2)$};
+
+  \node[txn, below = of t1, label = below: $T_{3}$] (t3) {$\writeevent(\keyyvar, 2)$};
+  \node[txn, below = of t2, label = below : $T_{4}$] (t4) {$\readevent(\keyxvar, 1) \quad \readevent(\keyyvar, 2)$};
+
+  % t1 WR(y) t2
+  \draw[wr, bend left = 15] (t1) to node[above]{$\WR(\keyyvar)$} (t2);
+  % t1 SO t2
+  \draw[so] (t1) to node[above]{$\SO$} (t2);
+  % t3 WR(y) t4
+  \draw[wr] (t3) to node[below]{$\WR(\keyyvar)$} (t4);
+  % t1 WR(x) t4
+  \draw[wr] (t1.200) to node[sloped, above]{$\WR(\keyxvar)$} (t4);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,43 @@
+% ce-so-two.tex
+
+\documentclass{standalone}
+\input{newcommands}
+\newcommand{\keyvar}{\mathit{k}}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, trees, positioning, arrows, chains, shapes.geometric,
+    decorations.pathreplacing, decorations.pathmorphing, shapes,
+    matrix, shapes.symbols}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.2cm and 1.5cm,
+  every label/.style = {font = \scriptsize},
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed},
+  rw/.style = {->, thick, dotted},
+  txn/.style = {draw, inner sep = 2pt, align = center, anchor = center}]
+
+  \node[txn, label = above left : {$(10, 470)$}] (10-470) {$\readevent(\keyvar_{339}, 3)$};
+  \node[txn, right = of 10-470, label = above left : {$(10, 471)$}] (10-471) {$\writeevent(\keyvar_{378}, 7)$};
+  \node[txn, right = of 10-471, label = above left : {$(10, 472)$}] (10-472) {$\writeevent(\keyvar_{521}, 8)$};
+
+  \node[txn, below = of 10-470, label = above left : {$(4, 178)$}] (4-178) {$\writeevent(\keyvar_{339}, 3)$};
+
+  \node[txn, below = of 10-471.center, label = above left : {$(4, 167)$}] (4-167) {$\writeevent(\keyvar_{378}, 2)$ \\ $\writeevent(\keyvar_{761}, 5)$};
+
+  \node[txn, above = of 10-471.center, label = above left: {$(9, 429)$}] (9-429) {$\readevent(\keyvar_{378}, 2)$ \\ $\readevent(\keyvar_{457}, 2)$};
+  \node[txn, above = of 10-472.center, label = above left: {$(1, 43)$}] (1-43) {$\readevent(\keyvar_{521}, 8)$ \\ $\writeevent(\keyvar_{457}, 2)$};
+
+  \path (10-470) edge[so] node[above]{$\SO$} (10-471)
+	(10-471) edge[so] node[above]{$\SO$} (10-472)
+	(4-178) edge[wr] node[]{$\WR(\keyvar_{339})$} (10-470)
+	(10-472) edge[wr] node[]{$\WR(\keyvar_{521})$} (1-43)
+	(1-43) edge[wr] node[above]{$\WR(\keyvar_{457})$} (9-429)
+	(10-471.-30) edge[ww, blue, right, very thick] node[] {$\WW(\keyvar_{378})$} (10-471.-30 |- 4-167.north)
+	(4-167.120) edge[ww, violet, left , very thick] node[] {$\WW(\keyvar_{378})$} (4-167.120 |- 10-471.south)
+	(9-429) edge[rw, violet, very thick] node {$\RW(\keyvar_{378})$} (10-471)
+	(4-167) edge[so] node[above]{$\SO$} (4-178);
+  \end{tikzpicture}
+\end{document}

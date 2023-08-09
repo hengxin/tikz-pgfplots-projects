@@ -1,0 +1,49 @@
+% banking-lostupdate.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.5cm and 1.5cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T_{0}$] (t) {$\writeevent(\acct, 0)$};
+
+  % \uncover<2->{
+  \node[txn, label = above : $T_{A}$, above right = of t] (t-alice)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 50)$};
+  % }
+  % \uncover<3->{
+  \node[txn, label = below : $T_{B}$, below right = of t] (t-bob)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 25)$};
+  % }
+
+  % \uncover<4->{
+    \node[txn, label = above : $T'_{A}$, right = 5.0cm of t] (t-alice-read) {$\readevent(\acct, 25)$};
+  % }
+
+  % \uncover<5->{
+    \draw[wr, sloped] (t) to node[below]{$\WR$} (t-alice.west);
+    \draw[wr, sloped] (t) to node[below]{$\WR$} (t-bob.west);
+    \draw[wr, sloped] (t-bob.east) to node[below]{$\WR$} (t-alice-read.south);
+  % }
+
+  % \uncover<6->{
+    \draw[ww] (t-alice) to node[]{$\WW$} (t-bob);
+  % }
+
+  % \uncover<7->{
+    \draw[rw, bend right] (t-alice.-145) to node[]{$\RW$} (t-alice.-145 |- t-bob.north);
+  % }
+  % \uncover<8->{
+    \draw[rw, bend right] (t-bob.35) to node[]{$\RW$} (t-bob.35 |- t-alice.south);
+  % }
+\end{tikzpicture}
+\end{document}

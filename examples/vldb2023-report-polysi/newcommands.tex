@@ -12,18 +12,17 @@
 \newcommand{\emptyseq}{\emptyset} % or using <>?
 \newcommand{\tuple}[1]{\langle#1\rangle} % or using (#1)?
 \newcommand{\btuple}[1]{\big\langle#1\big\rangle}
-\newcommand{\domain}{\textsc{domain}}
-\newcommand{\acct}{\mathit{acct}}
+
+\newcommand{\post}{\mathit{post}}
+\newcommand{\comment}{\mathit{comment}}
+\newcommand{\emptypost}{\mathit{empty}}
+\newcommand{\acct}{\brown{\mathit{acct}}}
 
 \newcommand{\yes}{\green{\Checkmark}}
 \newcommand{\no}{\red{\XSolidBrush}}
 
 \newcommand{\Key}{{\sf Key}}
-\newcommand{\keyxvar}{\mathit{x}}
-\newcommand{\keyyvar}{\mathit{y}}
-\newcommand{\keyzvar}{\mathit{z}}
 \newcommand{\Val}{{\sf Val}}
-\newcommand{\valvar}{\mathit{v}}
 
 \newcommand{\h}{\mathcal{H}}
 %%%%%%%%%%%%%%% system models %%%%%%%%%%%%%%%
@@ -133,8 +132,6 @@
 \newcommand{\WR}{\textsf{WR}}
 \newcommand{\WW}{\textsf{WW}}
 \newcommand{\RW}{\textsf{RW}}
-\newcommand{\GraphSI}{\textsf{GraphSI}}
-\newcommand{\HistSI}{\textsf{HistSI}}
 %%%%%%%%%%%%%%% checking %%%%%%%%%%%%%%%
 
 % colors
@@ -144,6 +141,9 @@
 \newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
 \newcommand{\brown}[1]{\textcolor{brown}{#1}}
 \newcommand{\teal}[1]{\textcolor{teal}{#1}}
+\newcommand{\purple}[1]{\textcolor{purple}{#1}}
 
 \newcommand{\cobra}{\textsc{Cobra}}
-\newcommand{\name}{\textsc{Name}}
+
+\newcommand{\keyxvar}{\textcolor{cyan}{\mathit{x}}}
+\newcommand{\keyyvar}{\textcolor{brown}{\mathit{y}}}
