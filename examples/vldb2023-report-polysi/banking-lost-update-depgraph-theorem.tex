@@ -1,4 +1,4 @@
-% banking-lost-update-depgragh.tex
+% banking-lost-update-dep-theorem.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -12,7 +12,8 @@
   wr/.style = {->, thick},
   ww/.style = {->, thick, dashed, red},
   rw/.style = {->, thick, dotted, blue},
-  txn/.style = {draw, inner sep = 3pt, align = center}]
+  txn/.style = {draw, inner sep = 3pt, align = center},
+  comp/.style = {->, ultra thick, purple, loosely dash dot}]
 
   \node[txn, label = above : $T_{0}$] (t) {$\writeevent(\acct, 0)$};
 
@@ -29,10 +30,13 @@
 
   \draw[ww, bend left, sloped] (t) to node[above]{$\WW$} (t-alice);
   \draw[ww, bend right, sloped] (t) to node[below]{$\WW$} (t-bob);
-
   \draw[ww] (t-alice) to node[]{$\WW$} (t-bob);
 
   \draw[rw, bend right = 60] (t-alice.-145) to node[]{$\RW$} (t-alice.-145 |- t-bob.north);
   \draw[rw, bend right = 60] (t-bob.35) to node[]{$\RW$} (t-bob.35 |- t-alice.south);
+
+  \draw[comp] (t-alice.south east) to [out = -30, in = 30, looseness = 4] (t-alice.north east);
+  \draw[comp, bend left = 30] (t.north west) to (t-alice.north west);
+  \draw[comp, bend right = 30] (t.south west) to (t-bob.south west);
 \end{tikzpicture}
 \end{document}

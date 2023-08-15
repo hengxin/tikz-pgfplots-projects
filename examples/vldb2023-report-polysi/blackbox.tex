@@ -1,0 +1,50 @@
+% blackbox.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows, arrows.meta,
+  decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.0cm and 1.0cm,
+  txn/.style = {draw, inner sep = 3pt, align = center},
+  comm/.style = {arrows = {Stealth-Stealth}, ultra thick, purple}]
+
+  \node[] (client) {\includegraphics[scale = 0.08]{client-logo}};
+  \node[below = of client] (db) {\includegraphics[scale = 0.80]{db-logo-dollar}};
+  \draw[comm] (client) to (db);
+
+  \node[txn, below = 1.00cm of db] (t-bob-execution)
+    {$\readevent(\keyxvar, \post)$ \\[2pt] $\writeevent(\keyyvar, \comment)$};
+  \node[txn, left = of t-bob-execution] (t-alice-execution)
+    {$\writeevent(\keyxvar, \post)$};
+  \node[txn, right = of t-bob-execution] (t-carol-execution)
+    {$\readevent(\keyxvar, \emptypost)$ \\[2pt] $\readevent(\keyyvar, \comment)$};
+
+  \node[draw, dashed, rectangle, inner sep = 8pt, thick,
+    fit = (t-alice-execution) (t-bob-execution) (t-carol-execution)] (post) {};
+  \node[right = 0.10cm of post] (lost-update)
+    {\red{\large \textsc{Lost Update}}};
+  \node[scale = 2] (no) at (lost-update.center) {\no};
+
+  \node[txn, below = 1.50cm of t-bob-execution] (t-bob-execution)
+    {$\readevent(\acctone, 60)$ \\[2pt]
+     $\readevent(\accttwo, 60)$ \\[2pt]
+     $\writeevent(\accttwo, -40)$};
+  \node[txn, left = of t-bob-execution] (t-alice-execution)
+    {$\readevent(\acctone, 60)$ \\[2pt]
+     $\readevent(\accttwo, 60)$ \\[2pt]
+     $\writeevent(\acctone, -40)$};
+  \node[txn, right = of t-bob-execution] (t-carol-execution)
+    {$\readevent(\acctone, -40)$ \\[2pt]
+     $\readevent(\accttwo, -40)$};
+  \node[draw, dashed, rectangle, inner sep = 8pt, thick,
+    fit = (t-alice-execution) (t-bob-execution) (t-carol-execution)] (acct) {};
+  \node[right = 0.20cm of acct] (write-skew)
+    {\red{\large \textsc{Write Skew}}};
+  \node[scale = 2] (yes) at (write-skew.center) {\yes};
+\end{tikzpicture}
+\end{document}

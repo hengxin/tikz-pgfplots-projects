@@ -1,4 +1,4 @@
-% banking-lost-update-depgragh.tex
+% banking-lost-update-depgraph-ww-tbta.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -29,10 +29,11 @@
 
   \draw[ww, bend left, sloped] (t) to node[above]{$\WW$} (t-alice);
   \draw[ww, bend right, sloped] (t) to node[below]{$\WW$} (t-bob);
-
-  \draw[ww] (t-alice) to node[]{$\WW$} (t-bob);
+  \draw[ww] (t-bob) to node[]{$\WW$} (t-alice);
 
   \draw[rw, bend right = 60] (t-alice.-145) to node[]{$\RW$} (t-alice.-145 |- t-bob.north);
   \draw[rw, bend right = 60] (t-bob.35) to node[]{$\RW$} (t-bob.35 |- t-alice.south);
+
+  \draw[rw] (t-alice-read.north) to node[sloped, above]{$\RW$} (t-alice.east);
 \end{tikzpicture}
 \end{document}

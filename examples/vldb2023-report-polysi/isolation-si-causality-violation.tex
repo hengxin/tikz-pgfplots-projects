@@ -1,0 +1,42 @@
+% isolation-si-causality-violation.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows, arrows.meta,
+  decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 1.5cm,
+  txn/.style = {draw, inner sep = 3pt, align = center},
+  comm/.style = {arrows = {Stealth-Stealth}, ultra thick, purple}]
+
+  \node[] (t-bob) {\includegraphics[scale = 0.08]{social-network-logo}};
+
+  \node[draw, fill = yellow!50, below = of t-bob, font = \large,
+    inner sep = 8pt, minimum width = 260pt] (isolation)
+    {{Snapshot Isolation (SI)}};
+
+  \node[below = of isolation] (db)
+    {\includegraphics[scale = 0.70]{db-logo-dollar}};
+
+  \draw[comm] (t-bob) -- (t-bob |- isolation.north);
+  \draw[comm] (isolation) -- (isolation |- db.north);
+
+  \node[txn, below = 0.50cm of db] (t-bob-execution)
+    {$\readevent(\keyxvar, \post)$ \\[2pt] $\writeevent(\keyyvar, \comment)$};
+
+  \node[txn, left = of t-bob-execution] (t-alice-execution)
+    {$\writeevent(\keyxvar, \post)$};
+
+  \node[txn, right = of t-bob-execution, fill = red!30] (t-carol-execution)
+    {$\readevent(\keyxvar, \emptypost)$ \\[2pt] $\readevent(\keyyvar, \comment)$};
+  \node[right = 0.10cm of t-carol-execution, scale = 2] (no-carol) {\no};
+
+  \node[above = of t-carol-execution] (causality-violation)
+    {\red{\large \textsc{Causality Violation}}};
+  \node[above = 0.60cm of t-carol-execution, scale = 3] (no) {\no};
+\end{tikzpicture}
+\end{document}

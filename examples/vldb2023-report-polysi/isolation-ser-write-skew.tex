@@ -1,0 +1,58 @@
+% isolation-ser-write-skew.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows, arrows.meta,
+  decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 1.5cm,
+  txn/.style = {draw, inner sep = 3pt, align = center},
+  comm/.style = {arrows = {Stealth-Stealth}, ultra thick, purple}]
+
+  \node[txn] (t-alice)
+    {$x_{1} \gets \readevent(\acctone)$\\[2pt]
+     $x_{2} \gets \readevent(\accttwo)$\\[2pt]
+     $\text{\bf if}\; x_{1} + x_{2} > 100$ \\[2pt]
+     $\quad \red{x_{1} \gets x_{1} - 100}$ \\[2pt]
+     $\quad \writeevent(\acctone, x_{1})$};
+
+  \node[txn, right = of t-alice] (t-bob)
+    {$x_{1} \gets \readevent(\acctone)$\\[2pt]
+     $x_{2} \gets \readevent(\accttwo)$\\[2pt]
+     $\text{\bf if}\; x_{1} + x_{2} > 100$ \\[2pt]
+     $\quad \red{x_{2} \gets x_{2} - 100}$ \\[2pt]
+     $\quad \writeevent(\accttwo, x_{2})$};
+
+  \node[txn, right = of t-bob] (t-carol)
+    {$x_{1} \gets \readevent(\acctone)$\\[2pt]
+     $x_{2} \gets \readevent(\accttwo)$};
+
+  \node[draw, fill = yellow!50, below = of t-bob, font = \large,
+    inner sep = 8pt, minimum width = 260pt] (isolation)
+    {{Serializability (SER)}};
+
+  \node[below = of isolation,
+    label = {[label distance = 5pt]above : {\large $\acctone = \accttwo = 60$}}] (db)
+    {\includegraphics[scale = 0.70]{db-logo-dollar}};
+
+  \draw[comm] (t-alice) -- (t-alice |- isolation.north);
+  \draw[comm] (t-bob) -- (t-bob |- isolation.north);
+  \draw[comm] (t-carol) -- (t-carol |- isolation.north);
+  \draw[comm] (isolation) -- (isolation |- db.north);
+
+  \node[txn, below = 0.50cm of db, fill = green!30] (t-bob-execution)
+    {$\readevent(\acctone, 60)$ \\[2pt]
+     $\readevent(\accttwo, 60)$};
+  \node[txn, left = of t-bob-execution] (t-alice-execution)
+    {$\readevent(\acctone, 60)$ \\[2pt]
+     $\readevent(\accttwo, 60)$ \\[2pt]
+     $\writeevent(\acctone, -40)$};
+  \node[txn, right = of t-bob-execution] (t-carol-execution)
+    {$\readevent(\acctone, 60)$ \\[2pt]
+     $\readevent(\accttwo, 60)$};
+\end{tikzpicture}
+\end{document}

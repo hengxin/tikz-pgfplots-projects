@@ -1,0 +1,21 @@
+% ww-rw-cycle.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  circ/.style = {circle, fill = teal!70, minimum size = 2pt}]
+
+  \node[circ] (t) {};
+  \node[circ, below = 0.80cm of t] (s) {};
+
+  \draw[ww, bend right = 70] (t) to node[]{$\WW$} (s);
+  \draw[rw, bend right = 70] (s) to node[]{$\RW$} (t);
+\end{tikzpicture}
+\end{document}

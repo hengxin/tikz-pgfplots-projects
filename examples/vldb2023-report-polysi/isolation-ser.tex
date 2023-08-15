@@ -1,0 +1,48 @@
+% isolation-ser.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows, arrows.meta,
+  decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 1.5cm,
+  txn/.style = {draw, inner sep = 3pt, align = center},
+  comm/.style = {arrows = {Stealth-Stealth}, ultra thick, purple}]
+
+  \node[txn] (t-alice)
+    {$x \gets \readevent(\acct)$ \\[2pt]
+     $x \gets x + 50$ \\[2pt]
+     $\writeevent(\acct, x)$};
+
+  \node[txn, right = of t-alice] (t-bob)
+    {$x \gets \readevent(\acct)$ \\[2pt]
+     $x \gets x + 25$ \\[2pt]
+     $\writeevent(\acct, x)$};
+
+  \node[txn, right = of t-bob] (t-carol)
+    {$\readevent(\acct)$};
+
+  \node[draw, fill = yellow!50, below = of t-bob, font = \large,
+    inner sep = 8pt, minimum width = 260pt] (isolation)
+    {{Serializability (SER)}};
+
+  \node[below = of isolation] (db)
+    {\includegraphics[scale = 0.70]{db-logo-dollar}};
+
+  \draw[comm] (t-alice) -- (t-alice |- isolation.north);
+  \draw[comm] (t-bob) -- (t-bob |- isolation.north);
+  \draw[comm] (t-carol) -- (t-carol |- isolation.north);
+  \draw[comm] (isolation) -- (isolation |- db.north);
+
+  \node[txn, below = 0.50cm of db] (t-bob-execution)
+    {$\readevent(\acct, 50)$ \\[2pt] $\writeevent(\acct, 75)$};
+  \node[txn, left = of t-bob-execution] (t-alice-execution)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 50)$};
+  \node[txn, right = of t-bob-execution] (t-carol-execution)
+    {$\readevent(\acct, 75)$};
+\end{tikzpicture}
+\end{document}

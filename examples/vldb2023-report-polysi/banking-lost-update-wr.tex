@@ -1,4 +1,4 @@
-% banking-lost-update.tex
+% banking-lost-update-wr.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -22,5 +22,9 @@
     {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 25)$};
 
   \node[txn, label = above : $T'_{A}$, right = 5.0cm of t] (t-alice-read) {$\readevent(\acct, 25)$};
+
+  \draw[wr, sloped] (t) to node[below]{$\WR$} (t-alice.west);
+  \draw[wr, sloped] (t) to node[above]{$\WR$} (t-bob.west);
+  \draw[wr, sloped] (t-bob.east) to node[below]{$\WR$} (t-alice-read.south);
 \end{tikzpicture}
 \end{document}

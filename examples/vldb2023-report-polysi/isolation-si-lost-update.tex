@@ -1,0 +1,55 @@
+% isolation-si-lost-update.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows, arrows.meta,
+  decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 1.5cm,
+  txn/.style = {draw, inner sep = 3pt, align = center},
+  comm/.style = {arrows = {Stealth-Stealth}, ultra thick, purple}]
+
+  \node[txn] (t-alice)
+    {$x \gets \readevent(\acct)$ \\[2pt]
+     $x \gets x + 50$ \\[2pt]
+     $\writeevent(\acct, x)$};
+
+  \node[txn, right = of t-alice] (t-bob)
+    {$x \gets \readevent(\acct)$ \\[2pt]
+     $x \gets x + 25$ \\[2pt]
+     $\writeevent(\acct, x)$};
+
+  \node[txn, right = of t-bob] (t-carol)
+    {$\readevent(\acct)$};
+
+  \node[draw, fill = yellow!50, below = of t-bob, font = \large,
+    inner sep = 8pt, minimum width = 260pt] (isolation)
+    {{Snapshot Isolation (SI)}};
+
+  \node[below = of isolation,
+    label = {[label distance = 5pt]above : {\large $\acct = 0$}}] (db)
+    {\includegraphics[scale = 0.70]{db-logo-dollar}};
+
+  \draw[comm] (t-alice) -- (t-alice |- isolation.north);
+  \draw[comm] (t-bob) -- (t-bob |- isolation.north);
+  \draw[comm] (t-carol) -- (t-carol |- isolation.north);
+  \draw[comm] (isolation) -- (isolation |- db.north);
+
+  \node[txn, below = 0.50cm of db] (t-bob-execution)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, ?)$};
+  \node[below = 0.50cm of db, scale = 3.00] (t-bob-abort) {\no};
+  \node[txn, below = 0.50cm of db, fill = green!50] (t-bob-retry)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 75)$};
+
+  \node[txn, left = of t-bob-execution] (t-alice-execution)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 50)$};
+
+  \node[above right = 0.20cm and 1.00cm of t-bob-execution] (lost-update)
+    {\red{\large \textsc{Lost Update}}};
+  \node[above right = -0.60cm and 1.30cm of t-bob-execution, scale = 3] (no) {\no};
+\end{tikzpicture}
+\end{document}
