@@ -1,0 +1,42 @@
+% banking-lost-update-polygraph.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{fit, shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.8cm and 2.0cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T_{0}$] (t) {$\writeevent(\acct, 0)$};
+
+  \node[txn, label = above : $T_{A}$, above right = of t] (t-alice)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 50)$};
+  \node[txn, label = below : $T_{B}$, below right = of t] (t-bob)
+    {$\readevent(\acct, 0)$ \\[2pt] $\writeevent(\acct, 25)$};
+
+  \node[txn, label = above : $T'_{A}$, right = 6.0cm of t] (t-alice-read) {$\readevent(\acct, 25)$};
+
+  \draw[wr, sloped] (t) to node[below]{$\WR$} (t-alice.west);
+  \draw[wr, sloped] (t) to node[above]{$\WR$} (t-bob.west);
+  \draw[wr, sloped] (t-bob.east) to node[below]{$\WR$} (t-alice-read.south);
+
+  \draw[ww, bend left, sloped] (t) to node[above]{$\WW$} (t-alice);
+  \draw[ww, bend right, sloped] (t) to node[below]{$\WW$} (t-bob);
+  \draw[ww] (t-bob.45) to node[]{$\WW$} (t-bob.45 |- t-alice.south);
+  \draw[ww] (t-alice.-135) to node[]{$\WW$} (t-alice.-135 |- t-bob.north);
+  \node[draw, fit = (t-alice) (t-bob) (t-alice-read), rectangle, dash dot, green, ultra thick]
+    (uncertain) {};
+
+  \draw[rw, bend right = 60] (t-alice.-145) to node[]{$\RW$} (t-alice.-145 |- t-bob.north);
+  \draw[rw, bend right = 60] (t-bob.35) to node[]{$\RW$} (t-bob.35 |- t-alice.south);
+
+  \draw[rw] (t-alice-read.north) to node[sloped, above]{$\RW$} (t-alice.east);
+\end{tikzpicture}
+\end{document}

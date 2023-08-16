@@ -15,10 +15,14 @@
   \node[vertex, right = 2.0cm of from] (to) {$\mathit{to}$};
   \node[vertex, below = 2.0cm of from] (prec) {$\mathit{prec}$};
 
-  \draw[edge] (from) to node[above]{\textsf{RW}} (to);
-  \draw[edge] (prec) to[sloped] node[above]{in $\graphA$} (from);
-  \draw[path] (to) to[bend left = 70, sloped] node[above]{in $\knowninducedgraph$} (prec);
+  \draw[edge, blue] (from) to node[above, blue]{\textsf{RW}} (to);
+  \draw[edge] (prec) to[sloped] node[above]{not \textsf{RW}} (from);
+  \draw[path] (to) to[bend left = 70, sloped]
+    % node[above]{in $\knowninducedgraph$}
+    (prec);
 
-  \draw[edge, dashed] (prec) to[sloped] node[above]{in $\knowninducedgraph$} (to);
+  \draw[edge, dashed] (prec) to[sloped]
+    % node[above]{in $\knowninducedgraph$}
+    (to);
 \end{tikzpicture}
 \end{document}

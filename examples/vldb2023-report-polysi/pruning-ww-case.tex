@@ -13,7 +13,9 @@
 
   \node[vertex] (from) {$\mathit{from}$};
   \node[vertex, right = 2.0cm of from] (to) {$\mathit{to}$};
-  \draw[edge] (from) to node[above]{\textsf{WW}} (to);
-  \draw[path] (to) to[bend left = 60] node[above]{in $\knowninducedgraph$} (from);
+  \draw[edge, red] (from) to node[above, red]{\textsf{WW}} (to);
+  \draw[path] (to) to[bend left = 60]
+    % node[above]{in $\knowninducedgraph$}
+    (from);
 \end{tikzpicture}
 \end{document}
