@@ -1,0 +1,50 @@
+% polysi-alg-encoding.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.8cm and 1.5cm,
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 2pt},
+  hl/.style = {fill = yellow!50},]
+
+  % t0
+  \node[txn, label = left : $T_{0}$] (t0)
+    {$\writeevent(\keyxvar, 0) \; \writeevent(\keyyvar, 0)$};
+  % t5
+  \node[txn, label = right : $T_{5}$, right = 2.50cm of t0, hl] (t5)
+    {$\writeevent(\keyxvar, 2)$};
+  % t1
+  \node[txn, label = above : $T_{1}$, above right = 1.00cm and -1.00cm of t0, hl] (t1)
+    {$\writeevent(\keyxvar, 1)$};
+  % t2
+  \node[txn, label = below : $T_{2}$, below right = 1.00cm and -1.00cm of t0] (t2)
+    {$\writeevent(\keyyvar, 1)$};
+
+  % t3
+  \node[txn, above = 1.00cm of t5, label = above : $T_{3}$] (t3)
+    {$\readevent(\keyxvar, 1) \; \readevent(\keyyvar, 0)$};
+  % t1 WR(x) t3
+  \draw[wr] (t1) to node[above]{$\WR(\keyxvar)$} (t3);
+
+  % t4
+  \node[txn, below = 1.00cm of t5, label = below : $T_{4}$] (t4)
+    {$\readevent(\keyxvar, 0) \; \readevent(\keyyvar, 1)$};
+
+  % t1 WW(x) t5
+  \draw[ww] (t1) to node[above, sloped]{$\WW(\keyxvar)$} (t5.north);
+  % t3 RW(x) t5
+  \draw[rw] (t3) to node[right]{$\RW(\keyxvar)$} (t5.north);
+
+  % t5 WW(x) t1
+  \draw[ww] (t5.west) to node[below, sloped]{$\WW(\keyxvar)$} (t1.-150);
+\end{tikzpicture}
+\end{document}
