@@ -1,0 +1,19 @@
+\message{ !name(memory.tex)}
+\message{ !name(memory.tex) !offset(116) }
+\begin{axis}[
+					x tick style={draw=none},
+					x tick label style={rotate=45,anchor=east},
+					ylabel={Memory (MiB)},
+					ymin=0,
+					ybar,
+					bar width=7,
+					area legend,
+					legend pos=north east,
+					xtick=data,
+					xticklabels={RUBiS,TPC-C,C-Twitter,GeneralRH,GeneralRW,GeneralWH}
+				]
+				\addplot[fill=white] table [x expr=\coordindex, y=cobra, col sep=comma] {tables/data/memory-cobra-10k-compare.csv};
+				\addplot[pattern=north east lines] table [x expr=\coordindex, y=si, col sep=comma] {tables/data/memory-cobra-10k-compare.csv};
+				\legend{Cobra w/ GPU,\name}
+			\end{axis}
+\message{ !name(memory.tex) !offset(-19) }

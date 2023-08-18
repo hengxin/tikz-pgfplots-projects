@@ -1,0 +1,104 @@
+% polysi-diff.tex
+
+\documentclass[standalone, crop]{report}
+% \documentclass{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+\pgfplotsset{height=140pt, width=200pt}
+% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
+
+% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+}
+\makeatother
+
+\begin{figure}
+	\begin{minipage}[b]{0.48\textwidth}
+		\centering
+		\begin{scaletikzpicturetowidth}{\textwidth}
+			\begin{tikzpicture}[scale=\tikzscale]
+				\begin{axis}[
+					% title={(30\%) writes; 10k txns}
+					% title={Cobra oneshot-10k},
+					% xlabel={},
+					x tick style={draw=none},
+					x tick label style={rotate=45,anchor=east},
+					ylabel={Time (s)},
+					ymin=0,
+					ybar stacked,
+					bar width=15,
+					area legend,
+					legend style={at={(0.35, 0.7)}, anchor=west},
+					xtick=data,
+					xticklabels={RUBiS,TPC-C,C-Twitter,GeneralRH,GeneralRW,GeneralWH}
+					]
+					\addplot[fill=white] table [x expr=\coordindex, y=solve, col sep=comma] {./data/cobra-10k.csv};
+					\addplot[pattern=crosshatch dots] table [x expr=\coordindex, y=encode, col sep=comma] {./data/cobra-10k.csv};
+					\addplot[pattern=north east lines] table [x expr=\coordindex, y=prune, col sep=comma] {./data/cobra-10k.csv};
+					\addplot[fill=black] table [x expr=\coordindex, y=construct, col sep=comma] {./data/cobra-10k.csv};
+					\legend{Solving,Encoding,Pruning,Constructing}
+				\end{axis}
+			\end{tikzpicture}
+		\end{scaletikzpicturetowidth}
+		\caption{\label{fig:decomposition} Decomposing \name's checking time into  stages.}
+	\end{minipage}
+  \hspace{1ex}
+	\begin{minipage}[b]{0.48\textwidth}
+		\centering
+		\begin{scaletikzpicturetowidth}{\textwidth}
+			\begin{tikzpicture}[scale=\tikzscale]
+				\begin{axis}[
+					% title={Differencial Analysis, \#txns/session=15, \#keys=1000},
+					% xlabel={},
+				    legend style={nodes={scale=0.8, transform shape}},
+					x tick style={draw=none},
+					x tick label style={rotate=45,anchor=east},
+					scale only axis,
+					height=0.6\textwidth,
+					width=\textwidth,
+					ylabel={Time (s) in log scale },
+					ymin=0,
+					ymax=50000,
+					ybar,
+					ymode=log,
+					bar width=4,
+					area legend,
+					legend pos=north west,
+					xtick=data,
+					xticklabels={RUBiS,TPC-C,C-Twitter,GeneralRH,GeneralRW,GeneralWH}
+					]
+					\addplot[fill=white] table [x expr=\coordindex, y=si, col sep=comma] {./data/optimisation.csv};
+			%		\addplot[fill=black] table [x expr=\coordindex, y=si(no-coalescing), col sep=comma] {./data/optimisation.csv};
+					\addplot[pattern=north east lines] table [x expr=\coordindex, y=si(no-pruning), col sep=comma] {./data/optimisation.csv};
+					\addplot[fill=black] table [x expr=\coordindex, y=si(no-pruning-coalescing), col sep=comma] {./data/optimisation.csv};
+					% hack: overlay rect, a better way to change bar color?
+					\draw[color=red,pattern=north east lines,pattern color=red] (90, 0) rectangle (110, 4.21);
+					\draw[color=red,fill=red] (119, 0) rectangle (142, 4.12);
+					\legend{\name,\name~w/o P,\name~w/o CP}
+				\end{axis}
+			\end{tikzpicture}
+		\end{scaletikzpicturetowidth}
+		\caption{\label{fig:differential-analysis} Differential analysis of \name{}.   Memory-exhausted runs are colored in red.}
+	\end{minipage}
+\end{figure}
+\end{document}

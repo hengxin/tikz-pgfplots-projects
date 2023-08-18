@@ -1,0 +1,109 @@
+\newpage
+\section{Performance Evaluation of PolySI-List}
+\label{app:polysi-list}
+
+Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-List, the extension to \name{} for handling Elle-like logs/histories with the ``list'' data structure. 
+
+% runtime.tex
+\pgfplotsset{height=140pt, width=200pt}
+\begin{figure}[h]
+    \begin{scaletikzpicturetowidth}{0.23\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(a)},
+		xlabel={\#sessions},
+		ylabel={Time (s)},
+		cycle multiindex* list={
+            color       \nextlist
+            mark list*  \nextlist
+        }
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-sessions.csv};
+		\legend{\name-List}
+	  \end{axis}
+	\end{tikzpicture}
+		\hspace{1ex}
+  \end{scaletikzpicturetowidth}           
+  \begin{scaletikzpicturetowidth}{0.23\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(b)},
+		xlabel={\#txns/session},
+		ylabel={Time (s)},
+		legend pos=north west
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-txns.csv};
+		\legend{\name-List}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+
+  \begin{scaletikzpicturetowidth}{0.23\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(c)},
+		xlabel={\#ops/txn},
+		ylabel={Time (s)},
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-nops.csv};
+		\legend{\name-List}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+	\hspace{1ex}
+  \begin{scaletikzpicturetowidth}{0.23\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(d)},
+		xlabel={ read proportion \%},
+		ylabel={Time (s)},
+		legend pos=north east
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-readpct.csv};
+		\legend{\name-List}
+	  \end{axis}
+	\end{tikzpicture}
+
+  \end{scaletikzpicturetowidth}
+    \begin{scaletikzpicturetowidth}{0.23\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(e)},
+		ymin=0.7,
+		ymax=1.5,
+		xlabel={\#keys},
+		ylabel={Time (s)},
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-vars.csv};
+		\legend{\name-List}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+  	\hspace{1ex}
+  \begin{scaletikzpicturetowidth}{0.23\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(f)},
+		x tick style={draw=none},
+		ylabel={Time (s)},
+		ymin=0,
+		xmin=-0.5,
+		xmax=2.5,
+		ybar,
+		area legend,
+		xtick=data,
+		xticklabels={uniform,zipfian,hotspot}
+		]
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=si(list), col sep=comma] {tables/data/elle-distrib.csv};
+		\legend{\name-List}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+  %north east lines,  horizontal lines,  crosshatch
+ \caption{Performance evaluation of PolySI-List.}
+ \label{comparison-polysi-list}
+\end{figure}
+
+
+
+

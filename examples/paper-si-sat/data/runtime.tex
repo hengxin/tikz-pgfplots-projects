@@ -1,0 +1,154 @@
+% runtime.tex
+
+\documentclass[standalone, crop]{report}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+\pgfplotsset{height=140pt, width=200pt}
+% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
+
+% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+}
+\makeatother
+
+\begin{figure}
+  \begin{scaletikzpicturetowidth}{0.48\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(a)},
+		xlabel={\#sessions},
+		ylabel={Time (s)},
+		ymax=150,
+		cycle multiindex* list={
+            color       \nextlist
+            mark list*  \nextlist
+        }
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/sessions.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/sessions.csv};
+		\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/sessions.csv};
+		\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/sessions.csv};
+		\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
+	  \end{axis}
+	\end{tikzpicture}
+		\hspace{1ex}
+  \end{scaletikzpicturetowidth}
+  \begin{scaletikzpicturetowidth}{0.48\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(b)},
+		xlabel={\#txns/session},
+		ylabel={Time (s)},
+		ymax=100,
+		legend pos=north west
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/txns.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/txns.csv};
+		\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/txns.csv};
+		\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/txns.csv};
+		\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+
+  \begin{scaletikzpicturetowidth}{0.48\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(c)},
+		xlabel={\#ops/txn},
+		ylabel={Time (s)},
+		ymax=100,
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/nops.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/nops.csv};
+		\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/nops.csv};
+		\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/nops.csv};
+		\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+	\hspace{1ex}
+  \begin{scaletikzpicturetowidth}{0.48\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(d)},
+		xlabel={ read proportion \%},
+		ylabel={Time (s)},
+		ymax=179,
+		legend pos=north east
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/readpct.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/readpct.csv};
+		\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/readpct.csv};
+		\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/readpct.csv};
+		\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
+	  \end{axis}
+	\end{tikzpicture}
+
+  \end{scaletikzpicturetowidth}
+    \begin{scaletikzpicturetowidth}{0.48\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(e)},
+		xlabel={\#keys},
+		ylabel={Time (s)},
+		ymax=100,
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/vars.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/vars.csv};
+		\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/vars.csv};
+		\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/vars.csv};
+		\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+  	\hspace{1ex}
+  \begin{scaletikzpicturetowidth}{0.48\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+	  \begin{axis}[
+		title={(f)},
+		x tick style={draw=none},
+		ylabel={Time (s)},
+		ymin=0,
+		ymax=100,
+		xmin=-0.5,
+		xmax=2.5,
+		ybar,
+		area legend,
+		xtick=data,
+		xticklabels={uniform,zipfian,hotspot}
+		]
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=cobra(si), col sep=comma] {./data/distrib.csv};
+		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra(si-nogpu), col sep=comma] {./data/distrib.csv};
+		\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=oopsla, col sep=comma] {./data/distrib.csv};
+		\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=si, col sep=comma] {./data/distrib.csv};
+		\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
+	  \end{axis}
+	\end{tikzpicture}
+  \end{scaletikzpicturetowidth}
+  %north east lines,  horizontal lines,  crosshatch
+%  \caption{Performance comparison with the competing SI checkers under various workloads.   %\#sessions=20, \#txns/session=100, \#ops/txn=15,   keys=10k,  \%read=50\%, distribution=uniform.  
+%  Experiments time out at 180s; data points are not plotted for timed-out experiments.}
+%  \label{comparison}
+\end{figure}
+\end{document}
