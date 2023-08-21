@@ -16,9 +16,9 @@
 
   \node[txn, label = left : Joey:, label = above : $t_{J}$]
     (joey) {$\writeevent(\mathit{start}, \textrm{Los Angeles})$};
-  \node[txn, label = left : Monica:, label = 60 : $t_{Mr}$, below right = 1.20cm and -1.00cm of joey, anchor = center]
+  \node[txn, label = left : Monica:, label = 60 : $t_\mathit{Mr}$, below right = 1.20cm and -1.00cm of joey, anchor = center]
     (monica-read) {$\readevent(\mathit{start}, \textrm{Los Angeles})$};
-  \node[txn, right = 1.00cm of monica-read, label = above : $t_{Mw}$]
+  \node[txn, right = 1.00cm of monica-read, label = above : $t_\mathit{Mw}$]
     (monica-write) {$\writeevent(\mathit{dest}, \textrm{Chicago})$};
   \node[txn, label = left : Rachel:, label = above : $t_{R}$, below right = 1.20cm and 1.00cm of monica-read, anchor = center]
     (rachel) {$\readevent(\mathit{start}, \textrm{\red{\bf Los Angeles}}) \quad \readevent(\mathit{dest}, \textrm{Chicago})$};
