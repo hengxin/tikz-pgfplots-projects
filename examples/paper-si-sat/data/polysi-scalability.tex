@@ -1,0 +1,141 @@
+% polysi-scalability.tex
+
+\documentclass[standalone, crop]{report}
+% \documentclass{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+\pgfplotsset{height=140pt, width=200pt}
+% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
+
+% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+}
+\makeatother
+
+\pgfplotsset{every axis/.append style={font=\LARGE}}
+\begin{figure}[t]
+	\begin{scaletikzpicturetowidth}{0.45\textwidth}
+		\begin{tikzpicture}[scale=\tikzscale]
+			\begin{axis}[
+				title={(a)},
+				xlabel={read proportion \%},
+				ylabel={Time (h)},
+                ymin=0,
+                ymax=7,
+				cycle multiindex* list={
+					color       \nextlist
+					mark list*  \nextlist
+				}
+				]
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=readpct, y=time, col sep=comma] {./data/random-large-readpct.csv};
+				\legend{\name}
+			\end{axis}
+		\end{tikzpicture}
+		\hspace{3ex}
+	\end{scaletikzpicturetowidth}
+	\begin{scaletikzpicturetowidth}{0.45\textwidth}
+	\begin{tikzpicture}[scale=\tikzscale]
+		\begin{axis}[
+			title={(b)},
+			xlabel={read proportion \%},
+			ylabel={Memory (GB)},
+            ymin=30,
+            ymax=45,
+			cycle multiindex* list={
+				color       \nextlist
+				mark list*  \nextlist
+			}
+			]
+			\addplot[color=brown,mark=o,mark size=3pt] table [x=readpct, y=memory, col sep=comma] {./data/random-large-readpct.csv};
+			\legend{\name}
+		\end{axis}
+	\end{tikzpicture}
+	\end{scaletikzpicturetowidth}
+
+%	\begin{scaletikzpicturetowidth}{0.45\textwidth}
+%	\begin{tikzpicture}[scale=\tikzscale]
+%		\begin{axis}[
+%			title={(b)},
+%			xlabel={long transaction proportion \%},
+%			ylabel={Time (h)},
+%			legend pos=north west
+%			]
+%			\addplot[color=brown,mark=o,mark size=3pt] table [x=proportion, y=time, col sep=comma] {./data/random-large-longtxn-proportion.csv};
+%			\legend{\name}
+%		\end{axis}
+%	\end{tikzpicture}
+%\end{scaletikzpicturetowidth}
+%\hspace{1ex}
+%	\begin{scaletikzpicturetowidth}{0.20\textwidth}
+%	\begin{tikzpicture}[scale=\tikzscale]
+%		\begin{axis}[
+%			title={(e)},
+%			xlabel={long transaction proportion \%},
+%			ylabel={Memory (GB)},
+%			legend pos=north west
+%			]
+%			\addplot[color=brown,mark=o,mark size=3pt] table [x=proportion, y=memory, col sep=comma] {./data/random-large-longtxn-proportion.csv};
+%			\legend{\name}
+%		\end{axis}
+%	\end{tikzpicture}
+%\end{scaletikzpicturetowidth}
+
+
+
+	\begin{scaletikzpicturetowidth}{0.45\textwidth}
+		\begin{tikzpicture}[scale=\tikzscale]
+			\begin{axis}[
+				title={(c)},
+				xlabel={\#ops per long transaction},
+				ylabel={Time (h)},
+                ymin=2,
+                ymax=6,
+                legend pos=north west,
+				]
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=size, y=time, col sep=comma] {./data/random-large-longtxn-size.csv};
+				\legend{\name}
+			\end{axis}
+		\end{tikzpicture}
+	\end{scaletikzpicturetowidth}
+	\hspace{5ex}
+	\begin{scaletikzpicturetowidth}{0.45\textwidth}
+		\begin{tikzpicture}[scale=\tikzscale]
+			\begin{axis}[
+				title={(d)},
+				xlabel={\#ops per long transaction},
+				ylabel={Memory (GB)},
+                ymin=34,
+                ymax=38,
+                legend pos=north west,
+				]
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=size, y=memory, col sep=comma] {./data/random-large-longtxn-size.csv};
+				\legend{\name}
+			\end{axis}
+		\end{tikzpicture}
+		\hspace{3ex}
+	\end{scaletikzpicturetowidth}
+	%north east lines,  horizontal lines,  crosshatch
+	% \caption{ \name{}'s overhead on large workloads with one billion keys and one million transactions.  }
+	% \label{large-sized-exp}
+\end{figure}
+\end{document}
