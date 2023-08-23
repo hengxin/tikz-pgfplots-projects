@@ -1,0 +1,46 @@
+% polysi-checker-polygraph.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, trees, positioning, arrows, chains, shapes.geometric,
+    decorations.pathreplacing, decorations.pathmorphing, shapes,
+    matrix, shapes.symbols}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.5cm and 1.0cm,
+  every label/.style = {font = \normalsize}]
+
+	\node[draw, thick, inner sep = 8pt, fill = yellow!50] (polysi) {\textsc{PolySI}};
+
+	\coordinate (anchor) at ($(polysi.west) + (-2.5, 0)$);
+	\draw[->, thick] (anchor) to
+	  node[above]{A history}
+	  node[below]{$\H = (\T, \SO)$}
+		(polysi);
+
+	\node[above right = of polysi] (sat) {\yes};
+	\node[below right = of polysi] (unsat) {\no};
+
+	\draw[->, thick] (polysi) to (sat);
+	\draw[->, thick] (polysi) to (unsat);
+
+	\node[draw, below right = 1.50cm and 0.30cm of polysi.south, fill = brown!50, inner sep = 5pt, align = center]
+	  (monosat) {\phantom{MonoSAT} \\ \phantom{Solving}};
+	\node[draw, below left = 1.50cm and 0.30cm of polysi.south, fill = brown!50, inner sep = 5pt, align = center]
+	  (encoding) {SAT \\ Encoding};
+	\node[draw, left = 0.60cm of encoding, fill = brown!50, inner sep = 5pt, align = center]
+	  (pruning) {\phantom{Constraints} \\ \phantom{Pruning}};
+	\node[draw, right = 0.60cm of monosat, fill = brown!50, inner sep = 5pt, align = center]
+	  (counterexamples) {\phantom{Counterexamples} \\ \phantom{Extracting}};
+	\draw[->, thick, brown] (pruning) to (encoding);
+	\draw[->, thick, brown] (encoding) to (monosat);
+	\draw[->, thick, brown] (monosat) to (unsat);
+	\draw[->, thick, brown] (unsat) to (counterexamples);
+
+	\draw[dashed, very thick, blue] (polysi.south west) to (pruning.north west);
+	\draw[dashed, very thick, blue] (polysi.south east) to (counterexamples.north east);
+  \end{tikzpicture}
+\end{document}

@@ -16,9 +16,9 @@
   \node[vertex, below = 2.0cm of from] (prec) {$\mathit{prec}$};
 
   \draw[edge, blue] (from) to node[above, blue]{\textsf{RW}} (to);
-  \draw[edge] (prec) to[sloped] node[above]{not \textsf{RW}} (from);
+  \draw[edge] (prec) to[sloped] node[above]{not \textsf{RW} edge} (from);
   \draw[path] (to) to[bend left = 70, sloped]
-    % node[above]{in $\knowninducedgraph$}
+    node[above]{no $\RW$ edges}
     (prec);
 
   \draw[edge, dashed] (prec) to[sloped]
