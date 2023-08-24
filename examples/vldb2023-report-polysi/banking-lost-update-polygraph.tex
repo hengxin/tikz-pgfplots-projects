@@ -31,7 +31,8 @@
   \draw[ww, bend right, sloped] (t) to node[below]{$\WW$} (t-bob);
   \draw[ww] (t-bob.45) to node[]{$\WW$} (t-bob.45 |- t-alice.south);
   \draw[ww] (t-alice.-135) to node[]{$\WW$} (t-alice.-135 |- t-bob.north);
-  \node[draw, fit = (t-alice) (t-bob) (t-alice-read), rectangle, dash dot, green, ultra thick]
+  \node[draw, fit = (t-alice) (t-bob) (t-alice-read), rectangle,
+    dash dot, cyan, ultra thick, label distance = 15pt, label = {below : {\Large \teal{$\tuple{\eithervar, \orvar}$ constraint}}}]
     (uncertain) {};
 
   \draw[rw, bend right = 60] (t-alice.-145) to node[]{$\RW$} (t-alice.-145 |- t-bob.north);
