@@ -14,22 +14,22 @@
   vo/.style = {->, thick},
   txn/.style = {draw, inner sep = 2pt}]
 
-  \node[txn, label = left : Joey:, label = above : $t_{J}$]
-    (joey) {$\writeevent(\mathit{start}, \textrm{Los Angeles})$};
-  \node[txn, label = left : Monica:, label = 60 : $t_{Mr}$, below right = 1.20cm and -1.00cm of joey, anchor = center]
+  \node[txn, label = left : Joe:, label = above : $t_{J}$]
+    (joe) {$\writeevent(\mathit{start}, \textrm{Los Angeles})$};
+  \node[txn, label = left : Monica:, label = 60 : $t_{Mr}$, below right = 1.20cm and -1.00cm of joe, anchor = center]
     (monica-read) {$\readevent(\mathit{start}, \textrm{Los Angeles})$};
   \node[txn, right = 1.00cm of monica-read, label = above : $t_{Mw}$]
     (monica-write) {$\writeevent(\mathit{dest}, \textrm{Chicago})$};
   \node[txn, label = left : Rachel:, label = above : $t_{R}$, below right = 1.20cm and 1.00cm of monica-read, anchor = center]
     (rachel) {$\readevent(\mathit{start}, \textrm{\red{\bf Los Angeles}}) \quad \readevent(\mathit{dest}, \textrm{Chicago})$};
 
-  % joey-vis-monica-read
-  \draw[wr] (joey) to node[sloped, above]{$\VIS$} (monica-read);
+  % joe-vis-monica-read
+  \draw[wr] (joe) to node[sloped, above]{$\VIS$} (monica-read);
   % monica-read-SO-monica-write
   \draw[so] (monica-read) to node[above]{$\SO$} (monica-write);
   % monica-write-vis-rachel
   \draw[wr] (monica-write.south) to node[sloped, above]{$\VIS$} (rachel);
-  % joey-vis-rachel
-  \draw[wr, out = -120, in = 180, red] (joey.-170) to node[sloped, above, pos = 0.60, red]{$\VIS$} (rachel);
+  % joe-vis-rachel
+  \draw[wr, out = -120, in = 180, red] (joe.-170) to node[sloped, above, pos = 0.60, red]{$\VIS$} (rachel);
 \end{tikzpicture}
 \end{document}
