@@ -1,13 +1,40 @@
-\newpage
-\section{Performance Evaluation of PolySI-List}
-\label{app:polysi-list}
+% runtime-elle.tex
 
-Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-List, the extension to \name{} for handling Elle-like logs/histories with the ``list'' data structure. 
+\documentclass[standalone, crop]{report}
+% \documentclass{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
 
-% runtime.tex
+\begin{document}
+
 \pgfplotsset{height=140pt, width=200pt}
-\begin{figure}[h]
-    \begin{scaletikzpicturetowidth}{0.23\textwidth}
+% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
+
+% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+}
+\makeatother
+
+\begin{figure}
+	\begin{scaletikzpicturetowidth}{0.23\textwidth}
 	\begin{tikzpicture}[scale=\tikzscale]
 	  \begin{axis}[
 		title={(a)},
@@ -18,12 +45,12 @@ Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-L
             mark list*  \nextlist
         }
 		]
-		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-sessions.csv};
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {./data/elle-sessions.csv};
 		\legend{\name-List}
 	  \end{axis}
 	\end{tikzpicture}
 		\hspace{1ex}
-  \end{scaletikzpicturetowidth}           
+  \end{scaletikzpicturetowidth}
   \begin{scaletikzpicturetowidth}{0.23\textwidth}
 	\begin{tikzpicture}[scale=\tikzscale]
 	  \begin{axis}[
@@ -32,7 +59,7 @@ Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-L
 		ylabel={Time (s)},
 		legend pos=north west
 		]
-		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-txns.csv};
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {./data/elle-txns.csv};
 		\legend{\name-List}
 	  \end{axis}
 	\end{tikzpicture}
@@ -45,7 +72,7 @@ Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-L
 		xlabel={\#ops/txn},
 		ylabel={Time (s)},
 		]
-		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-nops.csv};
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {./data/elle-nops.csv};
 		\legend{\name-List}
 	  \end{axis}
 	\end{tikzpicture}
@@ -59,13 +86,13 @@ Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-L
 		ylabel={Time (s)},
 		legend pos=north east
 		]
-		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-readpct.csv};
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {./data/elle-readpct.csv};
 		\legend{\name-List}
 	  \end{axis}
 	\end{tikzpicture}
-
   \end{scaletikzpicturetowidth}
-    \begin{scaletikzpicturetowidth}{0.23\textwidth}
+
+	\begin{scaletikzpicturetowidth}{0.23\textwidth}
 	\begin{tikzpicture}[scale=\tikzscale]
 	  \begin{axis}[
 		title={(e)},
@@ -74,7 +101,7 @@ Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-L
 		xlabel={\#keys},
 		ylabel={Time (s)},
 		]
-		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {tables/data/elle-vars.csv};
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=si(list), col sep=comma] {./data/elle-vars.csv};
 		\legend{\name-List}
 	  \end{axis}
 	\end{tikzpicture}
@@ -94,16 +121,13 @@ Figure~\ref{comparison-polysi-list} shows the performance evaluation of PolySI-L
 		xtick=data,
 		xticklabels={uniform,zipfian,hotspot}
 		]
-		\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=si(list), col sep=comma] {tables/data/elle-distrib.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=si(list), col sep=comma] {./data/elle-distrib.csv};
 		\legend{\name-List}
 	  \end{axis}
 	\end{tikzpicture}
   \end{scaletikzpicturetowidth}
   %north east lines,  horizontal lines,  crosshatch
- \caption{Performance evaluation of PolySI-List.}
- \label{comparison-polysi-list}
+%  \caption{Performance evaluation of PolySI-List.}
+%  \label{comparison-polysi-list}
 \end{figure}
-
-
-
-
+\end{document}
