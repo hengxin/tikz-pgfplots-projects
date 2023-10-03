@@ -1,0 +1,28 @@
+% lost-update.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 0.05cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = below : $T'_{A}$] (t-alice-read) {$\readevent(\keyxvar, 25)$};
+
+  \node[txn, label = above : $T_{A}$, above left = of t-alice-read] (t-alice)
+    {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 50)$};
+  \node[txn, label = above : $T_{B}$, above right = of t-alice-read] (t-bob)
+    {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 25)$};
+
+  \draw[wr, sloped] (t-bob) to node[below]{$\WR(\keyxvar)$} (t-alice-read);
+  \draw[ww, sloped] (t-alice.-30) to node[below]{$\WW(\keyxvar)$} (t-bob.-150);
+  \draw[rw, sloped] (t-bob.150) to node[above]{$\RW(\keyxvar)$} (t-alice.-20);
+\end{tikzpicture}
+\end{document}

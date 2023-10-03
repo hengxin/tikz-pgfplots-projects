@@ -1,0 +1,20 @@
+% ryw.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T$] (t)
+    {$\readevent(\keyx, 1)$ \po $\writeevent(\keyx, 2)$
+      \po $\readevent(\keyx, 2)$ \po $\writeevent(\keyx, 3)$};
+\end{tikzpicture}
+\end{document}

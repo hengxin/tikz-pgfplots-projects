@@ -1,0 +1,31 @@
+% causality-violation.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 1.2cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = below : $T_{A}$] (t-alice)
+    {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 1)$ \po
+     $\readevent(\keyyvar, 0)$ \po $\writeevent(\keyyvar, 0)$};
+
+  \node[txn, label = below : $T_{B}$, right = of t-alice] (t-bob)
+    {$\readevent(\keyxvar, 1)$ \po
+     $\readevent(\keyyvar, 0)$ \po $\writeevent(\keyyvar, 1)$};
+  \node[txn, label = below : $T_{C}$, right = of t-bob] (t-carol)
+    {$\readevent(\keyxvar, 0)$ \po $\readevent(\keyyvar, 1)$};
+
+  \draw[wr] (t-alice) to node[above]{$\WR(\keyxvar)$} (t-bob);
+  \draw[wr] (t-bob) to node[above]{$\WR(\keyyvar)$} (t-carol);
+  \draw[rw, sloped, bend right = 45] (t-carol) to node[above]{$\RW(\keyxvar)$} (t-alice);
+\end{tikzpicture}
+\end{document}

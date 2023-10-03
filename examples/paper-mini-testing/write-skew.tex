@@ -1,0 +1,25 @@
+% write-skew.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.0cm and 2.0cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T_{A}$] (t-alice)
+    {$\readevent(\keyxvar, 50)$ \po $\readevent(\keyyvar, 50)$ \po $\writeevent(\keyxvar, -10)$};
+  \node[txn, label = above : $T_{B}$, right = 1.50cm of t-alice] (t-bob)
+    {$\readevent(\keyxvar, 50)$ \po $\readevent(\keyyvar, 50)$ \po $\writeevent(\keyyvar, -10)$};
+
+  \draw[rw, sloped] (t-alice.east) to node[below, near end]{$\RW(\keyyvar)$} (t-bob.-140);
+  \draw[rw, sloped] (t-bob.140) to node[above, near start]{$\RW(\keyxvar)$} (t-alice.-40);
+\end{tikzpicture}
+\end{document}
