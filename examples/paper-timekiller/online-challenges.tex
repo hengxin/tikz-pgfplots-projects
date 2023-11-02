@@ -1,0 +1,36 @@
+% online-challenges.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+	start/.style = {blue, dashed, thick},
+	commit/.style = {brown, dotted, very thick},
+  txn/.style = {draw, inner sep = 2pt}]
+
+  \node[txn, label = above : $T_{1}$] (t1)
+    {$\quad\writeevent(x, 1)\quad$};
+	\startcommittime{t1}{0.50cm}{0.50cm}
+
+  \node[txn, label = below : $T_{2}$, below right = of t1] (t2)
+    {$\quad\writeevent(x, 2)\quad$};
+	\startcommittime{t2}{0.50cm}{0.50cm}
+
+  \node[txn, label = below : $T_{3}$, right = 2.5cm of t2] (t3)
+    {$\quad\readevent(y, 1)\quad$};
+	\startcommittime{t3}{0.50cm}{0.50cm}
+
+  \node[txn, label = below : $T_{4}$, below right = 1.00cm and -0.50cm of t2] (t4)
+    {$\qquad\writeevent(y, 2)\qquad$};
+	\startcommittime{t4}{0.50cm}{0.50cm}
+
+  \node[txn, label = above : $T_{5}$, above right = 1.00cm and 1.50cm of t1] (t5)
+    {$\quad\readevent(x, 1)\quad\writeevent(y, 1)\quad$};
+	\startcommittime{t5}{1.00cm}{5.50cm}
+\end{tikzpicture}
+\end{document}

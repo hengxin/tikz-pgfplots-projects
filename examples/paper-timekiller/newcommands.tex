@@ -148,10 +148,10 @@
 \newcommand{\cobra}{\textsc{Cobra}}
 \newcommand{\name}{\textsc{Name}}
 
-\newcommand{\starttime}[2]{
-	\draw[start] ($(#1.west) + (0, #2)$) to ($(#1.west) + (0, -#2)$);}
-\newcommand{\committime}[2]{
-	\draw[commit] ($(#1.east) + (0, #2)$) to ($(#1.east) + (0, -#2)$);}
-\newcommand{\startcommittime}[2]{
-	\starttime{#1}{#2}
-	\committime{#1}{#2}}
+\newcommand{\starttime}[3]{
+	\draw[start] ($(#1.west) + (0, #2)$) to ($(#1.west) + (0, -#3)$);}
+\newcommand{\committime}[3]{
+	\draw[commit] ($(#1.east) + (0, #2)$) to ($(#1.east) + (0, -#3)$);}
+\newcommand{\startcommittime}[3]{
+	\starttime{#1}{#2}{#3}
+	\committime{#1}{#2}{#3}}
