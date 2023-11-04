@@ -3,6 +3,7 @@
 \usepackage{amssymb, latexsym}
 \usepackage{bbding} % for checkmark and xsolid
 \usepackage{mathtools}
+\usepackage{pifont}
 
 % math
 \newcommand{\N}{\mathbb{N}}
@@ -155,3 +156,8 @@
 \newcommand{\startcommittime}[3]{
 	\starttime{#1}{#2}{#3}
 	\committime{#1}{#2}{#3}}
+
+\newcommand{\tsorder}[4] {
+	\node[start, font = \Large] at ($(#1.west) + (0, #2)$) {\ding{#3}};
+	\node[commit, font = \Large] at ($(#1.east) + (0, #2)$) {\ding{#4}};
+}

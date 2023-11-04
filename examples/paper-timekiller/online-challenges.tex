@@ -16,21 +16,26 @@
   \node[txn, label = above : $T_{1}$] (t1)
     {$\quad\writeevent(x, 1)\quad$};
 	\startcommittime{t1}{0.50cm}{0.50cm}
+  \tsorder{t1}{0.80cm}{182}{183} % 1, 2
 
   \node[txn, label = below : $T_{2}$, below right = of t1] (t2)
     {$\quad\writeevent(x, 2)\quad$};
 	\startcommittime{t2}{0.50cm}{0.50cm}
+  \tsorder{t2}{0.80cm}{184}{186} % 3, 5
 
-  \node[txn, label = below : $T_{3}$, right = 2.5cm of t2] (t3)
-    {$\quad\readevent(y, 1)\quad$};
+  \node[txn, label = below : $T_{3}$, below right = 1.00cm and 0.50cm of t2] (t3)
+    {$\quad\readevent(x, 2)\quad\writeevent(y, 2)\quad$};
 	\startcommittime{t3}{0.50cm}{0.50cm}
+  \tsorder{t3}{0.80cm}{187}{190} % 6, 9
 
-  \node[txn, label = below : $T_{4}$, below right = 1.00cm and -0.50cm of t2] (t4)
-    {$\qquad\writeevent(y, 2)\qquad$};
+  \node[txn, label = below : $T_{4}$, right = 2.5cm of t2] (t4)
+    {$\quad\readevent(y, 1)\quad$};
 	\startcommittime{t4}{0.50cm}{0.50cm}
+  \tsorder{t4}{0.80cm}{189}{191} % 8, 10
 
   \node[txn, label = above : $T_{5}$, above right = 1.00cm and 1.50cm of t1] (t5)
     {$\quad\readevent(x, 1)\quad\writeevent(y, 1)\quad$};
-	\startcommittime{t5}{1.00cm}{5.50cm}
+	\startcommittime{t5}{0.50cm}{5.50cm}
+  \tsorder{t5}{0.80cm}{185}{188} % 4, 7
 \end{tikzpicture}
 \end{document}

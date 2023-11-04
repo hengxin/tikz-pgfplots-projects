@@ -1,0 +1,35 @@
+% fork.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 0.6cm and 1.2cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = below : $T_{1}$] (t1) {$\readevent(\keyxvar, \_)\;\;\writeevent(\keyxvar, 1)$};
+
+  \node[txn, label = above : $T_{2}$, above right = of t1] (t2)
+    {$\readevent(\keyxvar, 1)\;\;\writeevent(\keyxvar, 2)$};
+  \node[txn, label = below : $T_{3}$, below right = of t1] (t3)
+    {$\readevent(\keyxvar, 1)\;\;\writeevent(\keyxvar, 3)$};
+
+  \draw[wr, sloped] (t1) to node[above]{$\WR(\keyxvar)$} (t2.west);
+  \draw[ww, sloped, bend left = 45] (t1) to node[above]{$\WW(\keyxvar)$} (t2);
+
+  \draw[wr, sloped] (t1) to node[below]{$\WR(\keyxvar)$} (t3.west);
+  \draw[ww, sloped, bend right = 45] (t1) to node[below]{$\WW(\keyxvar)$} (t3);
+
+  \draw[rw, sloped, near start] (t2.-160) to node[below]{$\RW(\keyxvar)$} (t3.20);
+  \draw[rw, sloped, near end] (t3.160) to node[below]{$\RW(\keyxvar)$} (t2.-20);
+
+  % \draw[ww] (t2.-30) to node[right]{$\WW(\keyxvar)$} (t3.30);
+\end{tikzpicture}
+\end{document}

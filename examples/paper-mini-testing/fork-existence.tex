@@ -1,0 +1,37 @@
+% fork-existence.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 3.0cm and 1.5cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T_{a}$] (ta)
+    {$\readevent(\keyxvar, A)\;\;\writeevent(\keyxvar, a)$};
+  \node[txn, label = below : $T_{b}$, below = of ta] (tb)
+    {$\readevent(\keyxvar, B)\;\;\writeevent(\keyxvar, b)$};
+
+  \node[txn, label = above : $T_{a'}$, left = of ta] (ta-prime)
+    {$\readevent(\keyxvar, \_)\;\;\writeevent(\keyxvar, A)$};
+  \node[txn, label = below : $T_{b'}$, left = of tb] (tb-prime)
+    {$\readevent(\keyxvar, \_)\;\;\writeevent(\keyxvar, B)$};
+
+  \node[txn, label = right : $T_{c'}$, below = 1.0cm of ta-prime] (tc-prime)
+    {$\readevent(\keyxvar, A)\;\;\writeevent(\keyxvar, \_)$};
+
+  \draw[wr, sloped] (ta-prime) to node[above]{$\WR(\keyxvar)$} (ta);
+  \draw[wr, sloped] (tb-prime) to node[above]{$\WR(\keyxvar)$} (tb);
+
+  \draw[wr] (ta-prime.-30) to node[right]{$\WR(\keyxvar)$} (ta-prime.-30 |- tc-prime.north);
+  \draw[ww] (ta-prime.-150) to node[left]{$\WW(\keyxvar)$} (ta-prime.-150 |- tc-prime.north);
+  \draw[ww] (tc-prime) to node[right]{$\WW(\keyxvar)$} (tb-prime);
+\end{tikzpicture}
+\end{document}
