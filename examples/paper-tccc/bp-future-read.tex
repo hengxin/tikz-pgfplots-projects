@@ -1,4 +1,4 @@
-% bp-po-future-read.tex
+% bp-future-read.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -12,6 +12,7 @@
   wr/.style = {->, thick},
   txn/.style = {draw, inner sep = 2pt}]
 
-  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, v) \cdots \writeevent(x, v) \cdots$};
+  \node[txn, label = left : $t$] (t)
+    {$\readevent(x, v) \quad \writeevent(x, v)$};
 \end{tikzpicture}
 \end{document}

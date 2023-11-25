@@ -1,4 +1,4 @@
-% bp-write-co-init-read.tex
+% bp-init-read-co.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -13,9 +13,10 @@
   co/.style = {->, thick},
   txn/.style = {draw, inner sep = 2pt}]
 
-  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, \bot_{x}) \cdots$};
+  \node[txn, label = left : $t$] (t)
+    {$\readevent(x, \bot_{x})$};
   \node[txn, above = 1.00cm of t, label = left : {$t'$}]
-    (tprime) {$\cdots \writeevent(x, v') \cdots$};
+    (tprime) {$\writeevent(x, v')$};
 
   \draw[co] (tprime) to node[left]{$\CO$} (t);
 \end{tikzpicture}

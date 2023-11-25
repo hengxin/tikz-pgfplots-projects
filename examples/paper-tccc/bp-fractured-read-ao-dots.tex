@@ -1,4 +1,4 @@
-% bp-cyclic-cf.tex
+% bp-fractured-read-ao-dots.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -15,20 +15,20 @@
   txn/.style = {draw, inner sep = 2pt}]
 
   % t3: R(x, v)
-  \node[txn, label = below : $t_3$] (t3) {$\cdots \readevent(x, v) \cdots$};
+  \node[txn, label = below : $t_3$] (t3) {$\cdots \readevent(x, v_x) \cdots \readevent(y, v'_y) \cdots$};
   % t1: W(x, v)
   \node[txn, left = 1.50cm of t3, label = below : $t_1$]
-    (t1) {$\cdots \writeevent(x, v) \cdots$};
+    (t1) {$\cdots \writeevent(x, v_x) \cdots$};
   % t2: W(x, v')
   \node[txn, above = 1.00cm of t1, label = above : $t_2$]
-    (t2) {$\cdots \writeevent(x, v') \cdots$};
+    (t2) {$\cdots \writeevent(x, v'_x) \cdots \writeevent(y, v'_y) \cdots$};
 
-  % t1-WR-t3
+  % t1-WRx-t3
   \draw[wr] (t1) to node[below]{$\WR(x)$} (t3);
   % t1-VO-t2
   \draw[vo, bend left] (t1) to node[left]{$\AO$} (t2);
-  % t2-CO-t3
-  \draw[co] (t2.east) to node[sloped, above]{$\CO$} (t3);
+  % t2-WRy-t3
+  \draw[wr] (t2.east) to node[sloped, above]{$\WR(y)$} (t3.north);
 
   % t2-VO-t1
   \draw[vo, dashed, red, bend left] (t2) to node[right]{$\AO$} (t1);

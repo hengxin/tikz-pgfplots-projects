@@ -23,9 +23,9 @@
     }
   }
 
-  \node[txn, label = above : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
-  \node[label = above : $t'$, txn crossed out, left = 1.20cm of t]
-    (tprime) {$\cdots \writeevent(x, v) \cdots$};
+  \node[txn, label = above : $t$] (t) {$\readevent(x, v)$};
+  \node[label = above : $t'$, txn crossed out, left = 1.50cm of t]
+    (tprime) {$\writeevent(x, v)$};
 
   \draw[wr, lightgray] (tprime) to node[above]{$\WR(x)$} (t);
 \end{tikzpicture}

@@ -1,4 +1,4 @@
-% bp3-not-my-own-write.tex
+% bp4-intermediate-read-dots.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -23,11 +23,10 @@
     }
   }
 
-  \node[txn, label = left : $t$] (t)
-    {$\writeevent(x, v') \quad \readevent(x, v)$};
-  \node[txn, above = 1.00cm of t, label = left : $t'$]
-    (tprime) {$\writeevent(x, v)$};
+  \node[txn, label = left : $t$] (t) {$\cdots \readevent(x, v) \cdots$};
+  \node[txn, above = 1.20cm of t, label = left : $t'$]
+    (tprime) {$\cdots \writeevent(x, v) \cdots \writeevent(x, v') \cdots$};
 
-  \draw[wr] (tprime.south) to node[]{$\WR(x)$} (t.north);
+  \draw[wr] (tprime.-165) to node[above = -0.10cm, sloped]{$\WR(x)$} (t.north);
 \end{tikzpicture}
 \end{document}
