@@ -25,7 +25,7 @@
 
   \node[txn, label = left : $t$] (t) {$\readevent(x, v)$};
   \node[txn, above = 1.20cm of t, label = left : $t'$]
-    (tprime) {$\writeevent(x, v) \quad \writeevent(x, v')$};
+    (tprime) {$\writeevent(x, v) \; \writeevent(x, v')$};
 
   \draw[wr] (tprime.-165) to node[above = -0.10cm, sloped]{$\WR(x)$} (t.north);
 \end{tikzpicture}

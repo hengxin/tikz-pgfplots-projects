@@ -24,7 +24,7 @@
   }
 
   \node[txn, label = left : $t$] (t)
-    {$\writeevent(x, v') \quad \readevent(x, v)$};
+    {$\writeevent(x, v') \; \readevent(x, v)$};
   \node[txn, above = 1.00cm of t, label = left : $t'$]
     (tprime) {$\writeevent(x, v)$};
 

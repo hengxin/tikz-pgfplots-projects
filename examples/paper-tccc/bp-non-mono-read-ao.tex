@@ -1,4 +1,4 @@
-% bp-fractured-read-ao.tex
+% bp-non-mono-read-ao.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -16,7 +16,7 @@
 
   % t3: R(x, v)
   \node[txn, label = below : $t_3$] (t3)
-    {$\readevent(x, v_x)$ \\[\vsep] $\readevent(y, v'_y)$};
+    {$\readevent(y, v'_y) \; \readevent(x, v_x)$};
   % t1: W(x, v)
   \node[txn, left = 1.20cm of t3, label = below : $t_1$]
     (t1) {$\writeevent(x, v_x)$};
