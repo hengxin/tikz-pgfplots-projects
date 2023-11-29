@@ -15,10 +15,10 @@
   txn/.style = {draw, inner sep = 2pt, align = center}]
 
   % tprime: W(x, v')
-  \node[txn, label = above : $t'$]
+  \node[txn, label = left : $t'$]
     (tprime) {$\writeevent(x, v'_x)$ \\[\vsep] $\writeevent(y, v'_y)$};
   % t: R(x, v)
-  \node[txn, below = 1.00cm of tprime, label = below : $t$] (t)
+  \node[txn, below = 1.00cm of tprime, label = left : $t$] (t)
     {$\readevent(x, \bot_x)$ \\[\vsep] $\readevent(y, v'_y)$};
 
   % tprime-WRy-t
