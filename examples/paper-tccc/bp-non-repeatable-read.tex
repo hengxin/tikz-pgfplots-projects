@@ -23,15 +23,15 @@
   }
 
   % t: R(x, v) R(x, v')
-  \node[txn, label = below: $t$] (t)
+  \node[txn, label = right : $t$] (t)
     {$\readevent(x, v)$ \\[\vsep] $\readevent(x, v')$};
   % t1: W(x, v)
-  \node[txn, above left = 1.00cm and -0.00cm of t,
-    label = above : $t_1$]
+  \node[txn, above left = 0.80cm and -0.00cm of t,
+    label = left : $t_1$]
     (t1) {$\writeevent(x, v)$};
   % t2: W(x, v')
-  \node[txn, above right = 1.00cm and -0.00cm of t,
-    label = above : $t_2$]
+  \node[txn, above right = 0.80cm and -0.00cm of t,
+    label = right : $t_2$]
     (t2) {$\writeevent(x, v')$};
 
   \draw[wr] (t1.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t.160);

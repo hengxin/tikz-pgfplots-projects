@@ -21,7 +21,7 @@
   \node[txn, left = 1.20cm of t3, label = below : $t_1$]
     (t1) {$\writeevent(x, v_x)$};
   % t2: W(x, v')
-  \node[txn, above = 1.00cm of t1, label = above : $t_2$]
+  \node[txn, above = 0.80cm of t1, label = above : $t_2$]
     (t2) {$\writeevent(x, v'_x)$ \\[\vsep] $\writeevent(y, v'_y)$};
 
   % t1-WRx-t3
@@ -29,7 +29,7 @@
   % t1-CO-t2
   \draw[co, bend left] (t1) to node[left]{$\CO$} (t2);
   % t2-WRy-t3
-  \draw[wr] (t2.east) to node[sloped, above]{$\WR(y)$} (t3.north);
+  \draw[wr] (t2.east) to node[sloped, above]{$\WR(y) \cup \SO$} (t3.north);
 
   % t2-VO-t1
   \draw[vo, dashed, red, bend left] (t2) to node[right]{$\AO$} (t1);

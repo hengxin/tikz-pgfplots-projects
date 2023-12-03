@@ -1,4 +1,4 @@
-% bp-not-my-own-write.tex
+% bp-not-my-last-write.tex
 
 \documentclass{standalone}
 \input{newcommands}
@@ -23,11 +23,7 @@
     }
   }
 
-  \node[txn, label = left : $t$] (t)
-    {$\writeevent(x, v') \; \readevent(x, v)$};
-  \node[txn, above = 0.60cm of t, label = left : $t'$]
-    (tprime) {$\writeevent(x, v)$};
-
-  \draw[wr] (tprime.south) to node[]{$\WR(x)$} (t.north);
+  \node[txn, label = above : $t$] (t)
+    {$\writeevent(x, v) \; \writeevent(x, v') \; \readevent(x, v)$};
 \end{tikzpicture}
 \end{document}
