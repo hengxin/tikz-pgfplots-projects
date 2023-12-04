@@ -1,0 +1,34 @@
+% cex-mariadb-intermediateread.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 2pt},
+    txn crossed out/.style = {
+      txn,
+      append after command = {
+        node[fit = (\tikzlastnode), draw = red, thick,
+             inner sep=-\pgflinewidth, cross out]{}
+      }
+    }
+  }
+
+  % t393: R(0, 3328)
+  \node[txn, label = left : $t_{393}$] (t393) {$\readevent(0, 3328)$};
+  % t297: W(0, 3328), W(0, 3332)
+  \node[txn, above = 1.20cm of t393, label = left : $t_{297}$]
+    (t297) {$\writeevent(0, 3328) \; \writeevent(0, 3332)$};
+
+  \draw[wr] (t297.-165) to node[above = -0.10cm, sloped]{$\WR(0)$} (t393.north);
+\end{tikzpicture}
+\end{document}

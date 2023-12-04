@@ -1,0 +1,38 @@
+% cex-mariadb-nonrepeatableread.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 2pt},
+    txn crossed out/.style = {
+      txn,
+      append after command = {
+        node[fit = (\tikzlastnode), draw = red, thick,
+             inner sep=-\pgflinewidth, cross out]{}
+      }
+    }
+  }
+
+  % t393: R(x, v) R(x, v')
+  \node[txn, label = above : $t_{393}$]
+    (t393) {$\readevent(0, 33324) \; \readevent(0, 3328)$};
+  % t898: W(x, v)
+  \node[txn, above left = 1.20cm and -1.60cm of t393, label = above : $t_{898}$]
+    (t898) {$\writeevent(0, 33324)$};
+  % t297: W(x, v')
+  \node[txn, above right = 1.20cm and -1.60cm of t393, label = above : $t_{297}$]
+    (t297) {$\writeevent(0, 3328)$};
+
+  \draw[wr] (t898.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t393.165);
+  \draw[wr] (t297.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t393.15);
+\end{tikzpicture}
+\end{document}

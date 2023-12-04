@@ -1,0 +1,40 @@
+% bp-non-repeatable-read.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 2pt, align = center},
+    txn crossed out/.style = {
+      txn,
+      append after command = {
+        node[fit = (\tikzlastnode), draw = red, thick,
+             inner sep=-\pgflinewidth, cross out]{}
+      }
+    }
+  }
+
+  % t: R(x, v) R(x, v')
+  \node[txn, label = right : $t$] (t)
+    {$\readevent(x, v)$ \\[\vsep] $\readevent(x, v')$};
+  % t1: W(x, v)
+  \node[txn, above left = 0.80cm and -0.00cm of t,
+    label = left : $t_1$]
+    (t1) {$\writeevent(x, v)$};
+  % t2: W(x, v')
+  \node[txn, above right = 0.80cm and -0.00cm of t,
+    label = right : $t_2$]
+    (t2) {$\writeevent(x, v')$};
+
+  \draw[wr] (t1.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t.160);
+  \draw[wr] (t2.south) to node[above = -0.10cm, sloped]{$\WR(x)$} (t.20);
+\end{tikzpicture}
+\end{document}
