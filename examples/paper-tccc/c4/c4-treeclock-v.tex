@@ -27,7 +27,7 @@
     (t4) {$\readevent(x, 1)$\\$\writeevent(z, 1)$};
 
   % t2: R(x, 1) W(y, 1)
-  \node[txn, below right = -0.30cm and \wrdist of t1,
+  \node[txn, below right = -0.60cm and \wrdist of t1,
     label = above : $t_{2}$, align = center]
     (t2) {$\readevent(x, 1)$\\$\writeevent(y, 1)$};
 	% t5: R(z, 1) W(z, 2)
@@ -35,17 +35,20 @@
     (t5) {$\readevent(z, 1)$\\$\writeevent(z, 2)$};
 
   % t3: R(y, 1) W(z, 3)
-  \node[txn, below right = -0.50cm and \wrdist of t2,
+  \node[txn, fill = green!30, below right = -0.90cm and \wrdist of t2,
     label = above : $t_{3}$, align = center]
     (t3) {$\readevent(y, 1)$\\$\writeevent(z, 3)$};
 
 	% t6: R(z, 2)
-  \node[txn, below right = -0.50cm and \wrdist of t3,
+  \node[txn, below right = -0.90cm and \wrdist of t3,
     label = above : $t_{6}$]
     (t6) {$\readevent(z, 2)$};
 	% t7: R(z, 3)
-  \node[txn, below = \sodist of t6, label = below : $t_{7}$]
+  \node[txn, below = \sodist of t6, label = right : $t_{7}$]
     (t7) {$\readevent(z, 3)$};
+  % t8: R(y, 1)
+  \node[txn, below = \sodist of t7, label = right : $t_{8}$]
+    (t8) {$\writeevent(w, 1)$};
 
 	% session s1
 	\node[above = 0.50cm of t1, font = \Large] (s1) {$s_{1}$};
@@ -59,14 +62,16 @@
   \draw[so] (t2) to node[right]{$\SO$} (t5);
 	% t6-SO-t7
   \draw[so] (t6) to node[right]{$\SO$} (t7);
+	% t7-SO-t8
+  \draw[so] (t7) to node[right]{$\SO$} (t8);
 
 	% t1-t2-t3-t7
-	\draw[wr] (t1) to node[sloped, above, orange] {$\WR(x)$} (t2);
+	\draw[wr, orange] (t1) to node[sloped, above, orange] {$\WR(x)$} (t2);
 	\draw[wr, blue] (t2) to node[sloped, above] {$\WR(y)$} (t3);
 	\draw[wr, red] (t3) to node[sloped, below] {$\WR(z)$} (t7);
 
 	% t4-t5-t6
-	\draw[wr] (t4) to node[sloped, above, orange] {$\WR(z)$} (t5);
-	\draw[wr, blue] (t5) to node[sloped, below] {$\WR(z)$} (t6);
+	\draw[wr, orange] (t4) to node[sloped, above, orange] {$\WR(z)$} (t5);
+	\draw[wr, blue] (t5.east) to node[sloped, below] {$\WR(z)$} (t6);
 \end{tikzpicture}
 \end{document}
