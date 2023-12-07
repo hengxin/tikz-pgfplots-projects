@@ -29,10 +29,10 @@
     (t15) {$\writeevent(10, 26) \; \writeevent(13, 21)$};
 
 	% t5: W(19, 1) W(15, 2)
-  \node[txn, above left = 2.00cm and 0.10cm of t7, label = above : $t_{5}$]
-    (t5) {$\writeevent(19, 1) \; \writeevent(15, 2)$};
+  \node[txn, above left = 2.00cm and -0.20cm of t7, label = above : $t_{5}$]
+    (t5) {$\writeevent(19, 1) \; \writeevent(10, 2) \; \writeevent(15, 2)$};
 	% t16: R(19, 1) W(1, 29)
-  \node[txn, above right = 2.00cm and 0.10cm of t7, label = above : $t_{16}$]
+  \node[txn, above right = 2.00cm and 0.20cm of t7, label = above : $t_{16}$]
     (t16) {$\readevent(19, 1) \; \writeevent(1, 29)$};
 
   % t6-SO-t7
@@ -50,7 +50,8 @@
   \draw[wr] (t5) to node[sloped, above]{$\WR(15)$} (t7.north);
 
 	% t5-CM-t15
-  \draw[vo, dashed, red] (t5) to node[left]{$\CM$} (t15);
+  \draw[vo, dashed, red, bend left = 10] (t5) to
+    node[right, near end]{$\CM$} (t15.north);
 	% t6-CM-t5
   \draw[vo, dashed, red] (t6) to node[left]{$\CM$} (t5);
 \end{tikzpicture}

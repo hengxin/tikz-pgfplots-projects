@@ -24,7 +24,7 @@
   }
 
   \node[txn, label = left : $t$] (t) {$\readevent(x, v)$};
-  \node[txn, above = 0.60cm of t, label = left : $t'$]
+  \node[txn, above = 0.50cm of t, label = left : $t'$]
     (tprime) {$\writeevent(x, v) \; \writeevent(x, v')$};
 
   \draw[wr] (tprime.-165) to node[right]{$\WR(x)$} (t.north);

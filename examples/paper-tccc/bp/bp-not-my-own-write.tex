@@ -25,9 +25,9 @@
 
   \node[txn, label = left : $t$] (t)
     {$\writeevent(x, v') \; \readevent(x, v)$};
-  \node[txn, above = 0.60cm of t, label = left : $t'$]
+  \node[txn, above = 0.50cm of t, label = left : $t'$]
     (tprime) {$\writeevent(x, v)$};
 
-  \draw[wr] (tprime.south) to node[]{$\WR(x)$} (t.north);
+  \draw[wr] (tprime.south) to node[right]{$\WR(x)$} (t.north);
 \end{tikzpicture}
 \end{document}

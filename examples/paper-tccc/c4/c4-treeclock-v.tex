@@ -61,17 +61,17 @@
 	% t2-SO-t5
   \draw[so] (t2) to node[right]{$\SO$} (t5);
 	% t6-SO-t7
-  \draw[so] (t6) to node[right]{$\SO$} (t7);
+  \draw[so, blue] (t6) to node[right, blue]{$\SO$} (t7);
 	% t7-SO-t8
-  \draw[so] (t7) to node[right]{$\SO$} (t8);
+  \draw[so, red] (t7) to node[right, red]{$\SO$} (t8);
 
 	% t1-t2-t3-t7
 	\draw[wr, orange] (t1) to node[sloped, above, orange] {$\WR(x)$} (t2);
-	\draw[wr, blue] (t2) to node[sloped, above] {$\WR(y)$} (t3);
-	\draw[wr, red] (t3) to node[sloped, below] {$\WR(z)$} (t7);
+	\draw[wr, orange] (t2) to node[sloped, above, orange] {$\WR(y)$} (t3);
+	\draw[wr, red] (t3) to node[sloped, below, red] {$\WR(z)$} (t7);
 
 	% t4-t5-t6
-	\draw[wr, orange] (t4) to node[sloped, above, orange] {$\WR(z)$} (t5);
-	\draw[wr, blue] (t5.east) to node[sloped, below] {$\WR(z)$} (t6);
+	\draw[wr, blue] (t4) to node[sloped, above, blue] {$\WR(z)$} (t5);
+	\draw[wr, blue] (t5.east) to node[sloped, below, blue] {$\WR(z)$} (t6);
 \end{tikzpicture}
 \end{document}
