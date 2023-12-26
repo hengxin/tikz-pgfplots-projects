@@ -1,7 +1,7 @@
-% ryw.tex
+% session.tex
 
 \documentclass{standalone}
-\input{newcommands}
+\input{../newcommands}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
@@ -13,8 +13,12 @@
   rw/.style = {->, thick, dotted, blue},
   txn/.style = {draw, inner sep = 3pt, align = center}]
 
-  \node[txn, label = above : $T$] (t)
-    {$\readevent(\keyx, 1)$ \po $\writeevent(\keyx, 2)$
-      \po $\readevent(\keyx, 2)$ \po $\writeevent(\keyx, 3)$};
+  \node[txn, label = above : $T_{1}$] (t1)
+    {$\readevent(\keyx, 1)$ \po $\writeevent(\keyx, 2)$};
+
+  \node[txn, label = above : $T_{2}$, right = 1.50cm of t1] (t2)
+    {$\readevent(\keyx, 2)$};
+
+  \draw[->, thick] (t1) to node[above] {$\so$} (t2);
 \end{tikzpicture}
 \end{document}
