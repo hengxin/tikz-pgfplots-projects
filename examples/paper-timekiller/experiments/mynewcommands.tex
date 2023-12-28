@@ -1,0 +1,156 @@
+% mynewcommands.tex
+
+\usepackage{amssymb, latexsym}
+\usepackage{bbding} % for checkmark and xsolid
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+
+\usepackage{pgfplots}
+\usetikzlibrary{patterns}
+
+\usepackage{environ}
+
+% math
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\bset}[1]{\big\{#1\big\}}
+\newcommand{\ps}{\mathcal{P}} % for powerset
+\newcommand{\emptyseq}{\emptyset} % or using <>?
+\newcommand{\tuple}[1]{\langle#1\rangle} % or using (#1)?
+\newcommand{\btuple}[1]{\big\langle#1\big\rangle}
+\newcommand{\domain}{\textsc{domain}}
+\newcommand{\acct}{\mathit{acct}}
+
+\newcommand{\yes}{\green{\Checkmark}}
+\newcommand{\no}{\red{\XSolidBrush}}
+
+\newcommand{\Key}{{\sf Key}}
+\newcommand{\keyxvar}{\mathit{x}}
+\newcommand{\keyyvar}{\mathit{y}}
+\newcommand{\keyzvar}{\mathit{z}}
+\newcommand{\Val}{{\sf Val}}
+\newcommand{\valvar}{\mathit{v}}
+
+\newcommand{\h}{\mathcal{H}}
+%%%%%%%%%%%%%%% system models %%%%%%%%%%%%%%%
+\newcommand{\E}{E}
+\newcommand{\evar}{\mathit{e}}
+\newcommand{\fvar}{\mathit{f}}
+\newcommand{\Event}{{\sf Event}}
+\newcommand{\REvent}{{\sf REvent}}
+\newcommand{\WEvent}{{\sf WEvent}}
+\newcommand{\HEvent}{{\sf HEvent}}
+\newcommand{\op}{{\sf op}}
+\newcommand{\Op}{{\sf Op}}
+\newcommand{\opvar}{\mathit{op}}
+\newcommand{\readevent}{{\sf R}}
+\newcommand{\Read}{{\sf Read}\;}
+\newcommand{\writeevent}{{\sf W}}
+\newcommand{\Write}{{\sf Write}\;}
+\newcommand{\WriteTx}{{\sf WriteTx}}
+\newcommand{\W}{{\sf W}}
+\newcommand{\R}{{\sf R}}
+\newcommand{\T}{T}
+%%%%%%%%%%%%%%% system models %%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% axioms %%%%%%%%%%%%%%%
+\renewcommand{\ae}{\mathcal{A}}
+\newcommand{\axiom}{\Phi}
+\newcommand{\rel}[1]{\xrightarrow{#1}}
+\newcommand{\comp}{\;;\;}
+\newcommand{\po}{{\sf po}}
+\newcommand{\so}{\textsc{so}}
+\newcommand{\rb}{\textsc{rb}}
+\newcommand{\cb}{\textsc{cb}}
+\newcommand{\vis}{\textsc{vis}}
+\newcommand{\ar}{\textsc{ar}}
+\newcommand{\hist}{\text{Hist}}
+\newcommand{\intaxiom}{\textsc{Int}}
+\newcommand{\extaxiom}{\textsc{Ext}}
+\newcommand{\sessionaxiom}{\textsc{Session}}
+\newcommand{\prefixaxiom}{\textsc{Prefix}}
+\newcommand{\rbaxiom}{\textsc{ReturnBefore}}
+\newcommand{\cbaxiom}{\textsc{CommitBefore}}
+\newcommand{\conflict}{\bowtie}
+\newcommand{\noconflictaxiom}{\textsc{NoConflict}}
+\newcommand{\realtimesnapshotaxiom}{\textsc{RealtimeSnapshot}}
+%%%%%%%%%%%%%%% axioms %%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% consistency models %%%%%%%%%%%%%%%
+\newcommand{\si}{\textsc{SI}}
+\newcommand{\ansisi}{\textsc{ANSI-SI}}
+\newcommand{\rtsi}{\textsc{RealtimeSI}}
+\newcommand{\gsi}{\textsc{GSI}}
+\newcommand{\parallelsi}{\textsc{PSI}}
+\newcommand{\pcsi}{\textsc{PCSI}}
+\newcommand{\strongsi}{\textsc{StrongSI}}
+\newcommand{\strongsessionsi}{\textsc{SI}} % StrongSessionSI
+\newcommand{\sessionsi}{\textsc{SessionSI}}
+\newcommand{\nmsi}{\textsc{NMSI}}
+\newcommand{\ser}{\textsc{SER}}
+%%%%%%%%%%%%%%% consistency models %%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% pseudo-code %%%%%%%%%%%%%%%
+\newcommand{\g}{G}
+\newcommand{\inducedgraph}{I}
+\newcommand{\eithervar}{\mathit{either}}
+\newcommand{\orvar}{\mathit{or}}
+\newcommand{\reachability}{\textsc{Reachability}}
+\newcommand{\reachabilityvar}{\mathit{reachability}}
+
+\newcommand{\vertex}{\mathsf{Vertex}}
+\newcommand{\edges}{\mathsf{Edge}}
+\newcommand{\cons}{\mathsf{Cons}}
+
+\newcommand{\vvar}{\mathit{v}}
+\newcommand{\precvar}{\mathit{prec}}
+\newcommand{\egvar}{\mathit{e}}
+\newcommand{\edgevar}{\mathit{edge}}
+\newcommand{\cvar}{\mathit{c}}
+\newcommand{\consvar}{\mathit{cons}}
+
+\newcommand{\BV}{\mathsf{BV}}
+\newcommand{\Clause}{\mathsf{Cl}}
+\newcommand{\DV}{\mathsf{DV}}
+\newcommand{\formula}{\mathcal{F}}
+
+\newcommand{\fromvar}{\mathit{from}}
+\newcommand{\tovar}{\mathit{to}}
+\newcommand{\typevar}{\mathit{type}}
+
+\newcommand{\graphA}{\mathit{Dep}}
+\newcommand{\graphB}{\mathit{AntiDep}}
+\newcommand{\knowninducedgraph}{\mathit{KI}}
+%%%%%%%%%%%%%%% pseudo-code %%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% proof %%%%%%%%%%%%%%%
+\newcommand{\inv}{\textsc{Inv}\;}
+\newcommand{\case}{\textsc{Case}}
+\newcommand{\casei}{\case\; I}
+\newcommand{\caseii}{\case\; II}
+%%%%%%%%%%%%%%% proof %%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% checking %%%%%%%%%%%%%%%
+\providecommand{\G}{}
+\renewcommand{\G}{\mathcal{G}}
+\renewcommand{\H}{\mathcal{H}}
+
+\newcommand{\SO}{\textsf{SO}}
+\newcommand{\WR}{\textsf{WR}}
+\newcommand{\WW}{\textsf{WW}}
+\newcommand{\RW}{\textsf{RW}}
+\newcommand{\GraphSI}{\textsf{GraphSI}}
+\newcommand{\HistSI}{\textsf{HistSI}}
+%%%%%%%%%%%%%%% checking %%%%%%%%%%%%%%%
+
+% colors
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\brown}[1]{\textcolor{brown}{#1}}
+\newcommand{\teal}[1]{\textcolor{teal}{#1}}
+
+\newcommand{\cobra}{\textsc{Cobra}}
+\newcommand{\name}{\textsc{PolySI}}
