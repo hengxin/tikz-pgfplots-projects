@@ -1,0 +1,22 @@
+% rt-txns-per-session.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}[]
+		\begin{axis}[
+			xlabel={\#txns/session},
+			ylabel={Time (s)},
+			ymax=300,
+			legend pos=north west]
+			\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/txns.csv};
+			\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/txns.csv};
+			\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/txns.csv};
+			\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/txns.csv};
+			\legend{fast,gc10k,gc20k,gc50k}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}

@@ -1,0 +1,26 @@
+% pgfplotsset.tex
+
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+
+	% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+	\makeatletter
+	\newcommand\resetstackedplots{
+		\makeatletter
+		\pgfplots@stacked@isfirstplottrue
+		\makeatother
+		\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+	}
+	\makeatother

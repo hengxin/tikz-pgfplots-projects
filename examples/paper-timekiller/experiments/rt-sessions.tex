@@ -1,0 +1,25 @@
+% rt-sessions.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}[]
+		\begin{axis}[
+			xlabel={\#sessions},
+			ylabel={Time (s)},
+			ymax=10,
+			cycle multiindex* list={
+				color       \nextlist
+				mark list*  \nextlist
+			}]
+			\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/sessions.csv};
+			\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/sessions.csv};
+			\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/sessions.csv};
+			\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/sessions.csv};
+			\legend{fast,gc10k,gc20k,gc50k}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}
