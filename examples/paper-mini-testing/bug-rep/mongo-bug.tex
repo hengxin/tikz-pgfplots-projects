@@ -1,0 +1,24 @@
+% fork-existence.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance = 1.5cm and 1.5cm,
+    wr/.style = {->, thick},
+    ww/.style = {->, thick, dashed, red},
+    rw/.style = {->, thick, dotted, blue},
+    txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[red,txn] (ta)
+  {$\writeevent(\keyxvar,?)$};
+  \node[txn, label = below : $T_{a}$, below = of ta] (tb)
+  {$\readevent(\keyxvar,A)$};
+
+  \draw[wr,dotted,red] (ta) to node[rotate=-45]{\Large$|$}node[rotate=45]{\Large$|$} (tb);
+\end{tikzpicture}
+\end{document}
