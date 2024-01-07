@@ -1,0 +1,25 @@
+% rt-sessions.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}[]
+		\begin{axis}[
+			xlabel={\#default},
+			ylabel={Memory (MB)},
+			ymax=1500,
+			cycle multiindex* list={
+				color       \nextlist
+				mark list*  \nextlist
+			}]
+			\addplot[color=blue] table [x=param, y=fast, col sep=comma] {./data/mem-default-fast.csv};
+			\addplot[color=red] table [x=param, y=gc10k, col sep=comma] {./data/mem-default-gc10k.csv};
+			\addplot[color=black] table [x=param, y=gc20k, col sep=comma] {./data/mem-default-gc20k.csv};
+			\addplot[color=brown] table [x=param, y=gc50k, col sep=comma] {./data/mem-default-gc50k.csv};
+			\legend{fast,gc10k,gc20k,gc50k}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}

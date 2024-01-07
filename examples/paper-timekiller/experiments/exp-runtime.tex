@@ -36,7 +36,7 @@
 					title={(a)},
 					xlabel={\#sessions},
 					ylabel={Time (s)},
-					ymax=10,
+					ymax=4,
 					cycle multiindex* list={
 						color       \nextlist
 						mark list*  \nextlist
@@ -57,7 +57,7 @@
 					title={(b)},
 					xlabel={\#txns/session},
 					ylabel={Time (s)},
-					ymax=300,
+					ymax=200,
 					legend pos=north west
 					]
 					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/txns.csv};
@@ -75,7 +75,7 @@
 					title={(c)},
 					xlabel={\#ops/txn},
 					ylabel={Time (s)},
-					ymax=35,
+					ymax=20,
 					]
 					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/nops.csv};
 					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/nops.csv};
@@ -92,7 +92,7 @@
 					title={(d)},
 					xlabel={ read proportion \%},
 					ylabel={Time (s)},
-					ymax=10,
+					ymax=4,
 					legend pos=north east
 					]
 					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/readpct.csv};
@@ -110,7 +110,7 @@
 					title={(e)},
 					xlabel={\#keys},
 					ylabel={Time (s)},
-					ymax=10,
+					ymax=4,
 					]
 					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/vars.csv};
 					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/vars.csv};
@@ -121,29 +121,29 @@
 			\end{tikzpicture}
 		\end{scaletikzpicturetowidth}
 		\hspace{1ex}
-%		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-%			\begin{tikzpicture}[scale=\tikzscale]
-%				\begin{axis}[
-%					title={(f)},
-%					x tick style={draw=none},
-%					ylabel={Time (s)},
-%					ymin=0,
-%					ymax=100,
-%					xmin=-0.5,
-%					xmax=2.5,
-%					ybar,
-%					area legend,
-%					xtick=data,
-%					xticklabels={uniform,zipfian,hotspot}
-%					]
-%					\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=cobra(si), col sep=comma] {./data/distrib.csv};
-%					\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra(si-nogpu), col sep=comma] {./data/distrib.csv};
-%					\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=oopsla, col sep=comma] {./data/distrib.csv};
-%					\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=si, col sep=comma] {./data/distrib.csv};
-%					\legend{CobraSI w/ GPU,CobraSI w/o GPU,dbcop,\name}
-%				\end{axis}
-%			\end{tikzpicture}
-%		\end{scaletikzpicturetowidth}
+		\begin{scaletikzpicturetowidth}{0.48\textwidth}
+			\begin{tikzpicture}[scale=\tikzscale]
+				\begin{axis}[
+					title={(f)},
+					x tick style={draw=none},
+					ylabel={Time (s)},
+					ymin=0,
+					ymax=4,
+					xmin=-0.5,
+					xmax=2.5,
+					ybar,
+					area legend,
+					xtick=data,
+					xticklabels={uniform,zipfian,hotspot}
+					]
+					\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=fast, col sep=comma] {./data/distrib.csv};
+					\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=gc10k, col sep=comma] {./data/distrib.csv};
+					\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/distrib.csv};
+					\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc50k, col sep=comma] {./data/distrib.csv};
+					\legend{fast,gc10k,gc20k,gc50k}
+				\end{axis}
+			\end{tikzpicture}
+		\end{scaletikzpicturetowidth}
 		%north east lines,  horizontal lines,  crosshatch
 		%  \caption{Performance comparison with the competing SI checkers under various workloads.   %\#sessions=20, \#txns/session=100, \#ops/txn=15,   keys=10k,  \%read=50\%, distribution=uniform.  
 			%  Experiments time out at 180s; data points are not plotted for timed-out experiments.}

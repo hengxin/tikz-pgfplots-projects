@@ -1,0 +1,60 @@
+% polysi-decompose.tex
+
+\documentclass[standalone, crop]{report}
+% \documentclass{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+	\makeatletter
+	\newcommand\resetstackedplots{
+		\makeatletter
+		\pgfplots@stacked@isfirstplottrue
+		\makeatother
+		\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+	}
+	\makeatother
+	
+	\begin{scaletikzpicturetowidth}{\textwidth}
+		\begin{tikzpicture}[scale=\tikzscale]
+			\begin{axis}[
+				% title={(30\%) writes; 10k txns}
+				% title={Cobra oneshot-10k},
+				xlabel={\#ops/txn},
+				x tick style={draw=none},
+				ylabel={Time (s)},
+				ymin=0,
+				ybar stacked,
+				bar width=15,
+				area legend,
+				legend style={at={(0.35, 0.7)}, anchor=west},
+				xtick=data,
+				xticklabels={5,15,30,50,100}
+				]
+				\addplot[fill=white] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-nops.csv};
+				\addplot[pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-nops.csv};
+				\addplot[pattern=north east lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-nops.csv};
+				\addplot[fill=black] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-nops.csv};
+				\legend{Loading,Sorting,Checking,GC}
+			\end{axis}
+		\end{tikzpicture}
+	\end{scaletikzpicturetowidth}
+	% \caption{\label{fig:decomposition} Decomposing \name's checking time into  stages.}
+\end{document}
