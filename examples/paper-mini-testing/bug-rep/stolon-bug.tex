@@ -1,0 +1,30 @@
+% fork-existence.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance = 3.0cm and 1.5cm,
+    wr/.style = {->, thick},
+    ww/.style = {->, thick, dashed, red},
+    rw/.style = {->, thick, dotted, blue},
+    txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $T_{a}$] (ta)
+  {$\readevent(\keyxvar,0)\;\;\readevent(\keyyvar,1)\;\;\writeevent(\keyxvar, 2)$};
+  \node[txn, label = above : $T_{b}$, left = of ta] (tb)
+  {$\readevent(\keyxvar,2)\;\;\readevent(\keyyvar,1)$};
+  \node[txn, label = below : $T_{c}$, below right = of tb] (tc)
+  {$\readevent(\keyyvar,1)\;\;\writeevent(\keyyvar,3)\;\;\readevent(\keyxvar,0)$};
+
+  \draw[wr, sloped] (ta) to node[above]{$\WR(\keyxvar)$} (tb);
+  \draw[rw] (tb) to node[right]{$\RW(\keyyvar)$} (tc);
+  \draw[rw] (tc) to node[right]{$\RW(\keyxvar)$} (ta);
+  \node[red] at (-0.4-0.5,-1) {Loop};
+  \draw[->,red] (-0.4,-1) arc [radius=0.5cm,start angle=0,end angle=340];
+\end{tikzpicture}
+\end{document}
