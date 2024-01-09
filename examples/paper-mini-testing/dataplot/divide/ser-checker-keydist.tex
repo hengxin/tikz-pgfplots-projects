@@ -1,0 +1,95 @@
+% memory.tex
+
+\documentclass[border={80pt -50pt -50pt 90pt}]{standalone}
+% \documentclass{standalone}
+\input{newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1,    every axis/.style={
+				title={SER checker key distribution},
+				ybar,
+				x tick style={draw=none},
+				ylabel={Time (ms)},
+				xlabel={key distribution},
+				% 从无穷小开始
+				log origin=infty,
+				% ymax=400,
+				% ymode=log,
+				bar width=5,
+				area legend,
+				xtick=data,
+				xticklabels={uniform,zipf,hotspot,exp},
+				width=200,
+			}]
+	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
+		\addplot[fill=gray] table [x expr=\coordindex, y=mini_time, col sep=comma] {./data/ser-checker-keydist.csv};
+		\addplot[fill=white] table [x expr=\coordindex, y=cobra_time, col sep=comma] {./data/ser-checker-keydist.csv};
+		\legend{Mini, Cobra}
+	\end{axis}
+\end{tikzpicture}
+
+% \hspace{1ex}
+% \begin{scaletikzpicturetowidth}{0.48\textwidth}
+% 	\begin{tikzpicture}[scale=\tikzscale]
+% 		\begin{axis}[
+% 			title={(d)},
+% 			xlabel={ read proportion \%},
+% 			ylabel={Memory (MB)},
+% 			legend pos=north west
+% 			]
+% 			\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/memory-readpct.csv};
+% 			\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/memory-readpct.csv};
+% 			\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/memory-readpct.csv};
+% 			\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/memory-readpct.csv};
+% 			\legend{CobraSI w/ GPU, CobraSI w/o GPU,dbcop,\name}
+% 		\end{axis}
+% 	\end{tikzpicture}
+
+% \end{scaletikzpicturetowidth}
+% \begin{scaletikzpicturetowidth}{0.48\textwidth}
+% 	\begin{tikzpicture}[scale=\tikzscale]
+% 		\begin{axis}[
+% 			title={(e)},
+% 			xlabel={\#keys},
+% 			ylabel={Memory (MB)},
+% 			]
+% 			\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=cobra(si), col sep=comma] {./data/memory-vars.csv};
+% 			\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=cobra(si-nogpu), col sep=comma] {./data/memory-vars.csv};
+% 			\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=oopsla, col sep=comma] {./data/memory-vars.csv};
+% 			\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=si, col sep=comma] {./data/memory-vars.csv};
+% 			\legend{CobraSI w/ GPU, CobraSI w/o GPU,dbcop,\name}
+% 		\end{axis}
+% 	\end{tikzpicture}
+% \end{scaletikzpicturetowidth}
+% \hspace{1ex}
+% \begin{scaletikzpicturetowidth}{0.48\textwidth}
+% 	\begin{tikzpicture}[scale=\tikzscale]
+% 		\begin{axis}[
+% 			title={(f)},
+% 			x tick style={draw=none},
+% 			ylabel={Memory (MB)},
+% 			ymin=0,
+% 			ymax=600,
+% 			xmin=-0.5,
+% 			xmax=2.5,
+% 			ybar,
+% 			area legend,
+% 			xtick=data,
+% 			xticklabels={uniform,zipfian,hotspot},
+% 			legend pos=north west
+% 			]
+% 			\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=cobra(si), col sep=comma] {./data/memory-distrib.csv};
+% 			\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra(si-nogpu), col sep=comma] {./data/memory-distrib.csv};
+% 			\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=oopsla, col sep=comma] {./data/memory-distrib.csv};
+% 			\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=si, col sep=comma] {./data/memory-distrib.csv};
+% 			\legend{CobraSI w/ GPU, CobraSI w/o GPU,dbcop,\name}
+% 		\end{axis}
+% 	\end{tikzpicture}
+% \end{scaletikzpicturetowidth}
+% \caption{ Comparison on memory overhead with  competing SI checkers under various workloads.  %\#sessions=20, \#txns/session=100, \#ops/txn=15,   keys=10k,  \%read=50\%, distribution=uniform.
+% }
+% \label{comparison-memory}
+\end{document}
