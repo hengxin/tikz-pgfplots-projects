@@ -10,7 +10,7 @@
 		\begin{axis}[
 			xlabel={\#txns/session},
 			ylabel={Time (s)},
-			ymax=300,
+			ymax=200,
 			legend pos=north west]
 			\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/txns.csv};
 			\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/txns.csv};
