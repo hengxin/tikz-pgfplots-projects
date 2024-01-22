@@ -27,7 +27,7 @@
 	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
 		\addplot[fill=gray] table [x expr=\coordindex, y=mini_time, col sep=comma] {./data/si-checker-keydist.csv};
 		\addplot[fill=white] table [x expr=\coordindex, y=polysi_time, col sep=comma] {./data/si-checker-keydist.csv};
-		\legend{PolySI, Cobra}
+		\legend{Mini-SI, PolySI}
 	\end{axis}
 \end{tikzpicture}
 
