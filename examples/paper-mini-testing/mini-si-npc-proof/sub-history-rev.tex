@@ -1,0 +1,37 @@
+% lost-update.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+    wr/.style = {, thick},
+    ww/.style = {->, thick, dashed, red},
+    rw/.style = {->, thick, dotted, blue},
+    txn/.style = {inner sep = 3pt, align = center}]
+
+  \node[txn] (t_yij) {$y_{ij}$};
+
+  \node[txn, right = 2.5cm of t_yij] (t_ak) {$b_k$};
+  \node[txn, below = 1.5cm of t_yij] (t_zij) {$z_{ij}$};
+  \node[txn, below = 1.5cm of t_ak] (t_bk) {$a_k$};
+  \node[txn, right = 1.3cm of t_zij] (t_wij) {$w_{ij}$};
+
+  \draw node at (-1,1) [txn] (t_zijm1) {$z_{i,j-1}$};
+  \draw node at (-1,-3) [txn] (t_yijp1) {$y_{i,j+1}$};
+
+  \draw[-Stealth] (t_yij) to node[above]{\red{so}} (t_ak);
+  \draw[-Stealth] (t_zij) to node[above]{\red{$\text{wr}_{v_{ij}}$}} (t_wij);
+  \draw[-Stealth] (t_bk) to node[above]{\red{so}} (t_wij);
+  \draw[-Stealth] (t_zijm1) to node[below left]{\red{so}} (t_yij);
+  \draw[-Stealth] (t_zij) to node[below right]{\red{so}} (t_yijp1);
+
+  \draw[-Stealth, dotted, bend left, thick, blue] (t_yij) to node[right]{\red{co;wr}} (t_zij);
+  \draw[-Stealth, dotted, bend left, thick, blue] (t_zij) to node[left]{\red{co;wr}} (t_yij);
+  \draw[-Stealth, dotted, bend left, thick, blue] (t_ak) to node[right]{\red{co;wr}} (t_bk);
+  \draw[-Stealth, dotted, bend left, thick, blue] (t_bk) to node[left]{\red{co;wr}} (t_ak);
+\end{tikzpicture}
+\end{document}
