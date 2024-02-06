@@ -18,15 +18,15 @@
 				log origin=infty,
 				% ymax=400,
 				% ymode=log,
-				bar width=5,
+				bar width=7,
 				area legend,
 				xtick=data,
 				xticklabels={uniform,zipf,hotspot,exp},
 				width=200,
 			}]
 	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
-		\addplot[fill=gray] table [x expr=\coordindex, y=mini_time, col sep=comma] {./data/ser-checker-keydist.csv};
-		\addplot[fill=white] table [x expr=\coordindex, y=cobra_time, col sep=comma] {./data/ser-checker-keydist.csv};
+		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_time, col sep=comma] {./data/ser-checker-keydist.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra_time, col sep=comma] {./data/ser-checker-keydist.csv};
 		\legend{Mini-SER, Cobra}
 	\end{axis}
 \end{tikzpicture}

@@ -17,17 +17,17 @@
 				log origin=infty,
 				ymax=50,
 				ymode=log,
-				bar width=5,
+				bar width=7,
 				area legend,
 				xtick=data,
 				xticklabels={100,500,1000,2000,5000,10000},
 				width=300,
 			}]
 	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
-		\addplot[fill=gray] table [x expr=\coordindex, y=mini_gen, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
-		\addplot[fill=white] table [x expr=\coordindex, y=polysi_gen, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
-		\addplot[pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
-		\addplot[pattern=north west lines] table [x expr=\coordindex, y=polysi_check, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
+		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
+		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_gen, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_check, col sep=comma] {./data/si-e2e-keys-20r-40w-40rmw.csv};
 		\legend{Mini gen, Cobra gen,Mini-SI check,PolySI check}
 	\end{axis}
 \end{tikzpicture}
