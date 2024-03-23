@@ -1,0 +1,34 @@
+% memory.tex
+
+\documentclass[border={80pt -50pt -50pt 90pt}]{standalone}
+% \documentclass{standalone}
+\input{newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+\begin{tikzpicture}[scale=1,    every axis/.style={
+				title={SI e2e ops},
+				ybar,
+				x tick style={draw=none},
+				ylabel={Time (s)},
+				xlabel={\#ops},
+				% 从无穷小开始
+				log origin=infty,
+				ymax=5000,
+				ymode=log,
+				bar width=7,
+				area legend,
+				xtick=data,
+				xticklabels={4,8,12,16,20},
+				width=300,
+			}]
+	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
+		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {./data/si-e2e-ops-20r-40w-40rmw.csv};
+		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_gen, col sep=comma] {./data/si-e2e-ops-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {./data/si-e2e-ops-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_check, col sep=comma] {./data/si-e2e-ops-20r-40w-40rmw.csv};
+		\legend{Mini gen, Cobra gen,Mini-SI check,PolySI check}
+	\end{axis}
+\end{tikzpicture}
+\end{document}
