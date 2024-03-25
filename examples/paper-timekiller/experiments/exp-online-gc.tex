@@ -8,7 +8,7 @@
 \begin{document}
 	\begin{tikzpicture}[]
 		\begin{axis}[
-			xlabel={\#online},
+			xlabel={Time (s)},
 			ylabel={Memory (MB)},
 			ymax=750,
 			legend pos=south east,
@@ -17,7 +17,7 @@
 				mark list*  \nextlist
 			}]
 			\addplot[color=black] table [x=param, y=online, col sep=comma] {./data/online-mem.csv};
-			\legend{online}
+			%\legend{online}
 		\end{axis}
 	\end{tikzpicture}
 \end{document}
