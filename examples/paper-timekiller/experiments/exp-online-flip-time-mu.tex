@@ -30,91 +30,62 @@
 	\makeatother
 	
 	\begin{figure}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
+		\begin{scaletikzpicturetowidth}{0.32\textwidth}
 			\begin{tikzpicture}[scale=\tikzscale]
 				\begin{axis}[
 					x tick label style={draw=none},
 					title={$N(50,10)$},
-					xlabel={Times},
+					xlabel={Time (ms)},
 					ylabel={Count},
 					ybar,
 					xmin=0.5,
-					xmax=4.5,
+					xmax=5.5,
 					ymin=0,
-					ymax=3100,
+					ymax=1700,
 					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
+					xticklabels={0,1,2-9,10-99,1k+}
 					]
-					\addplot coordinates {(1,2342) (2,215)
-						(3,20) (4,5)};
-					\addplot coordinates {(1,3037) (2,224) 
-						(3,22) (4,5)};
-					\legend{txn,(txn, key)}
+					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1644) (2,1102) (3,240) (4,17) (5,34)};
 				\end{axis}
 			\end{tikzpicture}
 		\end{scaletikzpicturetowidth}
 		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
+		\begin{scaletikzpicturetowidth}{0.32\textwidth}
 			\begin{tikzpicture}[scale=\tikzscale]
 				\begin{axis}[
 					x tick label style={draw=none},
 					title={$N(100,10)$},
-					xlabel={Times},
+					xlabel={Time (ms)},
 					ylabel={Count},
 					ybar,
 					xmin=0.5,
-					xmax=4.5,
+					xmax=5.5,
 					ymin=0,
-					ymax=3100,
+					ymax=1700,
 					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
+					xticklabels={0,1,2-9,10-99,1k+}
 					]
-					\addplot coordinates {(1,2283) (2,179)
-						(3,24) (4,3)};
-					\addplot coordinates {(1,2970) (2,192) 
-						(3,24) (4,3)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(500,10)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=3100,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,2323) (2,210)
-						(3,23) (4,5)};
-					\addplot coordinates {(1,2960) (2,218) 
-						(3,23) (4,5)};
-					\legend{txn,(txn, key)}
+					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1475) (2,1192) (3,267) (4,20) (5,16)};
 				\end{axis}
 			\end{tikzpicture}
 		\end{scaletikzpicturetowidth}
 		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
+		\begin{scaletikzpicturetowidth}{0.32\textwidth}
 			\begin{tikzpicture}[scale=\tikzscale]
 				\begin{axis}[
 					x tick label style={draw=none},
-					xlabel={Mean},
-					ylabel={Total txns},
+					title={$N(500,10)$},
+					xlabel={Time (ms)},
+					ylabel={Count},
+					ybar,
+					xmin=0.5,
+					xmax=5.5,
 					ymin=0,
-					ymax=3100,
+					ymax=1700,
+					xtick=data,
+					xticklabels={0,1,2-9,10-99,1k+}
 					]
-					\addplot[color=black,mark=x,mark size=3pt] coordinates {(50,2454) (100,2361) (500,2439)};
+					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1446) (2,1167) (3,259) (4,45) (5,44)};
 				\end{axis}
 			\end{tikzpicture}
 		\end{scaletikzpicturetowidth}
