@@ -35,13 +35,13 @@
   \draw[so] (t1) to node[above]{$\SO$} (t2);
   \draw[so, lightgray] (t2) to node[above]{$\SO$} node[below]{$\WR(x)$} (t3);
   % t4-WR(x)-t5
-  \draw[wr] (t4) to node[below]{$\WR(x)$} (t5);
+  \draw[wr,blue] (t4) to node[below]{$\WR(x)$} (t5);
   % t4-WR-t1
   \draw[wr] (t4.west) to node[sloped, below]{$\WR(x)$} (t1.south);
   % t4-CO-t2
   \draw[co, bend left = 60, blue] (t4.170) to node[sloped, below]{$\CO$} (t2.-170);
   % t2-WR-t5
-  \draw[wr] (t2) to node[sloped, above, near end]{$\WR(y)$} (t5);
+  \draw[wr,blue] (t2) to node[sloped, above, near end]{$\WR(y)$} (t5);
   % t3-WR-t5
   \draw[wr, lightgray] (t3) to node[sloped, above]{$\WR(z)$} (t5);
   % t2-CO-t5
