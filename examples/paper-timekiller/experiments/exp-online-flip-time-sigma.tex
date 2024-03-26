@@ -1,0 +1,93 @@
+\documentclass[standalone, crop]{report}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+	\makeatletter
+	\newcommand\resetstackedplots{
+		\makeatletter
+		\pgfplots@stacked@isfirstplottrue
+		\makeatother
+		\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+	}
+	\makeatother
+	
+	\begin{figure}
+		\begin{scaletikzpicturetowidth}{0.32\textwidth}
+			\begin{tikzpicture}[scale=\tikzscale]
+				\begin{axis}[
+					x tick label style={draw=none},
+					title={$N(100,1)$},
+					xlabel={Time (ms)},
+					ylabel={Count},
+					ybar,
+					xmin=0.5,
+					xmax=5.5,
+					ymin=0,
+					ymax=1500,
+					xtick=data,
+					xticklabels={0,1,2-9,10-99,1k+}
+					]
+					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1311) (2,884) (3,169) (4,27) (5,27)};
+				\end{axis}
+			\end{tikzpicture}
+		\end{scaletikzpicturetowidth}
+		\hspace{1ex}
+		\begin{scaletikzpicturetowidth}{0.32\textwidth}
+			\begin{tikzpicture}[scale=\tikzscale]
+				\begin{axis}[
+					x tick label style={draw=none},
+					title={$N(100,10)$},
+					xlabel={Time (ms)},
+					ylabel={Count},
+					ybar,
+					xmin=0.5,
+					xmax=5.5,
+					ymin=0,
+					ymax=1500,
+					xtick=data,
+					xticklabels={0,1,2-9,10-99,1k+}
+					]
+					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1475) (2,1192) (3,267) (4,20) (5,16)};
+				\end{axis}
+			\end{tikzpicture}
+		\end{scaletikzpicturetowidth}
+		\hspace{1ex}
+		\begin{scaletikzpicturetowidth}{0.32\textwidth}
+			\begin{tikzpicture}[scale=\tikzscale]
+				\begin{axis}[
+					x tick label style={draw=none},
+					title={$N(100,50)$},
+					xlabel={Time (ms)},
+					ylabel={Count},
+					ybar,
+					xmin=0.5,
+					xmax=7.5,
+					ymin=0,
+					ymax=2500,
+					xtick=data,
+					xticklabels={0,1,2,3,4-9,10-99,1k+}
+					]
+					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1522) (2,2395) (3,1065) (4,468) (5,292) (6,156) (7,30)};
+				\end{axis}
+			\end{tikzpicture}
+		\end{scaletikzpicturetowidth}
+	\end{figure}
+\end{document}
