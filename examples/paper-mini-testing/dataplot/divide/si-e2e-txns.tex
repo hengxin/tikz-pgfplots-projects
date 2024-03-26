@@ -24,11 +24,10 @@
 				width=300,
 			}]
 	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
-		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {./data/si-e2e-txns-20r-40w-40rmw.csv};
-		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_gen, col sep=comma] {./data/si-e2e-txns-20r-40w-40rmw.csv};
-		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {./data/si-e2e-txns-20r-40w-40rmw.csv};
-		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_check, col sep=comma] {./data/si-e2e-txns-20r-40w-40rmw.csv};
-		\legend{Mini gen, Cobra gen,Mini-SI check,PolySI check}
+		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {../data/si-e2e-txns-20r-40w-40rmw.csv};
+		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_gen, col sep=comma] {../data/si-e2e-txns-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {../data/si-e2e-txns-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_check, col sep=comma] {../data/si-e2e-txns-20r-40w-40rmw.csv};
 	\end{axis}
 \end{tikzpicture}
 \end{document}

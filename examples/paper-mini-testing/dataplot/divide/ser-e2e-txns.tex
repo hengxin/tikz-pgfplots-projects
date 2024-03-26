@@ -16,7 +16,7 @@
 				xlabel={\#txns},
 				% 从无穷小开始
 				log origin=infty,
-				ymax=5000,
+				ymax=1000,
 				ymode=log,
 				bar width=7,
 				area legend,
@@ -25,11 +25,10 @@
 				width=300,
 			}]
 	\begin{axis}[legend style={draw=none,at={(1, 0.7)}, anchor=west},axis on top]
-		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {./data/ser-e2e-txns-20r-40w-40rmw.csv};
-		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra_gen, col sep=comma] {./data/ser-e2e-txns-20r-40w-40rmw.csv};
-		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {./data/ser-e2e-txns-20r-40w-40rmw.csv};
-		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra_check, col sep=comma] {./data/ser-e2e-txns-20r-40w-40rmw.csv};
-		\legend{Mini gen, Cobra gen,Mini check,Cobra check}
+		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {../data/ser-e2e-txns-20r-40w-40rmw.csv};
+		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra_gen, col sep=comma] {../data/ser-e2e-txns-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {../data/ser-e2e-txns-20r-40w-40rmw.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=cobra_check, col sep=comma] {../data/ser-e2e-txns-20r-40w-40rmw.csv};
 	\end{axis}
 \end{tikzpicture}
 
