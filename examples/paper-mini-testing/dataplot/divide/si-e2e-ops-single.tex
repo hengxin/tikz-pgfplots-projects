@@ -1,0 +1,32 @@
+% memory.tex
+
+\documentclass[border={80pt -50pt -50pt 90pt}]{standalone}
+% \documentclass{standalone}
+\input{newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+\begin{tikzpicture}[scale=1,    every axis/.style={
+				ybar,
+				x tick style={draw=none},
+				ylabel={Time (s)},
+				xlabel={\#ops},
+				% 从无穷小开始
+				log origin=infty,
+				ymax=50,
+				ymode=log,
+				bar width=7,
+				area legend,
+				xtick={0,1,2,3,4},
+				xticklabels={4,12,16,20,24},
+				width=300,
+			}]
+	\begin{axis}[]
+		\addplot[color=red, pattern color=red, pattern=north east lines] table [x expr=\coordindex, y=mini_gen, col sep=comma] {../data/si-e2e-ops-20r-40w-40rmw-single.csv};
+		\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_gen, col sep=comma] {../data/si-e2e-ops-20r-40w-40rmw-single.csv};
+		\addplot[color=blue, pattern color=blue, pattern=north east lines] table [x expr=\coordindex, y=mini_check, col sep=comma] {../data/si-e2e-ops-20r-40w-40rmw-single.csv};
+		\addplot[color=blue, pattern color=blue, pattern=crosshatch dots] table [x expr=\coordindex, y=polysi_check, col sep=comma] {../data/si-e2e-ops-20r-40w-40rmw-single.csv};
+	\end{axis}
+\end{tikzpicture}
+\end{document}
