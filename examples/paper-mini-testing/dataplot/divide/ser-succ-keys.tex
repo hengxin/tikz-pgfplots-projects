@@ -11,7 +11,7 @@
 
 \begin{tikzpicture}[scale=1]
 	\begin{axis}[
-			xlabel={\#keys},
+			xlabel={\#txns/\#keys},
 			ylabel={Abortion rate},
 			cycle multiindex* list={
 					color       \nextlist
@@ -20,8 +20,8 @@
 			legend pos=north west,
             yticklabel={\pgfmathprintnumber\tick\,\%}
 		]
-		\addplot[color=blue,mark=square,mark size=3pt] table [x=keys, y=cobra_abort, col sep=comma] {../data/ser-succ-keys.csv};
-		\addplot[color=red,mark=triangle,mark size=3pt] table [x=keys, y=mini_abort, col sep=comma] {../data/ser-succ-keys.csv};
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=skewness, y=cobra_abort, col sep=comma] {../data/ser-succ-keys.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=skewness, y=mini_abort, col sep=comma] {../data/ser-succ-keys.csv};
 	\end{axis}
 \end{tikzpicture}
 \hspace{1ex}
