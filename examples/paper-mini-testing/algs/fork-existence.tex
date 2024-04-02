@@ -8,7 +8,7 @@
 
 \begin{document}
 \begin{tikzpicture}[
-  node distance = 3.0cm and 1.5cm,
+  node distance = 3.0cm and 1.8cm,
   wr/.style = {->, thick},
   ww/.style = {->, thick, dashed, red},
   rw/.style = {->, thick, dotted, blue},
@@ -27,11 +27,19 @@
   \node[txn, label = right : $T_{c'}$, below = 1.0cm of ta-prime] (tc-prime)
     {$\readevent(\keyxvar, A)\;\;\writeevent(\keyxvar, \_)$};
 
-  \draw[wr, sloped] (ta-prime) to node[above]{$\WR(\keyxvar)$} (ta);
-  \draw[wr, sloped] (tb-prime) to node[above]{$\WR(\keyxvar)$} (tb);
+  \draw[wr, sloped] (ta-prime) to node[above]{$\WR(\keyxvar)$}
+    node[below]{$\WW(\keyxvar)$} (ta);
+  \draw[wr, sloped] (tb-prime) to node[above]{$\WR(\keyxvar)$}
+    node[below]{$\WW(\keyxvar)$} (tb);
 
   \draw[wr] (ta-prime.-30) to node[right]{$\WR(\keyxvar)$} (ta-prime.-30 |- tc-prime.north);
   \draw[ww] (ta-prime.-150) to node[left]{$\WW(\keyxvar)$} (ta-prime.-150 |- tc-prime.north);
   \draw[ww] (tc-prime) to node[right]{$\WW(\keyxvar)$} (tb-prime);
+  \draw[ww, bend right = 60] (ta-prime.west) to
+    node[sloped, above]{$\WW(\keyxvar)$} (tb-prime.west);
+  \draw[<->, very thick, dashed, blue] (ta) to
+    node[sloped, below]{$\WW(\keyxvar)$}
+    node[right]{\Large \noblue}
+    (tb);
 \end{tikzpicture}
 \end{document}
