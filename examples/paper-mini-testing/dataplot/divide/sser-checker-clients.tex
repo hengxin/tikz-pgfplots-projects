@@ -1,0 +1,43 @@
+% memory.tex
+
+\documentclass[border={80pt -50pt -50pt 90pt}]{standalone}
+% \documentclass{standalone}
+\input{newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+\usepackage{pgfplotstable}
+\pgfplotstableread{
+	x y-G y-G-min y-G-max y-P y-P-min y-P-max y-K y-K-min y-K-max y-GC y-GC-min y-GC-max
+	{400} 18.40 4.26 18.27 22.58 2.57 21.92 810.65 85.91 144.10 271.56 35.84 75.27
+		{800} 36.71 8.30 17.49 56.22 9.00 45.82 1429.24 147.29 159.48 371.83 36.69 100.61
+		{1200} 56.26 11.97 22.55 112.94 26.99 33.83 2126.46 358.28 1418.32 475.18 43.62 80.13
+		{1600} 75.60 13.60 19.35 191.17 49.46 52.91 2579.12 383.45 643.55 553.21 57.75 118.28
+		{2000} 95.92 17.94 25.58 288.81 91.25 78.97 3120.25 352.39 860.66 641.49 70.89 108.75
+		{2400} 117.07 27.20 26.37 392.89 139.53 101.46 3792.06 276.65 1215.12 714.61 79.99 143.51
+		{2800} 143.86 25.17 37.34 514.44 158.65 93.61 4586.56 279.79 1004.63 798.56 94.56 159.77
+		{3200} 167.32 36.48 59.52 618.63 188.69 146.12 5405.02 271.70 902.54 873.57 106.83 260.50
+		{3600} 198.82 51.49 52.49 757.27 240.07 151.81 6253.98 376.04 1169.50 942.52 86.52 294.44
+		{4000} 229.45 57.88 50.29 905.50 203.10 124.89 7493.36 581.55 1219.32 1019.61 117.65 271.62
+
+	}{\differanse}
+\begin{document}
+\begin{tikzpicture}[scale=1]
+    \begin{axis} [
+            ymode = log,
+            ticklabel style = {font=\tiny},
+            legend style={at={(0.05,0.95)},anchor=north west,cells={anchor=west},column
+                    sep=1ex, nodes={scale = 0.5}},
+            xlabel={\#clients},
+            ylabel={Time (s)}
+        ]
+        \addplot[color=red,mark=triangle,mark size=2pt]
+        table[x=x,y=y-G] {\differanse};
+
+        \addplot[color=blue,mark=square,mark size=2pt]
+        table[x=x,y=y-P] {\differanse};
+
+        \addplot[color=brown,mark=o,mark size=2pt]
+        table[x=x,y=y-K] {\differanse};
+    \end{axis}
+\end{tikzpicture}
+\end{document}
