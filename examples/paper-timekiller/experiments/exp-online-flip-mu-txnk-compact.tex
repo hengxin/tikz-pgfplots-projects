@@ -1,0 +1,62 @@
+% polysi-decompose.tex
+
+\documentclass[standalone, crop]{report}
+% \documentclass{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
+	\makeatletter
+	\newcommand\resetstackedplots{
+		\makeatletter
+		\pgfplots@stacked@isfirstplottrue
+		\makeatother
+		\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
+	}
+	\makeatother
+	
+	\begin{scaletikzpicturetowidth}{\textwidth}
+		\begin{tikzpicture}[scale=\tikzscale]
+			\begin{axis}[
+				% title={(30\%) writes; 10k txns}
+				% title={Cobra oneshot-10k},
+				% xlabel={},
+				x tick style={draw=none},
+				xlabel={Mean},
+				ylabel={(txn, key) count},
+				ymin=0,
+				ymax=4200,
+				ybar stacked,
+				bar width=15,
+				area legend,
+				legend pos=south east,
+				xtick=data,
+				xticklabels={50,100,200,300,400,500}
+				]
+				\addplot[fill=white] table [x expr=\coordindex, y=1, col sep=comma] {./data/flip-mu-txnk.csv};
+				\addplot[pattern=crosshatch dots] table [x expr=\coordindex, y=2, col sep=comma] {./data/flip-mu-txnk.csv};
+				\addplot[pattern=north east lines] table [x expr=\coordindex, y=3, col sep=comma] {./data/flip-mu-txnk.csv};
+				\addplot[fill=black] table [x expr=\coordindex, y=4+, col sep=comma] {./data/flip-mu-txnk.csv};
+				\legend{1,2,3,4+}
+			\end{axis}
+		\end{tikzpicture}
+	\end{scaletikzpicturetowidth}
+	% \caption{\label{fig:decomposition} Decomposing \name's checking time into  stages.}
+\end{document}
