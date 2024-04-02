@@ -1,0 +1,24 @@
+% rt-sessions.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}[]
+		\begin{axis}[
+			xlabel={\#txns},
+			ylabel={Time (s)},
+			ymax=10,
+			legend pos=north west,
+			cycle multiindex* list={
+				color       \nextlist
+				mark list*  \nextlist
+			}]
+			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-elle.csv};
+			\addplot[color=brown,mark=o,mark size=3pt] table [x=txns, y=ElleList, col sep=comma] {./data/other-tools-elle.csv};
+			\legend{Chronos,ElleList}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}

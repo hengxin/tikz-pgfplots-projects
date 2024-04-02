@@ -1,0 +1,27 @@
+% memory.tex
+
+% \documentclass[standalone]{report}
+\documentclass[border={80pt -50pt -50pt 90pt}]{standalone}
+\input{newcommands}
+% \pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1]
+	\begin{axis}[
+			xlabel={\#txns/\#keys},
+			ylabel={Abortion rate},
+			cycle multiindex* list={
+					color       \nextlist
+					mark list*  \nextlist
+				},
+			legend pos=north west,
+            yticklabel={\pgfmathprintnumber\tick\,\%}
+		]
+		\addplot[color=blue,mark=square,mark size=3pt] table [x=skewness, y=cobra_abort, col sep=comma] {../data/si-succ-keys.csv};
+		\addplot[color=red,mark=triangle,mark size=3pt] table [x=skewness, y=mini_abort, col sep=comma] {../data/si-succ-keys.csv};
+	\end{axis}
+\end{tikzpicture}
+\hspace{1ex}
+\end{document}
