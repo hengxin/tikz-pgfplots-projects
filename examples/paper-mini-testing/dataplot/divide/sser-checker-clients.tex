@@ -30,13 +30,13 @@
             xlabel={\#clients},
             ylabel={Time (s)}
         ]
-        \addplot[color=red,mark=triangle,mark size=2pt]
+        \addplot[color=red,mark=triangle,mark size=3pt]
         table[x=x,y=y-G] {\differanse};
 
-        \addplot[color=blue,mark=square,mark size=2pt]
+        \addplot[color=blue,mark=square,mark size=3pt]
         table[x=x,y=y-P] {\differanse};
 
-        \addplot[color=brown,mark=o,mark size=2pt]
+        \addplot[color=brown,mark=o,mark size=3pt]
         table[x=x,y=y-K] {\differanse};
     \end{axis}
 \end{tikzpicture}
