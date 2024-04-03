@@ -11,8 +11,8 @@
 
 \begin{tikzpicture}[scale=1]
 	\begin{axis}[
-		legend columns = 1,
-		legend style={at={(1,-0.1)}},
+		%legend columns = 1,
+		%legend style={at={(1,-0.1)}},
 			xlabel={\#sessions},
 			ylabel={Abortion rate},
 			cycle multiindex* list={
@@ -23,8 +23,8 @@
             yticklabel={\pgfmathprintnumber\tick\,\%}
 		]
 		\addplot[color=blue,mark=square,mark size=3pt] table [x=sessions, y=cobra_abort, col sep=comma] {../data/ser-succ-sessions.csv};
-		\addplot[color=red,mark=triangle,mark size=3pt] table [x=sessions, y=mini_abort, col sep=comma] {../data/ser-succ-sessions.csv};
-		\legend{General txn workload, MT workload}
+		%\addplot[color=red,mark=triangle,mark size=3pt] table [x=sessions, y=mini_abort, col sep=comma] {../data/ser-succ-sessions.csv};
+		%\legend{General txn workload, MT workload}
 	\end{axis}
 \end{tikzpicture}
 \hspace{1ex}
