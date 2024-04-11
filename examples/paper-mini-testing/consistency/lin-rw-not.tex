@@ -1,0 +1,35 @@
+% lin-rw-not.tex
+
+\documentclass{standalone}
+\input{newcommands}
+\newcommand{\rwevent}{{\sf R\&W}}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+	start/.style = {blue, dashed, thick},
+	commit/.style = {brown, dotted, very thick},
+  txn/.style = {draw, inner sep = 2pt,
+	  minimum height = 0.6cm, minimum width = 3.0cm}]
+
+  \node[txn, label = above : $O_{2}$] (t1)
+    {$\quad\rwevent(x, 1, 2)\quad$};
+	\startcommittime{t1}{0.50cm}{0.50cm}
+  \tsorder{t1}{0.80cm}{182}{185} % 1, 4
+
+  \node[txn, label = above : $O_{1}$] (t2)
+		at ($(t1) + (5.00cm, -2.00cm)$)
+    {$\quad\rwevent(x, 0, 1)\quad$} ;
+	\startcommittime{t2}{0.50cm}{0.50cm}
+  \tsorder{t2}{0.80cm}{187}{190} % 6, 9
+
+  \node[txn, label = above : $O_{3}$] (t3)
+		at ($(t2) + (-1.00cm, -2.00cm)$)
+    {$\quad\rwevent(x, 2, 3)$};
+	\startcommittime{t3}{0.50cm}{0.50cm}
+  \tsorder{t3}{0.80cm}{186}{189} % 5, 8
+\end{tikzpicture}
+\end{document}
