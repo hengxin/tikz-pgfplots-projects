@@ -14,11 +14,11 @@
   rw/.style = {->, thick, dotted, blue},
   txn/.style = {draw, inner sep = 3pt, align = center}]
 
-  \node[txn, label = below : $T'_{A}$] (t-alice-read) {$\readevent(\keyxvar, 25)$};
+  \node[txn, label = below : $T_{3}$] (t-alice-read) {$\readevent(\keyxvar, 25)$};
 
-  \node[txn, label = above : $T_{A}$, above left = of t-alice-read] (t-alice)
+  \node[txn, label = above : $T_{1}$, above left = of t-alice-read] (t-alice)
     {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 50)$};
-  \node[txn, label = above : $T_{B}$, above right = of t-alice-read] (t-bob)
+  \node[txn, label = above : $T_{2}$, above right = of t-alice-read] (t-bob)
     {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 25)$};
 
   \draw[wr, sloped] (t-bob) to node[below]{$\WR(\keyxvar)$} (t-alice-read);
