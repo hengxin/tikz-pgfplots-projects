@@ -1,0 +1,120 @@
+\documentclass[border=0pt]{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=68pt, right=0pt, top=72pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				% title={(30\%) writes; 10k txns}
+				title={$N(\mu,10^2)$},
+				x tick style={draw=none},
+				%xlabel={$\mu$},
+				ylabel={(txn, key) count},
+				ymin=0,
+				ymax=4200,
+				ybar stacked,
+				bar width=15,
+				area legend,
+				legend pos=south east,
+				xtick=data,
+				xticklabels={50,100,200,300,400,500}
+				]
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=1, col sep=comma] {./data/flip-mu-txnk.csv};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=2, col sep=comma] {./data/flip-mu-txnk.csv};
+				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=3, col sep=comma] {./data/flip-mu-txnk.csv};
+				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=4+, col sep=comma] {./data/flip-mu-txnk.csv};
+				\legend{1,2,3,4+}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				% title={(30\%) writes; 10k txns}
+				title={$N(\mu,10^2)$},
+				x tick style={draw=none},
+				xlabel={$\mu$},
+				ylabel={txn count},
+				ymin=0,
+				ymax=4200,
+				ybar stacked,
+				bar width=15,
+				area legend,
+				legend pos=south east,
+				xtick=data,
+				xticklabels={50,100,200,300,400,500}
+				]
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=1, col sep=comma] {./data/flip-mu-txn.csv};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=2, col sep=comma] {./data/flip-mu-txn.csv};
+				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=3, col sep=comma] {./data/flip-mu-txn.csv};
+				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=4+, col sep=comma] {./data/flip-mu-txn.csv};
+				%\legend{1,2,3,4+}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-60pt}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				% title={(30\%) writes; 10k txns}
+				title={$N(100,\sigma^2)$},
+				x tick style={draw=none},
+				%xlabel={$\sigma$},
+				%ylabel={(txn, key) count},
+				ymin=0,
+				ymax=7000,
+				ybar stacked,
+				bar width=15,
+				area legend,
+				legend pos=south east,
+				xtick=data,
+				xticklabels={1,10,20,30,40,50}
+				]
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=1, col sep=comma] {./data/flip-sigma-txnk.csv};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=2, col sep=comma] {./data/flip-sigma-txnk.csv};
+				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=3, col sep=comma] {./data/flip-sigma-txnk.csv};
+				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=4+, col sep=comma] {./data/flip-sigma-txnk.csv};
+				%\legend{1,2,3,4+}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				% title={(30\%) writes; 10k txns}
+				title={$N(100,\sigma^2)$},
+				x tick style={draw=none},
+				xlabel={$\sigma$},
+				%ylabel={txn count},
+				ymin=0,
+				ymax=7000,
+				ybar stacked,
+				bar width=15,
+				area legend,
+				legend pos=north west,
+				xtick=data,
+				xticklabels={1,10,20,30,40,50}
+				]
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=1, col sep=comma] {./data/flip-sigma-txn.csv};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=2, col sep=comma] {./data/flip-sigma-txn.csv};
+				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=3, col sep=comma] {./data/flip-sigma-txn.csv};
+				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=4+, col sep=comma] {./data/flip-sigma-txn.csv};
+				%\legend{1,2,3,4+}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-80pt}
+\end{document}

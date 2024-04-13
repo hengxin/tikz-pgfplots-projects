@@ -1,7 +1,7 @@
-\documentclass[standalone, crop]{report}
+\documentclass[border=0pt]{standalone}
 \input{../newcommands}
 \pagestyle{empty} % Remove page numbering
-\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+\usepackage[left=68pt, right=0pt, top=72pt, bottom=0pt]{geometry}
 
 \begin{document}
 	\pgfplotsset{height=140pt, width=200pt}
@@ -19,135 +19,148 @@
 	}
 	\makeatother
 	
-	% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
-	\makeatletter
-	\newcommand\resetstackedplots{
-		\makeatletter
-		\pgfplots@stacked@isfirstplottrue
-		\makeatother
-		\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
-	}
-	\makeatother
-	
-	\begin{figure}
-		\begin{scaletikzpicturetowidth}{0.32\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(50,10)$},
-					xlabel={Time (ms)},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=5.5,
-					ymin=0,
-					ymax=2000,
-					xtick=data,
-					xticklabels={0,1,2-9,10-99,1k+}
-					]
-					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1713) (2,1468) (3,353) (4,29) (5,62)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.32\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,10)$},
-					xlabel={Time (ms)},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=5.5,
-					ymin=0,
-					ymax=2000,
-					xtick=data,
-					xticklabels={0,1,2-9,10-99,1k+}
-					]
-					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1582) (2,1506) (3,393) (4,24) (5,59)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.32\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(200,10)$},
-					xlabel={Time (ms)},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=5.5,
-					ymin=0,
-					ymax=2000,
-					xtick=data,
-					xticklabels={0,1,2-9,10-99,1k+}
-					]
-					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1773) (2,1501) (3,309) (4,45) (5,44)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		
-		\begin{scaletikzpicturetowidth}{0.32\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(300,10)$},
-					xlabel={Time (ms)},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=5.5,
-					ymin=0,
-					ymax=2000,
-					xtick=data,
-					xticklabels={0,1,2-9,10-99,1k+}
-					]
-					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1736) (2,1619) (3,360) (4,42) (5,54)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.32\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(400,10)$},
-					xlabel={Time (ms)},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=5.5,
-					ymin=0,
-					ymax=2000,
-					xtick=data,
-					xticklabels={0,1,2-9,10-99,1k+}
-					]
-					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1694) (2,1394) (3,264) (4,51) (5,65)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.32\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(500,10)$},
-					xlabel={Time (ms)},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=5.5,
-					ymin=0,
-					ymax=2000,
-					xtick=data,
-					xticklabels={0,1,2-9,10-99,1k+}
-					]
-					\addplot[color=black,pattern color=black,pattern=north west lines] coordinates {(1,1636) (2,1468) (3,332) (4,51) (5,46)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-	\end{figure}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(50,10^2)$},
+				%xlabel={Time (ms)},
+				ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1713)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1468)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,353)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,29)};
+				\addplot[color=black,fill=black!30] coordinates {(5,62)};
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(200,10^2)$},
+				%xlabel={Time (ms)},
+				ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1773)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1501)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,309)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,45)};
+				\addplot[color=black,fill=black!30] coordinates {(5,44)};
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(400,10^2)$},
+				xlabel={Time (ms)},
+				ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1694)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1394)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,264)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,51)};
+				\addplot[color=black,fill=black!30] coordinates {(5,65)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-60pt}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,10^2)$},
+				%xlabel={Time (ms)},
+				%ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1582)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1506)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,393)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,24)};
+				\addplot[color=black,fill=black!30] coordinates {(5,59)};
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(300,10^2)$},
+				%xlabel={Time (ms)},
+				%ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1736)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1619)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,360)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,42)};
+				\addplot[color=black,fill=black!30] coordinates {(5,54)};
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(500,10^2)$},
+				xlabel={Time (ms)},
+				%ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1636)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1468)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,332)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,51)};
+				\addplot[color=black,fill=black!30] coordinates {(5,46)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-80pt}
 \end{document}

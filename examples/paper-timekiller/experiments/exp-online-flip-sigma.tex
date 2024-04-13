@@ -1,7 +1,7 @@
-\documentclass[standalone, crop]{report}
+\documentclass[border=0pt]{standalone}
 \input{../newcommands}
 \pagestyle{empty} % Remove page numbering
-\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+\usepackage[left=68pt, right=0pt, top=72pt, bottom=0pt]{geometry}
 
 \begin{document}
 	\pgfplotsset{height=140pt, width=200pt}
@@ -19,179 +19,142 @@
 	}
 	\makeatother
 	
-	% https://tex.stackexchange.com/questions/13627/pgfplots-multiple-shifted-stacked-plots-in-one-diagram
-	\makeatletter
-	\newcommand\resetstackedplots{
-		\makeatletter
-		\pgfplots@stacked@isfirstplottrue
-		\makeatother
-		\addplot [forget plot,draw=none] coordinates{(1,0) (2,0) (3,0) (4,0) (5,0) (6,0)};
-	}
-	\makeatother
-	
-	\begin{figure}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,1)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=6000,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,2505) (2,255)
-						(3,32) (4,8)};
-					\addplot coordinates {(1,3317) (2,270) 
-						(3,32) (4,8)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,10)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=6000,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,2729) (2,240)
-						(3,36) (4,4)};
-					\addplot coordinates {(1,3667) (2,247) 
-						(3,36) (4,4)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,20)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=6000,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,3096) (2,285)
-						(3,38) (4,3)};
-					\addplot coordinates {(1,4307) (2,298) 
-						(3,39) (4,3)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,30)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=6000,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,3384) (2,423)
-						(3,45) (4,13)};
-					\addplot coordinates {(1,4786) (2,447) 
-						(3,46) (4,13)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,40)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=6000,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,3681) (2,477)
-						(3,86) (4,12)};
-					\addplot coordinates {(1,5424) (2,521) 
-						(3,88) (4,12)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		\hspace{1ex}
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					title={$N(100,50)$},
-					xlabel={Times},
-					ylabel={Count},
-					ybar,
-					xmin=0.5,
-					xmax=4.5,
-					ymin=0,
-					ymax=6000,
-					xtick=data,
-					xticklabels={1,2,3,4+},
-					legend pos=north east
-					]
-					\addplot coordinates {(1,3956) (2,600)
-						(3,94) (4,21)};
-					\addplot coordinates {(1,5990) (2,648) 
-						(3,95) (4,21)};
-					\legend{txn,(txn, key)}
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-		
-		\begin{scaletikzpicturetowidth}{0.48\textwidth}
-			\begin{tikzpicture}[scale=\tikzscale]
-				\begin{axis}[
-					x tick label style={draw=none},
-					xlabel={Standard deviation},
-					ylabel={Total txns},
-					ymin=0,
-					ymax=6000,
-					]
-					\addplot[color=black,mark=x,mark size=3pt] coordinates {(1,2638) (10,2845) (20,3226) (30,3554) (40,3876) (50,4172)};
-				\end{axis}
-			\end{tikzpicture}
-		\end{scaletikzpicturetowidth}
-	\end{figure}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,1^2)$},
+				%xlabel={Times},
+				ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=6000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,2505) (2,255)
+					(3,32) (4,8)};
+				\addplot coordinates {(1,3317) (2,270) 
+					(3,32) (4,8)};
+				\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,20^2)$},
+				%xlabel={Times},
+				ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=6000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,3096) (2,285)
+					(3,38) (4,3)};
+				\addplot coordinates {(1,4307) (2,298) 
+					(3,39) (4,3)};
+				%\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,40^2)$},
+				xlabel={Number of flip-flops},
+				ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=6000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,3681) (2,477)
+					(3,86) (4,12)};
+				\addplot coordinates {(1,5424) (2,521) 
+					(3,88) (4,12)};
+				%\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-60pt}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,10^2)$},
+				%xlabel={Times},
+				%ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=6000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,2729) (2,240)
+					(3,36) (4,4)};
+				\addplot coordinates {(1,3667) (2,247) 
+					(3,36) (4,4)};
+				%\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,30^2)$},
+				%xlabel={Times},
+				%ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=6000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,3384) (2,423)
+					(3,45) (4,13)};
+				\addplot coordinates {(1,4786) (2,447) 
+					(3,46) (4,13)};
+				%\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={$N(100,50^2)$},
+				xlabel={Number of flip-flops},
+				%ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=6000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,3956) (2,600)
+					(3,94) (4,21)};
+				\addplot coordinates {(1,5990) (2,648) 
+					(3,95) (4,21)};
+				%\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-80pt}
 \end{document}

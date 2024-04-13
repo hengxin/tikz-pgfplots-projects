@@ -1,0 +1,52 @@
+\documentclass[border=0pt]{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=68pt, right=0pt, top=72pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				title={$N(\mu,10^2)$},
+				x tick label style={draw=none},
+				xlabel={$\mu$},
+				ylabel={Total txns},
+				ymin=0,
+				ymax=5000,
+				]
+				\addplot[color=purple,mark=star,mark size=3pt] coordinates {(50,2836) (100,2795) (200,2889) (300,2985) (400,2762) (500,2788)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-60pt}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				title={$N(100,\sigma^2)$},
+				x tick label style={draw=none},
+				xlabel={$\sigma$},
+				%ylabel={Total txns},
+				ymin=0,
+				ymax=5000,
+				]
+				\addplot[color=purple,mark=star,mark size=3pt] coordinates {(1,2638) (10,2845) (20,3226) (30,3554) (40,3876) (50,4172)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-80pt}
+\end{document}
