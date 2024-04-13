@@ -1,0 +1,45 @@
+% memory.tex
+
+\documentclass[border={80pt -50pt -50pt 90pt}]{standalone}
+% \documentclass{standalone}
+\input{newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=0pt, right=0pt, top=0pt, bottom=0pt]{geometry}
+\usepackage{pgfplotstable}
+\pgfplotstableread{
+	x y-G y-G-min y-G-max y-P y-P-min y-P-max y-K y-K-min y-K-max y-GC y-GC-min y-GC-max
+	{2000} 228.13 51.36 53.56 912.04 192.24 164.44 7504.02 585.60 1313.65 1027.18 116.80 139.58
+		{4000} 242.48 72.13 49.70 1527.67 257.36 207.42 11852.55 545.23 2384.14 1028.91 146.50 139.88
+		{6000} 246.40 49.01 60.99 2141.84 251.35 503.01 15212.05 1077.83 3874.69 1021.43 93.18 193.75
+		{8000} 245.85 66.49 64.31 2726.96 337.02 285.61 18873.89 1094.60 4925.82 1040.14 95.88 271.59
+		{10000} 245.69 50.06 72.49 3643.81 304.90 315.31 24530.25 1115.15 14193.30 1049.15 130.57 163.93
+		{12000} 250.73 46.83 52.80 3829.55 358.88 372.10 25514.87 1377.07 6026.53 1046.12 133.39 179.95
+		{14000} 250.40 56.32 69.37 4270.17 256.47 264.07 28223.43 1308.03 7293.28 1055.22 105.55 178.12
+		{16000} 251.84 66.04 58.60 4952.08 353.63 353.45 33254.74 2454.09 11387.97 1062.03 112.14 268.00
+		{18000} 253.67 58.91 51.30 5893.21 497.63 335.08 40810.76 4067.60 12033.29 1066.17 125.35 191.41
+		{20000} 247.20 65.34 56.23 7061.01 408.66 495.08 48130.63 3389.57 69208.86 1062.18 107.08 174.88
+
+	}{\differanse}
+\begin{document}
+\begin{tikzpicture}[scale=1]
+    \begin{axis} [
+            ymode = log,
+            xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber{\pgfmathresult}\%},
+            ticklabel style = {font=\tiny},
+            legend style={at={(0.05,0.95)},anchor=north west,cells={anchor=west},column
+                    sep=1ex, nodes={scale = 0.5}},
+            xlabel={percentage of concurrency},
+            ylabel={Time (s)}
+        ]
+        \addplot[color=red,mark=triangle,mark size=3pt]
+        table[x expr=\thisrow{x}/200,y=y-G] {\differanse};
+
+        \addplot[color=blue,mark=square,mark size=3pt]
+        table[x expr=\thisrow{x}/200,y=y-P] {\differanse};
+
+        \addplot[color=brown,mark=o,mark size=3pt]
+        table[x expr=\thisrow{x}/200,y=y-K] {\differanse};
+
+    \end{axis}
+\end{tikzpicture}
+\end{document}
