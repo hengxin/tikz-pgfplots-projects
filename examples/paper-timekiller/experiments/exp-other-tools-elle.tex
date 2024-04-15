@@ -11,13 +11,18 @@
 			ymax=10,
 			ymin=0,
 			legend pos=north west,
+			xtick={0,2000,4000,6000,8000,10000},
+			xticklabels={0,2,4,6,8,10},
+			xtick scale label code/.code={$\cdot 10^{3}$},
 			cycle multiindex* list={
 				color       \nextlist
 				mark list*  \nextlist
 			}]
-			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-elle.csv};
 			\addplot[color=brown,mark=o,mark size=3pt] table [x=txns, y=ElleList, col sep=comma] {./data/other-tools-elle.csv};
-			\legend{Chronos,ElleList}
+			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-elle.csv};
+			\addplot[color=brown,mark=o,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(10000,8.9222)};
+			\addplot[color=black,mark=x,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(10000,1.0084)};
+			\legend{ElleKV,\textup{\textsc{Chronos}}}
 		\end{axis}
 	\end{tikzpicture}
 \end{document}

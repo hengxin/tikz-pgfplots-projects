@@ -8,16 +8,21 @@
 		\begin{axis}[
 			xlabel={\#txns},
 			ylabel={Time (s)},
-			ymax=22,
+			ymax=23,
 			ymin=0,
 			legend pos=north west,
+			xtick={0,20000,40000,60000,80000,100000},
+			xticklabels={0,2,4,6,8,10},
+			xtick scale label code/.code={$\cdot 10^{4}$},
 			cycle multiindex* list={
 				color       \nextlist
 				mark list*  \nextlist
 			}]
-			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-ellekv.csv};
 			\addplot[color=brown,mark=o,mark size=3pt] table [x=txns, y=ElleKV, col sep=comma] {./data/other-tools-ellekv.csv};
-			\legend{Chronos,ElleKV}
+			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-ellekv.csv};
+			\addplot[color=brown,mark=o,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(100000,20.7206)};
+			\addplot[color=black,mark=x,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(100000,1.7182)};
+			\legend{ElleKV,\textup{\textsc{Chronos}}}
 		\end{axis}
 	\end{tikzpicture}
 \end{document}
