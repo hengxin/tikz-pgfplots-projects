@@ -27,7 +27,7 @@
 				xlabel={\#txns},
 				x tick style={draw=none},
 				ylabel={Time (s)},
-				ymax=90,
+				ymax=20,
 				ymin=0,
 				ybar stacked,
 				bar width=15,
@@ -39,8 +39,8 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-txns.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-txns.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-txns.csv};
-				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-txns.csv};
-				\legend{Loading,Sorting,Checking,GC}
+				%\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-txns.csv};
+				\legend{Loading,Sorting,Checking}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -50,7 +50,7 @@
 				xlabel={\#sessions},
 				x tick style={draw=none},
 				ylabel={Time (s)},
-				ymax=3,
+				ymax=2.5,
 				ymin=0,
 				ybar stacked,
 				bar width=15,
@@ -62,7 +62,7 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-sessions.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-sessions.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-sessions.csv};
-				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-sessions.csv};
+				%\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-sessions.csv};
 				%\legend{Loading,Sorting,Checking,GC}
 			\end{axis}
 		\end{tikzpicture}
@@ -73,7 +73,7 @@
 				xlabel={\#keys},
 				x tick style={draw=none},
 				ylabel={Time (s)},
-				ymax=3,
+				ymax=2.5,
 				ymin=0,
 				ybar stacked,
 				bar width=15,
@@ -85,7 +85,7 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-vars.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-vars.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-vars.csv};
-				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-vars.csv};
+				%\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-vars.csv};
 				%\legend{Loading,Sorting,Checking,GC}
 			\end{axis}
 		\end{tikzpicture}
@@ -99,7 +99,7 @@
 				xlabel={\#ops/txn},
 				x tick style={draw=none},
 				%ylabel={Time (s)},
-				ymax=12.5,
+				ymax=10,
 				ymin=0,
 				ybar stacked,
 				bar width=15,
@@ -111,7 +111,7 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-nops.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-nops.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-nops.csv};
-				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-nops.csv};
+				%\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-nops.csv};
 				%\legend{Loading,Sorting,Checking,GC}
 			\end{axis}
 		\end{tikzpicture}
@@ -122,7 +122,7 @@
 				xlabel={read proportion \%},
 				x tick style={draw=none},
 				%ylabel={Time (s)},
-				ymax=3,
+				ymax=2.5,
 				ymin=0,
 				ybar stacked,
 				bar width=15,
@@ -134,7 +134,7 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-readpct.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-readpct.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-readpct.csv};
-				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-readpct.csv};
+				%\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-readpct.csv};
 				%\legend{Loading,Sorting,Checking,GC}
 			\end{axis}
 		\end{tikzpicture}
@@ -145,7 +145,7 @@
 				xlabel={ key distribution },
 				x tick style={draw=none},
 				%ylabel={Time (s)},
-				ymax=3,
+				ymax=2.5,
 				ymin=0,
 				ybar stacked,
 				bar width=15,
@@ -157,7 +157,7 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/decompose-distrib.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/decompose-distrib.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/decompose-distrib.csv};
-				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-distrib.csv};
+				%\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc, col sep=comma] {./data/decompose-distrib.csv};
 				%\legend{Loading,Sorting,Checking,GC}
 			\end{axis}
 		\end{tikzpicture}

@@ -27,13 +27,16 @@
 				ylabel={Time (s)},
 				ymax=200,
 				ymin=0,
+				xtick={0,200000,400000,600000,800000,1000000},
+				xticklabels={0,2,4,6,8,10},
+				xtick scale label code/.code={$\cdot 10^{5}$},
 				legend pos=north west
 				]
-				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/txns.csv};
 				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/txns.csv};
 				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/txns.csv};
 				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/txns.csv};
-				\legend{fast,gc10k,gc20k,gc50k}
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/txns.csv};
+				\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -48,11 +51,11 @@
 					mark list*  \nextlist
 				}
 				]
-				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/sessions.csv};
 				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/sessions.csv};
 				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/sessions.csv};
 				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/sessions.csv};
-				%\legend{fast,gc10k,gc20k,gc50k}
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/sessions.csv};
+				%\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -63,11 +66,11 @@
 				ymax=4,
 				ymin=0,
 				]
-				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/vars.csv};
 				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/vars.csv};
 				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/vars.csv};
 				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/vars.csv};
-				%\legend{fast,gc10k,gc20k,gc50k}
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/vars.csv};
+				%\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}
@@ -81,11 +84,11 @@
 				ymax=20,
 				ymin=0,
 				]
-				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/nops.csv};
 				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/nops.csv};
 				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/nops.csv};
 				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/nops.csv};
-				%\legend{fast,gc10k,gc20k,gc50k}
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/nops.csv};
+				%\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -97,11 +100,11 @@
 				ymin=0,
 				legend pos=north east
 				]
-				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/readpct.csv};
 				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/readpct.csv};
 				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/readpct.csv};
 				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/readpct.csv};
-				%\legend{fast,gc10k,gc20k,gc50k}
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/readpct.csv};
+				%\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -119,11 +122,11 @@
 				xtick=data,
 				xticklabels={uniform,zipfian,hotspot}
 				]
-				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=fast, col sep=comma] {./data/distrib.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=gc10k, col sep=comma] {./data/distrib.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/distrib.csv};
 				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc50k, col sep=comma] {./data/distrib.csv};
-				%\legend{fast,gc10k,gc20k,gc50k}
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=fast, col sep=comma] {./data/distrib.csv};
+				%\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}
