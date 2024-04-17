@@ -1,0 +1,68 @@
+\documentclass[border=0pt]{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=68pt, right=0pt, top=72pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				title={(a)},
+				xlabel={\#txns},
+				ylabel={Memory (MB)},
+				ymax=15000,
+				ymin=0,
+				legend pos=south east,
+				xtick={0,200000,400000,600000,800000,1000000},
+				xticklabels={0,2,4,6,8,10},
+				xtick scale label code/.code={$\cdot 10^{5}$},
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
+				]
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=PolySI, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=Viper, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-txns.csv};
+				\legend{PolySI,Viper,ElleKV,\textup{\textsc{Chronos}}}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-60pt}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				title={(b)},
+				xlabel={\#ops/txn},
+				%ylabel={Memory (MB)},
+				ymax=15000,
+				ymin=0,
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
+				]
+				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/nops.csv};
+				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/nops.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-nops.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-nops.csv};
+				%					\legend{gc20k}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-80pt}
+\end{document}
