@@ -27,13 +27,19 @@
 				ylabel={Memory (MB)},
 				ymax=15000,
 				ymin=0,
-				legend pos=north west
+				legend pos=south east,
+				xtick={0,200000,400000,600000,800000,1000000},
+				xticklabels={0,2,4,6,8,10},
+				xtick scale label code/.code={$\cdot 10^{5}$},
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
 				]
-				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/txns.csv};
-				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/txns.csv};
-				\addplot[color=orange,mark=diamond,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-txns.csv};
-				%					\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/txns.csv};
-				%					\legend{gc20k}
+				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=PolySI, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=Viper, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-txns.csv};
+				\legend{PolySI,Viper,ElleKV,\textup{\textsc{Chronos}}}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -41,8 +47,11 @@
 				title={(c)},
 				xlabel={\#sessions},
 				ylabel={Memory (MB)},
-				ymax=2000,
+				ymax=12000,
 				ymin=0,
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
 				cycle multiindex* list={
 					color       \nextlist
 					mark list*  \nextlist
@@ -50,8 +59,8 @@
 				]
 				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/sessions.csv};
 				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/sessions.csv};
-				\addplot[color=orange,mark=diamond,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-sessions.csv};
-				%					\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/sessions.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-sessions.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-sessions.csv};
 				%					\legend{gc20k}
 			\end{axis}
 		\end{tikzpicture}
@@ -60,13 +69,16 @@
 				title={(e)},
 				xlabel={\#keys},
 				ylabel={Memory (MB)},
-				ymax=2000,
+				ymax=12000,
 				ymin=0,
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
 				]
 				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/vars.csv};
 				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/vars.csv};
-				\addplot[color=orange,mark=diamond,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-vars.csv};
-				%					\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/vars.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-vars.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-vars.csv};
 				%					\legend{gc20k}
 			\end{axis}
 		\end{tikzpicture}
@@ -78,13 +90,16 @@
 				title={(b)},
 				xlabel={\#ops/txn},
 				%ylabel={Memory (MB)},
-				ymax=8000,
+				ymax=15000,
 				ymin=0,
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
 				]
 				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/nops.csv};
 				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/nops.csv};
-				\addplot[color=orange,mark=diamond,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-nops.csv};
-				%					\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/nops.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-nops.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-nops.csv};
 				%					\legend{gc20k}
 			\end{axis}
 		\end{tikzpicture}
@@ -93,14 +108,17 @@
 				title={(d)},
 				xlabel={ read proportion \%},
 				%ylabel={Memory (MB)},
-				ymax=2000,
+				ymax=12000,
 				ymin=0,
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
 				legend pos=north east
 				]
 				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/readpct.csv};
 				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/readpct.csv};
-				\addplot[color=orange,mark=diamond,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-readpct.csv};
-				%					\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=gc50k, col sep=comma] {./data/readpct.csv};
+				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-readpct.csv};
+				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-readpct.csv};
 				%					\legend{gc20k}
 			\end{axis}
 		\end{tikzpicture}
@@ -111,18 +129,21 @@
 				x tick style={draw=none},
 				%ylabel={Memory (MB)},
 				ymin=0,
-				ymax=2000,
+				ymax=12000,
 				xmin=-0.5,
 				xmax=2.5,
 				ybar,
 				area legend,
 				xtick=data,
-				xticklabels={uniform,zipfian,hotspot}
+				xticklabels={uniform,zipfian,hotspot},
+				ytick={0,5000,10000,15000},
+				yticklabels={0,5,10,15},
+				ytick scale label code/.code={$\cdot 10^{3}$},
 				]
-				%					\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=fast, col sep=comma] {./data/distrib.csv};
-				%					\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=gc10k, col sep=comma] {./data/distrib.csv};
-				\addplot[color=orange, pattern color=orange,pattern=north east lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/mem-distrib.csv};
-				%					\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc50k, col sep=comma] {./data/distrib.csv};
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=PolySI, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=Viper, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=Elle, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/mem-distrib.csv};
 				%					\legend{gc20k}
 			\end{axis}
 		\end{tikzpicture}
