@@ -1,0 +1,19 @@
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xlabel={\#ops/txn},
+			ylabel={Database throughput (TPS)},
+			ymax=450,
+			ymin=0,
+			]
+			\addplot[color=blue,mark=square,mark size=3pt] table [x=nevt, y=normal, col sep=comma] {./data/throughput-nevt.csv};
+			\addplot[color=red,mark=triangle,mark size=3pt] table [x=nevt, y=collect, col sep=comma] {./data/throughput-nevt.csv};
+			\legend{normal,collect}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}

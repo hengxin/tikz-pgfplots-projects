@@ -1,0 +1,73 @@
+\documentclass[border=0pt]{standalone}
+\input{../newcommands}
+\pagestyle{empty} % Remove page numbering
+\usepackage[left=68pt, right=0pt, top=72pt, bottom=0pt]{geometry}
+
+\begin{document}
+	\pgfplotsset{height=140pt, width=200pt}
+	% https://tex.stackexchange.com/questions/6388/how-to-scale-a-tikzpicture-to-textwidth
+	\makeatletter
+	\newsavebox{\measure@tikzpicture}
+	\NewEnviron{scaletikzpicturetowidth}[1]{%
+		\def\tikz@width{#1}%
+		\def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+			\BODY
+		\end{lrbox}%
+		\pgfmathparse{#1/\wd\measure@tikzpicture}%
+		\edef\tikzscale{\pgfmathresult}%
+		\BODY
+	}
+	\makeatother
+	
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={(a)},
+				xlabel={Number of flip-flops},
+				ylabel={Count},
+				ybar,
+				xmin=0.5,
+				xmax=4.5,
+				ymin=0,
+				ymax=4000,
+				xtick=data,
+				xticklabels={1,2,3,4+},
+				legend pos=north east
+				]
+				\addplot coordinates {(1,2676) (2,267)
+					(3,33) (4,6)};
+				\addplot coordinates {(1,3564) (2,278) 
+					(3,33) (4,6)};
+				\legend{txn,(txn, key)}
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-60pt}
+	\begin{minipage}{0.48\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				x tick label style={draw=none},
+				title={(b)},
+				xlabel={Time (ms)},
+				%ylabel={Count},
+				ybar,
+				bar width=10,
+				bar shift=0,
+				xmin=0.5,
+				xmax=5.5,
+				ymin=0,
+				ymax=2000,
+				xtick={1,2,3,4,5},
+				xticklabels={0-1,1-2,2-10,10-99,1000+}
+				]
+				\addplot[color=red,fill=red!30] coordinates {(1,1582)};
+				\addplot[color=orange,fill=orange!30] coordinates {(2,1506)};
+				\addplot[color=brown,fill=brown!30] coordinates {(3,393)};
+				\addplot[color=blue,fill=blue!30] coordinates {(4,24)};
+				\addplot[color=black,fill=black!30] coordinates {(5,59)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{minipage}
+	\hspace{-80pt}
+\end{document}
