@@ -134,6 +134,8 @@
 				xmax=2.5,
 				ybar,
 				area legend,
+				legend columns=2,
+				legend style={at={(0, 0.6)}, anchor=west},
 				xtick=data,
 				xticklabels={uniform,zipfian,hotspot},
 				ytick={0,5000,10000,15000},
@@ -144,9 +146,9 @@
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=Viper, col sep=comma] {./data/mem-distrib.csv};
 				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=Elle, col sep=comma] {./data/mem-distrib.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/mem-distrib.csv};
-				%					\legend{gc20k}
+				\legend{PolySI,Viper,ElleKV,\textup{\textsc{Chronos}}}
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}
-	\hspace{-80pt}
+	\hspace{-96pt}
 \end{document}

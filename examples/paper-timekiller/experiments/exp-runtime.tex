@@ -119,6 +119,8 @@
 				xmax=2.5,
 				ybar,
 				area legend,
+				legend columns=2,
+				legend pos=south east,
 				xtick=data,
 				xticklabels={uniform,zipfian,hotspot}
 				]
@@ -126,7 +128,7 @@
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/distrib.csv};
 				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=gc50k, col sep=comma] {./data/distrib.csv};
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=fast, col sep=comma] {./data/distrib.csv};
-				%\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
+				\legend{gc-10k,gc-20k,gc-50k,gc-$\infty$}
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}
