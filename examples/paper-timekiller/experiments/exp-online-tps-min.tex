@@ -10,14 +10,18 @@
 			ylabel={Throughput (TPS)},
 			ymax=4500,
 			ymin=0,
-			%legend style={at={(0.26,0.8)},anchor=west},
-			legend pos=north east,
+			xtick={0,5,10,15,20,25},
+			xticklabels={0,5,10,15,20,25},
+			ytick={0,1000,2000,3000,4000},
+			yticklabels={0,1000,2000,3000,4000},
+			legend style={at={(0.25,0.8)},anchor=west},
+			%legend pos=north east,
 			cycle multiindex* list={
 				color       \nextlist
 				mark list*  \nextlist
 			}]
-			\addplot[color=brown,mark=o,mark size=3pt] table [x=time, y=db, col sep=comma] {./data/tps-min.csv};
-			\addplot[color=black,mark=x,mark size=3pt] table [x=time, y=check, col sep=comma] {./data/tps-min.csv};
+			\addplot[color=brown,mark=o,mark size=2pt] table [x=time, y=db, col sep=comma] {./data/tps-min.csv};
+			\addplot[color=black,mark=x,mark size=2pt] table [x=time, y=check, col sep=comma] {./data/tps-min.csv};
 			\legend{DB,\textup{\textsc{Aion}}}
 		\end{axis}
 	\end{tikzpicture}

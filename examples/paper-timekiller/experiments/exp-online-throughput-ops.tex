@@ -13,7 +13,7 @@
 			]
 			\addplot[color=blue,mark=square,mark size=3pt] table [x=nevt, y=normal, col sep=comma] {./data/throughput-nevt.csv};
 			\addplot[color=red,mark=triangle,mark size=3pt] table [x=nevt, y=collect, col sep=comma] {./data/throughput-nevt.csv};
-			\legend{normal,collect}
+			\legend{w/o collecting,w collecting}
 		\end{axis}
 	\end{tikzpicture}
 \end{document}
