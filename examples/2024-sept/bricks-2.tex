@@ -1,0 +1,24 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{amsfonts}
+\usetikzlibrary{positioning, mindmap, shadows, shapes, calc}
+
+\begin{document}
+\begin{tikzpicture}
+	\draw [help lines] (0,0) grid (12,4);
+	\coordinate (a) at (0,0);
+	\coordinate (b) at (3,0);
+	\coordinate (c) at (3,3);
+	\coordinate (d) at (12,3);
+	\coordinate (e) at (12,4);
+	\draw[-, red, very thick] (a) -- (b);
+	\draw[-, blue, very thick] (b) -- (c);
+	\draw[-, red, very thick] (c) -- (d);
+	\draw[-, blue, very thick] (d) -- (e);
+	\draw[-, green, ultra thick] (a) -- (e);
+
+	\fill[green] (3,1) circle (3pt);
+	\fill[green] (9,3) circle (3pt);
+\end{tikzpicture}
+\end{document}
