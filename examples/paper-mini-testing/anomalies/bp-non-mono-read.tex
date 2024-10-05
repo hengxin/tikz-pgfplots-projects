@@ -1,0 +1,31 @@
+% bp-non-mono-read-co.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  ww/.style = {->, thick, dashed, red},
+  rw/.style = {->, thick, dotted, blue},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = left : $t_1$]
+    (t1) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 1)$};
+  \node[txn, below = 1.00cm of t1, label = left : $t_2$]
+    (t2) {$\readevent(\keyxvar, 1) \hpo \writeevent(\keyxvar, 2)
+      \hpo \readevent(\keyyvar, 0) \hpo \writeevent(\keyyvar, 1)$};
+  \node[txn, right = 1.50cm of t1, label = below : $t_3$] (t3)
+    {$\readevent(\keyyvar, 1) \hpo \readevent(\keyxvar, 1)$};
+
+  \draw[ww] (t1) to node[]{$\WW(\keyxvar)$} (t2);
+  % t1-WRx-t3
+  \draw[wr] (t1) to node[above]{$\WR(\keyxvar)$} (t3);
+  % t2-WRy-t3
+  \draw[wr] (t2.20) to node[sloped, above]{$\WR(\keyyvar)$} (t3.-160);
+\end{tikzpicture}
+\end{document}

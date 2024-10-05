@@ -14,13 +14,13 @@
   txn/.style = {draw, inner sep = 3pt, align = center}]
 
   \node[txn, label = above : $T_{1}$] (t0)
-    {$\readevent(\keyx, 0)$ \po $\writeevent(\keyx, 1)$};
+    {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 1)$};
 
   \node[txn, label = above : $T_{2}$, right = 1.50cm of t0] (t1)
-    {$\readevent(\keyx, 1)$ \po $\writeevent(\keyx, 2)$};
+    {$\readevent(\keyxvar, 1)$ \po $\writeevent(\keyxvar, 2)$};
 
   \node[txn, label = above : $T_{3}$, right = 1.50cm of t1] (t2)
-    {$\readevent(\keyx, 1)$};
+    {$\readevent(\keyxvar, 1)$};
 
   \draw[->, thick] (t0) to node[above] {$\so$} (t1);
   \draw[->, thick] (t1) to node[above] {$\so$} (t2);

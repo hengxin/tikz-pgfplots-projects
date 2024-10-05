@@ -14,11 +14,11 @@
     txn/.style = {draw, inner sep = 3pt, align = center}]
 
   \node[txn, label = above : $T_{1}$] (t1)
-  {$\readevent(\keyx, 1)$ \po $\writeevent(\keyx, 2)$ \po $\readevent(\keyyvar, 3)$ \po $\writeevent(\keyyvar, 4)$};
+  {$\readevent(\keyxvar, 1)$ \po $\writeevent(\keyxvar, 2)$ \po $\readevent(\keyyvar, 3)$ \po $\writeevent(\keyyvar, 4)$};
 
   \node[txn, label = above : $T_{2}$, right = 1.50cm of t1] (t2)
-  {$\readevent(\keyx, 2)$\po$\readevent(\keyyvar, 0)$};
+  {$\readevent(\keyxvar, 2)$ \po $\readevent(\keyyvar, 0)$};
 
-  \draw[->, thick] (t1) to node[above] {$\WR$} (t2);
+  \draw[->, thick] (t1) to node[above] {$\WR(\keyxvar)$} (t2);
 \end{tikzpicture}
 \end{document}
