@@ -1,0 +1,26 @@
+% bp-not-my-own-write.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 3pt, align = center},
+  }
+
+  \node[txn, label = left : $t$] (t)
+    {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 2) \hpo \readevent(\keyxvar, 1)$};
+  \node[txn, above = 0.50cm of t, label = left : $t'$]
+    (tprime) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 1)$};
+
+  \draw[wr] (tprime.south) to node[right]{$\WR(x)$} (t.north);
+\end{tikzpicture}
+\end{document}

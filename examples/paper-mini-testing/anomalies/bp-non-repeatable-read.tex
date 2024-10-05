@@ -1,0 +1,30 @@
+% bp-non-repeatable-read.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, shapes.misc, positioning,
+  arrows.meta, decorations.pathmorphing, fit}
+
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{
+    so/.style = {->, thick},
+    wr/.style = {->, thick},
+    txn/.style = {rectangle, draw, inner sep = 3pt, align = center},
+  }
+
+  \node[txn, label = right : $t$] (t)
+    {$\readevent(\keyxvar, 1) \hpo \readevent(\keyxvar, 2)$};
+  \node[txn, above left = 1.00cm and -1.00cm of t,
+    label = left : $t_1$]
+    (t1) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 1)$};
+  \node[txn, above right = 1.00cm and -1.00cm of t,
+    label = right : $t_2$]
+    (t2) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 2)$};
+
+  \draw[wr] (t1.south) to node[above = -0.10cm, sloped]{\footnotesize $\WR(\keyxvar)$} (t.160);
+  \draw[wr] (t2.south) to node[above = -0.10cm, sloped]{\footnotesize $\WR(\keyxvar)$} (t.20);
+\end{tikzpicture}
+\end{document}

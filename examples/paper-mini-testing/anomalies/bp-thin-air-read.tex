@@ -1,0 +1,21 @@
+% bp-thin-air-read.tex
+
+\documentclass{standalone}
+\input{../newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  so/.style = {->, thick},
+  wr/.style = {->, thick},
+  txn/.style = {draw, inner sep = 3pt, align = center}]
+
+  \node[txn, label = above : $t$] (t) {$\readevent(\keyxvar, 0)$};
+  \node[txn, left = 1.20cm of t, lightgray, label = above : \textcolor{lightgray}{$t'$}]
+    (tprime) {$\writeevent(\keyxvar, 0)$};
+
+  \draw[wr] (tprime) to node[above]{$\WR(\keyxvar)$} (t);
+\end{tikzpicture}
+\end{document}
