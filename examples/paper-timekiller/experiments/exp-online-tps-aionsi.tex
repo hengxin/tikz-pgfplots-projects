@@ -1,0 +1,41 @@
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}[]
+		\begin{axis}[
+			xlabel={Time (s)},
+			ylabel={Throughput (TPS)},
+			ymax=22500,
+			ymin=0,
+			xtick={0,10,20,30,40,50,60},
+			%xticklabels={0,5,10,15,20,25},
+			ytick={0,5000,10000,15000,20000},
+			%yticklabels={0,1000,2000,3000,4000},
+			%legend style={at={(0.25,0.8)},anchor=west},
+			legend style={
+				draw=none,
+				font=\fontsize{3}{3},
+				%font=\tiny,
+				at={(0.52,0.98)},
+				anchor=north west,
+				/tikz/every even column/.append style={column sep=0pt}
+			},
+			legend cell align={left},
+			cycle multiindex* list={
+				color       \nextlist
+				mark list*  \nextlist
+			}]
+			\addplot[color=purple!50!blue] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-no-gc.csv};
+			\addplot[color=blue] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-checking-gc.csv};
+			\addplot[color=cyan] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-full-gc.csv};
+			\legend{
+				\textup{\textsc{Aion}}\textnormal{-no-gc},
+				\textup{\textsc{Aion}}\textnormal{-checking-gc},
+				\textup{\textsc{Aion}}\textnormal{-full-gc},
+			}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}
