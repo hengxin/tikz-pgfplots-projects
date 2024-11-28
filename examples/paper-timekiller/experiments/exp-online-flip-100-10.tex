@@ -35,10 +35,8 @@
 				xticklabels={1,2,3,4+},
 				legend pos=north east
 				]
-				\addplot coordinates {(1,2676) (2,267)
-					(3,33) (4,6)};
-				\addplot coordinates {(1,3564) (2,278) 
-					(3,33) (4,6)};
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] coordinates {(1,2676) (2,267) (3,33) (4,6)};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] coordinates {(1,3564) (2,278) (3,33) (4,6)};
 				\legend{txn,(txn, key)}
 			\end{axis}
 		\end{tikzpicture}
@@ -61,11 +59,11 @@
 				xtick={1,2,3,4,5},
 				xticklabels={0-1,1-2,2-10,10-99,1000+}
 				]
-				\addplot[color=red,fill=red!30] coordinates {(1,1582)};
-				\addplot[color=orange,fill=orange!30] coordinates {(2,1506)};
-				\addplot[color=brown,fill=brown!30] coordinates {(3,393)};
-				\addplot[color=blue,fill=blue!30] coordinates {(4,24)};
-				\addplot[color=black,fill=black!30] coordinates {(5,59)};
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] coordinates {(1,1582)};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] coordinates {(2,1506)};
+				\addplot[color=brown, pattern color=brown, fill=brown] coordinates {(3,393)};
+				\addplot[color=purple, pattern color=purple,pattern=north east lines] coordinates {(4,24)};
+				\addplot[color=black, pattern color=black,pattern=north west lines] coordinates {(5,59)};
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}

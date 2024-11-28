@@ -17,9 +17,9 @@
 			%legend style={at={(0.25,0.8)},anchor=west},
 			legend style={
 				draw=none,
-				font=\fontsize{3}{3},
+				font=\fontsize{4.4}{3},
 				%font=\tiny,
-				at={(0.52,0.98)},
+				at={(0.46,0.98)},
 				anchor=north west,
 				/tikz/every even column/.append style={column sep=0pt}
 			},
@@ -28,9 +28,9 @@
 				color       \nextlist
 				mark list*  \nextlist
 			}]
-			\addplot[color=purple!50!blue] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-no-gc.csv};
-			\addplot[color=blue] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-checking-gc.csv};
-			\addplot[color=cyan] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-full-gc.csv};
+			\addplot[color=purple!50!blue,mark=square*,mark size=1.5pt] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-no-gc.csv};
+			\addplot[color=blue,mark=triangle*,mark size=1.5pt] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-checking-gc.csv};
+			\addplot[color=cyan,mark=*,mark size=1.5pt] table [x=time, y=aion, col sep=comma] {./data/tps-aionsi-full-gc.csv};
 			\legend{
 				\textup{\textsc{Aion}}\textnormal{-no-gc},
 				\textup{\textsc{Aion}}\textnormal{-checking-gc},

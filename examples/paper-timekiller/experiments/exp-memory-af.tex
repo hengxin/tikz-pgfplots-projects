@@ -49,21 +49,32 @@
 		\begin{tikzpicture}
 			\begin{axis}[
 				title={(b)},
-				xlabel={\#ops/txn},
+				xlabel={ key distribution },
+				x tick style={draw=none},
 				%ylabel={Memory (MB)},
-				ymax=15000,
 				ymin=0,
+				ymax=12000,
+				xmin=-0.5,
+				xmax=2.5,
+				ybar,
+				bar width=7pt,
+				area legend,
+				legend columns=2,
+				legend style={at={(0, 0.5)}, anchor=west},
+				xtick=data,
+				xticklabels={uniform,zipfian,hotspot},
 				ytick={0,5000,10000,15000},
 				yticklabels={0,5,10,15},
 				ytick scale label code/.code={$\cdot 10^{3}$},
 				]
-				%					\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=fast, col sep=comma] {./data/nops.csv};
-				%					\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=gc10k, col sep=comma] {./data/nops.csv};
-				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-nops.csv};
-				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-nops.csv};
-				%					\legend{gc20k}
+				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=PolySI, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=Viper, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=Elle, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=purple, pattern color=purple,pattern=north east lines] table [x expr=\coordindex, y=Emme, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/mem-distrib.csv};
+				\legend{PolySI,Viper,ElleKV,Emme-SI,\textup{\textsc{Chronos}}}
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}
-	\hspace{-80pt}
+	\hspace{-96pt}
 \end{document}

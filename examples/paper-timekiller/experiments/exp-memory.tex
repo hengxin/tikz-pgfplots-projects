@@ -38,8 +38,9 @@
 				\addplot[color=blue,mark=square,mark size=3pt] table [x=param, y=PolySI, col sep=comma] {./data/mem-txns.csv};
 				\addplot[color=red,mark=triangle,mark size=3pt] table [x=param, y=Viper, col sep=comma] {./data/mem-txns.csv};
 				\addplot[color=brown,mark=o,mark size=3pt] table [x=param, y=Elle, col sep=comma] {./data/mem-txns.csv};
+				\addplot[color=purple,mark=star,mark size=3pt] table [x=param, y=Emme, col sep=comma] {./data/mem-txns.csv};
 				\addplot[color=black,mark=x,mark size=3pt] table [x=param, y=gc20k, col sep=comma] {./data/mem-txns.csv};
-				\legend{PolySI,Viper,ElleKV,\textup{\textsc{Chronos}}}
+				\legend{PolySI,Viper,ElleKV,Emme-SI,\textup{\textsc{Chronos}}}
 			\end{axis}
 		\end{tikzpicture}
 		\begin{tikzpicture}
@@ -133,9 +134,10 @@
 				xmin=-0.5,
 				xmax=2.5,
 				ybar,
+				bar width=7pt,
 				area legend,
 				legend columns=2,
-				legend style={at={(0, 0.6)}, anchor=west},
+				legend style={at={(0, 0.5)}, anchor=west},
 				xtick=data,
 				xticklabels={uniform,zipfian,hotspot},
 				ytick={0,5000,10000,15000},
@@ -145,8 +147,9 @@
 				\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=PolySI, col sep=comma] {./data/mem-distrib.csv};
 				\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=Viper, col sep=comma] {./data/mem-distrib.csv};
 				\addplot[color=brown, pattern color=brown, fill=brown] table [x expr=\coordindex, y=Elle, col sep=comma] {./data/mem-distrib.csv};
+				\addplot[color=purple, pattern color=purple,pattern=north east lines] table [x expr=\coordindex, y=Emme, col sep=comma] {./data/mem-distrib.csv};
 				\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=gc20k, col sep=comma] {./data/mem-distrib.csv};
-				\legend{PolySI,Viper,ElleKV,\textup{\textsc{Chronos}}}
+				\legend{PolySI,Viper,ElleKV,Emme-SI,\textup{\textsc{Chronos}}}
 			\end{axis}
 		\end{tikzpicture}
 	\end{minipage}

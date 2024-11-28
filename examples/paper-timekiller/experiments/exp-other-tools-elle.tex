@@ -8,7 +8,7 @@
 		\begin{axis}[
 			xlabel={\#txns},
 			ylabel={Time (s)},
-			ymax=10,
+			ymax=9,
 			ymin=0,
 			legend pos=north west,
 			xtick={0,2000,4000,6000,8000,10000},
@@ -20,8 +20,8 @@
 			}]
 			\addplot[color=brown,mark=o,mark size=3pt] table [x=txns, y=ElleList, col sep=comma] {./data/other-tools-elle.csv};
 			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-elle.csv};
-			\addplot[color=brown,mark=o,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(10000,8.9222)};
-			\addplot[color=black,mark=x,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(10000,1.0084)};
+			\addplot[color=brown,mark=o,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(10000,7.108)};
+			\addplot[color=black,mark=x,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(10000,0.961)};
 			\legend{ElleList,\textup{\textsc{Chronos}}}
 		\end{axis}
 	\end{tikzpicture}

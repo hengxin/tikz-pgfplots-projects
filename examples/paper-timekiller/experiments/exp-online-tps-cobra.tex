@@ -17,9 +17,9 @@
 			%legend style={at={(0.25,0.8)},anchor=west},
 			legend style={
 				draw=none,
-				font=\fontsize{3}{3},
+				font=\fontsize{4.4}{3},
 				%font=\tiny,
-				at={(0.52,0.98)},
+				at={(0.474,0.98)},
 				anchor=north west,
 				/tikz/every even column/.append style={column sep=0pt}
 			},
@@ -28,21 +28,21 @@
 				color       \nextlist
 				mark list*  \nextlist
 			}]
-			\addplot[color=purple!50!blue] table [x=time, y=aion, col sep=comma] {./data/tps-aion-no-gc.csv};
-			\addplot[color=blue] table [x=time, y=aion, col sep=comma] {./data/tps-aion-checking-gc.csv};
-			\addplot[color=cyan] table [x=time, y=aion, col sep=comma] {./data/tps-aion-full-gc.csv};
-			\addplot[color=red] table [x=time, y=f20r2400, col sep=comma] {./data/tps-cobra.csv};
-			\addplot[color=pink] table [x=time, y=f20r4800, col sep=comma] {./data/tps-cobra.csv};
-			\addplot[color=orange] table [x=time, y=f1r2400, col sep=comma] {./data/tps-cobra.csv};
-			\addplot[color=yellow] table [x=time, y=f1r4800, col sep=comma] {./data/tps-cobra.csv};
+			\addplot[color=purple!50!blue,mark=square*,mark size=1.5pt] table [x=time, y=aion, col sep=comma] {./data/tps-aion-no-gc.csv};
+			\addplot[color=blue,mark=triangle*,mark size=1.5pt] table [x=time, y=aion, col sep=comma] {./data/tps-aion-checking-gc.csv};
+			\addplot[color=cyan,mark=*,mark size=1.5pt] table [x=time, y=aion, col sep=comma] {./data/tps-aion-full-gc.csv};
+			\addplot[color=red,mark=square,mark size=1.5pt] table [x=time, y=f20r2400, col sep=comma] {./data/tps-cobra.csv};
+			\addplot[color=pink,mark=triangle,mark size=1.5pt] table [x=time, y=f20r4800, col sep=comma] {./data/tps-cobra.csv};
+			\addplot[color=orange,mark=o,mark size=1.5pt] table [x=time, y=f1r2400, col sep=comma] {./data/tps-cobra.csv};
+			\addplot[color=yellow,mark=diamond,mark size=1.5pt] table [x=time, y=f1r4800, col sep=comma] {./data/tps-cobra.csv};
 			\legend{
-				\textup{\textsc{Aion}}\textnormal{-no-gc},
-				\textup{\textsc{Aion}}\textnormal{-checking-gc},
-				\textup{\textsc{Aion}}\textnormal{-full-gc},
-				\textnormal{Cobra-fence20-round2k4},
-				\textnormal{Cobra-fence20-round4k8},
-				\textnormal{Cobra-fence1-round2k4},
-				\textnormal{Cobra-fence1-round4k8}
+				\textup{\textsc{Aion-SER}}\textnormal{-no-gc},
+				\textup{\textsc{Aion-SER}}\textnormal{-checking-gc},
+				\textup{\textsc{Aion-SER}}\textnormal{-full-gc},
+				\textnormal{Cobra-F20-R2k4},
+				\textnormal{Cobra-F20-R4k8},
+				\textnormal{Cobra-F1-R2k4},
+				\textnormal{Cobra-F1-R4k8}
 			}
 		\end{axis}
 	\end{tikzpicture}

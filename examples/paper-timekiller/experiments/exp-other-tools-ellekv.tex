@@ -10,7 +10,11 @@
 			ylabel={Time (s)},
 			ymax=23,
 			ymin=0,
-			legend pos=north west,
+			legend style={
+				%font=\tiny,
+				at={(0.17,0.98)},
+				anchor=north west,
+			},
 			xtick={0,20000,40000,60000,80000,100000},
 			xticklabels={0,2,4,6,8,10},
 			xtick scale label code/.code={$\cdot 10^{4}$},
@@ -19,10 +23,11 @@
 				mark list*  \nextlist
 			}]
 			\addplot[color=brown,mark=o,mark size=3pt] table [x=txns, y=ElleKV, col sep=comma] {./data/other-tools-ellekv.csv};
+			\addplot[color=purple,mark=star,mark size=3pt] table [x=txns, y=Emme, col sep=comma] {./data/other-tools-ellekv.csv};
 			\addplot[color=black,mark=x,mark size=3pt] table [x=txns, y=TimeKiller, col sep=comma] {./data/other-tools-ellekv.csv};
-			\addplot[color=brown,mark=o,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(100000,20.7206)};
-			\addplot[color=black,mark=x,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(100000,1.7182)};
-			\legend{ElleKV,\textup{\textsc{Chronos}}}
+			\addplot[color=brown,mark=o,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(100000,17.275)};
+			\addplot[color=black,mark=x,mark size=3pt,nodes near coords,node near coord style={font=\scriptsize}] coordinates {(100000,1.64)};
+			\legend{ElleKV,Emme-SI,\textup{\textsc{Chronos}}}
 		\end{axis}
 	\end{tikzpicture}
 \end{document}
