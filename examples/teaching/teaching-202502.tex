@@ -1,0 +1,65 @@
+\documentclass[tikz]{standalone}
+\usepackage{xeCJK}
+\usetikzlibrary{positioning, calc, arrows.meta, chains, fit}
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{document}
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,xscale=1]
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (80, 20) -- (135, 20) -- (140, 30) -- (135, 40) -- (80, 40) -- (85, 30) -- cycle;
+    \node at (110, 30) {\textbf{2017-春}};
+    \draw [dashed]  (140, 40) -- (140, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (140, 20) -- (195, 20) -- (200, 30) -- (195, 40) -- (140, 40) -- (145, 30) -- cycle;
+    \node at (170, 30) {\textbf{2017-秋}};
+    \draw [dashed]  (200, 40) -- (200, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (200, 20) -- (255, 20) -- (260, 30) -- (255, 40) -- (200, 40) -- (205, 30) -- cycle;
+    \node at (230, 30) {\textbf{2018-春}};
+    \draw [dashed]  (260, 40) -- (260, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (260, 20) -- (315, 20) -- (320, 30) -- (315, 40) -- (260, 40) -- (265, 30) -- cycle;
+    \node at (290, 30) {\textbf{2018-秋}};
+    \draw [dashed]  (320, 40) -- (320, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (320, 20) -- (375, 20) -- (380, 30) -- (375, 40) -- (320, 40) -- (325, 30) -- cycle;
+    \node at (350, 30) {\textbf{2019-春}};
+    \draw [dashed]  (380, 40) -- (380, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (380, 20) -- (435, 20) -- (440, 30) -- (435, 40) -- (380, 40) -- (385, 30) -- cycle;
+    \node at (410, 30) {\textbf{2019-秋}};
+    \draw [dashed]  (440, 40) -- (440, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (440, 20) -- (495, 20) -- (500, 30) -- (495, 40) -- (440, 40) -- (445, 30) -- cycle;
+    \node at (470, 30) {\textbf{2020-春}};
+    \draw [dashed]  (500, 40) -- (500, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (500, 20) -- (555, 20) -- (560, 30) -- (555, 40) -- (500, 40) -- (505, 30) -- cycle;
+    \node at (530, 30) {\textbf{2020-秋}};
+    \draw [dashed]  (560, 40) -- (560, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (560, 20) -- (615, 20) -- (620, 30) -- (615, 40) -- (560, 40) -- (565, 30) -- cycle;
+    \node at (590, 30) {\textbf{2021-春}};
+    \draw [dashed]  (620, 40) -- (620, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (620, 20) -- (675, 20) -- (680, 30) -- (675, 40) -- (620, 40) -- (625, 30) -- cycle;
+    \node at (650, 30) {\textbf{2021-秋}};
+    \draw [dashed]  (680, 40) -- (680, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (680, 20) -- (735, 20) -- (740, 30) -- (735, 40) -- (680, 40) -- (685, 30) -- cycle;
+    \node at (710, 30) {\textbf{2022-春}};
+    \draw [dashed]  (740, 40) -- (740, 200) ;
+    \draw [color=brown ,draw opacity=0][fill=brown, fill opacity=0.5] (740, 20) -- (795, 20) -- (800, 30) -- (795, 40) -- (740, 40) -- (745, 30) -- cycle;
+    \node at (770, 30) {\textbf{2022-秋}};
+    \draw [dashed]  (800, 40) -- (800, 200) ;
+
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (80, 50) -- (140, 50) -- (140, 70) -- (80, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (140, 50) -- (200, 50) -- (200, 70) -- (140, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (200, 50) -- (260, 50) -- (260, 70) -- (200, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (260, 50) -- (320, 50) -- (320, 70) -- (260, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (320, 50) -- (380, 50) -- (380, 70) -- (320, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (380, 50) -- (440, 50) -- (440, 70) -- (380, 70) -- cycle;
+    \draw [color=red, draw opacity=0][fill=red, fill opacity=0.3] (440, 50) -- (500, 50) -- (500, 70) -- (440, 70) -- cycle;
+    \draw [color=green, draw opacity=0][fill=green, fill opacity=0.3] (500, 90) -- (560, 90) -- (560, 110) -- (500, 110) -- cycle;
+    \draw [color=green, draw opacity=0][fill=green, fill opacity=0.3] (620, 90) -- (680, 90) -- (680, 110) -- (620, 110) -- cycle;
+    \draw [color=green, draw opacity=0][fill=green, fill opacity=0.3] (740, 90) -- (800, 90) -- (800, 110) -- (740, 110) -- cycle;
+    \draw [color=violet, draw opacity=0][fill=violet, fill opacity=0.3] (560, 130) -- (620, 130) -- (620, 150) -- (560, 150) -- cycle;
+    \draw [color=blue, draw opacity=0][fill=blue, fill opacity=0.3] (620, 170) -- (680, 170) -- (680, 190) -- (620, 190) -- cycle;
+    \draw [color=blue, draw opacity=0][fill=blue, fill opacity=0.3] (740, 170) -- (800, 170) -- (800, 190) -- (740, 190) -- cycle;
+
+    \draw (-10,60)  node [anchor=west][inner sep=0.75pt, align=right, font = \large] {问题求解};
+    \draw (-10,100)  node [anchor=west][inner sep=0.75pt, align=right, font = \large] {编译原理};
+    \draw (-10,140)  node [anchor=west][inner sep=0.75pt, align=right, font = \large] {离散数学};
+    \draw (-10,180)  node [anchor=west][inner sep=0.75pt, align=right, font = \large] {C语言程序设计基础};
+\end{tikzpicture}
+\end{document}
