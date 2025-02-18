@@ -14,12 +14,12 @@
   rw/.style = {->, thick, dotted, blue},
   txn/.style = {draw, inner sep = 3pt, align = center}]
 
-  \node[txn, label = left : $t_1$]
+  \node[txn, label = left : $T_1$]
     (t1) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 1)$};
-  \node[txn, below = 1.00cm of t1, label = left : $t_2$]
+  \node[txn, below = 1.00cm of t1, label = left : $T_2$]
     (t2) {$\readevent(\keyxvar, 1) \hpo \writeevent(\keyxvar, 2)
       \hpo \readevent(\keyyvar, 0) \hpo \writeevent(\keyyvar, 1)$};
-  \node[txn, right = 1.50cm of t1, label = below : $t_3$] (t3)
+  \node[txn, right = 1.50cm of t1, label = below : $T_3$] (t3)
     {$\readevent(\keyyvar, 1) \hpo \readevent(\keyxvar, 1)$};
 
   \draw[ww] (t1) to node[]{$\WW(\keyxvar)$} (t2);

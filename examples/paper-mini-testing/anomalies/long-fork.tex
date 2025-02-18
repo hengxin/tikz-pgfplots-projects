@@ -17,9 +17,9 @@
 
   \node (t0) at (0,0) {};
 
-  \node[txn, label = above : $T_{1}$, above right = 0.80cm and -1.00cm of t0] (t1)
+  \node[txn, label = above : $T_{1}$, above right = 0.50cm and -1.00cm of t0] (t1)
     {$\readevent(\keyxvar, 0)$ \po $\writeevent(\keyxvar, 1)$};
-  \node[txn, label = below : $T_{2}$, below right = 0.80cm and -1.00cm of t0] (t2)
+  \node[txn, label = below : $T_{2}$, below right = 0.50cm and -1.00cm of t0] (t2)
     {$\readevent(\keyyvar, 0)$ \po $\writeevent(\keyyvar, 1)$};
 
   \node[txn, right = of t1, label = above : $T_{3}$] (t3)

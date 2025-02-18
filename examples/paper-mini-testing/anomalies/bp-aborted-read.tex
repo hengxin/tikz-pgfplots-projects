@@ -23,8 +23,8 @@
     }
   }
 
-  \node[txn, label = above : $t$] (t) {$\readevent(\keyxvar, 1)$};
-  \node[label = above : $t'$, txn crossed out, left = 1.20cm of t]
+  \node[txn, label = above : $T$] (t) {$\readevent(\keyxvar, 1)$};
+  \node[label = above : $T'$, txn crossed out, left = 1.20cm of t]
     (tprime) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 1)$};
 
   \draw[wr] (tprime) to node[above]{$\WR(\keyxvar)$} (t);

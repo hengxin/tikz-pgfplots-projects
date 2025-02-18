@@ -12,8 +12,8 @@
   wr/.style = {->, thick},
   txn/.style = {draw, inner sep = 3pt, align = center}]
 
-  \node[txn, label = above : $t$] (t) {$\readevent(\keyxvar, 0)$};
-  \node[txn, left = 1.20cm of t, lightgray, label = above : \textcolor{lightgray}{$t'$}]
+  \node[txn, label = above : $T$] (t) {$\readevent(\keyxvar, 0)$};
+  \node[txn, left = 1.20cm of t, lightgray, label = above : \textcolor{lightgray}{$T'$}]
     (tprime) {$\writeevent(\keyxvar, 0)$};
 
   \draw[wr] (tprime) to node[above]{$\WR(\keyxvar)$} (t);

@@ -16,9 +16,9 @@
     txn/.style = {rectangle, draw, inner sep = 3pt, align = center},
   }
 
-  \node[txn, label = left : $t$] (t)
+  \node[txn, label = left : $T$] (t)
     {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 2) \hpo \readevent(\keyxvar, 1)$};
-  \node[txn, above = 0.50cm of t, label = left : $t'$]
+  \node[txn, above = 0.50cm of t, label = left : $T'$]
     (tprime) {$\readevent(\keyxvar, 0) \hpo \writeevent(\keyxvar, 1)$};
 
   \draw[wr] (tprime.south) to node[right]{$\WR(x)$} (t.north);
