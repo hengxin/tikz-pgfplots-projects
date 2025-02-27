@@ -1,0 +1,29 @@
+\documentclass{standalone}
+\input{../newcommands}
+
+\input{pgfplotsset}
+
+\begin{document}
+	\begin{tikzpicture}
+		\begin{axis}[
+			% title={(30\%) writes; 10k txns}
+			% title={Cobra oneshot-10k},
+			xlabel={workloads},
+			x tick style={draw=none},
+			ylabel={Time (s)},
+			ymax=20,
+			ymin=0,
+			ybar stacked,
+			bar width=20,
+			area legend,
+			legend pos=north east,
+			xtick=data,
+			xticklabels={TPCC,RUBiS,Twitter}
+			]
+			\addplot[color=blue, pattern color=blue, pattern=crosshatch] table [x expr=\coordindex, y=load, col sep=comma] {./data/offline-workloads.csv};
+			\addplot[color=red, pattern color=red, pattern=crosshatch dots] table [x expr=\coordindex, y=sort, col sep=comma] {./data/offline-workloads.csv};
+			\addplot[color=black, pattern color=black,pattern=north west lines] table [x expr=\coordindex, y=check, col sep=comma] {./data/offline-workloads.csv};
+			\legend{Loading,Sorting,Checking}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}
