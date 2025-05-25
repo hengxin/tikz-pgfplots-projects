@@ -1,0 +1,43 @@
+% ser-rw-pred.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5cm and 1.3cm,
+  wr/.style = {->, thick},
+  ww/.style = {->, thick},
+  rw/.style = {->, thick, dashed, red},
+  txn/.style = {draw, inner sep = 5pt, align = center},
+  comp/.style = {->, ultra thick, purple, loosely dash dot}]
+
+  % S
+  \node[txn, label = below : {\(\begin{array}{c}
+    S \vdash \writeevent(x, v) \\
+    P(x, v) \iff x \in M
+    \end{array}\)}] (s)
+    {$S$};
+  % T
+  \node[txn, label = above : {$T \vdash \PredWR(P, M)$},
+    above right = of s] (t) {$T$};
+  % T'
+  \node[txn, label = above: {\(\begin{array}{c}
+        T' \vdash \writeevent(x, v') \\
+        \lnot (P(x, v') \iff x \in M)
+    \end{array}\)},
+    above left = of s] (t') {$T'$};
+
+  \draw[wr, sloped] (t') to node[above]{$\vis$} (t);
+  \draw[wr, sloped] (s) to node[above]{$\PredWR$}
+                           node[below]{$\vis$} (t.south);
+  \draw[ww, sloped] (s) to node[above]{$\WW$}
+                           node[below]{$\ar$} (t'.south);
+
+  \draw[rw, bend right = 60] (t) to node[above]{$\PredRW$} (t');
+  % \draw[rw, bend right = 60] (t-bob.35) to node[]{$\RW$} (t-bob.35 |- t-alice.south);
+\end{tikzpicture}
+\end{document}
