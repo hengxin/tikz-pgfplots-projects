@@ -1,0 +1,47 @@
+% si-pae-extpred-caseii.tex
+
+\documentclass{standalone}
+\input{newcommands}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, positioning, arrows.meta, decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 2.0cm and 1.5cm,
+  wr/.style = {->, draw = green, thick},
+  ww/.style = {->, draw = blue, thick},
+  rw/.style = {->, draw = teal, thick, dashed},
+  txn/.style = {draw, inner sep = 5pt, align = center},
+  comp/.style = {->, ultra thick, purple, loosely dash dot}]
+
+  % S
+  \node[txn, label = below : {\(\begin{array}{c}
+    S \vdash \writeevent(x, v) \land \colorbox{blue!20}{$P(x, v)$}
+    \end{array}\)}] (s)
+    {$S$};
+  % T
+  \node[txn, label = {[xshift = 15pt] above : {\(\begin{array}{c}
+      T \vdash \predread(P, M) \\
+      \colorbox{blue!20}{$(x, v) \in M$}
+      \end{array}\)}},
+    above right = of s] (t) {$T$};
+  % T'
+  \node[txn, label = {[xshift = -15pt] above: {\(\begin{array}{c}
+      T' \vdash \writeevent(x, v') \\
+      \colorbox{blue!20}{$\lnot P(x, v')$}
+    \end{array}\)}},
+    above left = of s] (t') {$T'$};
+
+  \draw[->, thick, sloped] (t') to node[above]{$\VIS/\AR$} (t);
+  \draw[wr, sloped] (s) to node[above]{$\PredWR(x)$}
+                           node[below]{$\VIS/\AR$} (t.south);
+  \draw[ww, sloped] (s) to node[above]{$\WW(x)$}
+                           node[below]{$\AR$} (t'.south);
+
+  \draw[rw, bend right = 60, very thick] (t) to
+    node[below]{$\PredRW(x)$}
+    node[above]{$\AR$}
+    (t');
+\end{tikzpicture}
+\end{document}
