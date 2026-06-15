@@ -9,7 +9,7 @@
 \begin{document}
 \begin{tikzpicture}[
   node distance = 2.0cm and 1.5cm,
-  wr/.style = {->, draw = green, thick},
+  wr/.style = {->, draw = cyan, thick},
   ww/.style = {->, draw = blue, thick},
   rw/.style = {->, draw = teal, thick, dashed},
   txn/.style = {draw, inner sep = 5pt, align = center},
@@ -22,7 +22,7 @@
     {$S$};
   % T
   \node[txn, label = {[xshift = 15pt] above : {\(\begin{array}{c}
-      T \vdash \predread(P, M) \\
+      T \vdash \predread(P, M, x) \\
       (x, v) \in M
       \end{array}\)}},
     above right = of s] (t) {$T$};
